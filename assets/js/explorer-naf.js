@@ -100,6 +100,14 @@
     return node ? `${node.code} ${node.label}` : "";
   }
 
+  function debounce(fn, wait = 120) {
+    let timer = null;
+    return function debounced(...args) {
+      clearTimeout(timer);
+      timer = setTimeout(() => fn.apply(this, args), wait);
+    };
+  }
+
   function initExplorer() {
     const browser = document.getElementById("naf-browser");
     if (!browser) return;
@@ -276,18 +284,21 @@
         return;
       }
 
-      const match = searchableNodes.find((entry) => entry.searchText.includes(term));
-      if (!match) {
+      const matches = searchableNodes.filter((entry) => entry.searchText.includes(term));
+      if (!matches.length) {
         setStatus("Aucun résultat.");
         return;
       }
 
+      const match = matches[0];
       selected = {};
       match.path.forEach((node) => {
         selected[node.level] = node;
       });
       currentMobileLevel = levels[Math.min(match.path.length - 1, levels.length - 1)];
-      setStatus(`Résultat: ${textForNode(match.node)} (${labelsByLevel[match.node.level]}).`);
+      setStatus(
+        `${matches.length} résultat(s). Affichage du premier: ${textForNode(match.node)} (${labelsByLevel[match.node.level]}).`
+      );
       updatePanels();
     }
 
@@ -310,7 +321,8 @@
       setStatus("Chargement des données…");
 
       try {
-        const response = await fetch(`../data/naf${version}.csv`);
+        const dataUrl = new URL(`../data/naf${version}.csv`, window.location.href);
+        const response = await fetch(dataUrl);
         if (!response.ok) {
           tree = [];
           setStatus("Données à intégrer.");
@@ -355,7 +367,7 @@
     });
 
     searchInput.addEventListener("input", applySearch);
-    window.addEventListener("resize", updateMobileView);
+    window.addEventListener("resize", debounce(updateMobileView, 150));
 
     loadVersion("2025");
   }
