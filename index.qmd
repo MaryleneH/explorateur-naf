@@ -7,7 +7,7 @@ title: "Explorateur NAF"
 
 Un outil unique pour explorer les activités, comparer NAF 2008 ↔ 2025 et situer les limites de lecture pour la Défense.
 
-[Commencer l'exploration](/explorer/){.btn .btn-primary .btn-lg role="button" aria-label="Aller à la page Explorer"}
+[Commencer l'exploration](explorer/index.qmd){.btn .btn-primary .btn-lg role="button" aria-label="Aller à la page Explorer"}
 :::
 
 ::: {.entry-grid}
@@ -16,7 +16,7 @@ Un outil unique pour explorer les activités, comparer NAF 2008 ↔ 2025 et situ
 
 Je cherche un code, un mot ou une activité.
 
-[Ouvrir l'explorateur](/explorer/){.stretched-link aria-label="Ouvrir l'explorateur de nomenclature"}
+[Ouvrir l'explorateur](explorer/index.qmd){.stretched-link aria-label="Ouvrir l'explorateur de nomenclature"}
 :::
 
 ::: {.entry-card}
@@ -24,7 +24,7 @@ Je cherche un code, un mot ou une activité.
 
 Je veux comprendre ce qui change avec la nouvelle nomenclature.
 
-[Comparer les versions](/comparer/){.stretched-link aria-label="Ouvrir la page de comparaison"}
+[Comparer les versions](comparer/index.qmd){.stretched-link aria-label="Ouvrir la page de comparaison"}
 :::
 
 ::: {.entry-card}
@@ -32,6 +32,6 @@ Je veux comprendre ce qui change avec la nouvelle nomenclature.
 
 Je veux comprendre jusqu'où la NAF permet d'identifier les activités liées à la Défense.
 
-[Lire NAF & Défense](/defense/){.stretched-link aria-label="Ouvrir la page NAF et Défense"}
+[Lire NAF & Défense](defense/index.qmd){.stretched-link aria-label="Ouvrir la page NAF et Défense"}
 :::
 :::

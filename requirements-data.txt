@@ -1,0 +1,6 @@
+# Dépendances Python pour la construction des données de référence
+# Usage : pip install -r requirements-data.txt
+# Le site GitHub Pages ne nécessite PAS Python — il lit les CSV statiques.
+
+requests>=2.31.0
+openpyxl>=3.1.0

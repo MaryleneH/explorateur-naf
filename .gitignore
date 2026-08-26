@@ -4,3 +4,8 @@ _site/
 .DS_Store
 
 /.quarto/
+
+# Fichiers sources bruts téléchargés (non versionnés)
+data/raw/
+__pycache__/
+*.pyc
