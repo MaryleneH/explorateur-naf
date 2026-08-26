@@ -286,7 +286,10 @@
 
       const matches = searchableNodes.filter((entry) => entry.searchText.includes(term));
       if (!matches.length) {
+        selected = {};
+        currentMobileLevel = "section";
         setStatus("Aucun résultat.");
+        updatePanels();
         return;
       }
 
@@ -366,7 +369,7 @@
       updateMobileView();
     });
 
-    searchInput.addEventListener("input", applySearch);
+    searchInput.addEventListener("input", debounce(applySearch, 120));
     window.addEventListener("resize", debounce(updateMobileView, 150));
 
     loadVersion("2025");
