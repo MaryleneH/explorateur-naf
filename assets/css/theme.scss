@@ -33,6 +33,31 @@ body {
   margin-bottom: 1.5rem;
 }
 
+.home-version-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.home-search-wrap {
+  display: flex;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.home-search-wrap .form-control {
+  flex: 1;
+  min-width: 0;
+  font-size: 1rem;
+}
+
+.naf-stats-hint {
+  font-size: 0.85rem;
+  color: var(--naf-muted);
+  margin: 0 0 1rem;
+}
+
 .entry-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));

@@ -3,22 +3,35 @@ title: "Explorateur NAF"
 ---
 
 ::: {.hero-block}
-# Explorer la nomenclature NAF avec une lecture analytique Défense
+# Explorateur NAF
 
-Un outil unique pour explorer les activités, comparer NAF 2008 ↔ 2025 et situer les limites de lecture pour la Défense.
+Explorer la NAF 2025, retrouver la NAF 2008 et comprendre les évolutions.
 
-[Commencer l'exploration](explorer/index.qmd){.btn .btn-primary .btn-lg role="button" aria-label="Aller à la page Explorer"}
+```{=html}
+<div class="home-version-tabs">
+  <a href="explorer/?v=2025" class="btn btn-primary home-v-btn">NAF 2025</a>
+  <a href="explorer/?v=2008" class="btn btn-outline-secondary home-v-btn">NAF 2008</a>
+</div>
+<form class="home-search-wrap" id="home-search-form" role="search" aria-label="Rechercher dans la NAF">
+  <input id="home-search" class="form-control form-control-lg" type="search"
+         placeholder="30.32Y · aéronautique · logiciel · drone"
+         autocomplete="off" aria-label="Rechercher un code ou une activité">
+  <button type="submit" class="btn btn-primary">Rechercher</button>
+</form>
+<p class="naf-stats-hint">22 sections · 87 divisions · 747 sous-classes — NAF 2025</p>
+<script>
+document.getElementById('home-search-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var q = document.getElementById('home-search').value.trim();
+  window.location.href = q ? ('explorer/?q=' + encodeURIComponent(q)) : 'explorer/';
+});
+</script>
+```
+
+[Explorer la nomenclature →](explorer/index.qmd){.btn .btn-primary .btn-lg role="button"}
 :::
 
 ::: {.entry-grid}
-::: {.entry-card}
-## Explorer une activité
-
-Je cherche un code, un mot ou une activité.
-
-[Ouvrir l'explorateur](explorer/index.qmd){.stretched-link aria-label="Ouvrir l'explorateur de nomenclature"}
-:::
-
 ::: {.entry-card}
 ## Comparer 2008 ↔ 2025
 
@@ -28,10 +41,18 @@ Je veux comprendre ce qui change avec la nouvelle nomenclature.
 :::
 
 ::: {.entry-card}
-## Explorer le cas de la Défense
+## NAF & Défense
 
 Je veux comprendre jusqu'où la NAF permet d'identifier les activités liées à la Défense.
 
 [Lire NAF & Défense](defense/index.qmd){.stretched-link aria-label="Ouvrir la page NAF et Défense"}
+:::
+
+::: {.entry-card}
+## Comprendre la NAF
+
+Méthode, sources et contexte de la nomenclature des activités françaises.
+
+[Lire la documentation](comprendre/index.qmd){.stretched-link aria-label="Ouvrir la page Comprendre"}
 :::
 :::

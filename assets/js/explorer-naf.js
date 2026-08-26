@@ -148,6 +148,42 @@
     });
   }
 
+  function computeStats() {
+    var sections = tree.length, divisions = 0, groups = 0, classes = 0, subclasses = 0;
+    tree.forEach(function(s) {
+      divisions += s.children.length;
+      s.children.forEach(function(d) {
+        groups += d.children.length;
+        d.children.forEach(function(g) {
+          classes += g.children.length;
+          g.children.forEach(function(c) { subclasses += c.children.length; });
+        });
+      });
+    });
+    return { sections: sections, divisions: divisions, groups: groups, classes: classes, subclasses: subclasses };
+  }
+
+  function autoNavigate(q) {
+    if (!q || !searchNodes.length) return;
+    var term = normalize(q.trim());
+    var matches = searchNodes.filter(function(e) { return e.searchText.includes(term); });
+    if (!matches.length) {
+      if (dom.search) { dom.search.value = q.trim(); applySearch(); }
+      return;
+    }
+    var exact = matches.find(function(e) { return normalize(e.node.code) === term; });
+    if (exact || matches.length === 1) {
+      var entry = exact || matches[0];
+      selected = {};
+      entry.path.forEach(function(n) { selected[n.level] = n; });
+      currentMobileLevel = LEVELS[Math.min(entry.path.length - 1, LEVELS.length - 1)];
+      updatePanels();
+    } else {
+      if (dom.search) { dom.search.value = q.trim(); applySearch(); }
+      if (dom.searchResults) dom.searchResults.hidden = false;
+    }
+  }
+
   /* ═══════════════════════════════════════════════════════════════════
      MARQUEURS DÉFENSE
   ═══════════════════════════════════════════════════════════════════ */
@@ -464,7 +500,19 @@
     const panel = document.querySelector('.naf-panel[data-level="' + currentMobileLevel + '"]');
     if (panel) panel.classList.add("mobile-visible");
     if (dom.mobileLevelLabel) dom.mobileLevelLabel.textContent = LEVEL_LABELS[currentMobileLevel] || "";
-    if (dom.mobileBack) dom.mobileBack.disabled = LEVELS.indexOf(currentMobileLevel) === 0;
+    if (dom.mobileBack) {
+      const mobIdx = LEVELS.indexOf(currentMobileLevel);
+      dom.mobileBack.disabled = mobIdx === 0;
+      if (mobIdx > 0) {
+        const parentLevel = LEVELS[mobIdx - 1];
+        const parent = selected[parentLevel];
+        dom.mobileBack.textContent = parent
+          ? ("← " + parent.code + " " + (parent.label.length > 28 ? parent.label.slice(0, 28) + "…" : parent.label))
+          : ("← " + LEVEL_LABELS[parentLevel]);
+      } else {
+        dom.mobileBack.textContent = "← Retour";
+      }
+    }
   }
 
   /* ═══════════════════════════════════════════════════════════════════
@@ -582,7 +630,10 @@
       const out = [];
       indexNodes(tree, [], out);
       searchNodes = out;
-      setStatus(out.length + " entrée(s) indexée(s).");
+      const stats = computeStats();
+      setStatus("NAF " + (version === "2025" ? "2025" : "rév.2 (2008)") +
+        " — " + stats.sections + " sections · " + stats.divisions + " divisions · " +
+        stats.subclasses + " sous-classes");
       updatePanels();
     }).catch(function(e) {
       console.error("Impossible de charger la nomenclature :", e);
@@ -674,7 +725,17 @@
     window.addEventListener("resize", debounce(updateMobileView, 150));
     initTabs();
 
-    loadAuxData().then(function() { loadVersion("2025"); });
+    var urlParams = new URLSearchParams(window.location.search);
+    var vParam = urlParams.get("v");
+    var qParam = urlParams.get("q");
+    if (vParam === "2008") {
+      var radio2008 = document.querySelector('input[name="naf-version"][value="2008"]');
+      if (radio2008) radio2008.checked = true;
+    }
+    var initVersion = (vParam === "2008") ? "2008" : "2025";
+    loadAuxData().then(function() { return loadVersion(initVersion); }).then(function() {
+      if (qParam) autoNavigate(qParam);
+    });
   }
 
   document.addEventListener("DOMContentLoaded", init);
