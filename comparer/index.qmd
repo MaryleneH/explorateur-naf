@@ -1,0 +1,30 @@
+---
+title: "Comparer 2008 ↔ 2025"
+---
+
+Comparer ce que devient une activité entre les deux versions de nomenclature.
+
+::: {.compare-controls}
+- Point de départ: `NAF 2008` ou `NAF 2025`
+- Recherche: code ou libellé
+:::
+
+::: {.callout-note collapse="true"}
+## Données de correspondance à intégrer
+
+Aucune correspondance officielle n'est injectée à ce stade.
+:::
+
+::: {.panel-tabset}
+### Correspondance simple
+
+État vide — données à intégrer.
+
+### Scission / regroupement
+
+État vide — données à intégrer.
+
+### Changement de périmètre
+
+État vide — données à intégrer.
+:::

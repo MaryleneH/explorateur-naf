@@ -1,0 +1,6 @@
+_site/
+.quarto/
+*.log
+.DS_Store
+
+/.quarto/

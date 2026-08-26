@@ -1,0 +1,38 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "Explorateur NAF"
+  site-url: "https://maryleneh.github.io/explorateur-naf"
+  navbar:
+    left:
+      - href: explorer/index.qmd
+        text: Explorer
+      - href: comparer/index.qmd
+        text: Comparer 2008 ↔ 2025
+      - href: defense/index.qmd
+        text: "🛡 NAF & Défense"
+      - href: comprendre/index.qmd
+        text: Comprendre
+      - href: methode/index.qmd
+        text: Méthode & sources
+    right:
+      - search
+  page-footer:
+    left: "Explorateur NAF — architecture V1"
+
+format:
+  html:
+    theme:
+      - cosmo
+      - assets/css/theme.scss
+    toc: false
+    smooth-scroll: true
+    include-in-header:
+      - includes/scripts.html
+
+execute:
+  echo: false
+  warning: false
+  message: false

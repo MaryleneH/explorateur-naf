@@ -1,0 +1,234 @@
+/*-- scss:defaults --*/
+$body-bg: #f4f5f3;
+$body-color: #1d2630;
+$primary: #33495f;
+$secondary: #5b6570;
+$success: #5f6f62;
+$link-color: #2d4b67;
+$link-hover-color: #1b3044;
+
+/*-- scss:rules --*/
+:root {
+  --naf-surface: #ffffff;
+  --naf-border: #d7dde3;
+  --naf-muted: #667686;
+  --naf-focus: #0d6efd;
+  --naf-accent: #3d556d;
+  --naf-accent-soft: #e8edf2;
+  --naf-defense: #6b6a4a;
+}
+
+body {
+  font-feature-settings: "liga" 1;
+}
+
+.hero-block {
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-border);
+  border-radius: 0.9rem;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.entry-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.entry-card {
+  position: relative;
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-border);
+  border-radius: 0.75rem;
+  padding: 1rem;
+}
+
+.explorer-shell {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.explorer-controls {
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-border);
+  border-radius: 0.8rem;
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: minmax(320px, 1fr) auto auto;
+  gap: 0.75rem;
+  align-items: end;
+}
+
+.control-label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--naf-muted);
+  margin-bottom: 0.3rem;
+}
+
+.naf-breadcrumb {
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-border);
+  border-radius: 0.7rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.naf-breadcrumb ol {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 0.4rem;
+  list-style: none;
+  flex-wrap: wrap;
+}
+
+.naf-breadcrumb button {
+  border: 0;
+  background: transparent;
+  color: var(--naf-accent);
+  padding: 0.2rem 0.35rem;
+  border-radius: 0.4rem;
+}
+
+.naf-breadcrumb button:hover,
+.naf-breadcrumb button:focus-visible {
+  background: var(--naf-accent-soft);
+  outline: none;
+}
+
+.mobile-level-nav {
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.45rem 0;
+}
+
+.naf-browser {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(220px, 1fr));
+  gap: 0.75rem;
+  overflow-x: auto;
+  padding-bottom: 0.2rem;
+}
+
+.naf-panel {
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-border);
+  border-radius: 0.8rem;
+  min-height: 290px;
+}
+
+.naf-panel h2 {
+  margin: 0;
+  padding: 0.7rem 0.9rem;
+  font-size: 0.95rem;
+  border-bottom: 1px solid var(--naf-border);
+}
+
+.naf-list {
+  list-style: none;
+  margin: 0;
+  padding: 0.3rem;
+}
+
+.naf-item {
+  width: 100%;
+  border: 1px solid transparent;
+  border-radius: 0.55rem;
+  background: transparent;
+  text-align: left;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.45rem;
+  padding: 0.55rem;
+}
+
+.naf-item .code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-weight: 600;
+}
+
+.naf-item .label {
+  display: block;
+  color: var(--naf-muted);
+  font-size: 0.89rem;
+}
+
+.naf-item:hover,
+.naf-item:focus-visible {
+  border-color: var(--naf-border);
+  background: #f8fafc;
+  outline: none;
+}
+
+.naf-item.active {
+  border-color: var(--naf-accent);
+  background: var(--naf-accent-soft);
+}
+
+.naf-item[disabled] {
+  opacity: 0.7;
+}
+
+.data-state {
+  color: var(--naf-muted);
+  font-size: 0.92rem;
+}
+
+.activity-sheet {
+  margin-top: 1rem;
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-border);
+  border-radius: 0.85rem;
+  padding: 1rem;
+}
+
+.activity-code {
+  margin: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 1rem;
+}
+
+.activity-label,
+.activity-meta {
+  margin: 0;
+}
+
+#defense-mode[aria-pressed="true"] {
+  border-color: var(--naf-defense);
+  color: var(--naf-defense);
+}
+
+@media (max-width: 992px) {
+  .explorer-controls {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .mobile-level-nav {
+    display: flex;
+  }
+
+  .naf-browser {
+    display: block;
+    overflow: hidden;
+  }
+
+  .naf-panel {
+    display: none;
+    min-height: 250px;
+  }
+
+  .naf-panel.mobile-visible {
+    display: block;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+}
