@@ -28,8 +28,12 @@ Architecture V1 d'un site **Quarto Website** pour :
 - `explorer/index.qmd` : composant principal d'exploration hiérarchique.
 - `comparer/`, `defense/`, `comprendre/`, `methode/` : pages métier structurantes.
 - `assets/css/theme.scss` : design system (couleurs, layout, états interactifs).
-- `assets/js/explorer-naf.js` : logique de navigation progressive (desktop) et drill-down (mobile).
-- `data/*.csv` : schémas de données sans valeurs inventées.
+- `assets/js/naf-core.js` : chargement des CSV, arbre hiérarchique, index de recherche.
+- `assets/js/naf-explorer.js` : navigation en colonnes (desktop) et drill-down (mobile).
+- `assets/js/naf-home.js`, `naf-comparer.js`, `naf-defense.js` : recherche de l'accueil,
+  table de correspondance, qualifications Défense.
+- `data/*.csv` : données de référence issues de sources officielles Insee.
+- `scripts/` : génération et validation des données de référence.
 
 ## Lancer le site
 
@@ -41,4 +45,17 @@ Puis ouvrir `_site/index.html`.
 
 ## Données
 
-Les fichiers `data/` sont volontairement vides (en-têtes uniquement) tant que les sources officielles ne sont pas intégrées.
+Les fichiers `data/` contiennent les nomenclatures complètes.
+
+| Fichier | Contenu |
+|---|---|
+| `naf2025.csv` | 22 sections, 87 divisions, 287 groupes, 651 classes, 747 sous-classes |
+| `naf2008.csv` | 21 sections, 88 divisions, 272 groupes, 615 classes, 732 sous-classes |
+| `correspondances_2008_2025.csv` | 742 relations 2008 ↔ 2025 (couverture partielle) |
+| `defense_qualification.csv` | 10 codes qualifiés au regard de la Défense |
+
+Contrôle des comptages, des codes et des URL de sources :
+
+```bash
+python scripts/validate_reference_data.py
+```

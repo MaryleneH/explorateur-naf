@@ -1,755 +1,1118 @@
 /*-- scss:defaults --*/
-$body-bg: #f4f5f3;
-$body-color: #1d2630;
-$primary: #33495f;
-$secondary: #5b6570;
-$success: #5f6f62;
-$link-color: #2d4b67;
-$link-hover-color: #1b3044;
+
+// Identité : graphite, bleu ardoise, gris acier, blanc cassé, bronze discret.
+// Registre industriel et analytique, sans imiter une charte institutionnelle.
+
+$naf-ink:       #14181d;
+$naf-slate:     #1f2b3a;
+$naf-slate-mid: #33475f;
+$naf-steel:     #5f7185;
+$naf-steel-sub: #8a99a9;
+$naf-line:      #dce1e7;
+$naf-line-soft: #eef0f3;
+$naf-paper:     #faf9f7;
+$naf-surface:   #ffffff;
+$naf-bronze:    #9c7440;
+$naf-sage:      #5c7a70;
+
+$primary:       $naf-slate;
+$body-color:    $naf-ink;
+$body-bg:       $naf-paper;
+$link-color:    $naf-slate-mid;
+
+$font-family-sans-serif: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+  Roboto, "Helvetica Neue", Arial, sans-serif;
+$font-family-monospace: "JetBrains Mono", "SFMono-Regular", "SF Mono", Menlo,
+  Consolas, "Liberation Mono", monospace;
+
+$border-radius: 4px;
+$navbar-bg: $naf-slate;
 
 /*-- scss:rules --*/
+
 :root {
-  --naf-surface: #ffffff;
-  --naf-border: #d7dde3;
-  --naf-muted: #667686;
-  --naf-focus: #0d6efd;
-  --naf-accent: #3d556d;
-  --naf-accent-soft: #e8edf2;
-  --naf-defense: #6b6a4a;
-  --naf-defense-bg: #f8f7ee;
+  --naf-ink: #{$naf-ink};
+  --naf-slate: #{$naf-slate};
+  --naf-slate-mid: #{$naf-slate-mid};
+  --naf-steel: #{$naf-steel};
+  --naf-steel-sub: #{$naf-steel-sub};
+  --naf-line: #{$naf-line};
+  --naf-line-soft: #{$naf-line-soft};
+  --naf-paper: #{$naf-paper};
+  --naf-surface: #{$naf-surface};
+  --naf-bronze: #{$naf-bronze};
+  --naf-sage: #{$naf-sage};
+
+  --naf-mono: #{$font-family-monospace};
+  --naf-radius: 4px;
+  --naf-tap: 48px;
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   Base
+═══════════════════════════════════════════════════════════════════ */
 
 body {
-  font-feature-settings: "liga" 1;
+  background: var(--naf-paper);
+  -webkit-font-smoothing: antialiased;
 }
 
-/* ── PAGE D'ACCUEIL ──────────────────────────────────────────────────── */
-
-.hero-block {
-  background: var(--naf-surface);
-  border: 1px solid var(--naf-border);
-  border-radius: 0.9rem;
-  padding: 2rem;
-  margin-bottom: 1.5rem;
+// Aucun scroll horizontal global, quelle que soit la longueur des libellés.
+// « clip » plutôt que « hidden » : hidden ferait du body un conteneur de
+// défilement, ce qui neutralise les en-têtes de colonne en position sticky.
+body {
+  max-width: 100%;
+  overflow-x: clip;
 }
 
-.home-version-tabs {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
+.naf-visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
-.home-search-wrap {
-  display: flex;
-  gap: 0.5rem;
-  margin: 1rem 0;
+.naf-mono {
+  font-family: var(--naf-mono);
+  font-variant-ligatures: none;
 }
 
-.home-search-wrap .form-control {
-  flex: 1;
-  min-width: 0;
-  font-size: 1rem;
+:focus-visible {
+  outline: 2px solid var(--naf-bronze);
+  outline-offset: 2px;
 }
 
-.naf-stats-hint {
+.navbar {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+// Les commandes de la navbar Quarto sont sous la cible tactile confortable.
+.navbar-toggler,
+.navbar .aa-DetachedSearchButton {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+.nav-footer {
+  border-top: 1px solid var(--naf-line);
+  color: var(--naf-steel);
   font-size: 0.85rem;
-  color: var(--naf-muted);
-  margin: 0 0 1rem;
 }
 
-.entry-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1rem;
+/* ═══════════════════════════════════════════════════════════════════
+   Accueil
+═══════════════════════════════════════════════════════════════════ */
+
+.naf-home {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 0.5rem 0 2rem;
 }
 
-.entry-card {
-  position: relative;
-  background: var(--naf-surface);
-  border: 1px solid var(--naf-border);
-  border-radius: 0.75rem;
-  padding: 1rem;
+.naf-home-title {
+  font-size: clamp(1.6rem, 6vw, 2.3rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--naf-ink);
+  margin: 0 0 0.35rem;
 }
 
-/* ── CONTRÔLES EXPLORATEUR ───────────────────────────────────────────── */
-
-.explorer-shell {
-  display: grid;
-  gap: 0.75rem;
+.naf-home-tagline {
+  color: var(--naf-steel);
+  font-size: 0.98rem;
+  margin: 0 0 1.25rem;
 }
 
-.explorer-controls {
-  background: var(--naf-surface);
-  border: 1px solid var(--naf-border);
-  border-radius: 0.8rem;
-  padding: 0.9rem 1rem;
-  display: grid;
-  grid-template-columns: minmax(280px, 1fr) auto auto;
-  gap: 0.75rem;
-  align-items: end;
+.naf-home-search {
+  margin: 0 0 0.85rem;
 }
 
-.control-label {
-  display: block;
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: var(--naf-muted);
-  margin-bottom: 0.3rem;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+.naf-home-counts {
+  color: var(--naf-steel);
+  font-size: 0.86rem;
+  margin: 0.9rem 0 0;
+  font-variant-numeric: tabular-nums;
 }
 
-/* Champ de recherche */
-.search-wrap {
-  position: relative;
-}
-
-.search-results-panel {
-  position: absolute;
-  top: calc(100% + 0.3rem);
-  left: 0;
-  right: 0;
-  background: var(--naf-surface);
-  border: 1px solid var(--naf-border);
-  border-radius: 0.65rem;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  z-index: 200;
-  max-height: 320px;
-  overflow-y: auto;
-  padding: 0.35rem;
-}
-
-.sr-item {
-  width: 100%;
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 0.45rem;
-  text-align: left;
-  padding: 0.5rem 0.6rem;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  grid-template-rows: auto auto;
-  gap: 0.1rem 0.5rem;
-  cursor: pointer;
-}
-
-.sr-item:hover,
-.sr-item:focus-visible {
-  background: var(--naf-accent-soft);
-  border-color: var(--naf-border);
-  outline: none;
-}
-
-.sr-code {
-  grid-row: 1;
-  grid-column: 1;
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: var(--naf-accent);
-}
-
-.sr-label {
-  grid-row: 1;
-  grid-column: 2;
-  font-size: 0.88rem;
-  color: var(--naf-muted);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.sr-meta {
-  grid-row: 2;
-  grid-column: 1 / -1;
-  font-size: 0.75rem;
-  color: var(--naf-muted);
-  opacity: 0.7;
-}
-
-.sr-empty {
-  padding: 0.5rem 0.7rem;
-  color: var(--naf-muted);
-  font-size: 0.88rem;
-  margin: 0;
-}
-
-/* Segmented control NAF 2025 / NAF 2008 */
-.segmented-control {
-  display: flex;
-  border: 1px solid var(--naf-border);
-  border-radius: 0.5rem;
-  overflow: hidden;
-}
-
-.seg-option {
-  flex: 1;
-  display: block;
-  cursor: pointer;
-  margin: 0;
-}
-
-.seg-option input[type="radio"] {
-  position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.seg-option span {
-  display: block;
-  padding: 0.4rem 0.8rem;
-  font-size: 0.87rem;
-  font-weight: 500;
-  color: var(--naf-muted);
-  background: var(--naf-surface);
-  text-align: center;
-  transition: background 0.12s, color 0.12s;
-  white-space: nowrap;
-  border-right: 1px solid var(--naf-border);
-}
-
-.seg-option:last-child span {
-  border-right: none;
-}
-
-.seg-option input[type="radio"]:checked + span {
-  background: var(--naf-accent);
+.naf-home-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: var(--naf-tap);
+  padding: 0 1.15rem;
+  background: var(--naf-slate);
   color: #fff;
+  border: 1px solid var(--naf-slate);
+  border-radius: var(--naf-radius);
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.15s ease;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--naf-slate-mid);
+    color: #fff;
+    text-decoration: none;
+  }
 }
 
-.seg-option span:hover {
-  background: var(--naf-accent-soft);
+.naf-home-secondary {
+  margin-top: 2.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--naf-line);
+  display: grid;
+  gap: 0.15rem;
 }
 
-/* Bouton Lecture Défense */
-.btn-defense {
+.naf-home-link {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  min-height: var(--naf-tap);
+  padding: 0.6rem 0.25rem;
+  border-radius: var(--naf-radius);
+  color: var(--naf-ink);
+  text-decoration: none;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--naf-line-soft);
+    color: var(--naf-ink);
+    text-decoration: none;
+  }
+}
+
+.naf-home-link-title {
+  font-weight: 550;
+  white-space: nowrap;
+}
+
+.naf-home-link-desc {
+  color: var(--naf-steel);
+  font-size: 0.86rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Application : barre d'outils
+═══════════════════════════════════════════════════════════════════ */
+
+.naf-app {
+  --naf-col-min: 15rem;
+}
+
+.naf-toolbar {
+  display: grid;
+  gap: 0.6rem;
+  margin-bottom: 0.75rem;
+}
+
+.naf-searchbox {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.naf-search-icon {
+  position: absolute;
+  left: 0.85rem;
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: var(--naf-steel-sub);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  pointer-events: none;
+}
+
+.naf-search-input {
+  width: 100%;
+  min-height: var(--naf-tap);
+  padding: 0 2.5rem 0 2.65rem;
+  font-size: 1rem;
+  color: var(--naf-ink);
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-line);
+  border-radius: var(--naf-radius);
+  appearance: none;
+
+  &::placeholder {
+    color: var(--naf-steel-sub);
+  }
+
+  &:focus {
+    border-color: var(--naf-slate-mid);
+    outline: 2px solid rgba(31, 43, 58, 0.18);
+    outline-offset: 0;
+  }
+
+  &::-webkit-search-cancel-button {
+    display: none;
+  }
+}
+
+.naf-search-clear {
+  position: absolute;
+  right: 0.4rem;
+  width: 2.2rem;
+  height: 2.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  line-height: 1;
+  color: var(--naf-steel);
+  background: none;
+  border: 0;
+  border-radius: var(--naf-radius);
+  cursor: pointer;
+
+  &:hover {
+    background: var(--naf-line-soft);
+    color: var(--naf-ink);
+  }
+}
+
+/* Segmented control 2025 / 2008 */
+
+.naf-versions {
+  display: inline-flex;
+  padding: 3px;
+  background: var(--naf-line-soft);
+  border: 1px solid var(--naf-line);
+  border-radius: var(--naf-radius);
+  width: fit-content;
+}
+
+.naf-version {
+  min-height: 44px;
+  padding: 0 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  // Assez sombre pour rester lisible sur le rail gris : l'état courant se
+  // distingue par le fond et l'ombre, pas par un contraste dégradé.
+  color: var(--naf-slate-mid);
+  background: none;
+  border: 0;
+  border-radius: 3px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    color: var(--naf-ink);
+  }
+
+  &.is-current {
+    color: var(--naf-ink);
+    background: var(--naf-surface);
+    box-shadow: 0 1px 2px rgba(20, 24, 29, 0.09);
+  }
+}
+
+.naf-counts {
+  margin: 0 0 1rem;
+  font-size: 0.85rem;
+  color: var(--naf-steel);
+  font-variant-numeric: tabular-nums;
+}
+
+.naf-counts-full {
+  display: none;
+}
+
+.naf-counts-compact {
+  display: inline;
+}
+
+.naf-error {
+  padding: 0.9rem 1rem;
+  color: #7a2e2e;
+  background: #fdf3f3;
+  border: 1px solid #e9cccc;
+  border-radius: var(--naf-radius);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Barre mobile : retour et contexte
+═══════════════════════════════════════════════════════════════════ */
+
+.naf-mobilebar {
+  display: grid;
+  gap: 0.5rem;
+
+  &:empty {
+    display: none;
+  }
+}
+
+.naf-back {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.4rem 0.85rem;
-  font-size: 0.87rem;
+  align-self: start;
+  min-height: var(--naf-tap);
+  padding: 0 0.75rem 0 0.5rem;
+  font-size: 0.92rem;
   font-weight: 500;
-  border: 1px solid var(--naf-border);
-  border-radius: 0.5rem;
-  background: var(--naf-surface);
-  color: var(--naf-muted);
+  color: var(--naf-slate-mid);
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--naf-radius);
   cursor: pointer;
-  transition: background 0.12s, border-color 0.12s, color 0.12s;
-  white-space: nowrap;
+
+  &:hover {
+    background: var(--naf-line-soft);
+  }
 }
 
-.btn-defense:hover {
-  background: var(--naf-accent-soft);
+.naf-back-chevron {
+  font-size: 1.15rem;
+  line-height: 1;
 }
 
-.btn-defense.active,
-.btn-defense[aria-pressed="true"] {
-  background: var(--naf-defense-bg);
-  border-color: var(--naf-defense);
-  color: var(--naf-defense);
+.naf-context {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0 0 0.85rem;
+  border-bottom: 1px solid var(--naf-line);
 }
 
-/* ── FIL D'ARIANE ────────────────────────────────────────────────────── */
-
-.naf-breadcrumb {
-  background: var(--naf-surface);
-  border: 1px solid var(--naf-border);
-  border-radius: 0.65rem;
-  padding: 0.45rem 0.75rem;
-  overflow-x: auto;
+.naf-context-code {
+  font-family: var(--naf-mono);
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--naf-ink);
 }
 
-.naf-breadcrumb ol {
-  margin: 0;
-  padding: 0;
+.naf-context-label {
+  font-size: 0.98rem;
+  line-height: 1.35;
+  color: var(--naf-slate-mid);
+  overflow-wrap: anywhere;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Fil d'Ariane (desktop)
+═══════════════════════════════════════════════════════════════════ */
+
+.naf-crumbs {
+  display: none;
+}
+
+.naf-crumb-list {
   display: flex;
-  gap: 0.2rem;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.1rem;
+  margin: 0 0 0.75rem;
+  padding: 0;
   list-style: none;
-  align-items: center;
-  flex-wrap: nowrap;
 }
 
-.bc-btn {
-  border: 0;
-  background: transparent;
+.naf-crumb {
+  display: flex;
+  align-items: center;
+
+  & + &::before {
+    content: "›";
+    margin: 0 0.15rem;
+    color: var(--naf-steel-sub);
+  }
+}
+
+.naf-crumb-btn {
   display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  padding: 0.2rem 0.35rem;
-  border-radius: 0.35rem;
+  align-items: baseline;
+  gap: 0.4rem;
+  max-width: 22rem;
+  padding: 0.3rem 0.5rem;
+  font-size: 0.86rem;
+  color: var(--naf-steel);
+  background: none;
+  border: 0;
+  border-radius: 3px;
   cursor: pointer;
-  max-width: 240px;
+
+  &:hover {
+    background: var(--naf-line-soft);
+    color: var(--naf-ink);
+  }
+
+  &[aria-current="true"] {
+    color: var(--naf-ink);
+    font-weight: 550;
+  }
 }
 
-.bc-btn:hover,
-.bc-btn:focus-visible {
-  background: var(--naf-accent-soft);
-  outline: none;
+.naf-crumb-code {
+  font-family: var(--naf-mono);
+  font-weight: 600;
 }
 
-.bc-code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: var(--naf-accent);
-  flex-shrink: 0;
-}
-
-.bc-label {
-  font-size: 0.8rem;
-  color: var(--naf-muted);
-  white-space: nowrap;
+.naf-crumb-label {
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.bc-sep {
-  font-size: 0.85rem;
-  color: var(--naf-muted);
-  opacity: 0.5;
-  padding: 0 0.1rem;
-}
-
-.bc-placeholder {
-  font-size: 0.83rem;
-  color: var(--naf-muted);
-  opacity: 0.6;
-}
-
-/* ── NAVIGATION MOBILE ───────────────────────────────────────────────── */
-
-.mobile-level-nav {
+.naf-crumb-hint {
   display: none;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.4rem 0.1rem;
 }
 
-.btn-mobile-back {
-  border: 1px solid var(--naf-border);
-  background: var(--naf-surface);
-  border-radius: 0.45rem;
-  padding: 0.3rem 0.7rem;
-  font-size: 0.85rem;
-  cursor: pointer;
-  color: var(--naf-accent);
+/* ═══════════════════════════════════════════════════════════════════
+   Colonnes et lignes de nomenclature
+═══════════════════════════════════════════════════════════════════ */
+
+.naf-columns {
+  display: block;
 }
 
-.btn-mobile-back:disabled {
-  opacity: 0.35;
-  cursor: default;
+// Mobile : un niveau à la fois. Seule la colonne active est rendue visible.
+.naf-col {
+  display: none;
+
+  &.is-active {
+    display: block;
+  }
 }
 
-.mobile-level-title {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--naf-accent);
-}
-
-/* ── NAVIGATEUR HIÉRARCHIQUE ─────────────────────────────────────────── */
-
-.naf-browser {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(200px, 1fr));
-  gap: 0.6rem;
-  overflow-x: auto;
-  padding-bottom: 0.25rem;
-  /* Scroll horizontal limité au composant — jamais horizontal sur toute la page */
-  -webkit-overflow-scrolling: touch;
-}
-
-.naf-panel {
-  background: var(--naf-surface);
-  border: 1px solid var(--naf-border);
-  border-radius: 0.75rem;
-  display: flex;
-  flex-direction: column;
-  min-height: 300px;
-  max-height: 480px;
-  overflow: hidden;
-}
-
-.panel-title {
-  margin: 0;
-  padding: 0.6rem 0.85rem;
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--naf-muted);
-  border-bottom: 1px solid var(--naf-border);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.naf-col-head {
   position: sticky;
   top: 0;
-  background: var(--naf-surface);
+  z-index: 2;
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.55rem 0.25rem;
+  background: var(--naf-paper);
+  border-bottom: 1px solid var(--naf-line);
 }
 
-.panel-count {
+.naf-col-title {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--naf-steel);
+}
+
+.naf-col-count {
+  margin-left: auto;
   font-size: 0.75rem;
-  font-weight: 400;
-  color: var(--naf-muted);
-  opacity: 0.7;
-  letter-spacing: 0;
+  color: var(--naf-steel);
+  font-variant-numeric: tabular-nums;
 }
 
-.naf-list {
-  list-style: none;
-  margin: 0;
-  padding: 0.25rem;
-  overflow-y: auto;
-  flex: 1;
+.naf-col-list {
+  display: block;
 }
 
-.naf-empty {
-  padding: 0.6rem 0.75rem;
-  font-size: 0.83rem;
-  color: var(--naf-muted);
-  opacity: 0.5;
+.naf-row-wrap {
+  border-bottom: 1px solid var(--naf-line-soft);
 }
 
-.naf-item {
-  width: 100%;
-  border: 1px solid transparent;
-  border-radius: 0.5rem;
-  background: transparent;
-  text-align: left;
-  display: flex;
-  align-items: flex-start;
-  gap: 0.3rem;
-  padding: 0.45rem 0.5rem;
-  cursor: pointer;
-  transition: background 0.1s, border-color 0.1s;
-}
-
-.naf-item:hover,
-.naf-item:focus-visible {
-  border-color: var(--naf-border);
-  background: #f8fafc;
-  outline: none;
-}
-
-.naf-item.active {
-  border-color: var(--naf-accent);
-  background: var(--naf-accent-soft);
-}
-
-.item-inner {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.1rem;
-}
-
-.naf-item .code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  font-size: 0.77rem;
-  font-weight: 700;
-  color: var(--naf-accent);
-  line-height: 1.2;
-}
-
-.naf-item .label {
-  font-size: 0.82rem;
-  color: var(--naf-muted);
-  line-height: 1.3;
-  word-break: break-word;
-}
-
-.chevron {
-  font-size: 0.9rem;
-  color: var(--naf-muted);
-  opacity: 0.4;
-  align-self: center;
-  flex-shrink: 0;
-}
-
-/* ── MARQUEURS DÉFENSE ───────────────────────────────────────────────── */
-
-.defense-marker {
-  font-size: 0.8rem;
-  flex-shrink: 0;
-  align-self: center;
-  cursor: help;
-}
-
-.defense-marker.def-explicite_industriel { color: #b03030; }
-.defense-marker.def-dual_officiel        { color: #8a7020; }
-.defense-marker.def-administration_defense { color: #405c3d; }
-
-.defense-badge {
-  font-size: 0.7rem;
-  font-weight: 600;
-  background: var(--naf-defense-bg);
-  color: var(--naf-defense);
-  border-radius: 0.75rem;
-  padding: 0.05rem 0.35rem;
-  align-self: center;
-  flex-shrink: 0;
-}
-
-.defense-legend {
-  display: flex;
-  align-items: center;
-  gap: 1.2rem;
-  flex-wrap: wrap;
-  padding: 0.5rem 0.8rem;
-  background: var(--naf-defense-bg);
-  border: 1px solid #c8c29a;
-  border-radius: 0.6rem;
-  font-size: 0.82rem;
-  color: var(--naf-defense);
-}
-
-.legend-title {
-  font-weight: 600;
-}
-
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  opacity: 0.85;
-}
-
-/* ── STATUT ──────────────────────────────────────────────────────────── */
-
-.data-state {
-  color: var(--naf-muted);
-  font-size: 0.85rem;
-  padding: 0.1rem 0;
-}
-
-/* ── FICHE ACTIVITÉ ──────────────────────────────────────────────────── */
-
-.activity-sheet {
-  background: var(--naf-surface);
-  border: 1px solid var(--naf-border);
-  border-radius: 0.85rem;
-  overflow: hidden;
-}
-
-.activity-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 1rem;
-  padding: 1rem 1.1rem 0.8rem;
-  border-bottom: 1px solid var(--naf-border);
-}
-
-.activity-head-main {
-  flex: 1;
-  min-width: 0;
-}
-
-.activity-head-meta {
-  flex-shrink: 0;
-  text-align: right;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.3rem;
-}
-
-.activity-code {
-  margin: 0;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: var(--naf-accent);
-  line-height: 1.2;
-}
-
-.activity-label {
-  margin: 0.25rem 0 0;
-  font-size: 1rem;
-  font-weight: 500;
-  color: var(--body-color, #1d2630);
-}
-
-.activity-meta {
-  margin: 0;
-  font-size: 0.8rem;
-  color: var(--naf-muted);
-}
-
-.activity-source-link {
-  font-size: 0.8rem;
-  color: var(--naf-accent);
-  text-decoration: none;
-  padding: 0.2rem 0.5rem;
-  border: 1px solid var(--naf-border);
-  border-radius: 0.4rem;
-  white-space: nowrap;
-  transition: background 0.1s;
-}
-
-.activity-source-link:hover {
-  background: var(--naf-accent-soft);
-}
-
-/* Onglets */
-.activity-tabs {
-  overflow: hidden;
-}
-
-.tab-nav {
-  display: flex;
-  border-bottom: 1px solid var(--naf-border);
-  padding: 0 0.75rem;
-  gap: 0;
-  overflow-x: auto;
-}
-
-.tab-btn {
-  border: 0;
-  border-bottom: 2px solid transparent;
-  background: transparent;
-  padding: 0.6rem 0.75rem;
-  font-size: 0.83rem;
-  font-weight: 500;
-  color: var(--naf-muted);
-  cursor: pointer;
-  white-space: nowrap;
-  transition: color 0.12s, border-color 0.12s;
-  margin-bottom: -1px;
-}
-
-.tab-btn:hover { color: var(--naf-accent); }
-
-.tab-btn.active {
-  color: var(--naf-accent);
-  border-bottom-color: var(--naf-accent);
-}
-
-.tab-content {
-  padding: 0.85rem 1rem;
-  min-height: 6rem;
-}
-
-.tab-panel { display: none; }
-.tab-panel.active { display: block; }
-
-.tab-note {
-  font-size: 0.88rem;
-  color: var(--naf-muted);
-  margin: 0;
-}
-
-.tab-note-sm {
-  font-size: 0.82rem;
-  color: var(--naf-muted);
-  margin: 0 0 0.5rem;
-}
-
-.activity-details {
+/* La ligne, pas la carte : rail de sélection, pas d'ombre, pas de bordure. */
+.naf-row {
+  position: relative;
   display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 0.3rem 1rem;
-  font-size: 0.87rem;
-  margin: 0;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: baseline;
+  gap: 0.15rem 0.7rem;
+  width: 100%;
+  min-height: var(--naf-tap);
+  padding: 0.7rem 0.6rem 0.7rem 0.75rem;
+  text-align: left;
+  background: none;
+  border: 0;
+  border-left: 2px solid transparent;
+  cursor: pointer;
+  transition: background 0.12s ease, border-color 0.12s ease;
+
+  &:hover {
+    background: var(--naf-line-soft);
+  }
+
+  &.is-selected {
+    background: rgba(31, 43, 58, 0.05);
+    border-left-color: var(--naf-bronze);
+  }
 }
 
-.activity-details dt {
+.naf-row-code {
+  grid-column: 1;
+  font-family: var(--naf-mono);
+  font-size: 0.86rem;
   font-weight: 600;
-  color: var(--naf-muted);
+  color: var(--naf-slate);
   white-space: nowrap;
 }
 
-.activity-details dd {
-  margin: 0;
-  color: var(--body-color, #1d2630);
-  word-break: break-word;
+.naf-row.is-selected .naf-row-code {
+  color: var(--naf-ink);
 }
 
-.mono {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+.naf-row-label {
+  grid-column: 2;
+  font-size: 0.94rem;
+  line-height: 1.35;
+  color: var(--naf-ink);
+  overflow-wrap: anywhere;
+  hyphens: auto;
 }
 
-/* Correspondances */
-.corr-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  font-size: 0.87rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-}
-
-.corr-type {
-  font-size: 0.75rem;
-  color: var(--naf-muted);
-  margin-left: 0.5rem;
-  background: #f0f2f4;
-  padding: 0.1rem 0.35rem;
-  border-radius: 0.3rem;
-}
-
-/* Avertissement Défense */
-.defense-warning {
-  background: var(--naf-defense-bg);
-  border: 1px solid #c8c29a;
-  border-radius: 0.55rem;
-  padding: 0.6rem 0.85rem;
+// L'Insee publie les libellés de section NAF 2025 en capitales (« Section C :
+// INDUSTRIE MANUFACTURIÈRE »). On garde le texte tel quel et on l'allège
+// typographiquement : corps réduit et interlettrage, pour que les capitales
+// signalent un niveau plutôt que de crier.
+.naf-col[data-level="section"] .naf-row-label {
   font-size: 0.85rem;
-  color: var(--naf-defense);
-  margin-top: 0.75rem;
+  letter-spacing: 0.025em;
+  color: var(--naf-slate);
+  hyphens: none;
 }
 
-/* ── RESPONSIVE ──────────────────────────────────────────────────────── */
+.naf-row-defense {
+  grid-column: 3;
+  align-self: center;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--naf-bronze);
+}
 
-@media (max-width: 992px) {
-  .explorer-controls {
-    grid-template-columns: 1fr;
+.naf-row-chevron {
+  grid-column: 4;
+  align-self: center;
+  font-size: 1.05rem;
+  line-height: 1;
+  color: var(--naf-steel-sub);
+}
+
+.naf-row.is-selected .naf-row-chevron {
+  color: var(--naf-slate-mid);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Résultats de recherche
+═══════════════════════════════════════════════════════════════════ */
+
+// Quand la recherche est active, elle remplace le navigateur.
+.naf-app[data-view="search"] .naf-browser,
+.naf-app[data-view="search"] .naf-sheet {
+  display: none;
+}
+
+.naf-results-count {
+  margin: 0 0 0.35rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--naf-steel);
+}
+
+.naf-results-empty {
+  padding: 1.5rem 0.25rem;
+  color: var(--naf-steel);
+}
+
+.naf-results-list {
+  display: grid;
+}
+
+.naf-result {
+  display: grid;
+  gap: 0.2rem;
+  width: 100%;
+  padding: 0.8rem 0.6rem 0.8rem 0.75rem;
+  text-align: left;
+  background: none;
+  border: 0;
+  border-left: 2px solid transparent;
+  border-bottom: 1px solid var(--naf-line-soft);
+  cursor: pointer;
+
+  &:hover {
+    background: var(--naf-line-soft);
+    border-left-color: var(--naf-bronze);
   }
 }
 
-@media (max-width: 768px) {
-  .mobile-level-nav {
-    display: flex;
+.naf-result-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.15rem 0.7rem;
+}
+
+.naf-result-code {
+  font-family: var(--naf-mono);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--naf-slate);
+}
+
+.naf-result-label {
+  font-size: 0.96rem;
+  line-height: 1.35;
+  color: var(--naf-ink);
+  overflow-wrap: anywhere;
+}
+
+.naf-result-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem 0.6rem;
+  font-size: 0.78rem;
+  color: var(--naf-steel);
+}
+
+.naf-result-path {
+  font-family: var(--naf-mono);
+  color: var(--naf-steel);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Fiche
+═══════════════════════════════════════════════════════════════════ */
+
+.naf-sheet {
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--naf-line);
+}
+
+.naf-sheet-head {
+  margin-bottom: 1.1rem;
+}
+
+.naf-sheet-code {
+  margin: 0 0 0.15rem;
+  font-family: var(--naf-mono);
+  font-size: 1.75rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  color: var(--naf-ink);
+}
+
+.naf-sheet-label {
+  margin: 0 0 0.5rem;
+  font-size: 1.12rem;
+  font-weight: 550;
+  line-height: 1.3;
+  color: var(--naf-ink);
+  overflow-wrap: anywhere;
+}
+
+.naf-sheet-meta {
+  margin: 0 0 0.6rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--naf-steel);
+}
+
+.naf-sheet-path {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.15rem;
+  margin: 0;
+}
+
+.naf-sheet-path-sep {
+  color: var(--naf-steel-sub);
+}
+
+.naf-sheet-path-step {
+  padding: 0.25rem 0.4rem;
+  font-family: var(--naf-mono);
+  font-size: 0.82rem;
+  color: var(--naf-steel);
+  background: none;
+  border: 0;
+  border-radius: 3px;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--naf-line-soft);
+    color: var(--naf-ink);
   }
 
-  .naf-browser {
-    display: block;
-    overflow: hidden;
+  &[aria-current="true"] {
+    color: var(--naf-ink);
+    font-weight: 600;
+    background: var(--naf-line-soft);
   }
+}
 
-  .naf-panel {
+.naf-sheet-section {
+  border-bottom: 1px solid var(--naf-line-soft);
+}
+
+.naf-sheet-summary {
+  display: flex;
+  align-items: center;
+  min-height: var(--naf-tap);
+  padding: 0.5rem 0.25rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--naf-slate-mid);
+  cursor: pointer;
+  list-style: none;
+
+  &::-webkit-details-marker {
     display: none;
-    max-height: 60vh;
   }
 
-  .naf-panel.mobile-visible {
-    display: flex;
+  &::after {
+    content: "+";
+    margin-left: auto;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--naf-steel-sub);
   }
 
-  .activity-head {
-    flex-direction: column;
-  }
-
-  .activity-head-meta {
-    align-items: flex-start;
-    text-align: left;
-  }
-
-  .activity-details {
-    grid-template-columns: 1fr;
-    gap: 0.2rem 0;
-  }
-
-  .activity-details dt {
-    margin-top: 0.4rem;
+  &:hover {
+    color: var(--naf-ink);
   }
 }
+
+.naf-sheet-section[open] > .naf-sheet-summary::after {
+  content: "–";
+}
+
+.naf-sheet-body {
+  padding: 0.15rem 0.25rem 1.1rem;
+}
+
+.naf-sheet-text {
+  margin: 0 0 0.7rem;
+  font-size: 0.94rem;
+  line-height: 1.55;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.naf-sheet-muted {
+  color: var(--naf-steel);
+}
+
+.naf-deflist {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  margin: 0 0 0.7rem;
+
+  dt {
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--naf-steel);
+    padding-top: 0.55rem;
+  }
+
+  dd {
+    margin: 0.1rem 0 0.45rem;
+    font-size: 0.94rem;
+    line-height: 1.5;
+    color: var(--naf-ink);
+    overflow-wrap: anywhere;
+  }
+}
+
+.naf-link {
+  color: var(--naf-slate-mid);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+
+  &:hover {
+    color: var(--naf-ink);
+  }
+}
+
+.naf-callout {
+  margin: 0.5rem 0;
+  padding: 0.75rem 0.9rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--naf-ink);
+  background: #f7f4ee;
+  border-left: 3px solid var(--naf-bronze);
+  border-radius: 0 var(--naf-radius) var(--naf-radius) 0;
+}
+
+.naf-corr-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.naf-corr-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.15rem 0.6rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--naf-line-soft);
+}
+
+.naf-corr-code {
+  font-weight: 600;
+  color: var(--naf-slate-mid);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--naf-ink);
+    text-decoration: underline;
+  }
+}
+
+.naf-corr-label {
+  flex: 1 1 12rem;
+  font-size: 0.92rem;
+  overflow-wrap: anywhere;
+}
+
+.naf-corr-type {
+  font-family: var(--naf-mono);
+  font-size: 0.76rem;
+  color: var(--naf-steel);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Mobile : la fiche est un écran, pas un bloc sous la liste
+═══════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 860px) {
+  // Une sous-classe est sélectionnée : la fiche occupe l'écran.
+  .naf-app[data-depth="5"] .naf-columns {
+    display: none;
+  }
+
+  // Tant qu'aucune sous-classe n'est atteinte, la fiche reste hors du chemin.
+  .naf-app:not([data-depth="5"]) .naf-sheet {
+    display: none;
+  }
+
+  .naf-app[data-depth="5"] .naf-sheet {
+    margin-top: 0.5rem;
+    padding-top: 0;
+    border-top: 0;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Desktop
+═══════════════════════════════════════════════════════════════════ */
+
+@media (min-width: 861px) {
+  .naf-toolbar {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .naf-searchbox {
+    max-width: 34rem;
+  }
+
+  .naf-counts-full {
+    display: inline;
+  }
+
+  .naf-counts-compact {
+    display: none;
+  }
+
+  .naf-mobilebar {
+    display: none;
+  }
+
+  .naf-crumbs {
+    display: block;
+  }
+
+  .naf-crumb-hint {
+    display: inline;
+    font-size: 0.86rem;
+    color: var(--naf-steel);
+  }
+
+  // Le scroll horizontal reste enfermé dans le composant : jamais la page.
+  .naf-columns {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    background: var(--naf-surface);
+    border: 1px solid var(--naf-line);
+    border-radius: var(--naf-radius);
+    scroll-behavior: smooth;
+  }
+
+  .naf-col {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0;
+    min-width: var(--naf-col-min);
+    max-height: min(60vh, 34rem);
+    overflow-y: auto;
+    border-right: 1px solid var(--naf-line);
+
+    &:last-child {
+      border-right: 0;
+    }
+  }
+
+  .naf-col-head {
+    background: var(--naf-surface);
+  }
+
+  .naf-row {
+    min-height: 0;
+    padding: 0.5rem 0.55rem 0.5rem 0.7rem;
+  }
+
+  .naf-row-label {
+    font-size: 0.88rem;
+  }
+
+  .naf-row-code {
+    font-size: 0.8rem;
+  }
+
+  .naf-sheet {
+    max-width: 52rem;
+  }
+
+  .naf-deflist {
+    grid-template-columns: 11rem minmax(0, 1fr);
+    column-gap: 1.25rem;
+
+    dt {
+      padding-top: 0.5rem;
+    }
+
+    dd {
+      margin: 0.5rem 0 0;
+      padding-bottom: 0.35rem;
+    }
+  }
+
+  .naf-results-list {
+    max-width: 52rem;
+  }
+}
+
+/* Large desktop : les cinq colonnes doivent tenir sans barre de défilement.
+   À 1368 px la zone utile fait environ 1130 px : au-delà de 12,5rem par
+   colonne, le conteneur déborde et affiche une barre horizontale. */
+@media (min-width: 1200px) {
+  .naf-app {
+    --naf-col-min: 12.5rem;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Comparer 2008 / 2025
+═══════════════════════════════════════════════════════════════════ */
+
+.naf-compare {
+  max-width: 52rem;
+}
+
+.naf-compare-result {
+  margin-top: 1.25rem;
+}
+
+.naf-compare-pair {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--naf-line-soft);
+}
+
+.naf-compare-side {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.naf-compare-version {
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--naf-steel);
+}
+
+.naf-compare-code {
+  font-family: var(--naf-mono);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--naf-ink);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.naf-compare-label {
+  font-size: 0.94rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.naf-compare-arrow {
+  font-size: 1.1rem;
+  color: var(--naf-bronze);
+}
+
+.naf-compare-type {
+  align-self: start;
+  padding: 0.15rem 0.5rem;
+  font-family: var(--naf-mono);
+  font-size: 0.76rem;
+  color: var(--naf-slate-mid);
+  background: var(--naf-line-soft);
+  border-radius: 3px;
+  width: fit-content;
+}
+
+@media (min-width: 861px) {
+  .naf-compare-pair {
+    grid-template-columns: 1fr auto 1fr auto;
+    align-items: start;
+    gap: 1.25rem;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Mouvement réduit
+═══════════════════════════════════════════════════════════════════ */
 
 @media (prefers-reduced-motion: reduce) {
-  * {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
-    transition: none !important;
   }
 }

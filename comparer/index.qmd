@@ -1,30 +1,44 @@
 ---
 title: "Comparer 2008 ↔ 2025"
+include-after-body: "../includes/comparer-scripts.html"
 ---
 
-Comparer ce que devient une activité entre les deux versions de nomenclature.
+::: {.naf-compare}
 
-::: {.compare-controls}
-- Point de départ: `NAF 2008` ou `NAF 2025`
-- Recherche: code ou libellé
-:::
+Chercher un code ou une activité pour voir ce qu'elle devient d'une nomenclature à l'autre.
+
+```{=html}
+<div class="naf-compare-app" id="naf-compare">
+
+  <form class="naf-searchbox" id="naf-compare-form" role="search" autocomplete="off">
+    <label class="naf-visually-hidden" for="naf-compare-q">Rechercher un code ou une activité</label>
+    <svg class="naf-search-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+      <circle cx="9" cy="9" r="6"></circle>
+      <line x1="13.5" y1="13.5" x2="18" y2="18"></line>
+    </svg>
+    <input id="naf-compare-q" type="search" class="naf-search-input"
+           placeholder="30.30Z, 30.32Y, aéronautique…">
+    <button type="button" class="naf-search-clear" id="naf-compare-clear"
+            aria-label="Effacer la recherche" hidden>&times;</button>
+  </form>
+
+  <p class="naf-counts" id="naf-compare-counts" role="status" aria-live="polite">Chargement de la table…</p>
+
+  <div class="naf-compare-result" id="naf-compare-result"></div>
+
+</div>
+```
 
 ::: {.callout-note collapse="true"}
-## Données de correspondance à intégrer
+## Comment lire les types de correspondance
 
-Aucune correspondance officielle n'est injectée à ce stade.
+- `1→1` : la sous-classe est reprise à l'identique, seul le code change.
+- `1→n` : une sous-classe 2008 est éclatée en plusieurs sous-classes 2025.
+- `n→1` : plusieurs sous-classes 2008 sont regroupées en une seule.
+- `n↔n` : le périmètre est redécoupé, sans correspondance simple.
+
+Une correspondance de code ne garantit pas une identité de périmètre. Pour un usage
+statistique, se reporter à la table officielle et aux notes explicatives Insee.
 :::
 
-::: {.panel-tabset}
-### Correspondance simple
-
-État vide — données à intégrer.
-
-### Scission / regroupement
-
-État vide — données à intégrer.
-
-### Changement de périmètre
-
-État vide — données à intégrer.
 :::

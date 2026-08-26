@@ -11,10 +11,16 @@ Quitte avec le code 1 si un contrôle obligatoire échoue.
 """
 
 import csv
+import re
 import sys
 from pathlib import Path
 
 DATA_DIR = Path(__file__).parent.parent / "data"
+
+# La console Windows utilise cp1252 par défaut et ne sait pas afficher les
+# caractères de cadre ni les accents du rapport.
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 EXPECTED = {
     "NAF 2025": {
@@ -24,6 +30,7 @@ EXPECTED = {
         "groups": 287,
         "classes": 651,
         "subclasses": 747,
+        "segment": "naf2025",
     },
     "NAF rév.2": {
         "file": DATA_DIR / "naf2008.csv",
@@ -32,8 +39,15 @@ EXPECTED = {
         "groups": 272,
         "classes": 615,
         "subclasses": 732,
+        "segment": "nafr2",
     },
 }
+
+# Segment d'URL de l'autre nomenclature : une fiche NAF 2025 ne doit jamais
+# pointer vers /nafr2/ et réciproquement.
+OTHER_SEGMENT = {"naf2025": "nafr2", "nafr2": "naf2025"}
+
+SUBCLASS_CODE_RE = re.compile(r"^\d{2}\.\d{2}[A-Z]$")
 
 ICON_OK = "✓"
 ICON_FAIL = "✗"
@@ -161,7 +175,107 @@ def validate_nomenclature(name: str, spec: dict) -> list:
     else:
         print(f"  {ICON_OK} Chemin hiérarchique complet pour toutes les sous-classes")
 
+    # ── Format des codes de sous-classe ──────────────────────────────────
+    malformed = [
+        row.get("subclass_code") for row in rows
+        if not SUBCLASS_CODE_RE.match(row.get("subclass_code", "").strip())
+    ]
+    if malformed:
+        msg = f"Codes de sous-classe mal formés : {malformed[:5]}"
+        print(f"  {ICON_FAIL} {msg}")
+        errors.append(msg)
+    else:
+        print(f"  {ICON_OK} Codes de sous-classe au format NN.NNL")
+
+    # ── URL des fiches Insee ─────────────────────────────────────────────
+    validate_source_urls(name, spec["segment"], rows, code_field="subclass_code")
+
     return local_errors
+
+
+def validate_source_urls(name: str, segment: str, rows: list, code_field: str) -> None:
+    """Contrôle que chaque source_url pointe vers la bonne nomenclature Insee.
+
+    Trois régressions sont possibles et toutes ont déjà été observées :
+      - le segment de nomenclature de l'autre version (une fiche NAF 2025
+        renvoyant vers /nafr2/ affiche une activité différente) ;
+      - le code écrit avec un underscore (30_32Y), qui donne une 404 ;
+      - le code de l'URL désynchronisé du code de la ligne.
+    """
+    expected_prefix = f"https://www.insee.fr/fr/metadonnees/{segment}/sousClasse/"
+    wrong_nomenclature = []
+    underscored = []
+    mismatched = []
+
+    for row in rows:
+        url = row.get("source_url", "").strip()
+        code = row.get(code_field, "").strip()
+        if f"/{OTHER_SEGMENT[segment]}/" in url:
+            wrong_nomenclature.append(f"{code} → {url}")
+            continue
+        if not url.startswith(expected_prefix):
+            mismatched.append(f"{code} → {url}")
+            continue
+        tail = url[len(expected_prefix):]
+        if "_" in tail:
+            underscored.append(f"{code} → {url}")
+        elif tail != code:
+            mismatched.append(f"{code} → {url}")
+
+    if wrong_nomenclature:
+        msg = (
+            f"{name} : {len(wrong_nomenclature)} URL pointent vers la mauvaise "
+            f"nomenclature : {wrong_nomenclature[:3]}"
+        )
+        print(f"  {ICON_FAIL} {msg}")
+        errors.append(msg)
+    if underscored:
+        msg = (
+            f"{name} : {len(underscored)} URL utilisent un underscore au lieu "
+            f"d'un point : {underscored[:3]}"
+        )
+        print(f"  {ICON_FAIL} {msg}")
+        errors.append(msg)
+    if mismatched:
+        msg = (
+            f"{name} : {len(mismatched)} URL ne correspondent pas au code de la "
+            f"ligne : {mismatched[:3]}"
+        )
+        print(f"  {ICON_FAIL} {msg}")
+        errors.append(msg)
+    if not (wrong_nomenclature or underscored or mismatched):
+        print(f"  {ICON_OK} {len(rows)} URL Insee cohérentes (/{segment}/sousClasse/)")
+
+
+def validate_defense_urls() -> None:
+    """Contrôle les URL du fichier de qualification Défense."""
+    print(f"\n{'─' * 50}")
+    print("Qualification Défense")
+    print(f"{'─' * 50}")
+
+    path = DATA_DIR / "defense_qualification.csv"
+    if not path.exists():
+        print(f"  {ICON_FAIL} Fichier introuvable : {path}")
+        errors.append(f"Qualification Défense introuvable : {path}")
+        return
+
+    with path.open(encoding="utf-8") as f:
+        rows = list(csv.DictReader(f))
+
+    print(f"  {ICON_OK} {len(rows)} code(s) qualifié(s)")
+
+    by_version: dict = {}
+    for row in rows:
+        by_version.setdefault(row.get("naf_version", "").strip(), []).append(row)
+
+    for version, version_rows in sorted(by_version.items()):
+        spec = EXPECTED.get(version)
+        if spec is None:
+            msg = f"Version inconnue dans defense_qualification.csv : {version!r}"
+            print(f"  {ICON_FAIL} {msg}")
+            errors.append(msg)
+            continue
+        validate_source_urls(version, spec["segment"], version_rows, code_field="code")
 
 
 def validate_correspondances(rows_2008: list, rows_2025: list) -> None:
@@ -230,6 +344,7 @@ def main() -> None:
             rows_all[name] = []
 
     validate_correspondances(rows_all.get("NAF rév.2", []), rows_all.get("NAF 2025", []))
+    validate_defense_urls()
 
     print(f"\n{'═' * 50}")
     if errors:

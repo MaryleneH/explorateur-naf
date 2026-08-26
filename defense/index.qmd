@@ -1,23 +1,68 @@
 ---
 title: "NAF & Défense"
+include-after-body: "../includes/defense-scripts.html"
 ---
 
-> Jusqu'où une nomenclature d'activité permet-elle d'identifier les activités liées à la Défense ?
+::: {.naf-compare}
+
+Jusqu'où une nomenclature d'activité permet-elle d'identifier les activités liées
+à la Défense ?
 
 ::: {.callout-important}
-La grille ci-dessous est analytique et ne constitue pas une classification officielle Insee.
+Cette lecture est analytique. Elle n'est pas une classification officielle Insee.
+La NAF classe des activités économiques, pas des marchés ni des clients.
 :::
 
-::: {.panel-tabset}
-### Défense explicite
+## Ce que la nomenclature permet, et ce qu'elle ne permet pas
 
-Références explicites dans la nomenclature — données à documenter.
+Un code NAF décrit l'activité principale déclarée d'un établissement. Il ne dit rien
+de ses clients, de ses contrats, ni de la part militaire de son chiffre d'affaires.
+Un équipementier travaillant à 90 % pour la Défense et un équipementier purement civil
+peuvent porter le même code.
 
-### Activités duales
+La nomenclature ne permet donc pas de délimiter une « industrie de Défense ». Elle
+permet seulement de repérer trois choses : les libellés qui mentionnent explicitement
+un usage militaire, les activités dont le périmètre est manifestement dual, et
+l'administration publique de la défense.
 
-Usages civils et militaires potentiels — qualification à sourcer.
+## Les quatre niveaux de qualification
 
-### Écosystème élargi
+`explicite_industriel`
+: Le libellé officiel mentionne explicitement un usage militaire ou de défense.
 
-Participation indirecte à des chaînes de valeur Défense — qualification à sourcer.
+`dual_officiel`
+: Le périmètre officiel couvre des usages civils et militaires.
+
+`administration_defense`
+: Le code désigne l'administration publique de la défense, pas une activité industrielle.
+
+`non_evalue`
+: Le code n'a pas fait l'objet d'une qualification documentée.
+
+::: {.callout-warning}
+## Non évalué ne veut pas dire non Défense
+
+L'absence d'un code dans le tableau ci-dessous signifie qu'il n'a pas été examiné,
+pas qu'il serait étranger à la Défense. La qualification est un travail en cours,
+volontairement limité aux cas que l'on peut sourcer.
+:::
+
+## Le cas 84.22Y
+
+Le code `84.22Y` porte le libellé « Défense ». Il ne désigne pas les entreprises de
+l'industrie de Défense mais les activités d'administration et de défense nationale,
+c'est-à-dire la sphère publique : état-major, forces armées, services du ministère.
+
+Le présenter comme « le code NAF des entreprises de Défense » est une erreur
+fréquente et lourde de conséquences : elle conduit à compter des administrations
+là où l'on croit compter des industriels.
+
+## Codes qualifiés
+
+```{=html}
+<div id="naf-defense-list">
+  <p class="naf-counts">Chargement des qualifications…</p>
+</div>
+```
+
 :::

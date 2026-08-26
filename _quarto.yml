@@ -1,6 +1,10 @@
 project:
   type: website
   output-dir: _site
+  # Les CSV sont chargés en fetch() côté navigateur : Quarto ne peut pas les
+  # détecter dans le HTML, il faut donc les déclarer explicitement en ressources.
+  resources:
+    - data/*.csv
 
 website:
   title: "Explorateur NAF"
@@ -12,7 +16,7 @@ website:
       - href: comparer/index.qmd
         text: Comparer 2008 ↔ 2025
       - href: defense/index.qmd
-        text: "🛡 NAF & Défense"
+        text: NAF & Défense
       - href: comprendre/index.qmd
         text: Comprendre
       - href: methode/index.qmd
@@ -20,7 +24,8 @@ website:
     right:
       - search
   page-footer:
-    left: "Explorateur NAF — architecture V1"
+    left: "Explorateur NAF"
+    right: "Données : Insee (NAF rév.2 et NAF 2025)"
 
 format:
   html:

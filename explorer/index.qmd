@@ -1,152 +1,54 @@
 ---
-title: "Explorer"
+title: "Explorer la NAF"
+page-layout: full
 include-after-body: "../includes/explorer-scripts.html"
 ---
 
+::: {.naf-page}
+
 ```{=html}
-<div class="explorer-shell">
-  <div class="explorer-controls" role="region" aria-label="Contrôles de l'explorateur">
-    <div class="search-wrap">
-      <label for="naf-search" class="form-label">Rechercher un code ou une activité</label>
-      <input id="naf-search" class="form-control form-control-lg" type="search"
-             placeholder="30.32Y · aéronautique · logiciel · drone"
-             aria-label="Rechercher un code ou une activité"
-             autocomplete="off">
-      <div id="naf-search-results" class="search-results-panel" role="listbox" aria-label="Résultats de recherche" hidden></div>
-    </div>
-    <div class="version-switch" role="group" aria-label="Version de nomenclature">
-      <span class="control-label">Version</span>
-      <div class="segmented-control" role="radiogroup" aria-label="Sélection de version NAF">
-        <label class="seg-option">
-          <input type="radio" name="naf-version" value="2025" checked>
-          <span>NAF 2025</span>
-        </label>
-        <label class="seg-option">
-          <input type="radio" name="naf-version" value="2008">
-          <span>NAF 2008</span>
-        </label>
-      </div>
-    </div>
-    <div class="defense-toggle" role="group" aria-label="Lecture Défense">
-      <span class="control-label">Lecture</span>
-      <button id="defense-mode" type="button" class="btn-defense" aria-pressed="false">
-        <span aria-hidden="true">🛡</span> Lecture Défense
-      </button>
+<div class="naf-app" id="naf-app" data-depth="0" data-view="browse">
+
+  <div class="naf-toolbar">
+    <form class="naf-searchbox" id="naf-searchbox" role="search" autocomplete="off">
+      <label class="naf-visually-hidden" for="naf-q">Rechercher un code ou une activité</label>
+      <svg class="naf-search-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+        <circle cx="9" cy="9" r="6"></circle>
+        <line x1="13.5" y1="13.5" x2="18" y2="18"></line>
+      </svg>
+      <input id="naf-q" type="search" class="naf-search-input"
+             placeholder="30.32Y, aéronautique, logiciel…"
+             aria-describedby="naf-search-help">
+      <button type="button" class="naf-search-clear" id="naf-search-clear"
+              aria-label="Effacer la recherche" hidden>&times;</button>
+    </form>
+
+    <div class="naf-versions" role="radiogroup" aria-label="Version de la nomenclature">
+      <button type="button" class="naf-version" role="radio" aria-checked="true"
+              data-version="2025">NAF 2025</button>
+      <button type="button" class="naf-version" role="radio" aria-checked="false"
+              data-version="2008">NAF 2008</button>
     </div>
   </div>
 
-  <nav class="naf-breadcrumb" aria-label="Fil d'Ariane de navigation">
-    <ol id="naf-breadcrumb">
-      <li class="bc-placeholder">Sélectionnez une section</li>
-    </ol>
-  </nav>
+  <p id="naf-search-help" class="naf-visually-hidden">
+    La recherche accepte un code ou un libellé, sans tenir compte des accents ni de la casse.
+  </p>
 
-  <div class="mobile-level-nav" aria-live="polite">
-    <button id="mobile-back" type="button" class="btn-mobile-back" disabled aria-label="Revenir au niveau précédent">← Retour</button>
-    <span id="mobile-level-label" class="mobile-level-title">Section</span>
+  <p class="naf-counts" id="naf-counts" role="status" aria-live="polite">Chargement de la nomenclature…</p>
+
+  <section class="naf-results" id="naf-results" aria-label="Résultats de recherche" hidden></section>
+
+  <div class="naf-browser" id="naf-browser">
+    <div class="naf-mobilebar" id="naf-mobilebar"></div>
+    <nav class="naf-crumbs" id="naf-crumbs" aria-label="Chemin dans la nomenclature"></nav>
+    <div class="naf-columns" id="naf-columns"></div>
   </div>
 
-  <div id="naf-browser" class="naf-browser" role="region" aria-label="Navigateur hiérarchique NAF">
-    <section class="naf-panel" data-level="section">
-      <h2 class="panel-title">
-        <span class="panel-level-name">Section</span>
-        <span id="panel-count-section" class="panel-count"></span>
-      </h2>
-      <ul class="naf-list" id="list-section" role="listbox" aria-label="Liste des sections"></ul>
-    </section>
-    <section class="naf-panel" data-level="division">
-      <h2 class="panel-title">
-        <span class="panel-level-name">Division</span>
-        <span id="panel-count-division" class="panel-count"></span>
-      </h2>
-      <ul class="naf-list" id="list-division" role="listbox" aria-label="Liste des divisions"></ul>
-    </section>
-    <section class="naf-panel" data-level="group">
-      <h2 class="panel-title">
-        <span class="panel-level-name">Groupe</span>
-        <span id="panel-count-group" class="panel-count"></span>
-      </h2>
-      <ul class="naf-list" id="list-group" role="listbox" aria-label="Liste des groupes"></ul>
-    </section>
-    <section class="naf-panel" data-level="class">
-      <h2 class="panel-title">
-        <span class="panel-level-name">Classe</span>
-        <span id="panel-count-class" class="panel-count"></span>
-      </h2>
-      <ul class="naf-list" id="list-class" role="listbox" aria-label="Liste des classes"></ul>
-    </section>
-    <section class="naf-panel" data-level="subclass">
-      <h2 class="panel-title">
-        <span class="panel-level-name">Sous-classe</span>
-        <span id="panel-count-subclass" class="panel-count"></span>
-      </h2>
-      <ul class="naf-list" id="list-subclass" role="listbox" aria-label="Liste des sous-classes"></ul>
-    </section>
-  </div>
+  <section class="naf-sheet" id="naf-sheet" aria-label="Fiche de l'activité" hidden></section>
 
-  <p id="explorer-status" class="data-state" role="status" aria-live="polite">Chargement…</p>
-</div>
-
-<div class="activity-sheet" id="activity-sheet">
-  <div class="activity-head">
-    <div class="activity-head-main">
-      <p class="activity-code" id="activity-code"></p>
-      <p class="activity-label" id="activity-label">Sélectionnez une activité pour afficher sa fiche.</p>
-    </div>
-    <div class="activity-head-meta">
-      <p class="activity-meta" id="activity-meta"></p>
-      <a id="activity-source-link" class="activity-source-link" href="#" target="_blank" rel="noopener noreferrer" hidden>
-        Voir la fiche officielle Insee ↗
-      </a>
-    </div>
-  </div>
-
-  <div class="activity-tabs" id="activity-tabs" hidden>
-    <nav class="tab-nav" role="tablist" aria-label="Onglets de la fiche activité">
-      <button class="tab-btn active" role="tab" aria-selected="true" data-tab="overview">Vue d'ensemble</button>
-      <button class="tab-btn" role="tab" aria-selected="false" data-tab="include">Comprend</button>
-      <button class="tab-btn" role="tab" aria-selected="false" data-tab="exclude">Ne comprend pas</button>
-      <button class="tab-btn" role="tab" aria-selected="false" data-tab="correspondances">Correspondances</button>
-      <button class="tab-btn" role="tab" aria-selected="false" data-tab="defense">Défense</button>
-      <button class="tab-btn" role="tab" aria-selected="false" data-tab="sources">Sources</button>
-    </nav>
-    <div class="tab-content">
-      <div id="tab-overview" class="tab-panel active" role="tabpanel">
-        <dl class="activity-details">
-          <dt>Niveau</dt><dd id="detail-level">—</dd>
-          <dt>Code</dt><dd id="detail-code" class="mono">—</dd>
-          <dt>Libellé</dt><dd id="detail-label">—</dd>
-          <dt>Chemin complet</dt><dd id="detail-path">—</dd>
-          <dt>Version</dt><dd id="detail-version">—</dd>
-        </dl>
-      </div>
-      <div id="tab-include" class="tab-panel" role="tabpanel" hidden>
-        <p id="tab-include-content" class="tab-note">
-          Notes explicatives détaillées disponibles sur la fiche officielle Insee.
-        </p>
-      </div>
-      <div id="tab-exclude" class="tab-panel" role="tabpanel" hidden>
-        <p id="tab-exclude-content" class="tab-note">
-          Notes explicatives détaillées disponibles sur la fiche officielle Insee.
-        </p>
-      </div>
-      <div id="tab-correspondances" class="tab-panel" role="tabpanel" hidden>
-        <div id="tab-corresp-content">
-          <p class="tab-note">Sélectionnez une sous-classe pour voir ses correspondances.</p>
-        </div>
-      </div>
-      <div id="tab-defense" class="tab-panel" role="tabpanel" hidden>
-        <div id="tab-defense-content">
-          <p class="tab-note">Aucune qualification Défense disponible pour cette activité.</p>
-        </div>
-      </div>
-      <div id="tab-sources" class="tab-panel" role="tabpanel" hidden>
-        <dl class="activity-details" id="tab-sources-content">
-          <dt>Source</dt><dd id="source-url-cell">—</dd>
-          <dt>Référence</dt><dd id="source-ref-cell">—</dd>
-        </dl>
-      </div>
-    </div>
-  </div>
+  <p class="naf-error" id="naf-error" role="alert" hidden></p>
 </div>
 ```
+
+:::

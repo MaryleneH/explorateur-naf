@@ -2,16 +2,100 @@
 title: "Méthode & sources"
 ---
 
-Cette page documente la traçabilité des données et des règles analytiques.
+::: {.naf-compare}
 
-## Sources attendues
+Cette page documente l'origine des données affichées, les contrôles qui les
+protègent et les limites connues.
 
-- Publications officielles Insee (NAF 2008, NAF 2025)
-- Tables officielles de correspondance
-- Sources justifiant la lecture Défense
+## Données publiées
 
-## État actuel
+Le site est statique : les quatre fichiers de `data/` sont chargés par le
+navigateur, sans serveur ni base de données.
+
+| Fichier | Contenu |
+|---|---|
+| `naf2025.csv` | Hiérarchie complète NAF 2025, des sections aux sous-classes |
+| `naf2008.csv` | Hiérarchie complète NAF rév.2 (2008) |
+| `correspondances_2008_2025.csv` | Table de passage entre les deux nomenclatures |
+| `defense_qualification.csv` | Qualification Défense, code par code, sourcée |
+
+## Volumétrie attendue
+
+Ces comptages sont vérifiés à chaque contrôle. Toute divergence fait échouer la
+validation.
+
+| Niveau | NAF 2025 | NAF rév.2 |
+|---|---:|---:|
+| Sections | 22 | 21 |
+| Divisions | 87 | 88 |
+| Groupes | 287 | 272 |
+| Classes | 651 | 615 |
+| Sous-classes | 747 | 732 |
+
+## Contrôles automatiques
+
+`scripts/validate_reference_data.py` refuse de passer si un seul de ces points
+échoue :
+
+- les comptages ci-dessus, niveau par niveau et nomenclature par nomenclature ;
+- une sous-classe dupliquée ;
+- un libellé de sous-classe vide ;
+- un zéro initial perdu dans un code de division (`01` ne doit jamais devenir `1`) ;
+- une sous-classe dont le chemin hiérarchique est incomplet ;
+- un code de sous-classe hors du format `NN.NNL` ;
+- une URL de fiche pointant vers l'autre nomenclature ;
+- une URL de fiche utilisant un underscore au lieu d'un point ;
+- une URL de fiche désynchronisée du code de sa ligne.
+
+```bash
+python scripts/validate_reference_data.py
+```
+
+## Traçabilité des sources
+
+Chaque code renvoie vers sa fiche de métadonnées Insee. Le segment d'URL dépend
+de la nomenclature, et les deux ne sont pas interchangeables :
+
+- NAF 2025 : `https://www.insee.fr/fr/metadonnees/naf2025/sousClasse/30.32Y`
+- NAF rév.2 : `https://www.insee.fr/fr/metadonnees/nafr2/sousClasse/30.30Z`
+
+À code identique, une fiche NAF 2025 et une fiche NAF rév.2 ne décrivent pas la
+même activité. Une URL construite avec le mauvais segment renvoie donc soit une
+autre activité, soit une page inexistante.
+
+## Limites connues
 
 ::: {.callout-note}
-Données à intégrer : schémas de fichiers créés, contenus non injectés tant que les sources officielles ne sont pas disponibles.
+## Notes explicatives
+
+Les champs `notes_include` et `notes_exclude` sont vides dans les deux
+nomenclatures. Le site ne fabrique aucune note : il renvoie vers la fiche
+officielle, qui les publie.
+:::
+
+::: {.callout-note}
+## Couverture de la table de correspondance
+
+La table de passage dont nous disposons ne couvre pas toutes les sous-classes.
+Une absence de ligne ne signifie pas qu'aucune correspondance n'existe. La page
+[Comparer](../comparer/index.qmd) affiche la couverture réelle, calculée à partir
+des données.
+:::
+
+::: {.callout-note}
+## Qualification Défense
+
+Elle est volontairement limitée aux codes que l'on peut sourcer à partir du
+libellé officiel. Un code absent est **non évalué**, jamais « non Défense ».
+:::
+
+## Reconstruire les données
+
+```bash
+python scripts/build_reference_data.py
+python scripts/validate_reference_data.py
+```
+
+Les sources brutes sont mises en cache dans `data/raw/`, qui n'est pas versionné.
+
 :::

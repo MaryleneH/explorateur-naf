@@ -1,58 +1,58 @@
 ---
-title: "Explorateur NAF"
+pagetitle: "Explorateur NAF"
+title: ""
+include-after-body: "includes/home-scripts.html"
 ---
 
-::: {.hero-block}
-# Explorateur NAF
-
-Explorer la NAF 2025, retrouver la NAF 2008 et comprendre les évolutions.
+::: {.naf-home}
 
 ```{=html}
-<div class="home-version-tabs">
-  <a href="explorer/?v=2025" class="btn btn-primary home-v-btn">NAF 2025</a>
-  <a href="explorer/?v=2008" class="btn btn-outline-secondary home-v-btn">NAF 2008</a>
+<div class="naf-home-app" id="naf-home">
+
+  <h1 class="naf-home-title">Explorateur NAF</h1>
+  <p class="naf-home-tagline">
+    Chercher un code ou une activité, parcourir la nomenclature, comparer 2008 et 2025.
+  </p>
+
+  <div class="naf-versions" role="radiogroup" aria-label="Version de la nomenclature">
+    <button type="button" class="naf-version is-current" role="radio" aria-checked="true"
+            data-version="2025">NAF 2025</button>
+    <button type="button" class="naf-version" role="radio" aria-checked="false"
+            data-version="2008">NAF 2008</button>
+  </div>
+
+  <form class="naf-home-search naf-searchbox" id="naf-home-form" role="search" autocomplete="off">
+    <label class="naf-visually-hidden" for="naf-home-q">Rechercher un code ou une activité</label>
+    <svg class="naf-search-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+      <circle cx="9" cy="9" r="6"></circle>
+      <line x1="13.5" y1="13.5" x2="18" y2="18"></line>
+    </svg>
+    <input id="naf-home-q" type="search" class="naf-search-input"
+           placeholder="30.32Y, aéronautique, logiciel…">
+    <button type="button" class="naf-search-clear" id="naf-home-clear"
+            aria-label="Effacer la recherche" hidden>&times;</button>
+  </form>
+
+  <section class="naf-results" id="naf-home-results" aria-label="Résultats de recherche" hidden></section>
+
+  <div id="naf-home-browse">
+    <a class="naf-home-cta" id="naf-home-cta" href="explorer/">
+      Parcourir la NAF 2025 <span aria-hidden="true">→</span>
+    </a>
+    <p class="naf-home-counts" id="naf-home-counts" role="status" aria-live="polite"></p>
+  </div>
+
 </div>
-<form class="home-search-wrap" id="home-search-form" role="search" aria-label="Rechercher dans la NAF">
-  <input id="home-search" class="form-control form-control-lg" type="search"
-         placeholder="30.32Y · aéronautique · logiciel · drone"
-         autocomplete="off" aria-label="Rechercher un code ou une activité">
-  <button type="submit" class="btn btn-primary">Rechercher</button>
-</form>
-<p class="naf-stats-hint">22 sections · 87 divisions · 747 sous-classes — NAF 2025</p>
-<script>
-document.getElementById('home-search-form').addEventListener('submit', function(e) {
-  e.preventDefault();
-  var q = document.getElementById('home-search').value.trim();
-  window.location.href = q ? ('explorer/?q=' + encodeURIComponent(q)) : 'explorer/';
-});
-</script>
 ```
 
-[Explorer la nomenclature →](explorer/index.qmd){.btn .btn-primary .btn-lg role="button"}
+::: {.naf-home-secondary}
+[[Comparer 2008 ↔ 2025]{.naf-home-link-title} [Ce que devient une activité d'une nomenclature à l'autre]{.naf-home-link-desc}](comparer/index.qmd){.naf-home-link}
+
+[[NAF & Défense]{.naf-home-link-title} [Jusqu'où la NAF permet d'identifier les activités liées à la Défense]{.naf-home-link-desc}](defense/index.qmd){.naf-home-link}
+
+[[Comprendre]{.naf-home-link-title} [NAF, code APE, entreprise et établissement, limites de lecture]{.naf-home-link-desc}](comprendre/index.qmd){.naf-home-link}
+
+[[Méthode & sources]{.naf-home-link-title} [Origine des données, contrôles et traçabilité]{.naf-home-link-desc}](methode/index.qmd){.naf-home-link}
 :::
 
-::: {.entry-grid}
-::: {.entry-card}
-## Comparer 2008 ↔ 2025
-
-Je veux comprendre ce qui change avec la nouvelle nomenclature.
-
-[Comparer les versions](comparer/index.qmd){.stretched-link aria-label="Ouvrir la page de comparaison"}
-:::
-
-::: {.entry-card}
-## NAF & Défense
-
-Je veux comprendre jusqu'où la NAF permet d'identifier les activités liées à la Défense.
-
-[Lire NAF & Défense](defense/index.qmd){.stretched-link aria-label="Ouvrir la page NAF et Défense"}
-:::
-
-::: {.entry-card}
-## Comprendre la NAF
-
-Méthode, sources et contexte de la nomenclature des activités françaises.
-
-[Lire la documentation](comprendre/index.qmd){.stretched-link aria-label="Ouvrir la page Comprendre"}
-:::
 :::

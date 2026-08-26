@@ -51,6 +51,45 @@ NAF2025_SOURCE_URL = "https://www.insee.fr/fr/information/8201411"
 NAF2008_SOURCE_URL = "https://www.insee.fr/fr/information/2406147"
 NAF_CORRESP_SOURCE_URL = "https://www.insee.fr/fr/information/8201411"
 
+# ---------------------------------------------------------------------------
+# Fiches de métadonnées Insee
+#
+# Chaque nomenclature a son propre segment d'URL et le code s'écrit avec un
+# point, jamais avec un underscore :
+#   NAF 2025   https://www.insee.fr/fr/metadonnees/naf2025/sousClasse/30.32Y
+#   NAF rév.2  https://www.insee.fr/fr/metadonnees/nafr2/sousClasse/30.30Z
+# Utiliser le mauvais segment renvoie une fiche d'une autre nomenclature ou
+# une 404. Ne jamais construire ces URL à la main ailleurs qu'ici.
+# ---------------------------------------------------------------------------
+
+INSEE_METADATA_ROOT = "https://www.insee.fr/fr/metadonnees"
+
+INSEE_NOMENCLATURE_SEGMENT = {
+    "NAF 2025": "naf2025",
+    "NAF rév.2": "nafr2",
+}
+
+INSEE_LEVEL_SEGMENT = {
+    "section": "section",
+    "division": "division",
+    "group": "groupe",
+    "class": "classe",
+    "subclass": "sousClasse",
+}
+
+
+def insee_url(version: str, level: str, code: str) -> str:
+    """Construit l'URL de la fiche Insee d'un code, pour la bonne nomenclature."""
+    try:
+        nomenclature = INSEE_NOMENCLATURE_SEGMENT[version]
+    except KeyError:
+        raise ValueError(f"Nomenclature inconnue : {version!r}")
+    try:
+        segment = INSEE_LEVEL_SEGMENT[level]
+    except KeyError:
+        raise ValueError(f"Niveau inconnu : {level!r}")
+    return f"{INSEE_METADATA_ROOT}/{nomenclature}/{segment}/{code}"
+
 
 # ---------------------------------------------------------------------------
 # Section mapping NAF rév.2 (2008) — source officielle INSEE
@@ -317,10 +356,7 @@ def build_naf2025() -> None:
         cls_code = class_of_subclass(sc_code)
         cls_label = classes.get(cls_code, "")
 
-        source_url = (
-            f"https://www.insee.fr/fr/metadonnees/nafr2/sousClasse/"
-            f"{sc_code.replace('.', '_')}"
-        )
+        source_url = insee_url("NAF 2025", "subclass", sc_code)
         source_reference = f"Insee — NAF 2025 — sous-classe {sc_code}"
 
         output_rows.append({
@@ -411,10 +447,7 @@ def build_naf2008() -> None:
         cls_code = class_of_subclass(sc_code)
         cls_label = classes.get(cls_code, "")
 
-        source_url = (
-            f"https://www.insee.fr/fr/metadonnees/nafr2/sousClasse/"
-            f"{sc_code.replace('.', '_')}"
-        )
+        source_url = insee_url("NAF rév.2", "subclass", sc_code)
         source_reference = f"Insee — NAF rév.2 — sous-classe {sc_code}"
 
         output_rows.append({
@@ -564,9 +597,7 @@ DEFENSE_ROWS = [
             "figure explicitement dans l'intitulé de la sous-classe."
         ),
         "nature_preuve": "libelle_officiel",
-        "source_url": (
-            "https://www.insee.fr/fr/metadonnees/nafr2/sousClasse/30_32Y"
-        ),
+        "source_url": insee_url("NAF 2025", "subclass", "30.32Y"),
         "source_reference": "INSEE — NAF 2025 — sous-classe 30.32Y",
         "niveau_confiance": "élevé",
         "commentaire": (
@@ -583,9 +614,7 @@ DEFENSE_ROWS = [
             "«\u202fmilitaires\u202f» est présent dans le libellé officiel."
         ),
         "nature_preuve": "libelle_officiel",
-        "source_url": (
-            "https://www.insee.fr/fr/metadonnees/nafr2/sousClasse/30_40Y"
-        ),
+        "source_url": insee_url("NAF 2025", "subclass", "30.40Y"),
         "source_reference": "INSEE — NAF 2025 — sous-classe 30.40Y",
         "niveau_confiance": "élevé",
         "commentaire": "Véhicules blindés, chars, blindés légers.",
@@ -599,9 +628,7 @@ DEFENSE_ROWS = [
             "militaire selon les notes officielles INSEE."
         ),
         "nature_preuve": "libelle_officiel",
-        "source_url": (
-            "https://www.insee.fr/fr/metadonnees/nafr2/sousClasse/25_30Y"
-        ),
+        "source_url": insee_url("NAF 2025", "subclass", "25.30Y"),
         "source_reference": "INSEE — NAF 2025 — sous-classe 25.30Y",
         "niveau_confiance": "élevé",
         "commentaire": (
@@ -619,9 +646,7 @@ DEFENSE_ROWS = [
             "contextes séparés (dual civil/militaire selon NACE rév.2.1)."
         ),
         "nature_preuve": "libelle_officiel",
-        "source_url": (
-            "https://www.insee.fr/fr/metadonnees/nafr2/sousClasse/30_13Y"
-        ),
+        "source_url": insee_url("NAF 2025", "subclass", "30.13Y"),
         "source_reference": "INSEE — NAF 2025 — sous-classe 30.13Y",
         "niveau_confiance": "moyen",
         "commentaire": (
@@ -639,9 +664,7 @@ DEFENSE_ROWS = [
             "officielles incluent la maintenance des systèmes d'armes."
         ),
         "nature_preuve": "libelle_officiel",
-        "source_url": (
-            "https://www.insee.fr/fr/metadonnees/nafr2/sousClasse/33_18H"
-        ),
+        "source_url": insee_url("NAF 2025", "subclass", "33.18H"),
         "source_reference": "INSEE — NAF 2025 — sous-classe 33.18H",
         "niveau_confiance": "moyen",
         "commentaire": (
@@ -658,9 +681,7 @@ DEFENSE_ROWS = [
             "potentiellement duale (civile et militaire)."
         ),
         "nature_preuve": "libelle_officiel",
-        "source_url": (
-            "https://www.insee.fr/fr/metadonnees/nafr2/sousClasse/33_18G"
-        ),
+        "source_url": insee_url("NAF 2025", "subclass", "33.18G"),
         "source_reference": "INSEE — NAF 2025 — sous-classe 33.18G",
         "niveau_confiance": "moyen",
         "commentaire": (
@@ -681,9 +702,7 @@ DEFENSE_ROWS = [
             "publique de la défense."
         ),
         "nature_preuve": "libelle_officiel",
-        "source_url": (
-            "https://www.insee.fr/fr/metadonnees/nafr2/sousClasse/84_22Y"
-        ),
+        "source_url": insee_url("NAF 2025", "subclass", "84.22Y"),
         "source_reference": "INSEE — NAF 2025 — sous-classe 84.22Y",
         "niveau_confiance": "élevé",
         "commentaire": (
@@ -703,9 +722,7 @@ DEFENSE_ROWS = [
             "l'artillerie, les munitions et les missiles."
         ),
         "nature_preuve": "libelle_officiel",
-        "source_url": (
-            "https://www.insee.fr/fr/metadonnees/nafr2/sousClasse/25_40Z"
-        ),
+        "source_url": insee_url("NAF rév.2", "subclass", "25.40Z"),
         "source_reference": "INSEE — NAF rév.2 — sous-classe 25.40Z",
         "niveau_confiance": "élevé",
         "commentaire": (
@@ -722,9 +739,7 @@ DEFENSE_ROWS = [
             "officiel avec mention explicite du caractère militaire."
         ),
         "nature_preuve": "libelle_officiel",
-        "source_url": (
-            "https://www.insee.fr/fr/metadonnees/nafr2/sousClasse/30_40Z"
-        ),
+        "source_url": insee_url("NAF rév.2", "subclass", "30.40Z"),
         "source_reference": "INSEE — NAF rév.2 — sous-classe 30.40Z",
         "niveau_confiance": "élevé",
         "commentaire": "Correspond à 30.40Y en NAF 2025.",
@@ -739,9 +754,7 @@ DEFENSE_ROWS = [
             "de la défense, pas les entreprises industrielles."
         ),
         "nature_preuve": "libelle_officiel",
-        "source_url": (
-            "https://www.insee.fr/fr/metadonnees/nafr2/sousClasse/84_22Z"
-        ),
+        "source_url": insee_url("NAF rév.2", "subclass", "84.22Z"),
         "source_reference": "INSEE — NAF rév.2 — sous-classe 84.22Z",
         "niveau_confiance": "élevé",
         "commentaire": (

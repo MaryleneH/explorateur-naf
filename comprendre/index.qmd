@@ -1,23 +1,67 @@
 ---
-title: "Comprendre"
+title: "Comprendre la NAF"
 ---
 
-::: {.panel-tabset}
-### NAF et APE
+::: {.naf-compare}
 
-La NAF classe les activités économiques; le code APE reflète l'activité principale d'un établissement.
+La NAF, nomenclature d'activités française, classe les activités économiques.
+Elle sert à produire des statistiques comparables, pas à décrire une entreprise.
 
-### Entreprise vs établissement
+## Les cinq niveaux
 
-Un même groupe peut couvrir plusieurs établissements et activités.
+La hiérarchie va du plus général au plus fin. Chaque niveau ajoute un caractère
+au code.
 
-### Limites de lecture Défense
+| Niveau | Exemple | Lecture |
+|---|---|---|
+| Section | `C` | Industrie manufacturière |
+| Division | `30` | Fabrication d'autres matériels de transport |
+| Groupe | `30.3` | Construction aéronautique et spatiale |
+| Classe | `30.32` | Construction aéronautique et spatiale militaire |
+| Sous-classe | `30.32Y` | Le niveau le plus fin, propre à la France |
 
-Un code NAF ne décrit pas à lui seul tous les marchés, clients ou usages d'une activité.
+Les quatre premiers niveaux sont européens (NACE). La sous-classe est une
+subdivision française : c'est elle qui porte la lettre finale.
+
+## NAF et code APE
+
+La NAF est la nomenclature. Le code APE, activité principale exercée, est le code
+que l'Insee attribue effectivement à une unité à partir de cette nomenclature.
+
+Un code APE est donc un code NAF, mais choisi selon une règle précise : celui de
+l'activité principale, déterminée par la part de valeur ajoutée. Une entreprise
+qui exerce cinq activités n'a qu'un seul code APE.
+
+## Entreprise et établissement
+
+Le code est attribué à deux niveaux distincts, et les confondre fausse tout
+comptage.
+
+L'entreprise reçoit un code APE correspondant à son activité principale globale.
+Chaque établissement reçoit son propre code, correspondant à son activité
+principale locale. Un groupe industriel peut ainsi porter un code de fabrication
+au siège et des codes de commerce ou de logistique dans ses entrepôts.
+
+## Pourquoi la nomenclature change
+
+Une nomenclature vieillit. Des activités apparaissent, d'autres perdent leur
+poids économique, certaines se scindent.
+
+La NAF 2025 remplace la NAF rév.2 en vigueur depuis 2008. Elle suit la révision
+européenne NACE rév.2.1. Les recompositions les plus visibles concernent le
+numérique, l'énergie, la réparation et, précisément, la séparation entre
+aéronautique civile et aéronautique militaire.
+
+## Ce qu'un code NAF ne dit pas
+
+::: {.callout-important}
+Un code NAF ne décrit ni les clients, ni les marchés, ni les contrats, ni la
+taille, ni la localisation réelle de l'activité. Deux entreprises portant le même
+code peuvent avoir des modèles économiques sans rapport.
 :::
 
-::: {.callout-note collapse="true"}
-## Pourquoi la nomenclature évolue
+C'est la limite centrale de toute lecture sectorielle fondée sur la seule NAF,
+et en particulier de toute tentative de délimiter un secteur de la Défense. Voir
+[NAF & Défense](../defense/index.qmd).
 
-Les nomenclatures sont révisées pour suivre les transformations économiques et améliorer la comparabilité statistique.
 :::
