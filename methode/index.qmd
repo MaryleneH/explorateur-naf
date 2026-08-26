@@ -1,0 +1,17 @@
+---
+title: "Méthode & sources"
+---
+
+Cette page documente la traçabilité des données et des règles analytiques.
+
+## Sources attendues
+
+- Publications officielles Insee (NAF 2008, NAF 2025)
+- Tables officielles de correspondance
+- Sources justifiant la lecture Défense
+
+## État actuel
+
+::: {.callout-note}
+Données à intégrer : schémas de fichiers créés, contenus non injectés tant que les sources officielles ne sont pas disponibles.
+:::

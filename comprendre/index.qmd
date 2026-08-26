@@ -1,0 +1,23 @@
+---
+title: "Comprendre"
+---
+
+::: {.panel-tabset}
+### NAF et APE
+
+La NAF classe les activités économiques; le code APE reflète l'activité principale d'un établissement.
+
+### Entreprise vs établissement
+
+Un même groupe peut couvrir plusieurs établissements et activités.
+
+### Limites de lecture Défense
+
+Un code NAF ne décrit pas à lui seul tous les marchés, clients ou usages d'une activité.
+:::
+
+::: {.callout-note collapse="true"}
+## Pourquoi la nomenclature évolue
+
+Les nomenclatures sont révisées pour suivre les transformations économiques et améliorer la comparabilité statistique.
+:::

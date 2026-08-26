@@ -1,0 +1,37 @@
+---
+title: "Explorateur NAF"
+---
+
+::: {.hero-block}
+# Explorer la nomenclature NAF avec une lecture analytique Défense
+
+Un outil unique pour explorer les activités, comparer NAF 2008 ↔ 2025 et situer les limites de lecture pour la Défense.
+
+[Commencer l'exploration](/explorer/){.btn .btn-primary .btn-lg role="button" aria-label="Aller à la page Explorer"}
+:::
+
+::: {.entry-grid}
+::: {.entry-card}
+## Explorer une activité
+
+Je cherche un code, un mot ou une activité.
+
+[Ouvrir l'explorateur](/explorer/){.stretched-link aria-label="Ouvrir l'explorateur de nomenclature"}
+:::
+
+::: {.entry-card}
+## Comparer 2008 ↔ 2025
+
+Je veux comprendre ce qui change avec la nouvelle nomenclature.
+
+[Comparer les versions](/comparer/){.stretched-link aria-label="Ouvrir la page de comparaison"}
+:::
+
+::: {.entry-card}
+## Explorer le cas de la Défense
+
+Je veux comprendre jusqu'où la NAF permet d'identifier les activités liées à la Défense.
+
+[Lire NAF & Défense](/defense/){.stretched-link aria-label="Ouvrir la page NAF et Défense"}
+:::
+:::

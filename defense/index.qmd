@@ -1,0 +1,23 @@
+---
+title: "NAF & Défense"
+---
+
+> Jusqu'où une nomenclature d'activité permet-elle d'identifier les activités liées à la Défense ?
+
+::: {.callout-important}
+La grille ci-dessous est analytique et ne constitue pas une classification officielle Insee.
+:::
+
+::: {.panel-tabset}
+### Défense explicite
+
+Références explicites dans la nomenclature — données à documenter.
+
+### Activités duales
+
+Usages civils et militaires potentiels — qualification à sourcer.
+
+### Écosystème élargi
+
+Participation indirecte à des chaînes de valeur Défense — qualification à sourcer.
+:::

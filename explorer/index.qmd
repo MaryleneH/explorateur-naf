@@ -1,0 +1,97 @@
+---
+title: "Explorer"
+include-after-body: "../includes/explorer-scripts.html"
+---
+
+::: {.explorer-shell}
+::: {.explorer-controls role="region" aria-label="Contrôles de l'explorateur"}
+<div class="search-wrap">
+  <label for="naf-search" class="form-label">Rechercher un code ou une activité</label>
+  <input id="naf-search" class="form-control form-control-lg" type="search" placeholder="30.32Y · aéronautique · logiciel · drone" aria-label="Rechercher un code ou une activité">
+</div>
+<div class="version-switch" role="group" aria-label="Version de nomenclature">
+  <span class="control-label">Version</span>
+  <div class="btn-group" role="radiogroup" aria-label="Sélection de version NAF">
+    <input type="radio" class="btn-check" name="naf-version" id="naf-2025" value="2025" checked>
+    <label class="btn btn-outline-secondary" for="naf-2025">NAF 2025</label>
+    <input type="radio" class="btn-check" name="naf-version" id="naf-2008" value="2008">
+    <label class="btn btn-outline-secondary" for="naf-2008">NAF 2008</label>
+  </div>
+</div>
+<div class="defense-toggle" role="group" aria-label="Lecture Défense">
+  <span class="control-label">Lecture</span>
+  <button id="defense-mode" type="button" class="btn btn-outline-secondary" aria-pressed="false">
+    <span aria-hidden="true">🛡</span> Lecture Défense
+  </button>
+</div>
+:::
+
+<nav class="naf-breadcrumb" aria-label="Fil d'Ariane de navigation">
+  <ol id="naf-breadcrumb"></ol>
+</nav>
+
+<div class="mobile-level-nav" aria-live="polite">
+  <button id="mobile-back" type="button" class="btn btn-sm btn-outline-secondary" disabled aria-label="Revenir au niveau précédent">← Retour</button>
+  <span id="mobile-level-label">Section</span>
+</div>
+
+<div id="naf-browser" class="naf-browser" role="region" aria-label="Navigateur hiérarchique NAF">
+  <section class="naf-panel" data-level="section">
+    <h2>Section</h2>
+    <ul class="naf-list" id="list-section" role="listbox" aria-label="Liste des sections"></ul>
+  </section>
+  <section class="naf-panel" data-level="division">
+    <h2>Division</h2>
+    <ul class="naf-list" id="list-division" role="listbox" aria-label="Liste des divisions"></ul>
+  </section>
+  <section class="naf-panel" data-level="group">
+    <h2>Groupe</h2>
+    <ul class="naf-list" id="list-group" role="listbox" aria-label="Liste des groupes"></ul>
+  </section>
+  <section class="naf-panel" data-level="class">
+    <h2>Classe</h2>
+    <ul class="naf-list" id="list-class" role="listbox" aria-label="Liste des classes"></ul>
+  </section>
+  <section class="naf-panel" data-level="subclass">
+    <h2>Sous-classe</h2>
+    <ul class="naf-list" id="list-subclass" role="listbox" aria-label="Liste des sous-classes"></ul>
+  </section>
+</div>
+
+::: {.data-state #explorer-status role="status" aria-live="polite"}
+Données à intégrer.
+:::
+:::
+
+::: {.activity-sheet}
+### Fiche activité
+
+<div class="activity-head">
+  <p class="activity-code" id="activity-code">Aucune activité sélectionnée</p>
+  <p class="activity-label" id="activity-label">Sélectionnez un niveau pour afficher sa fiche structurée.</p>
+  <p class="activity-meta" id="activity-meta">Version: NAF 2025</p>
+</div>
+
+::: {.panel-tabset}
+#### Vue d'ensemble
+
+- Position hiérarchique: <span id="activity-path">—</span>
+- Statut Défense: <span id="activity-defense">Non évalué (données à intégrer)</span>
+
+#### Comprend
+
+Données officielles à intégrer.
+
+#### Ne comprend pas
+
+Données officielles à intégrer.
+
+#### Correspondances
+
+Consulter la page [Comparer 2008 ↔ 2025](/comparer/).
+
+#### Défense
+
+Cette lecture analytique est distincte de la nomenclature officielle Insee.
+:::
+:::
