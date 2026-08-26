@@ -1,5 +1,20 @@
 # Explorateur NAF
 
+[![Build & Deploy](https://github.com/MaryleneH/explorateur-naf/actions/workflows/pages.yml/badge.svg)](https://github.com/MaryleneH/explorateur-naf/actions/workflows/pages.yml)
+[![Quarto](https://img.shields.io/badge/Quarto-website-blue?logo=quarto)](https://quarto.org)
+[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-live-brightgreen)](https://maryleneh.github.io/explorateur-naf/)
+
+---
+
+## 🌐 Application en ligne
+
+**[Ouvrir l'Explorateur NAF →](https://maryleneh.github.io/explorateur-naf/)**
+
+> <https://maryleneh.github.io/explorateur-naf/>
+
+---
+
+
 Architecture V1 d'un site **Quarto Website** pour :
 
 - explorer la hiérarchie NAF (2025 / 2008),
