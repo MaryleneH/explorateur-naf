@@ -16,11 +16,14 @@ $link-hover-color: #1b3044;
   --naf-accent: #3d556d;
   --naf-accent-soft: #e8edf2;
   --naf-defense: #6b6a4a;
+  --naf-defense-bg: #f8f7ee;
 }
 
 body {
   font-feature-settings: "liga" 1;
 }
+
+/* ── PAGE D'ACCUEIL ──────────────────────────────────────────────────── */
 
 .hero-block {
   background: var(--naf-surface);
@@ -44,115 +47,356 @@ body {
   padding: 1rem;
 }
 
+/* ── CONTRÔLES EXPLORATEUR ───────────────────────────────────────────── */
+
 .explorer-shell {
   display: grid;
-  gap: 0.9rem;
+  gap: 0.75rem;
 }
 
 .explorer-controls {
   background: var(--naf-surface);
   border: 1px solid var(--naf-border);
   border-radius: 0.8rem;
-  padding: 1rem;
+  padding: 0.9rem 1rem;
   display: grid;
-  grid-template-columns: minmax(320px, 1fr) auto auto;
+  grid-template-columns: minmax(280px, 1fr) auto auto;
   gap: 0.75rem;
   align-items: end;
 }
 
 .control-label {
   display: block;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 500;
   color: var(--naf-muted);
   margin-bottom: 0.3rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
 }
+
+/* Champ de recherche */
+.search-wrap {
+  position: relative;
+}
+
+.search-results-panel {
+  position: absolute;
+  top: calc(100% + 0.3rem);
+  left: 0;
+  right: 0;
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-border);
+  border-radius: 0.65rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  z-index: 200;
+  max-height: 320px;
+  overflow-y: auto;
+  padding: 0.35rem;
+}
+
+.sr-item {
+  width: 100%;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 0.45rem;
+  text-align: left;
+  padding: 0.5rem 0.6rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  gap: 0.1rem 0.5rem;
+  cursor: pointer;
+}
+
+.sr-item:hover,
+.sr-item:focus-visible {
+  background: var(--naf-accent-soft);
+  border-color: var(--naf-border);
+  outline: none;
+}
+
+.sr-code {
+  grid-row: 1;
+  grid-column: 1;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--naf-accent);
+}
+
+.sr-label {
+  grid-row: 1;
+  grid-column: 2;
+  font-size: 0.88rem;
+  color: var(--naf-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sr-meta {
+  grid-row: 2;
+  grid-column: 1 / -1;
+  font-size: 0.75rem;
+  color: var(--naf-muted);
+  opacity: 0.7;
+}
+
+.sr-empty {
+  padding: 0.5rem 0.7rem;
+  color: var(--naf-muted);
+  font-size: 0.88rem;
+  margin: 0;
+}
+
+/* Segmented control NAF 2025 / NAF 2008 */
+.segmented-control {
+  display: flex;
+  border: 1px solid var(--naf-border);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.seg-option {
+  flex: 1;
+  display: block;
+  cursor: pointer;
+  margin: 0;
+}
+
+.seg-option input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.seg-option span {
+  display: block;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.87rem;
+  font-weight: 500;
+  color: var(--naf-muted);
+  background: var(--naf-surface);
+  text-align: center;
+  transition: background 0.12s, color 0.12s;
+  white-space: nowrap;
+  border-right: 1px solid var(--naf-border);
+}
+
+.seg-option:last-child span {
+  border-right: none;
+}
+
+.seg-option input[type="radio"]:checked + span {
+  background: var(--naf-accent);
+  color: #fff;
+}
+
+.seg-option span:hover {
+  background: var(--naf-accent-soft);
+}
+
+/* Bouton Lecture Défense */
+.btn-defense {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.85rem;
+  font-size: 0.87rem;
+  font-weight: 500;
+  border: 1px solid var(--naf-border);
+  border-radius: 0.5rem;
+  background: var(--naf-surface);
+  color: var(--naf-muted);
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+  white-space: nowrap;
+}
+
+.btn-defense:hover {
+  background: var(--naf-accent-soft);
+}
+
+.btn-defense.active,
+.btn-defense[aria-pressed="true"] {
+  background: var(--naf-defense-bg);
+  border-color: var(--naf-defense);
+  color: var(--naf-defense);
+}
+
+/* ── FIL D'ARIANE ────────────────────────────────────────────────────── */
 
 .naf-breadcrumb {
   background: var(--naf-surface);
   border: 1px solid var(--naf-border);
-  border-radius: 0.7rem;
-  padding: 0.5rem 0.75rem;
+  border-radius: 0.65rem;
+  padding: 0.45rem 0.75rem;
+  overflow-x: auto;
 }
 
 .naf-breadcrumb ol {
   margin: 0;
   padding: 0;
   display: flex;
-  gap: 0.4rem;
+  gap: 0.2rem;
   list-style: none;
-  flex-wrap: wrap;
+  align-items: center;
+  flex-wrap: nowrap;
 }
 
-.naf-breadcrumb button {
+.bc-btn {
   border: 0;
   background: transparent;
-  color: var(--naf-accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
   padding: 0.2rem 0.35rem;
-  border-radius: 0.4rem;
+  border-radius: 0.35rem;
+  cursor: pointer;
+  max-width: 240px;
 }
 
-.naf-breadcrumb button:hover,
-.naf-breadcrumb button:focus-visible {
+.bc-btn:hover,
+.bc-btn:focus-visible {
   background: var(--naf-accent-soft);
   outline: none;
 }
+
+.bc-code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--naf-accent);
+  flex-shrink: 0;
+}
+
+.bc-label {
+  font-size: 0.8rem;
+  color: var(--naf-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bc-sep {
+  font-size: 0.85rem;
+  color: var(--naf-muted);
+  opacity: 0.5;
+  padding: 0 0.1rem;
+}
+
+.bc-placeholder {
+  font-size: 0.83rem;
+  color: var(--naf-muted);
+  opacity: 0.6;
+}
+
+/* ── NAVIGATION MOBILE ───────────────────────────────────────────────── */
 
 .mobile-level-nav {
   display: none;
   justify-content: space-between;
   align-items: center;
-  padding: 0.45rem 0;
+  padding: 0.4rem 0.1rem;
 }
+
+.btn-mobile-back {
+  border: 1px solid var(--naf-border);
+  background: var(--naf-surface);
+  border-radius: 0.45rem;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  color: var(--naf-accent);
+}
+
+.btn-mobile-back:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.mobile-level-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--naf-accent);
+}
+
+/* ── NAVIGATEUR HIÉRARCHIQUE ─────────────────────────────────────────── */
 
 .naf-browser {
   display: grid;
-  grid-template-columns: repeat(5, minmax(220px, 1fr));
-  gap: 0.75rem;
+  grid-template-columns: repeat(5, minmax(200px, 1fr));
+  gap: 0.6rem;
   overflow-x: auto;
-  padding-bottom: 0.2rem;
+  padding-bottom: 0.25rem;
+  /* Scroll horizontal limité au composant — jamais horizontal sur toute la page */
+  -webkit-overflow-scrolling: touch;
 }
 
 .naf-panel {
   background: var(--naf-surface);
   border: 1px solid var(--naf-border);
-  border-radius: 0.8rem;
-  min-height: 290px;
+  border-radius: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 300px;
+  max-height: 480px;
+  overflow: hidden;
 }
 
-.naf-panel h2 {
+.panel-title {
   margin: 0;
-  padding: 0.7rem 0.9rem;
-  font-size: 0.95rem;
+  padding: 0.6rem 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--naf-muted);
   border-bottom: 1px solid var(--naf-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  background: var(--naf-surface);
+}
+
+.panel-count {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--naf-muted);
+  opacity: 0.7;
+  letter-spacing: 0;
 }
 
 .naf-list {
   list-style: none;
   margin: 0;
-  padding: 0.3rem;
+  padding: 0.25rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.naf-empty {
+  padding: 0.6rem 0.75rem;
+  font-size: 0.83rem;
+  color: var(--naf-muted);
+  opacity: 0.5;
 }
 
 .naf-item {
   width: 100%;
   border: 1px solid transparent;
-  border-radius: 0.55rem;
+  border-radius: 0.5rem;
   background: transparent;
   text-align: left;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 0.45rem;
-  padding: 0.55rem;
-}
-
-.naf-item .code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  font-weight: 600;
-}
-
-.naf-item .label {
-  display: block;
-  color: var(--naf-muted);
-  font-size: 0.89rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.3rem;
+  padding: 0.45rem 0.5rem;
+  cursor: pointer;
+  transition: background 0.1s, border-color 0.1s;
 }
 
 .naf-item:hover,
@@ -167,38 +411,272 @@ body {
   background: var(--naf-accent-soft);
 }
 
-.naf-item[disabled] {
-  opacity: 0.7;
+.item-inner {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
 }
+
+.naf-item .code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.77rem;
+  font-weight: 700;
+  color: var(--naf-accent);
+  line-height: 1.2;
+}
+
+.naf-item .label {
+  font-size: 0.82rem;
+  color: var(--naf-muted);
+  line-height: 1.3;
+  word-break: break-word;
+}
+
+.chevron {
+  font-size: 0.9rem;
+  color: var(--naf-muted);
+  opacity: 0.4;
+  align-self: center;
+  flex-shrink: 0;
+}
+
+/* ── MARQUEURS DÉFENSE ───────────────────────────────────────────────── */
+
+.defense-marker {
+  font-size: 0.8rem;
+  flex-shrink: 0;
+  align-self: center;
+  cursor: help;
+}
+
+.defense-marker.def-explicite_industriel { color: #b03030; }
+.defense-marker.def-dual_officiel        { color: #8a7020; }
+.defense-marker.def-administration_defense { color: #405c3d; }
+
+.defense-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: var(--naf-defense-bg);
+  color: var(--naf-defense);
+  border-radius: 0.75rem;
+  padding: 0.05rem 0.35rem;
+  align-self: center;
+  flex-shrink: 0;
+}
+
+.defense-legend {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  padding: 0.5rem 0.8rem;
+  background: var(--naf-defense-bg);
+  border: 1px solid #c8c29a;
+  border-radius: 0.6rem;
+  font-size: 0.82rem;
+  color: var(--naf-defense);
+}
+
+.legend-title {
+  font-weight: 600;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  opacity: 0.85;
+}
+
+/* ── STATUT ──────────────────────────────────────────────────────────── */
 
 .data-state {
   color: var(--naf-muted);
-  font-size: 0.92rem;
+  font-size: 0.85rem;
+  padding: 0.1rem 0;
 }
 
+/* ── FICHE ACTIVITÉ ──────────────────────────────────────────────────── */
+
 .activity-sheet {
-  margin-top: 1rem;
   background: var(--naf-surface);
   border: 1px solid var(--naf-border);
   border-radius: 0.85rem;
-  padding: 1rem;
+  overflow: hidden;
+}
+
+.activity-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem 1.1rem 0.8rem;
+  border-bottom: 1px solid var(--naf-border);
+}
+
+.activity-head-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.activity-head-meta {
+  flex-shrink: 0;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.3rem;
 }
 
 .activity-code {
   margin: 0;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  font-size: 1rem;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--naf-accent);
+  line-height: 1.2;
 }
 
-.activity-label,
+.activity-label {
+  margin: 0.25rem 0 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--body-color, #1d2630);
+}
+
 .activity-meta {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--naf-muted);
+}
+
+.activity-source-link {
+  font-size: 0.8rem;
+  color: var(--naf-accent);
+  text-decoration: none;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid var(--naf-border);
+  border-radius: 0.4rem;
+  white-space: nowrap;
+  transition: background 0.1s;
+}
+
+.activity-source-link:hover {
+  background: var(--naf-accent-soft);
+}
+
+/* Onglets */
+.activity-tabs {
+  overflow: hidden;
+}
+
+.tab-nav {
+  display: flex;
+  border-bottom: 1px solid var(--naf-border);
+  padding: 0 0.75rem;
+  gap: 0;
+  overflow-x: auto;
+}
+
+.tab-btn {
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.83rem;
+  font-weight: 500;
+  color: var(--naf-muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.12s, border-color 0.12s;
+  margin-bottom: -1px;
+}
+
+.tab-btn:hover { color: var(--naf-accent); }
+
+.tab-btn.active {
+  color: var(--naf-accent);
+  border-bottom-color: var(--naf-accent);
+}
+
+.tab-content {
+  padding: 0.85rem 1rem;
+  min-height: 6rem;
+}
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+.tab-note {
+  font-size: 0.88rem;
+  color: var(--naf-muted);
   margin: 0;
 }
 
-#defense-mode[aria-pressed="true"] {
-  border-color: var(--naf-defense);
-  color: var(--naf-defense);
+.tab-note-sm {
+  font-size: 0.82rem;
+  color: var(--naf-muted);
+  margin: 0 0 0.5rem;
 }
+
+.activity-details {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.3rem 1rem;
+  font-size: 0.87rem;
+  margin: 0;
+}
+
+.activity-details dt {
+  font-weight: 600;
+  color: var(--naf-muted);
+  white-space: nowrap;
+}
+
+.activity-details dd {
+  margin: 0;
+  color: var(--body-color, #1d2630);
+  word-break: break-word;
+}
+
+.mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+/* Correspondances */
+.corr-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.87rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.corr-type {
+  font-size: 0.75rem;
+  color: var(--naf-muted);
+  margin-left: 0.5rem;
+  background: #f0f2f4;
+  padding: 0.1rem 0.35rem;
+  border-radius: 0.3rem;
+}
+
+/* Avertissement Défense */
+.defense-warning {
+  background: var(--naf-defense-bg);
+  border: 1px solid #c8c29a;
+  border-radius: 0.55rem;
+  padding: 0.6rem 0.85rem;
+  font-size: 0.85rem;
+  color: var(--naf-defense);
+  margin-top: 0.75rem;
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────────────────────── */
 
 @media (max-width: 992px) {
   .explorer-controls {
@@ -218,11 +696,29 @@ body {
 
   .naf-panel {
     display: none;
-    min-height: 250px;
+    max-height: 60vh;
   }
 
   .naf-panel.mobile-visible {
-    display: block;
+    display: flex;
+  }
+
+  .activity-head {
+    flex-direction: column;
+  }
+
+  .activity-head-meta {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .activity-details {
+    grid-template-columns: 1fr;
+    gap: 0.2rem 0;
+  }
+
+  .activity-details dt {
+    margin-top: 0.4rem;
   }
 }
 
