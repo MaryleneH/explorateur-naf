@@ -1118,3 +1118,474 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   Excalifont — annotations manuscrites
+   Police d'accent uniquement (~10 % du registre visuel). La déclaration
+   @font-face vit dans assets/css/fonts.css ; ici, seule la pile d'usage.
+═══════════════════════════════════════════════════════════════════ */
+
+.naf-hand {
+  font-family: "Excalifont", "Segoe Print", "Bradley Hand", cursive;
+  font-size: 1.02rem;
+  line-height: 1.35;
+  color: var(--naf-bronze);
+  letter-spacing: 0.01em;
+}
+
+.naf-hand-arrow {
+  width: 1.5em;
+  height: 1.3em;
+  vertical-align: -0.4em;
+  margin-left: 0.15em;
+
+  path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Accueil — invitation au Voyage visuel
+═══════════════════════════════════════════════════════════════════ */
+
+.naf-voyage {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+  margin: 2.2rem 0 0;
+  padding: 1.1rem 1.25rem;
+  border: 1px solid var(--naf-line);
+  border-radius: 6px;
+  background:
+    linear-gradient(135deg, var(--naf-surface) 0%, #f4f1ec 100%);
+  color: var(--naf-ink);
+  text-decoration: none;
+
+  &:hover,
+  &:focus-visible {
+    border-color: var(--naf-slate-mid);
+    color: var(--naf-ink);
+    text-decoration: none;
+
+    .naf-voyage-cta {
+      background: var(--naf-slate-mid);
+    }
+  }
+}
+
+.naf-voyage-tree {
+  flex: 0 0 auto;
+  font-family: var(--naf-mono);
+  font-size: 0.78rem;
+  line-height: 1.55;
+  white-space: pre;
+  color: var(--naf-steel);
+
+  .is-1 { color: #2a669f; font-weight: 600; }
+  .is-2 { color: #33607f; }
+  .is-3 { color: #4c6b85; }
+  .is-4 { color: #64768a; }
+  .is-5 { color: #2a669f; font-weight: 600; }
+}
+
+.naf-voyage-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3rem;
+  min-width: 0;
+}
+
+.naf-voyage-kicker {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--naf-steel);
+}
+
+.naf-voyage-title {
+  font-size: 1.28rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.naf-voyage-hand {
+  margin: 0.05rem 0 0.35rem;
+}
+
+.naf-voyage-cta {
+  display: inline-block;
+  padding: 0.5rem 0.95rem;
+  border-radius: var(--naf-radius);
+  background: var(--naf-slate);
+  color: #fff;
+  font-size: 0.92rem;
+  font-weight: 550;
+}
+
+@media (max-width: 560px) {
+  .naf-voyage {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.9rem;
+  }
+
+  .naf-voyage-tree {
+    font-size: 0.72rem;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Voyage visuel — page de visualisation
+═══════════════════════════════════════════════════════════════════ */
+
+.naf-viz {
+  position: relative;
+  padding-bottom: 2rem;
+  // La scène doit avoir de l'impact : elle déborde de la colonne de contenu
+  // Quarto pour occuper presque toute la fenêtre, sans passer par les
+  // classes de colonnes Quarto (leur grille recontraint les enfants).
+  --naf-viz-w: min(1320px, 100vw - 3rem);
+  width: var(--naf-viz-w);
+  margin-left: calc((100% - var(--naf-viz-w)) / 2);
+}
+
+// Quarto propage sa grille de page (.page-columns) au conteneur et à ses
+// descendants au chargement : sans neutralisation, chaque bloc retomberait
+// dans la colonne centrale étroite alors que la scène doit occuper toute la
+// largeur screen-inset. La grille propre à .naf-viz-main est redéclarée plus
+// bas, après cette règle, pour reprendre la main.
+.naf-viz.page-columns,
+.naf-viz .page-columns {
+  display: block;
+}
+
+.naf-viz-intro {
+  margin: 0.25rem 0 1.1rem;
+}
+
+.naf-viz-lede {
+  max-width: 44rem;
+  font-size: 1.05rem;
+  color: var(--naf-ink);
+  margin: 0;
+
+  strong {
+    font-weight: 650;
+  }
+}
+
+.naf-viz-hand {
+  margin: 0.3rem 0 0;
+}
+
+// Spécificité volontairement doublée : Quarto ajoute la classe .page-columns
+// à ce conteneur au chargement et sa grille de page écraserait la nôtre.
+.naf-viz .naf-viz-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 1.4rem;
+  align-items: start;
+  margin-top: 0.9rem;
+
+  > * {
+    grid-column: auto;
+  }
+}
+
+.naf-viz-stage {
+  min-width: 0;
+}
+
+.naf-viz-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-height: 2.2rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.naf-viz-crumbs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.naf-viz-crumb {
+  border: 0;
+  background: none;
+  padding: 0.3rem 0.45rem;
+  border-radius: var(--naf-radius);
+  font-family: var(--naf-mono);
+  font-size: 0.88rem;
+  color: var(--naf-slate-mid);
+  cursor: pointer;
+
+  &:hover {
+    background: var(--naf-line-soft);
+  }
+
+  &[aria-current="true"] {
+    color: var(--naf-ink);
+    font-weight: 600;
+  }
+}
+
+.naf-viz-crumb-sep {
+  color: var(--naf-steel-sub);
+}
+
+.naf-viz-reset {
+  border: 1px solid var(--naf-line);
+  background: var(--naf-surface);
+  border-radius: var(--naf-radius);
+  padding: 0.35rem 0.7rem;
+  font-size: 0.85rem;
+  color: var(--naf-slate-mid);
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--naf-slate-mid);
+  }
+}
+
+.naf-viz-chart {
+  border: 1px solid var(--naf-line);
+  border-radius: 6px;
+  background: var(--naf-surface);
+  padding: 6px;
+  overflow: hidden;
+
+  svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+.naf-viz-label {
+  font-family: var(--naf-mono);
+  font-size: 11.5px;
+  font-variant-ligatures: none;
+}
+
+.naf-viz-hint {
+  text-align: right;
+  margin: 0.45rem 0.25rem 0;
+}
+
+// L'indice disparaît dès le premier zoom : il a rempli son rôle.
+.naf-viz[data-zoomed="1"] .naf-viz-hint {
+  visibility: hidden;
+}
+
+/* Panneau pédagogique */
+
+.naf-viz-panel {
+  border: 1px solid var(--naf-line);
+  border-radius: 6px;
+  background: var(--naf-surface);
+  padding: 1rem 1.1rem 1.15rem;
+  position: sticky;
+  top: 4.5rem;
+}
+
+.naf-viz-panel-kicker {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--naf-steel);
+  margin: 0 0 0.5rem;
+}
+
+.naf-viz-panel-code {
+  font-size: 1.45rem;
+  font-weight: 650;
+  border-left: 4px solid var(--naf-slate-mid);
+  padding-left: 0.55rem;
+  margin: 0 0 0.15rem;
+}
+
+.naf-viz-panel-label {
+  font-size: 1.02rem;
+  font-weight: 550;
+  line-height: 1.3;
+  margin: 0 0 0.25rem;
+}
+
+.naf-viz-panel-meta {
+  font-size: 0.85rem;
+  color: var(--naf-steel);
+  margin: 0 0 0.8rem;
+}
+
+.naf-viz-panel-hand {
+  margin: 0.1rem 0 0.5rem;
+}
+
+.naf-viz-panel-section {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--naf-steel);
+  margin: 0.9rem 0 0.35rem;
+}
+
+.naf-viz-panel-parents {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li + li {
+    margin-top: 0.15rem;
+  }
+}
+
+.naf-viz-panel-parent {
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+  width: 100%;
+  border: 0;
+  background: none;
+  text-align: left;
+  padding: 0.3rem 0.35rem;
+  border-radius: var(--naf-radius);
+  font-size: 0.88rem;
+  color: var(--naf-ink);
+  cursor: pointer;
+
+  .naf-mono {
+    color: var(--naf-slate-mid);
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    background: var(--naf-line-soft);
+  }
+}
+
+.naf-viz-panel-counts {
+  font-size: 0.9rem;
+  color: var(--naf-ink);
+  margin: 0;
+}
+
+.naf-viz-panel-help {
+  font-size: 0.88rem;
+  color: var(--naf-steel);
+  line-height: 1.45;
+  margin: 0.7rem 0 0;
+}
+
+.naf-viz-panel-cta {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.55rem 0.95rem;
+  border-radius: var(--naf-radius);
+  background: var(--naf-slate);
+  color: #fff;
+  font-size: 0.92rem;
+  font-weight: 550;
+  text-decoration: none;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--naf-slate-mid);
+    color: #fff;
+    text-decoration: none;
+  }
+}
+
+.naf-viz-alt {
+  margin: 1.2rem 0 0;
+  font-size: 0.9rem;
+  color: var(--naf-steel);
+}
+
+/* Tooltip */
+
+.naf-viz-tooltip {
+  position: absolute;
+  z-index: 40;
+  max-width: 320px;
+  pointer-events: none;
+  background: var(--naf-slate);
+  color: #fff;
+  border-radius: 6px;
+  padding: 0.6rem 0.75rem;
+  box-shadow: 0 4px 18px rgba(20, 24, 29, 0.25);
+
+  p {
+    margin: 0;
+  }
+}
+
+.naf-viz-tip-code {
+  font-size: 1rem;
+  font-weight: 650;
+}
+
+.naf-viz-tip-label {
+  font-size: 0.9rem;
+  font-weight: 550;
+  line-height: 1.3;
+}
+
+.naf-viz-tip-meta {
+  font-size: 0.78rem;
+  color: #b9c4d1;
+  margin-top: 0.15rem !important;
+}
+
+.naf-viz-tip-parents {
+  margin-top: 0.4rem !important;
+  font-size: 0.78rem;
+  color: #d6dde5;
+
+  .naf-viz-tip-parent {
+    display: block;
+  }
+
+  .naf-mono {
+    color: #fff;
+  }
+}
+
+.naf-viz-tip-counts {
+  margin-top: 0.4rem !important;
+  font-size: 0.78rem;
+  color: #b9c4d1;
+}
+
+/* Mobile */
+
+@media (max-width: 860px) {
+  .naf-viz .naf-viz-main {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .naf-viz-panel {
+    position: static;
+  }
+
+  .naf-viz-reset {
+    min-height: 40px;
+  }
+
+  .naf-viz-crumb {
+    min-height: 40px;
+    min-width: 34px;
+  }
+}
