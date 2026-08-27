@@ -72,7 +72,13 @@ include-after-body: "../includes/visualisation-scripts.html"
     <div class="naf-viz-stage">
       <nav class="naf-viz-nav" aria-label="Position dans la nomenclature">
         <div class="naf-viz-crumbs" id="naf-viz-crumbs"></div>
-        <button type="button" class="naf-viz-reset" id="naf-viz-reset" hidden>Réinitialiser la vue</button>
+        <div class="naf-viz-nav-tools">
+          <label class="naf-viz-goto" id="naf-viz-goto-wrap" hidden>
+            <span class="naf-visually-hidden">Aller directement à une section</span>
+            <select id="naf-viz-goto"></select>
+          </label>
+          <button type="button" class="naf-viz-reset" id="naf-viz-reset" hidden>Réinitialiser la vue</button>
+        </div>
       </nav>
       <div class="naf-viz-chartwrap">
         <div class="naf-viz-chart" id="naf-viz-chart"></div>
