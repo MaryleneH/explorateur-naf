@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 34 34" role="img" aria-label="Explorateur NAF">
+  <!-- Branche abstraite : un tronc, trois ramifications, trois nœuds-feuilles.
+       Évoque la hiérarchie de la nomenclature (section → division → groupe)
+       et la métaphore de l'arbre, sans réalisme. -->
+  <g fill="none" stroke="#f5f7fa" stroke-width="2.4" stroke-linecap="round">
+    <path d="M9 30 V 15"/>
+    <path d="M9 15 C 9 9.5, 12.5 7, 17.5 7"/>
+    <path d="M9 20.5 C 14 20.5, 16.5 18, 18.5 14.5"/>
+    <path d="M9 26 C 14.5 26, 18 25, 21.5 22.5"/>
+  </g>
+  <g fill="#c89a5f">
+    <circle cx="20.5" cy="7" r="2.7"/>
+    <circle cx="21.3" cy="13.6" r="2.2"/>
+    <circle cx="24.3" cy="21.6" r="1.8"/>
+  </g>
+</svg>

@@ -14,6 +14,8 @@ website:
   site-url: "https://maryleneh.github.io/explorateur-naf"
   favicon: assets/favicon.svg
   navbar:
+    logo: assets/img/logo-naf.svg
+    logo-alt: "Explorateur NAF — retour à l'accueil"
     left:
       - text: Explorer
         menu:

@@ -37,6 +37,9 @@
     crumbs: document.getElementById("naf-viz-crumbs"),
     reset: document.getElementById("naf-viz-reset"),
     chart: document.getElementById("naf-viz-chart"),
+    treenote: document.getElementById("naf-viz-treenote"),
+    viewButtons: app.querySelectorAll(".naf-view"),
+    introModes: app.querySelectorAll(".naf-viz-intro-mode"),
     hint: document.getElementById("naf-viz-hint"),
     panel: document.getElementById("naf-viz-panel"),
     error: document.getElementById("naf-viz-error"),
@@ -92,6 +95,7 @@
 
   var state = {
     versionId: "2025",
+    view: "structure", // "structure" (icicle) | "arbre" (métaphore)
     nomenclature: null,
     root: null,        // hiérarchie d3
     focus: null,
@@ -360,13 +364,18 @@
     setSelection(p, focusFor(p));
   }
 
-  /** Point d'entrée unique : met à jour sélection, zoom, panneau, URL. */
+  /** Point d'entrée unique : met à jour sélection, vue courante, panneau, URL. */
   function setSelection(selected, focusNode, options) {
     state.selected = selected;
-    zoomTo(focusNode || state.root, options ? options.animate : undefined);
+    state.focus = focusNode || state.root;
     renderCrumbs();
     renderPanel();
-    applySelectionStyle();
+    if (state.view === "arbre") {
+      renderTree(options);
+    } else {
+      zoomTo(state.focus, options ? options.animate : undefined);
+      applySelectionStyle();
+    }
     if (!options || options.updateUrl !== false) updateUrl();
   }
 
@@ -380,6 +389,323 @@
 
   function resetView() {
     setSelection(null, state.root);
+  }
+
+  /* ─────────────────────────────────────────────────────────────────────
+     Vue « Arbre »
+
+     Métaphore : le focus courant est le tronc, ses enfants sont des
+     branches déployées en éventail, ses petits-enfants des rameaux — et
+     lorsque ceux-ci sont des sous-classes, des feuilles stylisées.
+     La géométrie découle entièrement de la hiérarchie (part de
+     sous-classes = ouverture angulaire et épaisseur), les couleurs sont
+     celles des sections. À chaque sélection, la scène est reconstruite :
+     au plus ~150 éléments, le re-rendu complet reste instantané.
+  ───────────────────────────────────────────────────────────────────── */
+
+  // Variation déterministe (pas de Math.random : le rendu doit être stable).
+  function wobble(i, j) {
+    return (((i * 53 + (j || 0) * 29) % 17) / 17) - 0.5;
+  }
+
+  function onPath(node) {
+    return state.selected && state.selected.ancestors().indexOf(node) !== -1;
+  }
+
+  function treeAriaLabel(version) {
+    return "L'arbre de la " + version.longLabel + " : le tronc est le niveau " +
+      "sélectionné, chaque branche un niveau inférieur, chaque feuille une " +
+      "sous-classe. Les mêmes informations sont lisibles dans le panneau " +
+      "de détail et dans l'Explorer en liste.";
+  }
+
+  function renderTree(options) {
+    clear(dom.chart);
+    computeLayout();
+    var width = layout.width;
+    var height = Math.max(layout.height, 460);
+    var animate = !REDUCED.matches && !(options && options.animate === false);
+    var version = NAF.VERSIONS[state.versionId];
+    var focus = state.focus;
+    var hasSelection = state.selected && state.selected !== focus;
+
+    if (focus !== state.root) dom.app.dataset.zoomed = "1";
+
+    var svgT = d3.create("svg")
+      .attr("viewBox", [0, 0, width, height])
+      .attr("width", width)
+      .attr("height", height)
+      .attr("role", "img")
+      .attr("aria-label", treeAriaLabel(version));
+    var g = svgT.append("g");
+
+    var baseX = width / 2;
+    var baseY = height - 12;
+    var trunkTopY = height * 0.62;
+
+    /* Tronc — cliquer le tronc remonte d'un cran. */
+    var trunk = g.append("path")
+      .attr("d", "M" + baseX + " " + baseY +
+        " C " + (baseX - 5) + " " + (baseY - 40) +
+        ", " + (baseX + 4) + " " + (trunkTopY + 46) +
+        ", " + baseX + " " + trunkTopY)
+      .attr("fill", "none")
+      .attr("stroke", "#4a4f58")
+      .attr("stroke-width", focus.depth === 0 ? 16 : 12)
+      .attr("stroke-linecap", "round");
+    if (focus.depth > 0) {
+      trunk.style("cursor", "pointer").on("click", goUpTree);
+      if (HOVER_FINE.matches) trunk.on("mousemove", moved).on("mouseleave", left).datum(focus);
+    }
+
+    /* Tronc typographique : le code du focus s'empile verticalement. */
+    var trunkText = focus.depth === 0 ? "NAF" : focus.data.code;
+    trunkText.split("").forEach(function (ch, i) {
+      g.append("text")
+        .attr("class", "naf-viz-trunk-char")
+        .attr("x", baseX)
+        .attr("y", trunkTopY + 26 + i * 15)
+        .attr("text-anchor", "middle")
+        .text(ch);
+    });
+    if (focus.depth === 0) {
+      g.append("text")
+        .attr("class", "naf-viz-trunk-year")
+        .attr("x", baseX)
+        .attr("y", baseY - 4)
+        .attr("text-anchor", "middle")
+        .text(state.versionId);
+    }
+
+    var children = focus.children || [];
+    if (!children.length) { dom.chart.appendChild(svgT.node()); return; }
+
+    var totalValue = d3.sum(children, function (c) { return c.value; }) || 1;
+    var maxValue = d3.max(children, function (c) { return c.value; }) || 1;
+    var totalGrand = d3.sum(children, function (c) { return (c.children || []).length; });
+    var showGrand = totalGrand > 0 && totalGrand <= 130;
+    var showGrandLabels = totalGrand > 0 && totalGrand <= 30;
+
+    var spanDeg = Math.max(70, Math.min(158, children.length * 7 + 48));
+    var span = (spanDeg * Math.PI) / 180;
+    var startAngle = -span / 2;
+    var acc = 0;
+    // Les codes de branche sont dessinés en dernier, au-dessus des rameaux.
+    var branchLabels = [];
+
+    children.forEach(function (child, i) {
+      var slot = span * (child.value / totalValue);
+      var a = startAngle + acc + slot / 2; // 0 = vertical, vers le haut
+      acc += slot;
+
+      var rx = width * 0.44 * (0.86 + 0.18 * wobble(i));
+      var ry = (trunkTopY - 26) * (0.84 + 0.2 * wobble(i, 7));
+      var tipX = baseX + rx * Math.sin(a);
+      var tipY = trunkTopY - ry * Math.cos(a);
+      var dx = tipX - baseX;
+
+      var d = "M" + baseX + " " + trunkTopY +
+        " C " + (baseX + 0.06 * dx) + " " + (trunkTopY - 0.45 * (trunkTopY - tipY)) +
+        ", " + (baseX + 0.55 * dx) + " " + (tipY + 0.28 * (trunkTopY - tipY)) +
+        ", " + tipX + " " + tipY;
+
+      var sw = 3.5 + 12 * (child.value / maxValue);
+      var color = fillOf(child);
+      var active = !hasSelection || onPath(child);
+
+      var branch = g.append("path")
+        .attr("d", d)
+        .attr("fill", "none")
+        .attr("stroke", color)
+        .attr("stroke-width", onPath(child) && hasSelection ? sw + 2 : sw)
+        .attr("stroke-linecap", "round")
+        .attr("opacity", active ? 1 : 0.35)
+        .attr("data-code", child.data.code)
+        .attr("class", "naf-viz-branch");
+
+      if (animate) {
+        var len = branch.node().getTotalLength();
+        branch
+          .attr("stroke-dasharray", len + " " + len)
+          .attr("stroke-dashoffset", len)
+          .transition().duration(duration()).ease(d3.easeCubicOut)
+          .attr("stroke-dashoffset", 0)
+          .on("end", function () { branch.attr("stroke-dasharray", null); });
+      }
+
+      /* Zone de clic élargie (au doigt, la branche fine resterait ratable). */
+      var hit = g.append("path")
+        .attr("d", d)
+        .attr("fill", "none")
+        .attr("stroke", "transparent")
+        .attr("stroke-width", Math.max(sw, 24))
+        .style("cursor", "pointer")
+        .attr("data-code", child.data.code)
+        .datum(child)
+        .on("click", function (event, node) {
+          hideTooltip();
+          setSelection(node, focusFor(node));
+        });
+      if (HOVER_FINE.matches) hit.on("mousemove", moved).on("mouseleave", left);
+
+      branchLabels.push({
+        x: tipX + 17 * Math.sin(a),
+        y: tipY - 17 * Math.cos(a) + 4,
+        anchor: Math.sin(a) > 0.25 ? "start" : Math.sin(a) < -0.25 ? "end" : "middle",
+        opacity: active ? 1 : 0.4,
+        text: child.data.code,
+      });
+
+      if (!showGrand || !child.children) return;
+
+      var grand = child.children;
+      var maxLeafValue = d3.max(grand, function (l) { return l.value || 1; }) || 1;
+      var gspan = Math.min(Math.PI * 0.52, 0.22 + grand.length * 0.1);
+
+      grand.forEach(function (leaf, j) {
+        var ga = a + (grand.length === 1 ? 0.12 * wobble(i, j)
+          : ((j / (grand.length - 1)) - 0.5) * gspan);
+        var L = 30 + 40 * ((leaf.value || 1) / maxLeafValue) + 14 * wobble(i, j + 3);
+        var ex = tipX + L * Math.sin(ga);
+        var ey = tipY - L * Math.cos(ga);
+        var leafColor = fillOf(leaf);
+        var leafActive = !hasSelection || onPath(leaf);
+        var isLeaf = leaf.data.level === "subclass";
+        var isSelected = leaf === state.selected;
+
+        var stem = g.append("path")
+          .attr("d", "M" + tipX + " " + tipY +
+            " Q " + (tipX + 0.5 * (ex - tipX)) + " " + (tipY + 0.62 * (ey - tipY)) +
+            ", " + ex + " " + ey)
+          .attr("fill", "none")
+          .attr("stroke", leafColor)
+          .attr("stroke-width", isLeaf ? 2 : 2.5 + 2.5 * ((leaf.value || 1) / maxLeafValue))
+          .attr("stroke-linecap", "round")
+          .attr("opacity", leafActive ? 0.95 : 0.3);
+        if (animate) stem.attr("opacity", 0)
+          .transition().delay(duration() * 0.5).duration(duration() * 0.7)
+          .attr("opacity", leafActive ? 0.95 : 0.3);
+
+        var mark;
+        if (isLeaf) {
+          // Feuilles plus généreuses quand elles sont peu nombreuses.
+          var lrx = grand.length <= 12 ? 13 : 9;
+          mark = g.append("ellipse")
+            .attr("class", "naf-viz-leaf")
+            .attr("cx", ex).attr("cy", ey)
+            .attr("rx", lrx).attr("ry", lrx / 2)
+            .attr("transform", "rotate(" + ((ga * 180) / Math.PI + 90) + " " + ex + " " + ey + ")")
+            .attr("fill", leafColor)
+            .attr("stroke", isSelected ? "#14181d" : "none")
+            .attr("stroke-width", isSelected ? 2 : 0)
+            .attr("opacity", leafActive ? 1 : 0.35);
+        } else {
+          mark = g.append("circle")
+            .attr("cx", ex).attr("cy", ey).attr("r", 3.2)
+            .attr("fill", leafColor)
+            .attr("opacity", leafActive ? 1 : 0.35);
+        }
+        mark
+          .attr("data-code", leaf.data.code)
+          .style("cursor", "pointer")
+          .datum(leaf)
+          .on("click", function (event, node) {
+            hideTooltip();
+            setSelection(node, focusFor(node));
+          });
+        if (HOVER_FINE.matches) mark.on("mousemove", moved).on("mouseleave", left);
+        if (animate) mark.attr("opacity", 0)
+          .transition().delay(duration() * 0.7).duration(duration() * 0.6)
+          .attr("opacity", leafActive ? 1 : 0.35);
+
+        /* Cible tactile invisible autour du rameau. */
+        g.append("circle")
+          .attr("cx", ex).attr("cy", ey).attr("r", 15)
+          .attr("fill", "transparent")
+          .style("cursor", "pointer")
+          .attr("data-code", leaf.data.code)
+          .datum(leaf)
+          .on("click", function (event, node) {
+            hideTooltip();
+            setSelection(node, focusFor(node));
+          });
+
+        if (showGrandLabels) {
+          var lanchor = Math.sin(ga) > 0.2 ? "start" : Math.sin(ga) < -0.2 ? "end" : "middle";
+          g.append("text")
+            .attr("class", "naf-viz-tree-leafcode")
+            .attr("x", ex + 14 * Math.sin(ga))
+            .attr("y", ey - 14 * Math.cos(ga) + 3)
+            .attr("text-anchor", lanchor)
+            .attr("opacity", leafActive ? 1 : 0.4)
+            .text(leaf.data.code);
+        }
+      });
+    });
+
+    branchLabels.forEach(function (label) {
+      g.append("text")
+        .attr("class", "naf-viz-tree-code")
+        .attr("x", label.x)
+        .attr("y", label.y)
+        .attr("text-anchor", label.anchor)
+        .attr("opacity", label.opacity)
+        .text(label.text);
+    });
+
+    dom.chart.appendChild(svgT.node());
+    renderTreeNote();
+  }
+
+  function goUpTree() {
+    hideTooltip();
+    if (state.focus === state.root) return;
+    var up = state.focus.parent || state.root;
+    setSelection(up === state.root ? null : up, up);
+  }
+
+  function renderTreeNote() {
+    var note = dom.treenote;
+    if (!note) return;
+    if (state.view !== "arbre") { note.hidden = true; return; }
+    var depth = state.focus.depth;
+    if (depth === 0) {
+      note.textContent = "« " + state.root.children.length + " grandes branches »";
+    } else if (depth >= 3) {
+      note.textContent = "« chaque feuille = une sous-classe »";
+    } else {
+      note.textContent = "« la branche se précise »";
+    }
+    note.hidden = false;
+  }
+
+  /* ─────────────────────────────────────────────────────────────────────
+     Bascule Structure / Arbre
+  ───────────────────────────────────────────────────────────────────── */
+
+  function applyViewChrome() {
+    dom.app.dataset.viewmode = state.view;
+    Array.prototype.forEach.call(dom.viewButtons, function (button) {
+      var isCurrent = button.dataset.view === state.view;
+      button.classList.toggle("is-current", isCurrent);
+      button.setAttribute("aria-checked", isCurrent ? "true" : "false");
+    });
+    Array.prototype.forEach.call(dom.introModes, function (mode) {
+      mode.hidden = mode.dataset.mode !== state.view;
+    });
+    if (state.view !== "arbre" && dom.treenote) dom.treenote.hidden = true;
+  }
+
+  function setView(view) {
+    if (view === state.view) return;
+    state.view = view;
+    applyViewChrome();
+    hideTooltip();
+    if (!state.nomenclature) return;
+    // L'état (focus + sélection) est partagé : la nouvelle vue reprend
+    // exactement là où l'autre s'était arrêtée.
+    if (view === "structure") renderChart();
+    setSelection(state.selected, state.focus, { animate: view === "arbre" });
   }
 
   /* ─────────────────────────────────────────────────────────────────────
@@ -595,6 +921,7 @@
   function updateUrl() {
     var params = new URLSearchParams();
     params.set("v", state.versionId);
+    if (state.view === "arbre") params.set("view", "arbre");
     if (state.selected) params.set("code", state.selected.data.code);
     window.history.replaceState(null, "",
       window.location.pathname + "?" + params.toString());
@@ -630,7 +957,7 @@
       state.nomenclature = nomenclature;
       renderCounts();
       buildHierarchy();
-      renderChart();
+      if (state.view === "structure") renderChart();
 
       var target = null;
       if (wantedCode) {
@@ -701,7 +1028,7 @@
     var focusKey = state.focus && state.focus !== state.root
       ? state.focus.data.level + ":" + state.focus.data.code : null;
     buildHierarchy();
-    renderChart();
+    if (state.view === "structure") renderChart();
     var selected = selectedKey ? state.byKey.get(selectedKey) : null;
     var focusNode = focusKey ? state.byKey.get(focusKey) : state.root;
     setSelection(selected, focusNode || state.root,
@@ -710,11 +1037,19 @@
 
   window.addEventListener("popstate", applyUrl);
 
+  Array.prototype.forEach.call(dom.viewButtons, function (button) {
+    button.addEventListener("click", function () {
+      setView(button.dataset.view === "arbre" ? "arbre" : "structure");
+    });
+  });
+
   function applyUrl() {
     var params = new URLSearchParams(window.location.search);
     var versionId = params.get("v") === "2008" ? "2008" : "2025";
     var code = params.get("code");
     var query = params.get("q");
+    state.view = params.get("view") === "arbre" ? "arbre" : "structure";
+    applyViewChrome();
     if (query) dom.search.value = query;
     loadVersion(versionId, code).then(function () {
       if (query) runSearch(query);

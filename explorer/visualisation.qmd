@@ -1,5 +1,6 @@
 ---
-title: "Voyage visuel dans la NAF"
+pagetitle: "Voyage visuel dans la NAF"
+title: ""
 page-layout: full
 include-after-body: "../includes/visualisation-scripts.html"
 ---
@@ -7,24 +8,42 @@ include-after-body: "../includes/visualisation-scripts.html"
 ::: {.naf-page}
 
 ```{=html}
-<div class="naf-viz" id="naf-viz" data-zoomed="0">
+<div class="naf-viz" id="naf-viz" data-zoomed="0" data-viewmode="structure">
 
   <header class="naf-viz-intro">
-    <p class="naf-viz-lede">
-      La NAF n'est pas une liste. <strong>C'est un arbre.</strong>
-      Partez de l'économie entière, à gauche, et descendez branche par branche
-      jusqu'à une activité précise.
-    </p>
-    <p class="naf-hand naf-viz-hand" aria-hidden="true">
-      et on peut s'y promener
-      <svg class="naf-hand-arrow" viewBox="0 0 34 30" aria-hidden="true" focusable="false">
-        <path d="M6 3 C 10 12, 14 18, 24 23" />
-        <path d="M16 22 L 25 24 L 21 15" />
-      </svg>
-    </p>
+    <!-- role=heading plutôt que <h1> : Quarto promeut le premier h1 du corps
+         en titre de page, ce qui le sortirait du bloc masquable par mode. -->
+    <div class="naf-viz-intro-mode" data-mode="structure">
+      <p class="naf-hand-heading naf-viz-title" role="heading" aria-level="1">Voyage visuel dans la NAF</p>
+      <p class="naf-viz-lede">
+        La NAF n'est pas une liste. <strong>C'est un arbre.</strong>
+        Partez de l'économie entière, à gauche, et descendez branche par branche
+        jusqu'à une activité précise.
+      </p>
+      <p class="naf-hand naf-viz-hand" aria-hidden="true">
+        et on peut s'y promener
+        <svg class="naf-hand-arrow" viewBox="0 0 34 30" aria-hidden="true" focusable="false">
+          <path d="M6 3 C 10 12, 14 18, 24 23" />
+          <path d="M16 22 L 25 24 L 21 15" />
+        </svg>
+      </p>
+    </div>
+    <div class="naf-viz-intro-mode" data-mode="arbre" hidden>
+      <p class="naf-hand-heading naf-viz-title" role="heading" aria-level="1">La NAF est un arbre</p>
+      <p class="naf-viz-lede">
+        Suivez une branche, descendez dans la nomenclature et découvrez
+        comment une activité se précise, jusqu'à la feuille.
+      </p>
+    </div>
   </header>
 
   <div class="naf-toolbar">
+    <div class="naf-versions naf-viewswitch" role="radiogroup" aria-label="Type de visualisation">
+      <button type="button" class="naf-view is-current" role="radio" aria-checked="true"
+              data-view="structure">Structure</button>
+      <button type="button" class="naf-view" role="radio" aria-checked="false"
+              data-view="arbre">Arbre</button>
+    </div>
     <form class="naf-searchbox" id="naf-viz-searchbox" role="search" autocomplete="off">
       <label class="naf-visually-hidden" for="naf-viz-q">Rechercher un code ou une activité</label>
       <svg class="naf-search-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
@@ -55,7 +74,10 @@ include-after-body: "../includes/visualisation-scripts.html"
         <div class="naf-viz-crumbs" id="naf-viz-crumbs"></div>
         <button type="button" class="naf-viz-reset" id="naf-viz-reset" hidden>Réinitialiser la vue</button>
       </nav>
-      <div class="naf-viz-chart" id="naf-viz-chart"></div>
+      <div class="naf-viz-chartwrap">
+        <div class="naf-viz-chart" id="naf-viz-chart"></div>
+        <p class="naf-hand naf-viz-treenote" id="naf-viz-treenote" aria-hidden="true" hidden></p>
+      </div>
       <p class="naf-hand naf-viz-hint" id="naf-viz-hint" aria-hidden="true">
         cliquez sur une branche pour plonger
         <svg class="naf-hand-arrow naf-hand-arrow-up" viewBox="0 0 34 30" aria-hidden="true" focusable="false">
