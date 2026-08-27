@@ -43,6 +43,8 @@
     zoomIn: document.getElementById("naf-viz-zoomin"),
     zoomOut: document.getElementById("naf-viz-zoomout"),
     zoomFit: document.getElementById("naf-viz-zoomfit"),
+    gotoWrap: document.getElementById("naf-viz-goto-wrap"),
+    goto: document.getElementById("naf-viz-goto"),
     viewButtons: app.querySelectorAll(".naf-view"),
     introModes: app.querySelectorAll(".naf-viz-intro-mode"),
     hint: document.getElementById("naf-viz-hint"),
@@ -460,7 +462,8 @@
     var bbox = node.getBBox();
     if (!bbox.width || !bbox.height) return;
 
-    var pad = 26;
+    // Marge autour de l'arbre : les branches extrêmes ne collent pas au bord.
+    var pad = layout.width < 700 ? 24 : 44;
     var w = layout.width;
     var h = treeCamera.height;
     var scale = Math.min(
@@ -570,8 +573,47 @@
     // Les codes de branche sont dessinés en dernier, au-dessus des rameaux.
     var branchLabels = [];
 
+    /* Couches explicites : le picking SVG suit l'ordre du DOM, donc les
+       cibles du niveau que l'utilisateur est censé choisir (nœuds et codes
+       des enfants directs) passent au-dessus des zones de clic des branches
+       et des rameaux. Sans cela, deux hitbox voisines se recouvrent et la
+       dernière dessinée capte tous les clics (c'est ce qui rendait U et P
+       presque insélectionnables). */
+    var layerBranches = g.append("g");
+    var layerTwigs = g.append("g");
+    var layerBranchHits = g.append("g");
+    var layerTwigHits = g.append("g");
+    var layerNodeHits = g.append("g");
+    var layerLabels = g.append("g");
+
+    function selectNode(node) {
+      hideTooltip();
+      setSelection(node, focusFor(node));
+    }
+
+    /* Retour visuel au survol d'une cible : la branche s'épaissit, sans
+       jamais bouger (la géométrie reste stable sous le pointeur). */
+    function bindHover(selection, branch, baseWidth, node) {
+      selection
+        .on("mouseenter", function () {
+          branch.attr("stroke-width", baseWidth + 2.5);
+        })
+        .on("mouseleave", function () {
+          branch.attr("stroke-width", baseWidth);
+        });
+      if (HOVER_FINE.matches) {
+        selection.datum(node).on("mousemove", moved);
+        selection.on("mouseleave.tip", left);
+      }
+    }
+
+    // Part uniforme garantie dans l'ouverture angulaire : une section à
+    // 3 sous-classes (U) restait collée à ses voisines quand le slot était
+    // purement proportionnel. 55 % au poids, 45 % réparti également.
+    var uniformSlot = span / children.length;
+
     children.forEach(function (child, i) {
-      var slot = span * (child.value / totalValue);
+      var slot = 0.55 * span * (child.value / totalValue) + 0.45 * uniformSlot;
       var a = startAngle + acc + slot / 2; // 0 = vertical, vers le haut
       acc += slot;
 
@@ -590,11 +632,12 @@
       var color = fillOf(child);
       var active = !hasSelection || onPath(child);
 
-      var branch = g.append("path")
+      var baseWidth = onPath(child) && hasSelection ? sw + 2 : sw;
+      var branch = layerBranches.append("path")
         .attr("d", d)
         .attr("fill", "none")
         .attr("stroke", color)
-        .attr("stroke-width", onPath(child) && hasSelection ? sw + 2 : sw)
+        .attr("stroke-width", baseWidth)
         .attr("stroke-linecap", "round")
         .attr("opacity", active ? 1 : 0.35)
         .attr("data-code", child.data.code)
@@ -610,20 +653,40 @@
           .on("end", function () { branch.attr("stroke-dasharray", null); });
       }
 
-      /* Zone de clic élargie (au doigt, la branche fine resterait ratable). */
-      var hit = g.append("path")
+      /* Nœud marqué au bout de la branche : ancre visuelle du clic. */
+      layerTwigs.append("circle")
+        .attr("cx", tipX).attr("cy", tipY)
+        .attr("r", 4 + 2.5 * (child.value / maxValue))
+        .attr("fill", color)
+        .attr("stroke", "#fff")
+        .attr("stroke-width", 1.4)
+        .attr("opacity", active ? 1 : 0.4)
+        .attr("pointer-events", "none");
+
+      /* Zone de clic élargie le long de la branche (au doigt, la branche
+         fine resterait ratable). */
+      var hit = layerBranchHits.append("path")
         .attr("d", d)
         .attr("fill", "none")
         .attr("stroke", "transparent")
-        .attr("stroke-width", Math.max(sw, 24))
+        .attr("stroke-width", Math.max(sw, 26))
         .style("cursor", "pointer")
         .attr("data-code", child.data.code)
         .datum(child)
-        .on("click", function (event, node) {
-          hideTooltip();
-          setSelection(node, focusFor(node));
-        });
-      if (HOVER_FINE.matches) hit.on("mousemove", moved).on("mouseleave", left);
+        .on("click", function (event, node) { selectNode(node); });
+      bindHover(hit, branch, baseWidth, child);
+
+      /* Cible prioritaire : le nœud du bout de branche, au-dessus de tout
+         (les enfants directs sont le niveau que l'on est censé choisir). */
+      var nodeHit = layerNodeHits.append("circle")
+        .attr("cx", tipX).attr("cy", tipY)
+        .attr("r", focus.depth === 0 ? 26 : 20)
+        .attr("fill", "transparent")
+        .style("cursor", "pointer")
+        .attr("data-code", child.data.code)
+        .datum(child)
+        .on("click", function (event, node) { selectNode(node); });
+      bindHover(nodeHit, branch, baseWidth, child);
 
       branchLabels.push({
         x: tipX + 17 * Math.sin(a),
@@ -631,6 +694,9 @@
         anchor: Math.sin(a) > 0.25 ? "start" : Math.sin(a) < -0.25 ? "end" : "middle",
         opacity: active ? 1 : 0.4,
         text: child.data.code,
+        node: child,
+        branch: branch,
+        baseWidth: baseWidth,
       });
 
       if (!showGrand || !child.children) return;
@@ -650,7 +716,7 @@
         var isLeaf = leaf.data.level === "subclass";
         var isSelected = leaf === state.selected;
 
-        var stem = g.append("path")
+        var stem = layerTwigs.append("path")
           .attr("d", "M" + tipX + " " + tipY +
             " Q " + (tipX + 0.5 * (ex - tipX)) + " " + (tipY + 0.62 * (ey - tipY)) +
             ", " + ex + " " + ey)
@@ -667,7 +733,7 @@
         if (isLeaf) {
           // Feuilles plus généreuses quand elles sont peu nombreuses.
           var lrx = grand.length <= 12 ? 13 : 9;
-          mark = g.append("ellipse")
+          mark = layerTwigs.append("ellipse")
             .attr("class", "naf-viz-leaf")
             .attr("cx", ex).attr("cy", ey)
             .attr("rx", lrx).attr("ry", lrx / 2)
@@ -677,7 +743,7 @@
             .attr("stroke-width", isSelected ? 2 : 0)
             .attr("opacity", leafActive ? 1 : 0.35);
         } else {
-          mark = g.append("circle")
+          mark = layerTwigs.append("circle")
             .attr("cx", ex).attr("cy", ey).attr("r", 3.2)
             .attr("fill", leafColor)
             .attr("opacity", leafActive ? 1 : 0.35);
@@ -686,30 +752,25 @@
           .attr("data-code", leaf.data.code)
           .style("cursor", "pointer")
           .datum(leaf)
-          .on("click", function (event, node) {
-            hideTooltip();
-            setSelection(node, focusFor(node));
-          });
+          .on("click", function (event, node) { selectNode(node); });
         if (HOVER_FINE.matches) mark.on("mousemove", moved).on("mouseleave", left);
         if (animate) mark.attr("opacity", 0)
           .transition().delay(duration() * 0.7).duration(duration() * 0.6)
           .attr("opacity", leafActive ? 1 : 0.35);
 
-        /* Cible tactile invisible autour du rameau. */
-        g.append("circle")
+        /* Cible tactile invisible autour du rameau — sous les nœuds et
+           labels des enfants directs, prioritaires. */
+        layerTwigHits.append("circle")
           .attr("cx", ex).attr("cy", ey).attr("r", 15)
           .attr("fill", "transparent")
           .style("cursor", "pointer")
           .attr("data-code", leaf.data.code)
           .datum(leaf)
-          .on("click", function (event, node) {
-            hideTooltip();
-            setSelection(node, focusFor(node));
-          });
+          .on("click", function (event, node) { selectNode(node); });
 
         if (showGrandLabels) {
           var lanchor = Math.sin(ga) > 0.2 ? "start" : Math.sin(ga) < -0.2 ? "end" : "middle";
-          g.append("text")
+          layerTwigs.append("text")
             .attr("class", "naf-viz-tree-leafcode")
             .attr("x", ex + 14 * Math.sin(ga))
             .attr("y", ey - 14 * Math.cos(ga) + 3)
@@ -720,14 +781,20 @@
       });
     });
 
+    /* Les codes sont eux-mêmes des cibles : cliquer « U » sélectionne U. */
     branchLabels.forEach(function (label) {
-      g.append("text")
+      var text = layerLabels.append("text")
         .attr("class", "naf-viz-tree-code")
         .attr("x", label.x)
         .attr("y", label.y)
         .attr("text-anchor", label.anchor)
         .attr("opacity", label.opacity)
-        .text(label.text);
+        .attr("data-code", label.text)
+        .style("cursor", "pointer")
+        .datum(label.node)
+        .text(label.text)
+        .on("click", function (event, node) { selectNode(node); });
+      bindHover(text, label.branch, label.baseWidth, label.node);
     });
 
     dom.chart.appendChild(svgT.node());
@@ -751,7 +818,7 @@
     if (state.view !== "arbre") { note.hidden = true; return; }
     var depth = state.focus.depth;
     if (depth === 0) {
-      note.textContent = "« " + state.root.children.length + " grandes branches »";
+      note.textContent = "« choisissez une grande branche »";
     } else if (depth >= 3) {
       note.textContent = "« chaque feuille = une sous-classe »";
     } else {
@@ -777,6 +844,24 @@
     if (state.view !== "arbre" && dom.treenote) dom.treenote.hidden = true;
     if (dom.zoomctrl) dom.zoomctrl.hidden = state.view !== "arbre";
     if (dom.pannote) dom.pannote.hidden = state.view !== "arbre" || panNoteDismissed;
+    if (dom.gotoWrap) dom.gotoWrap.hidden = state.view !== "arbre";
+  }
+
+  /* Filet de sécurité clavier et accessibilité : toutes les sections
+     restent joignables même sans toucher l'arbre. */
+  function renderGotoOptions() {
+    if (!dom.goto || !state.root) return;
+    clear(dom.goto);
+    var placeholder = el("option", null, "Aller à une section…");
+    placeholder.value = "";
+    dom.goto.appendChild(placeholder);
+    state.root.children.forEach(function (section) {
+      var label = section.data.label || "";
+      if (label.length > 44) label = label.slice(0, 43) + "…";
+      var option = el("option", null, section.data.code + " — " + label);
+      option.value = section.data.code;
+      dom.goto.appendChild(option);
+    });
   }
 
   function setView(view) {
@@ -1040,6 +1125,7 @@
       state.nomenclature = nomenclature;
       renderCounts();
       buildHierarchy();
+      renderGotoOptions();
       if (state.view === "structure") renderChart();
 
       var target = null;
@@ -1124,6 +1210,17 @@
     button.addEventListener("click", function () {
       setView(button.dataset.view === "arbre" ? "arbre" : "structure");
     });
+  });
+
+  if (dom.goto) dom.goto.addEventListener("change", function () {
+    var code = dom.goto.value;
+    dom.goto.value = "";
+    if (!code || !state.byKey) return;
+    var section = state.byKey.get("section:" + code);
+    if (section) {
+      hideTooltip();
+      setSelection(section, focusFor(section));
+    }
   });
 
   if (dom.zoomIn) dom.zoomIn.addEventListener("click", function () { cameraZoomBy(1.45); });
