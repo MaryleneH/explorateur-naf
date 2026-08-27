@@ -38,6 +38,11 @@
     reset: document.getElementById("naf-viz-reset"),
     chart: document.getElementById("naf-viz-chart"),
     treenote: document.getElementById("naf-viz-treenote"),
+    pannote: document.getElementById("naf-viz-pannote"),
+    zoomctrl: document.getElementById("naf-viz-zoomctrl"),
+    zoomIn: document.getElementById("naf-viz-zoomin"),
+    zoomOut: document.getElementById("naf-viz-zoomout"),
+    zoomFit: document.getElementById("naf-viz-zoomfit"),
     viewButtons: app.querySelectorAll(".naf-view"),
     introModes: app.querySelectorAll(".naf-viz-intro-mode"),
     hint: document.getElementById("naf-viz-hint"),
@@ -408,6 +413,78 @@
     return (((i * 53 + (j || 0) * 29) % 17) / 17) - 0.5;
   }
 
+  /* ── Caméra : pan + zoom D3, indépendants de la sélection logique.
+     Le transform s'applique au seul groupe racine ; le breadcrumb ne bouge
+     jamais quand on déplace la caméra. Réinstallé à chaque re-rendu. ── */
+
+  var treeCamera = { svg: null, g: null, zoom: null, height: 0 };
+  var panNoteDismissed = false;
+
+  function dismissPanNote() {
+    if (panNoteDismissed) return;
+    panNoteDismissed = true;
+    if (dom.pannote) dom.pannote.hidden = true;
+  }
+
+  function installTreeCamera(svgT, g, height) {
+    treeCamera.svg = svgT;
+    treeCamera.g = g;
+    treeCamera.height = height;
+
+    treeCamera.zoom = d3.zoom()
+      .scaleExtent([0.5, 5])
+      .filter(function (event) {
+        // Un doigt = scroll de page et tap ; le pan/zoom tactile se fait à
+        // deux doigts, pour ne jamais piéger le défilement vertical.
+        if (event.type === "touchstart" || event.type === "touchmove") {
+          return event.touches.length > 1;
+        }
+        return !event.button;
+      })
+      .on("zoom", function (event) {
+        g.attr("transform", event.transform);
+        // Ne masquer l'indication que sur un geste réel de l'utilisateur,
+        // pas sur les recadrages programmés (fit, boutons).
+        if (event.sourceEvent) dismissPanNote();
+      });
+
+    svgT.call(treeCamera.zoom).on("dblclick.zoom", null);
+    // d3.zoom pose touch-action: none ; pan-y rend le scroll une main possible.
+    svgT.style("touch-action", "pan-y");
+  }
+
+  /** Cadre l'arbre entier (bounding box réelle, labels compris). */
+  function fitTree(animate) {
+    if (!treeCamera.svg || !treeCamera.g) return;
+    var node = treeCamera.g.node();
+    var bbox = node.getBBox();
+    if (!bbox.width || !bbox.height) return;
+
+    var pad = 26;
+    var w = layout.width;
+    var h = treeCamera.height;
+    var scale = Math.min(
+      2,
+      0.98 * Math.min(w / (bbox.width + pad * 2), h / (bbox.height + pad * 2))
+    );
+    var t = d3.zoomIdentity
+      .translate(w / 2, h / 2)
+      .scale(scale)
+      .translate(-(bbox.x + bbox.width / 2), -(bbox.y + bbox.height / 2));
+
+    var target = animate && !REDUCED.matches
+      ? treeCamera.svg.transition().duration(duration())
+      : treeCamera.svg;
+    target.call(treeCamera.zoom.transform, t);
+  }
+
+  function cameraZoomBy(factor) {
+    if (!treeCamera.svg) return;
+    dismissPanNote();
+    treeCamera.svg.transition().duration(200)
+      .call(treeCamera.zoom.scaleBy, factor);
+  }
+
   function onPath(node) {
     return state.selected && state.selected.ancestors().indexOf(node) !== -1;
   }
@@ -654,6 +731,10 @@
     });
 
     dom.chart.appendChild(svgT.node());
+    // Caméra : pan/zoom libres, puis cadrage automatique sur tout l'arbre —
+    // aucune branche (U comprise) ne doit rester hors d'atteinte.
+    installTreeCamera(svgT, g, height);
+    fitTree(false);
     renderTreeNote();
   }
 
@@ -694,6 +775,8 @@
       mode.hidden = mode.dataset.mode !== state.view;
     });
     if (state.view !== "arbre" && dom.treenote) dom.treenote.hidden = true;
+    if (dom.zoomctrl) dom.zoomctrl.hidden = state.view !== "arbre";
+    if (dom.pannote) dom.pannote.hidden = state.view !== "arbre" || panNoteDismissed;
   }
 
   function setView(view) {
@@ -1042,6 +1125,10 @@
       setView(button.dataset.view === "arbre" ? "arbre" : "structure");
     });
   });
+
+  if (dom.zoomIn) dom.zoomIn.addEventListener("click", function () { cameraZoomBy(1.45); });
+  if (dom.zoomOut) dom.zoomOut.addEventListener("click", function () { cameraZoomBy(1 / 1.45); });
+  if (dom.zoomFit) dom.zoomFit.addEventListener("click", function () { fitTree(true); });
 
   function applyUrl() {
     var params = new URLSearchParams(window.location.search);

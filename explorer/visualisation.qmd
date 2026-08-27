@@ -77,6 +77,15 @@ include-after-body: "../includes/visualisation-scripts.html"
       <div class="naf-viz-chartwrap">
         <div class="naf-viz-chart" id="naf-viz-chart"></div>
         <p class="naf-hand naf-viz-treenote" id="naf-viz-treenote" aria-hidden="true" hidden></p>
+        <p class="naf-hand naf-viz-pannote" id="naf-viz-pannote" aria-hidden="true" hidden>
+          faites glisser pour explorer<br>molette ou pincement pour zoomer
+        </p>
+        <div class="naf-viz-zoomctrl" id="naf-viz-zoomctrl" role="group"
+             aria-label="Contrôles de zoom de l'arbre" hidden>
+          <button type="button" id="naf-viz-zoomin" aria-label="Zoom avant">+</button>
+          <button type="button" id="naf-viz-zoomout" aria-label="Zoom arrière">&minus;</button>
+          <button type="button" id="naf-viz-zoomfit" aria-label="Recentrer et voir tout l'arbre">⌂</button>
+        </div>
       </div>
       <p class="naf-hand naf-viz-hint" id="naf-viz-hint" aria-hidden="true">
         cliquez sur une branche pour plonger

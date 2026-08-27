@@ -7,73 +7,155 @@ include-after-body: "includes/home-scripts.html"
 ::: {.naf-home}
 
 ```{=html}
-<div class="naf-home-app" id="naf-home">
+<div class="naf-hero" id="naf-home">
 
-  <h1 class="naf-home-title">Explorateur NAF</h1>
-  <p class="naf-home-tagline">
-    Chercher un code ou une activité, parcourir la nomenclature, comparer 2008 et 2025.
-  </p>
+  <div class="naf-hero-main">
+    <p class="naf-hero-kicker">NAF 2008–2025 · Nomenclature d'activités française</p>
+    <p class="naf-hand-heading naf-hero-title" role="heading" aria-level="1">La NAF est un arbre</p>
+    <p class="naf-hero-sub">
+      Explorer les activités <strong>du général au très précis</strong> —
+      des 22 sections jusqu'aux 747 sous-classes, dans les deux nomenclatures.
+    </p>
 
-  <div class="naf-versions" role="radiogroup" aria-label="Version de la nomenclature">
-    <button type="button" class="naf-version is-current" role="radio" aria-checked="true"
-            data-version="2025">NAF 2025</button>
-    <button type="button" class="naf-version" role="radio" aria-checked="false"
-            data-version="2008">NAF 2008</button>
+    <div class="naf-versions" role="radiogroup" aria-label="Version de la nomenclature">
+      <button type="button" class="naf-version is-current" role="radio" aria-checked="true"
+              data-version="2025">NAF 2025</button>
+      <button type="button" class="naf-version" role="radio" aria-checked="false"
+              data-version="2008">NAF 2008</button>
+    </div>
+
+    <form class="naf-home-search naf-searchbox" id="naf-home-form" role="search" autocomplete="off">
+      <label class="naf-visually-hidden" for="naf-home-q">Rechercher un code ou une activité</label>
+      <svg class="naf-search-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+        <circle cx="9" cy="9" r="6"></circle>
+        <line x1="13.5" y1="13.5" x2="18" y2="18"></line>
+      </svg>
+      <input id="naf-home-q" type="search" class="naf-search-input"
+             placeholder="30.32Y, aéronautique, logiciel…">
+      <button type="button" class="naf-search-clear" id="naf-home-clear"
+              aria-label="Effacer la recherche" hidden>&times;</button>
+    </form>
+
+    <section class="naf-results" id="naf-home-results" aria-label="Résultats de recherche" hidden></section>
+
+    <div id="naf-home-browse">
+      <div class="naf-hero-actions">
+        <a class="naf-home-cta" id="naf-home-cta" href="explorer/">
+          Explorer la NAF <span aria-hidden="true">→</span>
+        </a>
+        <a class="naf-home-cta naf-home-cta-ghost" href="explorer/visualisation.html?view=arbre">
+          Voir l'arbre
+        </a>
+      </div>
+      <p class="naf-home-counts" id="naf-home-counts" role="status" aria-live="polite"></p>
+    </div>
   </div>
 
-  <form class="naf-home-search naf-searchbox" id="naf-home-form" role="search" autocomplete="off">
-    <label class="naf-visually-hidden" for="naf-home-q">Rechercher un code ou une activité</label>
-    <svg class="naf-search-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
-      <circle cx="9" cy="9" r="6"></circle>
-      <line x1="13.5" y1="13.5" x2="18" y2="18"></line>
+  <div class="naf-hero-art" aria-hidden="true">
+    <svg viewBox="0 0 440 470" focusable="false">
+      <!-- Rameaux latéraux estompés : les autres branches de l'arbre. -->
+      <g class="naf-hero-twigs">
+        <path d="M100 375 C 70 350, 48 340, 26 338" />
+        <path d="M155 295 C 185 280, 205 278, 228 284" />
+        <path d="M155 295 C 150 265, 158 248, 172 236" />
+        <path d="M220 220 C 195 200, 178 194, 158 194" />
+        <path d="M295 152 C 320 142, 336 142, 352 148" />
+      </g>
+
+      <!-- La branche suivie : NAF → C → 30 → 30.3 → 30.32 → 30.32Y -->
+      <path class="naf-hero-vine"
+        d="M70 455
+           C 78 425, 88 400, 100 375
+           C 116 342, 134 322, 155 295
+           C 176 268, 196 244, 220 220
+           C 244 196, 268 175, 295 152
+           C 318 132, 340 110, 365 88" />
+
+      <g class="naf-hero-node" style="--d: 0.25s">
+        <circle cx="100" cy="375" r="6" fill="#2a669f" />
+        <text x="118" y="380" class="naf-hero-code">C</text>
+        <text x="134" y="380" class="naf-hero-lbl">Industrie manufacturière</text>
+      </g>
+      <g class="naf-hero-node" style="--d: 0.5s">
+        <circle cx="155" cy="295" r="5.5" fill="#4a7cb0" />
+        <text x="173" y="300" class="naf-hero-code">30</text>
+        <text x="200" y="300" class="naf-hero-lbl">Autres matériels de transport</text>
+      </g>
+      <g class="naf-hero-node" style="--d: 0.75s">
+        <circle cx="220" cy="220" r="5" fill="#6d95c0" />
+        <text x="238" y="225" class="naf-hero-code">30.3</text>
+      </g>
+      <g class="naf-hero-node" style="--d: 1s">
+        <circle cx="295" cy="152" r="4.5" fill="#8fadd0" />
+        <text x="313" y="157" class="naf-hero-code">30.32</text>
+      </g>
+      <g class="naf-hero-node" style="--d: 1.25s">
+        <ellipse cx="368" cy="84" rx="15" ry="7.5" fill="#a9c2dd" stroke="#2a669f"
+                 stroke-width="1.6" transform="rotate(-40 368 84)" />
+        <text x="356" y="62" class="naf-hero-code naf-hero-code-leaf">30.32Y</text>
+      </g>
+
+      <g class="naf-hero-note naf-hero-node" style="--d: 1.4s">
+        <text x="52" y="180" class="naf-hero-hand">suivez</text>
+        <text x="52" y="204" class="naf-hero-hand">une branche</text>
+        <path class="naf-hero-hand-arrow" d="M96 214 C 120 232, 146 240, 176 240" />
+        <path class="naf-hero-hand-arrow" d="M162 232 L 178 240 L 164 250" />
+      </g>
     </svg>
-    <input id="naf-home-q" type="search" class="naf-search-input"
-           placeholder="30.32Y, aéronautique, logiciel…">
-    <button type="button" class="naf-search-clear" id="naf-home-clear"
-            aria-label="Effacer la recherche" hidden>&times;</button>
-  </form>
-
-  <section class="naf-results" id="naf-home-results" aria-label="Résultats de recherche" hidden></section>
-
-  <div id="naf-home-browse">
-    <a class="naf-home-cta" id="naf-home-cta" href="explorer/">
-      Parcourir la NAF 2025 <span aria-hidden="true">→</span>
-    </a>
-    <p class="naf-home-counts" id="naf-home-counts" role="status" aria-live="polite"></p>
   </div>
 
 </div>
 ```
 
 ```{=html}
-<a class="naf-voyage" href="explorer/visualisation.html">
-  <span class="naf-voyage-tree" aria-hidden="true">C
- └ 30
-    └ 30.3
-       └ 30.32
-          └ <span class="is-5">30.32Y</span></span>
-  <span class="naf-voyage-text">
-    <span class="naf-voyage-kicker">Voir la NAF autrement</span>
-    <span class="naf-voyage-title">Voyage visuel</span>
-    <span class="naf-hand naf-voyage-hand" aria-hidden="true">« et si on voyait tout l'arbre&nbsp;? »
-      <svg class="naf-hand-arrow" viewBox="0 0 34 30" aria-hidden="true" focusable="false">
-        <path d="M5 6 C 12 8, 20 14, 26 24" />
-        <path d="M18 22 L 27 25 L 26 15" />
-      </svg>
+<nav class="naf-paths" aria-label="Choisir son chemin">
+  <p class="naf-paths-title">Choisir son chemin</p>
+
+  <a class="naf-path" href="explorer/">
+    <span class="naf-path-num" aria-hidden="true">01</span>
+    <span class="naf-path-body">
+      <span class="naf-path-name">Naviguer</span>
+      <span class="naf-path-desc">La nomenclature niveau par niveau, de la section à la fiche d'activité.</span>
     </span>
-    <span class="naf-voyage-cta">Commencer le voyage&nbsp;→</span>
-  </span>
-</a>
+    <span class="naf-path-arrow" aria-hidden="true">→</span>
+  </a>
+
+  <a class="naf-path" href="explorer/visualisation.html?view=arbre">
+    <span class="naf-path-num" aria-hidden="true">02</span>
+    <span class="naf-path-body">
+      <span class="naf-path-name">Voir</span>
+      <span class="naf-path-desc">L'arbre interactif : suivre une branche jusqu'à la feuille.</span>
+    </span>
+    <span class="naf-path-arrow" aria-hidden="true">→</span>
+  </a>
+
+  <a class="naf-path" href="comparer/">
+    <span class="naf-path-num" aria-hidden="true">03</span>
+    <span class="naf-path-body">
+      <span class="naf-path-name">Comparer</span>
+      <span class="naf-path-desc">Ce que devient une activité entre la NAF 2008 et la NAF 2025.</span>
+    </span>
+    <span class="naf-path-arrow" aria-hidden="true">→</span>
+  </a>
+
+  <a class="naf-path" href="defense/">
+    <span class="naf-path-num" aria-hidden="true">04</span>
+    <span class="naf-path-body">
+      <span class="naf-path-name">NAF &amp; Défense</span>
+      <span class="naf-path-desc">Jusqu'où la nomenclature identifie les activités liées à la Défense.</span>
+    </span>
+    <span class="naf-path-arrow" aria-hidden="true">→</span>
+  </a>
+
+  <a class="naf-path" href="comprendre/">
+    <span class="naf-path-num" aria-hidden="true">05</span>
+    <span class="naf-path-body">
+      <span class="naf-path-name">Comprendre</span>
+      <span class="naf-path-desc">NAF, code APE, entreprise et établissement — et la méthode derrière les données.</span>
+    </span>
+    <span class="naf-path-arrow" aria-hidden="true">→</span>
+  </a>
+</nav>
 ```
-
-::: {.naf-home-secondary}
-[[Comparer 2008 ↔ 2025]{.naf-home-link-title} [Ce que devient une activité d'une nomenclature à l'autre]{.naf-home-link-desc}](comparer/index.qmd){.naf-home-link}
-
-[[NAF & Défense]{.naf-home-link-title} [Jusqu'où la NAF permet d'identifier les activités liées à la Défense]{.naf-home-link-desc}](defense/index.qmd){.naf-home-link}
-
-[[Comprendre]{.naf-home-link-title} [NAF, code APE, entreprise et établissement, limites de lecture]{.naf-home-link-desc}](comprendre/index.qmd){.naf-home-link}
-
-[[Méthode & sources]{.naf-home-link-title} [Origine des données, contrôles et traçabilité]{.naf-home-link-desc}](methode/index.qmd){.naf-home-link}
-:::
 
 :::

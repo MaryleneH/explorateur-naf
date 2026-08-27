@@ -14,6 +14,8 @@ website:
   site-url: "https://maryleneh.github.io/explorateur-naf"
   favicon: assets/favicon.svg
   navbar:
+    # Le logo porte l'identité ; le libellé décrit l'objet du site.
+    title: "NAF 2008–2025"
     logo: assets/img/logo-naf.svg
     logo-alt: "Explorateur NAF — retour à l'accueil"
     left:
