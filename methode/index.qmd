@@ -76,10 +76,12 @@ officielle, qui les publie.
 ::: {.callout-note}
 ## Couverture de la table de correspondance
 
-La table de passage dont nous disposons ne couvre pas toutes les sous-classes.
-Une absence de ligne ne signifie pas qu'aucune correspondance n'existe. La page
-[Comparer](../comparer/index.qmd) affiche la couverture réelle, calculée à partir
-des données.
+La table de passage dont nous disposons est un extrait partiel, limité aux
+relations restant dans la même classe (xx.xx). Une absence de ligne ne signifie
+pas qu'aucune correspondance n'existe. La page
+[Explorer les changements](../comparer/index.qmd) affiche la couverture réelle,
+calculée à partir des données, et documente les lignes retirées de l'extrait ;
+la [table officielle Insee](https://www.insee.fr/fr/information/8201411) fait foi.
 :::
 
 ::: {.callout-note}

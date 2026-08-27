@@ -1,0 +1,115 @@
+---
+pagetitle: "NAF 2008 ↔ 2025 — Voyage 2008 → 2025"
+title: ""
+page-layout: full
+include-after-body: "../includes/flux-scripts.html"
+---
+
+::: {.naf-page}
+
+```{=html}
+<div class="naf-viz naf-flux" id="naf-flux">
+
+  <header class="naf-viz-intro">
+    <p class="naf-hand-heading naf-viz-title" role="heading" aria-level="1">Voyage 2008 → 2025</p>
+    <p class="naf-viz-lede">
+      Suivre les activités économiques d'une nomenclature à l'autre, comme des
+      flux. On part des grandes sections&nbsp;; chaque clic descend d'un niveau,
+      jusqu'aux sous-classes où les chemins se séparent vraiment.
+    </p>
+    <p class="naf-hand naf-viz-hand" aria-hidden="true">
+      « une carte se lit de loin, puis de près »
+    </p>
+  </header>
+
+  <!-- Comment lire les flux -->
+  <section class="naf-did naf-flux-did" aria-labelledby="naf-flux-did-title">
+    <p class="naf-did-title" id="naf-flux-did-title" role="heading" aria-level="2">
+      Comment lire les flux&nbsp;?
+    </p>
+    <ol class="naf-did-steps">
+      <li class="naf-did-step">
+        <span class="naf-did-step-head">À gauche, 2008 — à droite, 2025</span>
+        <span class="naf-did-step-text">Chaque bloc est un morceau de la
+        nomenclature (section, puis division, groupe, classe, sous-classe).
+        Un lien relie ce qui se correspond d'une version à l'autre.</span>
+      </li>
+      <li class="naf-did-step">
+        <span class="naf-did-step-head">L'épaisseur compte des relations</span>
+        <span class="naf-did-step-text">L'épaisseur d'un lien représente une
+        seule chose&nbsp;: le <strong>nombre de relations de sous-classes</strong>
+        qu'il contient. Ce n'est ni un nombre d'entreprises, ni un volume
+        économique. Les liens très fins sont légèrement épaissis pour rester
+        cliquables.</span>
+      </li>
+      <li class="naf-did-step">
+        <span class="naf-did-step-head">La couleur, c'est l'origine</span>
+        <span class="naf-did-step-text">Chaque lien garde la couleur de sa
+        <strong>section d'origine</strong> (2008). Quand un chemin change de
+        couleur de colonne à colonne, c'est qu'une activité a changé de section
+        entre les deux nomenclatures.</span>
+      </li>
+    </ol>
+    <p class="naf-did-strong">
+      Ce diagramme repose sur l'extrait partiel de la table de correspondance
+      chargé sur ce site&nbsp;: ce qui n'y figure pas n'apparaît pas ici.
+      <a href="https://www.insee.fr/fr/information/8201411" target="_blank"
+      rel="noopener noreferrer">La table officielle Insee fait foi&nbsp;↗</a>
+    </p>
+  </section>
+
+  <!-- Outils : fil d'Ariane + filtres -->
+  <div class="naf-toolbar naf-flux-toolbar">
+    <nav class="naf-flux-crumbs" id="naf-flux-crumb" aria-label="Fil d'Ariane du voyage"></nav>
+    <div class="naf-flux-filterrow">
+      <div class="naf-versions naf-flux-filters" id="naf-flux-filters" role="radiogroup"
+           aria-label="Filtrer par type de transformation">
+        <button type="button" class="naf-version is-current" role="radio" aria-checked="true" data-type="tous">Tout</button>
+        <button type="button" class="naf-version" role="radio" aria-checked="false" data-type="identique">1→1</button>
+        <button type="button" class="naf-version" role="radio" aria-checked="false" data-type="scission">Scissions</button>
+        <button type="button" class="naf-version" role="radio" aria-checked="false" data-type="regroupement">Regroupements</button>
+        <button type="button" class="naf-version" role="radio" aria-checked="false" data-type="recomposition">Recompositions</button>
+      </div>
+      <label class="naf-flux-simplelabel">
+        <input type="checkbox" id="naf-flux-simple">
+        Masquer les correspondances simples (1→1)
+      </label>
+    </div>
+  </div>
+
+  <p class="naf-counts" id="naf-flux-counts" role="status" aria-live="polite">Chargement des flux…</p>
+
+  <!-- Diagramme + panneau -->
+  <div class="naf-viz-main">
+    <div class="naf-viz-stage">
+      <p class="naf-hand naf-flux-hand" id="naf-flux-hand" aria-hidden="true"></p>
+      <div class="naf-viz-chartwrap naf-flux-chartwrap">
+        <div class="naf-flux-chart" id="naf-flux-chart"></div>
+        <div class="naf-viz-tooltip" id="naf-flux-tooltip" role="presentation" hidden></div>
+      </div>
+      <p class="naf-flux-legend">
+        Épaisseur d'un lien = nombre de relations de sous-classes contenues ·
+        couleur = section d'origine (2008).
+      </p>
+    </div>
+
+    <div class="naf-viz-panel" id="naf-flux-panel" role="complementary"
+         aria-label="Détail de la relation sélectionnée" aria-live="polite"></div>
+  </div>
+
+  <!-- Alternative accessible -->
+  <details class="naf-sheet-section">
+    <summary class="naf-sheet-summary"><span class="naf-sheet-summary-text">Voir la vue courante sous forme de liste</span></summary>
+    <div class="naf-sheet-body" id="naf-flux-list"></div>
+  </details>
+
+  <!-- Aller plus loin -->
+  <p class="naf-chg-fluxlink">
+    <a class="naf-chg-cta" href="index.html">← Explorer les changements, fiche par fiche</a>
+  </p>
+
+  <p class="naf-error" id="naf-flux-error" role="alert" hidden></p>
+</div>
+```
+
+:::

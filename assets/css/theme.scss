@@ -1031,77 +1031,738 @@ body {
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   Comparer 2008 / 2025
+   NAF 2008 ↔ 2025 — Explorer les changements (.naf-chg)
+
+   Couleurs sémantiques des quatre types de transformation. Elles ne
+   portent jamais l'information seules : le badge textuel (1→1, 1→n,
+   n→1, n↔n) est toujours présent à côté.
 ═══════════════════════════════════════════════════════════════════ */
 
-.naf-compare {
-  max-width: 52rem;
+.naf-chg,
+.naf-flux {
+  --naf-type-identique: #5f7185;
+  --naf-type-scission: #2a669f;
+  --naf-type-regroupement: #925019;
+  --naf-type-recomposition: #984742;
 }
 
-.naf-compare-result {
-  margin-top: 1.25rem;
+.naf-chg-h2 {
+  margin: 0 0 0.4rem;
+  font-size: 1.5rem;
+  color: var(--naf-ink);
 }
 
-.naf-compare-pair {
+.naf-linklike {
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  color: var(--naf-bronze);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* — Chiffres clés — */
+
+.naf-chg-statsblock {
+  max-width: 46rem;
+  margin: 1.75rem auto 0;
+}
+
+.naf-chg-twin {
   display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
   gap: 0.75rem;
-  padding: 1rem 0;
-  border-bottom: 1px solid var(--naf-line-soft);
 }
 
-.naf-compare-side {
+.naf-chg-card {
   display: grid;
-  gap: 0.2rem;
+  gap: 0.1rem;
+  padding: 0.9rem 1.1rem;
+  border: 1px solid var(--naf-line);
+  border-radius: var(--naf-radius);
+  background: var(--naf-surface);
+  text-align: center;
 }
 
-.naf-compare-version {
-  font-size: 0.72rem;
+.naf-chg-card-title {
+  font-size: 0.74rem;
   font-weight: 650;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--naf-steel);
 }
 
-.naf-compare-code {
+.naf-chg-card-value {
+  font-size: 1.9rem;
+  font-weight: 700;
   font-family: var(--naf-mono);
-  font-size: 1.05rem;
-  font-weight: 600;
   color: var(--naf-ink);
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
+  line-height: 1.1;
 }
 
-.naf-compare-label {
-  font-size: 0.94rem;
-  line-height: 1.4;
-  overflow-wrap: anywhere;
+.naf-chg-card-unit {
+  font-size: 0.85rem;
+  color: var(--naf-slate-mid);
 }
 
-.naf-compare-arrow {
-  font-size: 1.1rem;
+.naf-chg-twin-arrow {
+  font-size: 1.6rem;
   color: var(--naf-bronze);
 }
 
-.naf-compare-type {
-  align-self: start;
-  padding: 0.15rem 0.5rem;
-  font-family: var(--naf-mono);
-  font-size: 0.76rem;
-  color: var(--naf-slate-mid);
-  background: var(--naf-line-soft);
-  border-radius: 3px;
-  width: fit-content;
+.naf-chg-delta {
+  margin: 0.75rem 0 0;
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--naf-slate);
+}
+
+/* — Bandeau de couverture — */
+
+.naf-chg-cover {
+  max-width: 52rem;
+  margin: 1.5rem auto 0;
+  padding: 0.85rem 1.1rem;
+  border-left: 3px solid var(--naf-bronze);
+  background: var(--naf-surface);
+  border-radius: 0 var(--naf-radius) var(--naf-radius) 0;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--naf-slate);
+
+  p { margin: 0; }
+}
+
+/* — Les quatre cas (schémas) — */
+
+.naf-chg-did .naf-did-steps {
+  grid-template-columns: 1fr;
 }
 
 @media (min-width: 861px) {
-  .naf-compare-pair {
-    grid-template-columns: 1fr auto 1fr auto;
-    align-items: start;
-    gap: 1.25rem;
+  .naf-chg-did .naf-did-steps {
+    grid-template-columns: repeat(2, 1fr);
   }
+}
+
+.naf-chg-schema {
+  width: 120px;
+  height: 56px;
+  margin-bottom: 0.35rem;
+
+  rect {
+    fill: var(--naf-paper);
+    stroke: var(--naf-steel);
+    stroke-width: 1.4;
+  }
+
+  path {
+    fill: none;
+    stroke: var(--naf-bronze);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+  }
+}
+
+.naf-chg-case[data-case="scission"] .naf-chg-schema path { stroke: var(--naf-type-scission); }
+.naf-chg-case[data-case="regroupement"] .naf-chg-schema path { stroke: var(--naf-type-regroupement); }
+.naf-chg-case[data-case="recomposition"] .naf-chg-schema path { stroke: var(--naf-type-recomposition); }
+.naf-chg-case[data-case="identique"] .naf-chg-schema path { stroke: var(--naf-type-identique); }
+
+/* — Badges de type — */
+
+.naf-chg-badge {
+  display: inline-block;
+  padding: 0.14rem 0.5rem;
+  border-radius: 999px;
+  font-family: var(--naf-mono);
+  font-size: 0.78rem;
+  font-weight: 650;
+  color: #fff;
+  background: var(--naf-type-identique);
+  white-space: nowrap;
+}
+
+.naf-chg-badge-scission { background: var(--naf-type-scission); }
+.naf-chg-badge-regroupement { background: var(--naf-type-regroupement); }
+.naf-chg-badge-recomposition { background: var(--naf-type-recomposition); }
+
+/* — Transformations structurantes — */
+
+.naf-chg-featured {
+  margin-top: 2.75rem;
+}
+
+.naf-chg-featured-lede {
+  margin: 0 0 1rem;
+  color: var(--naf-slate-mid);
+  font-size: 0.95rem;
+}
+
+.naf-chg-featured-grid {
+  display: grid;
+  gap: 0.9rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 700px) {
+  .naf-chg-featured-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1200px) {
+  .naf-chg-featured-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+.naf-chg-fcard {
+  display: grid;
+  gap: 0.4rem;
+  align-content: start;
+  justify-items: start;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--naf-line);
+  border-radius: var(--naf-radius);
+  background: var(--naf-surface);
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover,
+  &:focus-visible {
+    border-color: var(--naf-bronze);
+    box-shadow: 0 1px 6px rgba(20, 24, 29, 0.08);
+  }
+}
+
+.naf-chg-fcard-title {
+  font-weight: 650;
+  color: var(--naf-ink);
+  line-height: 1.3;
+}
+
+.naf-chg-fcard-codes {
+  font-family: var(--naf-mono);
+  font-size: 0.82rem;
+  color: var(--naf-slate-mid);
+}
+
+.naf-chg-fcard-text {
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--naf-slate);
+}
+
+.naf-chg-fluxlink {
+  margin: 1.75rem 0 0;
+  text-align: center;
+}
+
+.naf-chg-cta {
+  display: inline-block;
+  padding: 0.55rem 1.1rem;
+  border: 1px solid var(--naf-bronze);
+  border-radius: 999px;
+  color: var(--naf-bronze);
+  font-weight: 600;
+  font-size: 0.92rem;
+  text-decoration: none;
+  transition: background-color 0.15s ease, color 0.15s ease;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--naf-bronze);
+    color: #fff;
+    text-decoration: none;
+  }
+}
+
+/* — Parcours de la table — */
+
+.naf-chg-browse {
+  margin-top: 2.75rem;
+}
+
+.naf-chg-toolbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.75rem;
+  margin-top: 1rem;
+
+  > * { min-width: 0; }
+}
+
+.naf-chg-filterrow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.naf-chg-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 2.25rem;
+  padding: 0.3rem 0.85rem;
+  border: 1px solid var(--naf-line);
+  border-radius: 999px;
+  background: var(--naf-surface);
+  font: inherit;
+  font-size: 0.88rem;
+  color: var(--naf-slate);
+  cursor: pointer;
+
+  .naf-chg-filter-count {
+    font-family: var(--naf-mono);
+    font-size: 0.78rem;
+    color: var(--naf-steel);
+  }
+
+  &[aria-pressed="true"] {
+    border-color: var(--naf-ink);
+    background: var(--naf-ink);
+    color: #fff;
+
+    .naf-chg-filter-count { color: rgba(255, 255, 255, 0.75); }
+  }
+}
+
+.naf-chg-refine {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.naf-chg-seclabel {
+  font-size: 0.88rem;
+  color: var(--naf-slate-mid);
+}
+
+.naf-chg-secselect {
+  flex: 1 1 12rem;
+  min-width: 0;
+  max-width: 100%;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--naf-line);
+  border-radius: var(--naf-radius);
+  background: var(--naf-surface);
+  font: inherit;
+  font-size: 0.88rem;
+  color: var(--naf-ink);
+}
+
+.naf-chg-searchbox {
+  flex: 1 1 16rem;
+  max-width: 24rem;
+}
+
+/* — Liste des transformations — */
+
+.naf-chg-list {
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--naf-line-soft);
+}
+
+.naf-chg-item {
+  border-bottom: 1px solid var(--naf-line-soft);
+}
+
+.naf-chg-head {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: baseline;
+  column-gap: 0.7rem;
+  row-gap: 0.15rem;
+  width: 100%;
+  padding: 0.7rem 0.4rem;
+  border: none;
+  background: none;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--naf-surface);
+  }
+
+  &[aria-expanded="true"] {
+    background: var(--naf-surface);
+  }
+}
+
+.naf-chg-codes {
+  font-family: var(--naf-mono);
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--naf-ink);
+  overflow-wrap: anywhere;
+}
+
+.naf-chg-codes-arrow {
+  margin: 0 0.4rem;
+  color: var(--naf-bronze);
+}
+
+.naf-chg-hint {
+  grid-column: 2;
+  font-size: 0.85rem;
+  color: var(--naf-slate-mid);
+  overflow-wrap: anywhere;
+}
+
+.naf-chg-detail {
+  padding: 0.4rem 0.4rem 1.1rem;
+}
+
+.naf-chg-detail-cols {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 861px) {
+  .naf-chg-detail-cols { grid-template-columns: 1fr 1fr; }
+}
+
+.naf-chg-detail-col {
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--naf-line-soft);
+  border-radius: var(--naf-radius);
+  background: var(--naf-surface);
+
+  h4 {
+    margin: 0 0 0.5rem;
+    font-size: 0.78rem;
+    font-weight: 650;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--naf-steel);
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  li {
+    font-size: 0.9rem;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+  }
+}
+
+.naf-chg-code {
+  font-family: var(--naf-mono);
+  font-weight: 650;
+  color: var(--naf-ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--naf-line);
+
+  &:hover { border-bottom-color: var(--naf-bronze); }
+}
+
+.naf-chg-detail-type {
+  margin: 0.9rem 0 0;
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.naf-chg-detail-source {
+  margin: 0.45rem 0 0;
+  font-size: 0.85rem;
+  color: var(--naf-slate-mid);
+}
+
+.naf-chg-detail-actions {
+  margin: 0.8rem 0 0;
+}
+
+/* — Pagination — */
+
+.naf-chg-pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.1rem;
+}
+
+.naf-chg-page-btn {
+  min-height: 2.4rem;
+  padding: 0.35rem 1rem;
+  border: 1px solid var(--naf-line);
+  border-radius: 999px;
+  background: var(--naf-surface);
+  font: inherit;
+  font-size: 0.88rem;
+  color: var(--naf-slate);
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+
+  &:not(:disabled):hover {
+    border-color: var(--naf-bronze);
+  }
+}
+
+.naf-chg-page-status {
+  font-size: 0.88rem;
+  color: var(--naf-slate-mid);
+}
+
+/* — Pourquoi c'est important — */
+
+.naf-chg-why {
+  max-width: 52rem;
+  margin: 2.75rem auto 0;
+}
+
+.naf-chg-why-list {
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.8rem;
+
+  li {
+    padding-left: 1.1rem;
+    border-left: 3px solid var(--naf-line);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   NAF 2008 ↔ 2025 — Voyage 2008 → 2025 (.naf-flux)
+═══════════════════════════════════════════════════════════════════ */
+
+.naf-flux-toolbar {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.naf-flux-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+}
+
+.naf-flux-crumb-btn {
+  padding: 0.25rem 0.55rem;
+  border: 1px solid var(--naf-line);
+  border-radius: 999px;
+  background: var(--naf-surface);
+  font: inherit;
+  font-size: 0.85rem;
+  color: var(--naf-slate);
+  cursor: pointer;
+
+  &:disabled {
+    border-color: transparent;
+    background: none;
+    color: var(--naf-ink);
+    font-weight: 650;
+    cursor: default;
+  }
+
+  &:not(:disabled):hover {
+    border-color: var(--naf-bronze);
+  }
+}
+
+.naf-flux-crumb-here {
+  padding: 0.25rem 0.35rem;
+  font-weight: 650;
+  color: var(--naf-ink);
+}
+
+.naf-flux-crumb-sep {
+  color: var(--naf-steel);
+}
+
+.naf-flux-filterrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.naf-flux-filters {
+  flex-wrap: wrap;
+}
+
+.naf-flux-simplelabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.88rem;
+  color: var(--naf-slate);
+  cursor: pointer;
+
+  input { accent-color: var(--naf-bronze); }
+}
+
+.naf-flux-chartwrap {
+  position: relative;
+}
+
+.naf-flux-chart {
+  width: 100%;
+  min-height: 320px;
+}
+
+.naf-flux-svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.naf-flux-hand {
+  margin: 0 0 0.3rem;
+  text-align: right;
+  font-size: 1.02rem;
+  color: var(--naf-slate-mid);
+}
+
+.naf-flux-legend {
+  margin: 0.6rem 0 0;
+  font-size: 0.82rem;
+  color: var(--naf-slate-mid);
+}
+
+/* Couches SVG : liens → zones de clic → nœuds → libellés (dessinés en
+   dernier pour rester cliquables au-dessus de tout). */
+
+.naf-flux-link {
+  fill: none;
+  stroke-opacity: 0.42;
+  transition: stroke-opacity 0.12s ease;
+
+  &.is-hover { stroke-opacity: 0.8; }
+  &.is-selected { stroke-opacity: 0.9; }
+}
+
+.naf-flux-linkhit {
+  fill: none;
+  stroke: #000;
+  stroke-opacity: 0;
+  pointer-events: stroke;
+  cursor: pointer;
+}
+
+.naf-flux-node {
+  stroke: var(--naf-paper);
+  stroke-width: 1;
+}
+
+.naf-flux-nodehit {
+  fill: transparent;
+  cursor: pointer;
+}
+
+.naf-flux-label {
+  font-size: 0.78rem;
+  fill: var(--naf-ink);
+  stroke: var(--naf-surface);
+  stroke-width: 3px;
+  paint-order: stroke;
+  pointer-events: auto;
+  cursor: pointer;
+
+  &:hover { font-weight: 650; }
+}
+
+.naf-flux-head {
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  fill: var(--naf-steel);
+}
+
+/* Panneau de détail */
+
+.naf-flux-panel-empty {
+  color: var(--naf-slate-mid);
+  font-size: 0.92rem;
+}
+
+.naf-flux-panel-hint { margin: 0; }
+
+.naf-flux-panel-badge {
+  margin: 0 0 0.75rem;
+  width: fit-content;
+}
+
+.naf-flux-panel-side {
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--naf-line-soft);
+  border-radius: var(--naf-radius);
+  background: var(--naf-surface);
+}
+
+.naf-flux-panel-ver {
+  margin: 0 0 0.15rem;
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--naf-steel);
+}
+
+.naf-flux-panel-code {
+  font-size: 1.05rem;
+  font-weight: 650;
+  color: var(--naf-ink);
+  text-decoration: none;
+
+  &:hover { text-decoration: underline; }
+}
+
+.naf-flux-panel-lbl {
+  margin: 0.15rem 0 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.naf-flux-panel-arrow {
+  margin: 0.3rem 0;
+  text-align: center;
+  color: var(--naf-bronze);
+  font-size: 1.1rem;
+}
+
+.naf-flux-panel-note {
+  margin: 0.75rem 0 0;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--naf-slate);
+}
+
+.naf-flux-panel-source {
+  margin: 0.6rem 0 0;
+  font-size: 0.85rem;
+  color: var(--naf-slate-mid);
+}
+
+.naf-flux-panel-actions {
+  display: grid;
+  gap: 0.5rem;
+  justify-items: start;
+  margin-top: 0.9rem;
 }
 
 /* ═══════════════════════════════════════════════════════════════════

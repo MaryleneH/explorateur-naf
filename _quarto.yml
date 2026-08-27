@@ -25,8 +25,12 @@ website:
             text: Naviguer dans la NAF
           - href: explorer/visualisation.qmd
             text: Voyage visuel
-      - href: comparer/index.qmd
-        text: Comparer 2008 ↔ 2025
+      - text: NAF 2008 ↔ 2025
+        menu:
+          - href: comparer/index.qmd
+            text: Explorer les changements
+          - href: comparer/flux.qmd
+            text: Voyage 2008 → 2025
       - href: defense/index.qmd
         text: NAF & Défense
       - href: comprendre/index.qmd
