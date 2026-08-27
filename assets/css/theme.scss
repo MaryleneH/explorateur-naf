@@ -1247,12 +1247,16 @@ body {
 .naf-viz {
   position: relative;
   padding-bottom: 2rem;
+
   // La scène doit avoir de l'impact : elle déborde de la colonne de contenu
   // Quarto pour occuper presque toute la fenêtre, sans passer par les
   // classes de colonnes Quarto (leur grille recontraint les enfants).
-  --naf-viz-w: min(1320px, 100vw - 3rem);
-  width: var(--naf-viz-w);
-  margin-left: calc((100% - var(--naf-viz-w)) / 2);
+  // Desktop uniquement : le mobile garde le flux naturel.
+  @media (min-width: 992px) {
+    --naf-viz-w: min(1440px, 100vw - 4rem);
+    width: var(--naf-viz-w);
+    margin-left: calc((100% - var(--naf-viz-w)) / 2);
+  }
 }
 
 // Quarto propage sa grille de page (.page-columns) au conteneur et à ses
@@ -1263,6 +1267,12 @@ body {
 .naf-viz.page-columns,
 .naf-viz .page-columns {
   display: block;
+}
+
+// La règle ci-dessus rendrait inopérant l'attribut hidden (display: block
+// gagne sur le display: none implicite de [hidden]) : on le rétablit.
+.naf-viz [hidden] {
+  display: none !important;
 }
 
 .naf-viz-intro {
@@ -1587,5 +1597,153 @@ body {
   .naf-viz-crumb {
     min-height: 40px;
     min-width: 34px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Système de largeurs desktop
+   Trois gabarits volontaires plutôt que des max-width dispersés :
+     lecture  → textes longs (largeur éditoriale, inchangée)
+     wide     → outils (Explorer)
+     visual   → dataviz / scènes (Voyage visuel)
+   Le débordement contourne la colonne centrale Quarto (~800 px) sans
+   toucher à sa grille ; il ne s'applique qu'à partir de 992 px pour ne
+   rien changer au mobile.
+═══════════════════════════════════════════════════════════════════ */
+
+@mixin naf-breakout($max) {
+  @media (min-width: 992px) {
+    --naf-shell-w: min(#{$max}, 100vw - 4rem);
+    width: var(--naf-shell-w);
+    margin-left: calc((100% - var(--naf-shell-w)) / 2);
+  }
+}
+
+.naf-shell-wide {
+  @include naf-breakout(1520px);
+}
+
+.naf-shell-visual {
+  @include naf-breakout(1440px);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Navbar : logo + nom discret
+═══════════════════════════════════════════════════════════════════ */
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 44px;
+}
+
+.navbar-brand .navbar-logo {
+  max-height: 30px;
+  width: 30px;
+}
+
+// Le logo porte l'identité : le nom redevient un simple sous-titre.
+.navbar-title {
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  opacity: 0.92;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Titres narratifs Excalifont
+   Réservés aux titres expérientiels courts ; les titres techniques et
+   les codes restent dans les polices principales.
+═══════════════════════════════════════════════════════════════════ */
+
+.naf-hand-heading {
+  font-family: "Excalifont", "Segoe Print", "Bradley Hand", cursive;
+  font-weight: 400;
+  color: var(--naf-ink);
+  letter-spacing: 0.01em;
+  line-height: 1.15;
+}
+
+.naf-viz-title {
+  font-size: clamp(1.85rem, 4vw, 2.6rem);
+  margin: 0.4rem 0 0.75rem;
+}
+
+.naf-voyage-title {
+  font-family: "Excalifont", "Segoe Print", "Bradley Hand", cursive;
+  font-weight: 400;
+  font-size: 1.55rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Voyage visuel : bascule Structure / Arbre
+═══════════════════════════════════════════════════════════════════ */
+
+.naf-view {
+  @extend .naf-version;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Vue Arbre
+═══════════════════════════════════════════════════════════════════ */
+
+.naf-viz-chartwrap {
+  position: relative;
+}
+
+.naf-viz-treenote {
+  position: absolute;
+  top: 0.7rem;
+  left: 1rem;
+  margin: 0;
+  pointer-events: none;
+  max-width: 16rem;
+}
+
+.naf-viz-trunk-char {
+  font-family: var(--naf-mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  fill: #f5f7fa;
+}
+
+.naf-viz-trunk-year {
+  font-family: var(--naf-mono);
+  font-size: 9.5px;
+  fill: #f5f7fa;
+}
+
+.naf-viz-tree-code {
+  font-family: var(--naf-mono);
+  font-size: 11.5px;
+  font-weight: 600;
+  fill: var(--naf-ink);
+  pointer-events: none;
+  // Halo papier : le code reste lisible même posé sur les rameaux.
+  stroke: var(--naf-surface);
+  stroke-width: 3px;
+  paint-order: stroke;
+}
+
+.naf-viz-tree-leafcode {
+  font-family: var(--naf-mono);
+  font-size: 10px;
+  fill: var(--naf-slate-mid);
+  pointer-events: none;
+  stroke: var(--naf-surface);
+  stroke-width: 3px;
+  paint-order: stroke;
+}
+
+@media (max-width: 860px) {
+  .naf-viz-tree-code {
+    font-size: 10px;
+  }
+
+  .naf-viz-treenote {
+    left: 0.6rem;
+    max-width: 9rem;
+    font-size: 0.9rem;
   }
 }
