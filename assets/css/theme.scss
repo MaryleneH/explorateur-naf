@@ -1436,8 +1436,11 @@ body {
   align-items: start;
   margin-top: 0.9rem;
 
+  // !important : Quarto peut décorer un enfant en .page-full, dont le
+  // placement « screen-start/screen-end » est lui-même en !important et
+  // créerait des pistes implicites hors de notre grille.
   > * {
-    grid-column: auto;
+    grid-column: auto !important;
   }
 }
 
@@ -1996,5 +1999,485 @@ body {
   .naf-viz-goto select {
     min-height: 44px;
     max-width: 100%;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   NAF & Défense — constellation et encadrés pédagogiques
+═══════════════════════════════════════════════════════════════════ */
+
+// Couleurs des niveaux de proximité (palette validée ; l'administration
+// est un statut hors-échelle : teinte acier + forme et pointillés dédiés).
+.naf-def {
+  --naf-lvl-explicite: #007096;
+  --naf-lvl-dual: #925019;
+  --naf-lvl-ecosysteme: #69aa77;
+  --naf-lvl-administration: #5f7185;
+}
+
+[data-level="explicite_industriel"] { --naf-lvl: var(--naf-lvl-explicite); }
+[data-level="dual_officiel"] { --naf-lvl: var(--naf-lvl-dual); }
+[data-level="ecosysteme_observe"] { --naf-lvl: var(--naf-lvl-ecosysteme); }
+[data-level="administration_defense"] { --naf-lvl: var(--naf-lvl-administration); }
+
+.naf-def-badge {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.2rem 0.55rem;
+  border: 1px solid var(--naf-line);
+  border-radius: 999px;
+  background: var(--naf-surface);
+  font-size: 0.74rem;
+  letter-spacing: 0.03em;
+  color: var(--naf-steel);
+  vertical-align: 0.12em;
+}
+
+/* Encadré pédagogique principal */
+
+.naf-did {
+  position: relative;
+  margin: 1.4rem 0 1.6rem;
+  padding: 1.3rem 1.5rem 1.4rem;
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-line);
+  border-left: 4px solid var(--naf-slate-mid);
+  border-radius: 6px;
+  max-width: 62rem;
+}
+
+.naf-did-title {
+  font-size: 1.18rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  margin: 0 0 1rem;
+}
+
+.naf-did-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+
+  @media (min-width: 860px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.4rem;
+  }
+}
+
+.naf-did-step {
+  display: block;
+  padding-left: 1.15rem;
+  position: relative;
+}
+
+.naf-did-dot {
+  position: absolute;
+  left: 0;
+  top: 0.28em;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--naf-lvl, var(--naf-steel));
+}
+
+.naf-did-step-head {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--naf-steel);
+  margin-bottom: 0.25rem;
+}
+
+.naf-did-step-text {
+  font-size: 0.92rem;
+  line-height: 1.5;
+
+  code {
+    font-size: 0.86em;
+  }
+}
+
+.naf-did-hand {
+  margin: 1.1rem 0 0.9rem;
+  font-size: 1.08rem;
+  line-height: 1.35;
+}
+
+.naf-did-strong {
+  margin: 0;
+  padding: 0.9rem 1.1rem;
+  border-left: 4px solid var(--naf-bronze);
+  background: var(--naf-line-soft);
+  border-radius: 0 var(--naf-radius) var(--naf-radius) 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--naf-ink);
+}
+
+.naf-def-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+// Quatre boutons : le rail doit pouvoir passer sur deux lignes en mobile
+// au lieu de déborder de l'écran.
+.naf-def-filters {
+  flex-wrap: wrap;
+  max-width: 100%;
+
+  .naf-version {
+    white-space: normal;
+    text-align: left;
+  }
+}
+
+/* Encadré court sous la constellation */
+
+.naf-def-says {
+  margin-top: 0.9rem;
+  padding: 0.9rem 1.1rem;
+  border: 1px solid var(--naf-line);
+  border-radius: 6px;
+  background: var(--naf-surface);
+  display: grid;
+  gap: 0.5rem;
+
+  @media (min-width: 860px) {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.4rem;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--naf-ink);
+  }
+}
+
+/* Textes SVG de la constellation */
+
+.naf-def-ringlabel {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  fill: var(--naf-steel-sub);
+}
+
+.naf-def-handsvg {
+  font-family: "Excalifont", "Segoe Print", "Bradley Hand", cursive;
+  font-size: 15px;
+  fill: var(--naf-bronze);
+}
+
+.naf-def-handsvg-soft {
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+.naf-def-center {
+  font-family: var(--naf-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  fill: #fff;
+}
+
+.naf-def-centersub {
+  font-family: var(--naf-mono);
+  font-size: 9px;
+  fill: #cfd8e0;
+}
+
+.naf-def-nodecode {
+  font-family: var(--naf-mono);
+  font-size: 12px;
+  font-weight: 650;
+  fill: var(--naf-ink);
+  stroke: var(--naf-surface);
+  stroke-width: 3px;
+  paint-order: stroke;
+}
+
+.naf-def-nodelbl {
+  font-size: 10.5px;
+  fill: var(--naf-steel);
+  stroke: var(--naf-surface);
+  stroke-width: 3px;
+  paint-order: stroke;
+}
+
+/* Panneau : légende, badge, actions */
+
+.naf-def-legend {
+  list-style: none;
+  margin: 0.9rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+  font-size: 0.88rem;
+}
+
+.naf-def-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.naf-def-legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--naf-lvl, var(--naf-steel));
+  flex-shrink: 0;
+
+  &[data-level="administration_defense"] {
+    border-radius: 3px;
+    background: var(--naf-line-soft);
+    border: 1.6px dashed var(--naf-lvl-administration);
+  }
+}
+
+.naf-def-guide {
+  margin: 1rem 0 0;
+  padding-left: 1.2rem;
+  font-size: 0.85rem;
+  color: var(--naf-steel);
+  line-height: 1.55;
+}
+
+.naf-def-lvlbadge {
+  display: inline-block;
+  margin: 0.15rem 0 0.4rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  background: var(--naf-lvl, var(--naf-steel));
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+
+  &[data-level="administration_defense"] {
+    background: var(--naf-line-soft);
+    color: var(--naf-ink);
+    border: 1.6px dashed var(--naf-lvl-administration);
+  }
+}
+
+.naf-def-just {
+  font-size: 0.92rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.naf-def-confdots {
+  letter-spacing: 0.18em;
+  color: var(--naf-slate-mid);
+}
+
+.naf-def-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.4rem 0 0;
+
+  .naf-viz-panel-cta {
+    margin-top: 0.6rem;
+  }
+}
+
+.naf-def-cta-ghost {
+  background: transparent;
+  color: var(--naf-slate);
+  border: 1px solid var(--naf-slate-mid);
+
+  &:hover,
+  &:focus-visible {
+    background: var(--naf-line-soft);
+    color: var(--naf-ink);
+  }
+}
+
+/* Exemples pédagogiques */
+
+.naf-case {
+  margin: 2rem 0 0;
+  padding: 1.3rem 1.5rem 1.35rem;
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-line);
+  border-radius: 6px;
+  max-width: 62rem;
+}
+
+.naf-case-warn {
+  border-left: 4px solid var(--naf-lvl-administration);
+}
+
+.naf-case-kicker {
+  font-size: 0.74rem;
+  font-weight: 650;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--naf-steel);
+  margin: 0 0 0.2rem;
+}
+
+.naf-case-title {
+  font-size: 1.55rem;
+  margin: 0 0 1rem;
+}
+
+.naf-case-flow {
+  display: grid;
+  gap: 0.9rem;
+  align-items: center;
+  margin: 0 0 0.8rem;
+
+  @media (min-width: 760px) {
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1.15fr);
+    gap: 1.4rem;
+  }
+}
+
+.naf-case-col {
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--naf-line);
+  border-radius: var(--naf-radius);
+  background: var(--naf-paper);
+}
+
+.naf-case-col-split {
+  display: grid;
+  gap: 0.7rem;
+
+  > div {
+    padding: 0.6rem 0.8rem;
+    border: 1px solid var(--naf-line);
+    border-radius: var(--naf-radius);
+    background: var(--naf-surface);
+  }
+}
+
+.naf-case-ver {
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--naf-steel);
+  margin: 0 0 0.3rem;
+}
+
+.naf-case-code {
+  font-size: 1.35rem;
+  font-weight: 650;
+  margin: 0 0 0.1rem;
+  color: var(--naf-slate-mid);
+}
+
+.naf-case-code-mil {
+  color: var(--naf-lvl-explicite);
+}
+
+.naf-case-code-admin {
+  color: var(--naf-lvl-administration);
+}
+
+.naf-case-lbl {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.4;
+}
+
+.naf-case-note {
+  margin: 0.35rem 0 0;
+  font-size: 0.82rem;
+  color: var(--naf-steel);
+}
+
+.naf-case-arrow {
+  text-align: center;
+  color: var(--naf-steel);
+
+  svg {
+    width: 54px;
+    height: 36px;
+    display: block;
+    margin: 0 auto;
+
+    path {
+      fill: none;
+      stroke: var(--naf-slate-mid);
+      stroke-width: 2.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  span {
+    font-size: 0.74rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+}
+
+.naf-case-arrow-neq span {
+  font-size: 2rem;
+  font-weight: 650;
+  color: var(--naf-lvl-administration);
+}
+
+.naf-case-hand {
+  margin: 0.3rem 0 0.7rem;
+  font-size: 1.05rem;
+  line-height: 1.35;
+}
+
+.naf-case-text {
+  margin: 0 0 0.6rem;
+  font-size: 0.94rem;
+  line-height: 1.55;
+  max-width: 46rem;
+}
+
+.naf-case-links {
+  margin: 0;
+  font-size: 0.86rem;
+  color: var(--naf-steel);
+}
+
+.naf-def-method {
+  margin-top: 2rem;
+}
+
+/* Liste alternative */
+
+.naf-def-listitem {
+  margin: 0;
+}
+
+.naf-def-listbtn {
+  display: flex;
+  gap: 0.7rem;
+  align-items: baseline;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: none;
+  padding: 0.5rem 0.4rem;
+  border-radius: var(--naf-radius);
+  font-size: 0.9rem;
+  cursor: pointer;
+  min-height: 44px;
+
+  .naf-mono {
+    color: var(--naf-slate-mid);
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    background: var(--naf-line-soft);
   }
 }

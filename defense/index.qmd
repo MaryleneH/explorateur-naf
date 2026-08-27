@@ -1,67 +1,224 @@
 ---
-title: "NAF & Défense"
+pagetitle: "NAF & Défense — Dans l'écosystème Défense"
+title: ""
+page-layout: full
 include-after-body: "../includes/defense-scripts.html"
 ---
 
-::: {.naf-compare}
-
-Jusqu'où une nomenclature d'activité permet-elle d'identifier les activités liées
-à la Défense ?
-
-::: {.callout-important}
-Cette lecture est analytique. Elle n'est pas une classification officielle Insee.
-La NAF classe des activités économiques, pas des marchés ni des clients.
-:::
-
-## Ce que la nomenclature permet, et ce qu'elle ne permet pas
-
-Un code NAF décrit l'activité principale déclarée d'un établissement. Il ne dit rien
-de ses clients, de ses contrats, ni de la part militaire de son chiffre d'affaires.
-Un équipementier travaillant à 90 % pour la Défense et un équipementier purement civil
-peuvent porter le même code.
-
-La nomenclature ne permet donc pas de délimiter une « industrie de Défense ». Elle
-permet seulement de repérer trois choses : les libellés qui mentionnent explicitement
-un usage militaire, les activités dont le périmètre est manifestement dual, et
-l'administration publique de la défense.
-
-## Les quatre niveaux de qualification
-
-`explicite_industriel`
-: Le libellé officiel mentionne explicitement un usage militaire ou de défense.
-
-`dual_officiel`
-: Le périmètre officiel couvre des usages civils et militaires.
-
-`administration_defense`
-: Le code désigne l'administration publique de la défense, pas une activité industrielle.
-
-`non_evalue`
-: Le code n'a pas fait l'objet d'une qualification documentée.
-
-::: {.callout-warning}
-## Non évalué ne veut pas dire non Défense
-
-L'absence d'un code dans le tableau ci-dessous signifie qu'il n'a pas été examiné,
-pas qu'il serait étranger à la Défense. La qualification est un travail en cours,
-volontairement limité aux cas que l'on peut sourcer.
-:::
-
-## Le cas 84.22Y
-
-Le code `84.22Y` porte le libellé « Défense ». Il ne désigne pas les entreprises de
-l'industrie de Défense mais les activités d'administration et de défense nationale,
-c'est-à-dire la sphère publique : état-major, forces armées, services du ministère.
-
-Le présenter comme « le code NAF des entreprises de Défense » est une erreur
-fréquente et lourde de conséquences : elle conduit à compter des administrations
-là où l'on croit compter des industriels.
-
-## Codes qualifiés
+::: {.naf-page}
 
 ```{=html}
-<div id="naf-defense-list">
-  <p class="naf-counts">Chargement des qualifications…</p>
+<div class="naf-viz naf-def" id="naf-def">
+
+  <header class="naf-viz-intro">
+    <p class="naf-hand-heading naf-viz-title" role="heading" aria-level="1">Dans l'écosystème Défense</p>
+    <p class="naf-viz-lede">
+      Explorer les activités économiques dont le lien avec la Défense est
+      plus ou moins direct.
+      <span class="naf-def-badge">Lecture analytique du site — distincte de la nomenclature officielle Insee</span>
+    </p>
+    <p class="naf-hand naf-viz-hand" aria-hidden="true">
+      « certaines sont évidentes… d'autres beaucoup moins »
+    </p>
+  </header>
+
+  <!-- Encadré pédagogique principal -->
+  <section class="naf-did" aria-labelledby="naf-did-title">
+    <p class="naf-did-title" id="naf-did-title" role="heading" aria-level="2">
+      Ce que la NAF permet de voir… et ce qu'elle ne permet pas de voir
+    </p>
+    <ol class="naf-did-steps">
+      <li class="naf-did-step">
+        <span class="naf-did-dot" data-level="explicite_industriel" aria-hidden="true"></span>
+        <span class="naf-did-step-head">1 · Près du centre</span>
+        <span class="naf-did-step-text">Certaines activités sont explicitement
+        militaires dans leur libellé officiel&nbsp;:
+        <code>25.30Y</code> Fabrication d'armes et de munitions,
+        <code>30.32Y</code> Construction aéronautique et spatiale militaire.</span>
+      </li>
+      <li class="naf-did-step">
+        <span class="naf-did-dot" data-level="dual_officiel" aria-hidden="true"></span>
+        <span class="naf-did-step-head">2 · Plus loin</span>
+        <span class="naf-did-step-text">Certaines activités couvrent à la fois
+        des usages civils et militaires. En NAF 2008, une même sous-classe
+        pouvait réunir les deux volets — que la NAF 2025 sépare désormais.
+        Chaque qualification « duale » est justifiée et sourcée.</span>
+      </li>
+      <li class="naf-did-step">
+        <span class="naf-did-dot" data-level="ecosysteme_observe" aria-hidden="true"></span>
+        <span class="naf-did-step-head">3 · Encore plus loin</span>
+        <span class="naf-did-step-text">Des activités sans aucune mention de la
+        Défense dans la NAF — mécanique, électronique, logiciel, ingénierie —
+        peuvent compter des entreprises parmi les fournisseurs de la Défense.
+        Le <a href="https://www.defense.gouv.fr/ssm/repertoire-entreprises-fournisseurs-defense-refd"
+        target="_blank" rel="noopener noreferrer">REFD du ministère des Armées&nbsp;↗</a>
+        permet de documenter ce type de relation.</span>
+      </li>
+    </ol>
+    <p class="naf-hand naf-did-hand" aria-hidden="true">« plus on s'éloigne,<br>moins la NAF suffit à elle seule »</p>
+    <p class="naf-did-strong">
+      Un code NAF décrit l'activité principale d'une unité économique.
+      Il ne dit pas à lui seul quels sont ses clients ni à quels marchés
+      elle contribue.
+    </p>
+  </section>
+
+  <!-- Outils -->
+  <div class="naf-toolbar naf-def-toolbar">
+    <div class="naf-versions" role="radiogroup" aria-label="Version de la nomenclature">
+      <button type="button" class="naf-version is-current" role="radio" aria-checked="true"
+              data-version="2025">NAF 2025</button>
+      <button type="button" class="naf-version" role="radio" aria-checked="false"
+              data-version="2008">NAF 2008</button>
+    </div>
+    <div class="naf-versions naf-def-filters" role="radiogroup" aria-label="Filtrer par niveau de proximité">
+      <button type="button" class="naf-version is-current" role="radio" aria-checked="true" data-level="all">Tout</button>
+      <button type="button" class="naf-version" role="radio" aria-checked="false" data-level="explicite_industriel">Défense explicite</button>
+      <button type="button" class="naf-version" role="radio" aria-checked="false" data-level="dual_officiel">Dual</button>
+      <button type="button" class="naf-version" role="radio" aria-checked="false" data-level="administration_defense">Administration</button>
+    </div>
+  </div>
+  <p class="naf-counts" id="naf-def-counts" role="status" aria-live="polite">Chargement de la couche analytique…</p>
+
+  <!-- Constellation + panneau -->
+  <div class="naf-viz-main">
+    <div class="naf-viz-stage">
+      <div class="naf-viz-chartwrap">
+        <div class="naf-viz-chart" id="naf-def-chart"></div>
+        <div class="naf-viz-zoomctrl" role="group" aria-label="Contrôles de zoom de la constellation">
+          <button type="button" id="naf-def-zoomin" aria-label="Zoom avant">+</button>
+          <button type="button" id="naf-def-zoomout" aria-label="Zoom arrière">&minus;</button>
+          <button type="button" id="naf-def-zoomfit" aria-label="Recentrer la constellation">⌂</button>
+        </div>
+      </div>
+
+      <!-- Encadré court : ce que la visualisation dit.
+           div et non aside : Quarto enverrait un aside dans sa colonne de marge. -->
+      <div class="naf-def-says">
+        <p><strong>Ce qu'elle montre.</strong> Des activités dont le lien avec la
+        Défense est documenté, à différents niveaux de proximité — chaque nœud
+        répond à « pourquoi est-il ici&nbsp;? » avec une source.</p>
+        <p><strong>Ce qu'elle ne montre pas.</strong> Elle ne signifie pas que
+        toutes les entreprises portant ces codes travaillent pour la Défense —
+        ni que les codes absents en sont éloignés&nbsp;: <em>non évalué ne veut
+        pas dire non Défense</em>.</p>
+      </div>
+    </div>
+
+    <div class="naf-viz-panel" id="naf-def-panel" role="complementary"
+         aria-label="Détail de l'activité sélectionnée" aria-live="polite"></div>
+  </div>
+
+  <!-- Exemple aéronautique -->
+  <section class="naf-case" aria-labelledby="naf-case-aero-title">
+    <p class="naf-case-kicker">Un exemple pour comprendre</p>
+    <p class="naf-hand-heading naf-case-title" id="naf-case-aero-title" role="heading" aria-level="2">Prenons l'aéronautique</p>
+    <div class="naf-case-flow">
+      <div class="naf-case-col">
+        <p class="naf-case-ver">NAF rév.2 (2008)</p>
+        <p class="naf-case-code naf-mono">30.30Z</p>
+        <p class="naf-case-lbl">Construction aéronautique et spatiale</p>
+        <p class="naf-case-note">civil <em>et</em> militaire, réunis</p>
+      </div>
+      <div class="naf-case-arrow" aria-hidden="true">
+        <svg viewBox="0 0 60 40" focusable="false"><path d="M4 20 H 46 M38 10 L 50 20 L 38 30"/></svg>
+        <span>NAF 2025</span>
+      </div>
+      <div class="naf-case-col naf-case-col-split">
+        <div>
+          <p class="naf-case-code naf-mono">30.31Y</p>
+          <p class="naf-case-lbl">Construction aéronautique et spatiale <strong>civile</strong></p>
+        </div>
+        <div>
+          <p class="naf-case-code naf-mono naf-case-code-mil">30.32Y</p>
+          <p class="naf-case-lbl">Construction aéronautique et spatiale <strong>militaire</strong></p>
+        </div>
+      </div>
+    </div>
+    <p class="naf-hand naf-case-hand" aria-hidden="true">« ici, la nouvelle NAF isole mieux le militaire »</p>
+    <p class="naf-case-text">
+      La NAF 2025 permet ici de mieux isoler certaines activités militaires.
+      Cela ne signifie toujours pas que toutes les entreprises participant à une
+      chaîne de valeur aéronautique militaire porteront un code explicitement
+      militaire&nbsp;: un motoriste, un fondeur ou un éditeur de logiciel
+      restent classés selon leur activité principale.
+    </p>
+    <p class="naf-case-links">
+      <a href="https://www.insee.fr/fr/metadonnees/nafr2/sousClasse/30.30Z" target="_blank" rel="noopener noreferrer">Fiche Insee 30.30Z ↗</a> ·
+      <a href="https://www.insee.fr/fr/metadonnees/naf2025/sousClasse/30.31Y" target="_blank" rel="noopener noreferrer">30.31Y ↗</a> ·
+      <a href="https://www.insee.fr/fr/metadonnees/naf2025/sousClasse/30.32Y" target="_blank" rel="noopener noreferrer">30.32Y ↗</a> ·
+      <a href="../comparer/">Voir la correspondance complète 2008 → 2025 →</a>
+    </p>
+  </section>
+
+  <!-- Exemple 84.22Y -->
+  <section class="naf-case naf-case-warn" aria-labelledby="naf-case-8422-title">
+    <p class="naf-case-kicker">Attention</p>
+    <p class="naf-hand-heading naf-case-title" id="naf-case-8422-title" role="heading" aria-level="2">Un code qui peut induire en erreur</p>
+    <div class="naf-case-flow naf-case-flow-8422">
+      <div class="naf-case-col">
+        <p class="naf-case-code naf-mono naf-case-code-admin">84.22Y</p>
+        <p class="naf-case-lbl">« Défense »</p>
+      </div>
+      <div class="naf-case-arrow naf-case-arrow-neq" aria-hidden="true"><span>≠</span></div>
+      <div class="naf-case-col">
+        <p class="naf-case-lbl">le code des entreprises industrielles de Défense</p>
+      </div>
+    </div>
+    <p class="naf-case-text">
+      Le libellé semble évident, mais <code>84.22Y</code> désigne
+      l'<strong>administration de la défense nationale</strong> — état-major,
+      forces armées, services du ministère — c'est-à-dire la sphère publique
+      (section O de la NAF). Les industriels de l'armement relèvent d'autres
+      codes, comme <code>25.30Y</code> ou <code>30.32Y</code>.
+    </p>
+    <p class="naf-hand naf-case-hand" aria-hidden="true">« un libellé peut sembler évident…<br>et être mal interprété »</p>
+    <p class="naf-case-links">
+      <a href="https://www.insee.fr/fr/metadonnees/naf2025/sousClasse/84.22Y" target="_blank" rel="noopener noreferrer">Fiche Insee 84.22Y ↗</a>
+    </p>
+  </section>
+
+  <!-- Méthodologie repliable -->
+  <details class="naf-sheet-section naf-def-method">
+    <summary class="naf-sheet-summary"><span class="naf-sheet-summary-text">Comment avons-nous construit cette lecture&nbsp;?</span></summary>
+    <div class="naf-sheet-body">
+      <p><strong>La NAF est une nomenclature statistique officielle</strong> publiée
+      par l'Insee. La lecture « proximité avec la Défense » présentée ici est une
+      <strong>couche analytique construite pour ce site</strong>&nbsp;: l'Insee ne
+      classe pas les codes selon leur proximité avec la Défense.</p>
+      <p><strong>Niveaux.</strong> <em>Défense explicite</em>&nbsp;: le libellé
+      officiel mentionne un usage militaire. <em>Dual documenté</em>&nbsp;: le
+      périmètre officiel couvrait les deux volets — preuve par la scission
+      civil/militaire opérée par la NAF 2025. <em>Écosystème fournisseur
+      observé</em>&nbsp;: des entreprises de l'activité sont observées parmi les
+      fournisseurs de la Défense, notamment via le
+      <a href="https://www.defense.gouv.fr/ssm/repertoire-entreprises-fournisseurs-defense-refd"
+      target="_blank" rel="noopener noreferrer">REFD ↗</a> — cet anneau est en
+      cours de constitution&nbsp;: aucune activité n'y est inscrite tant que le
+      dépouillement sourcé n'est pas fait. <em>Administration de la Défense</em>&nbsp;:
+      sphère publique (84.22), traitée à part. <em>Non évalué</em>&nbsp;: tout le
+      reste de la NAF — l'absence de preuve n'est jamais convertie en absence de lien.</p>
+      <p><strong>Nature de preuve.</strong> <code>libelle_officiel</code>&nbsp;:
+      la mention figure dans l'intitulé Insee. <code>scission_naf_2025</code>&nbsp;:
+      la NAF 2025 sépare désormais les volets civil et militaire d'un périmètre
+      2008 indivis. <code>refd_observe</code> (réservé)&nbsp;: présence observée au
+      REFD. Chaque ligne de <code>data/defense_qualification.csv</code> porte sa
+      justification, sa source et son niveau de confiance (●●● élevé, ●●○ moyen,
+      ●○○ piste). Une activité sans justification sourcée n'est pas ajoutée.</p>
+      <p><strong>Familles</strong> (aéronautique/spatial, naval, terrestre,
+      armement, maintenance…)&nbsp;: classification éditoriale du site pour
+      organiser la constellation — ce n'est pas un niveau de la NAF.</p>
+    </div>
+  </details>
+
+  <!-- Alternative accessible -->
+  <details class="naf-sheet-section">
+    <summary class="naf-sheet-summary"><span class="naf-sheet-summary-text">Voir les activités sous forme de liste</span></summary>
+    <div class="naf-sheet-body" id="naf-def-list"></div>
+  </details>
+
+  <p class="naf-error" id="naf-def-error" role="alert" hidden></p>
+  <div class="naf-viz-tooltip" id="naf-def-tooltip" role="presentation" hidden></div>
 </div>
 ```
 
