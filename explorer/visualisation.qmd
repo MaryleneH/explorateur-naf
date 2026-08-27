@@ -1,0 +1,84 @@
+---
+title: "Voyage visuel dans la NAF"
+page-layout: full
+include-after-body: "../includes/visualisation-scripts.html"
+---
+
+::: {.naf-page}
+
+```{=html}
+<div class="naf-viz" id="naf-viz" data-zoomed="0">
+
+  <header class="naf-viz-intro">
+    <p class="naf-viz-lede">
+      La NAF n'est pas une liste. <strong>C'est un arbre.</strong>
+      Partez de l'économie entière, à gauche, et descendez branche par branche
+      jusqu'à une activité précise.
+    </p>
+    <p class="naf-hand naf-viz-hand" aria-hidden="true">
+      et on peut s'y promener
+      <svg class="naf-hand-arrow" viewBox="0 0 34 30" aria-hidden="true" focusable="false">
+        <path d="M6 3 C 10 12, 14 18, 24 23" />
+        <path d="M16 22 L 25 24 L 21 15" />
+      </svg>
+    </p>
+  </header>
+
+  <div class="naf-toolbar">
+    <form class="naf-searchbox" id="naf-viz-searchbox" role="search" autocomplete="off">
+      <label class="naf-visually-hidden" for="naf-viz-q">Rechercher un code ou une activité</label>
+      <svg class="naf-search-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+        <circle cx="9" cy="9" r="6"></circle>
+        <line x1="13.5" y1="13.5" x2="18" y2="18"></line>
+      </svg>
+      <input id="naf-viz-q" type="search" class="naf-search-input"
+             placeholder="30.32Y, aéronautique, logiciel…">
+      <button type="button" class="naf-search-clear" id="naf-viz-clear"
+              aria-label="Effacer la recherche" hidden>&times;</button>
+    </form>
+
+    <div class="naf-versions" role="radiogroup" aria-label="Version de la nomenclature">
+      <button type="button" class="naf-version" role="radio" aria-checked="true"
+              data-version="2025">NAF 2025</button>
+      <button type="button" class="naf-version" role="radio" aria-checked="false"
+              data-version="2008">NAF 2008</button>
+    </div>
+  </div>
+
+  <p class="naf-counts" id="naf-viz-counts" role="status" aria-live="polite">Chargement de la nomenclature…</p>
+
+  <section class="naf-results" id="naf-viz-results" aria-label="Résultats de recherche" hidden></section>
+
+  <div class="naf-viz-main" id="naf-viz-main">
+    <div class="naf-viz-stage">
+      <nav class="naf-viz-nav" aria-label="Position dans la nomenclature">
+        <div class="naf-viz-crumbs" id="naf-viz-crumbs"></div>
+        <button type="button" class="naf-viz-reset" id="naf-viz-reset" hidden>Réinitialiser la vue</button>
+      </nav>
+      <div class="naf-viz-chart" id="naf-viz-chart"></div>
+      <p class="naf-hand naf-viz-hint" id="naf-viz-hint" aria-hidden="true">
+        cliquez sur une branche pour plonger
+        <svg class="naf-hand-arrow naf-hand-arrow-up" viewBox="0 0 34 30" aria-hidden="true" focusable="false">
+          <path d="M28 27 C 24 18, 20 12, 10 7" />
+          <path d="M18 8 L 9 6 L 13 15" />
+        </svg>
+      </p>
+    </div>
+
+    <!-- div et non aside : Quarto enverrait un <aside> dans sa colonne de
+         marge (grid-column: body-end/page-end), hors de notre grille. -->
+    <div class="naf-viz-panel" id="naf-viz-panel" role="complementary"
+         aria-label="Détail du nœud sélectionné" aria-live="polite"></div>
+  </div>
+
+  <p class="naf-viz-alt">
+    Préférez une lecture textuelle&nbsp;?
+    <a href="index.html">Voir la hiérarchie sous forme de liste dans l'Explorer</a>.
+  </p>
+
+  <p class="naf-error" id="naf-viz-error" role="alert" hidden></p>
+  <div class="naf-viz-tooltip" id="naf-viz-tooltip" role="presentation" hidden></div>
+</div>
+```
+
+:::

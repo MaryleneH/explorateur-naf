@@ -1,0 +1,19 @@
+/*
+ * Excalifont — police manuscrite de l'univers Excalidraw.
+ * Sous-ensemble latin (Basic Latin + Latin-1), suffisant pour le français.
+ * Origine : paquet npm @excalidraw/excalidraw@0.18.0 (licence MIT),
+ *   dist/prod/fonts/Excalifont/Excalifont-Regular-a88b72a2….woff2
+ * Voir assets/fonts/README.md.
+ *
+ * Utilisée uniquement comme police d'accent (annotations pédagogiques),
+ * jamais comme police principale. font-display: swap garantit que le texte
+ * reste lisible dans la pile de secours si le fichier ne charge pas.
+ */
+@font-face {
+  font-family: "Excalifont";
+  src: url("../fonts/Excalifont-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0020-00FF, U+2018-201D;
+}

@@ -5,6 +5,9 @@ project:
   # détecter dans le HTML, il faut donc les déclarer explicitement en ressources.
   resources:
     - data/*.csv
+    # La police d'annotation est référencée depuis fonts.css : Quarto ne suit
+    # pas les url() des feuilles de style, il faut la déclarer explicitement.
+    - assets/fonts/*.woff2
 
 website:
   title: "Explorateur NAF"
@@ -12,8 +15,12 @@ website:
   favicon: assets/favicon.svg
   navbar:
     left:
-      - href: explorer/index.qmd
-        text: Explorer
+      - text: Explorer
+        menu:
+          - href: explorer/index.qmd
+            text: Naviguer dans la NAF
+          - href: explorer/visualisation.qmd
+            text: Voyage visuel
       - href: comparer/index.qmd
         text: Comparer 2008 ↔ 2025
       - href: defense/index.qmd
@@ -33,6 +40,7 @@ format:
     theme:
       - cosmo
       - assets/css/theme.scss
+    css: assets/css/fonts.css
     toc: false
     smooth-scroll: true
     include-in-header:

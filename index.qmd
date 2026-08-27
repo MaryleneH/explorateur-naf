@@ -45,6 +45,27 @@ include-after-body: "includes/home-scripts.html"
 </div>
 ```
 
+```{=html}
+<a class="naf-voyage" href="explorer/visualisation.html">
+  <span class="naf-voyage-tree" aria-hidden="true">C
+ └ 30
+    └ 30.3
+       └ 30.32
+          └ <span class="is-5">30.32Y</span></span>
+  <span class="naf-voyage-text">
+    <span class="naf-voyage-kicker">Voir la NAF autrement</span>
+    <span class="naf-voyage-title">Voyage visuel</span>
+    <span class="naf-hand naf-voyage-hand" aria-hidden="true">« et si on voyait tout l'arbre&nbsp;? »
+      <svg class="naf-hand-arrow" viewBox="0 0 34 30" aria-hidden="true" focusable="false">
+        <path d="M5 6 C 12 8, 20 14, 26 24" />
+        <path d="M18 22 L 27 25 L 26 15" />
+      </svg>
+    </span>
+    <span class="naf-voyage-cta">Commencer le voyage&nbsp;→</span>
+  </span>
+</a>
+```
+
 ::: {.naf-home-secondary}
 [[Comparer 2008 ↔ 2025]{.naf-home-link-title} [Ce que devient une activité d'une nomenclature à l'autre]{.naf-home-link-desc}](comparer/index.qmd){.naf-home-link}
 
