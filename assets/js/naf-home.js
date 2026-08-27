@@ -45,7 +45,7 @@
 
     var version = NAF.VERSIONS[state.versionId];
     dom.cta.href = explorerUrl({ v: state.versionId });
-    dom.cta.textContent = "Parcourir la " + version.shortLabel + " ";
+    dom.cta.textContent = "Explorer la " + version.shortLabel + " ";
     var arrow = NAF.el("span", null, "→");
     arrow.setAttribute("aria-hidden", "true");
     dom.cta.appendChild(arrow);

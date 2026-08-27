@@ -1149,95 +1149,228 @@ body {
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   Accueil — invitation au Voyage visuel
+   Accueil — hero « La NAF est un arbre »
+   Deux zones sur desktop (récit + recherche | branche illustrée),
+   une colonne sur mobile. L'illustration est dessinée à partir des
+   codes réels, pas d'une image générique.
 ═══════════════════════════════════════════════════════════════════ */
 
-.naf-voyage {
-  display: flex;
+.naf-hero {
+  display: grid;
+  gap: 2rem;
   align-items: center;
-  gap: 1.4rem;
-  margin: 2.2rem 0 0;
-  padding: 1.1rem 1.25rem;
-  border: 1px solid var(--naf-line);
-  border-radius: 6px;
-  background:
-    linear-gradient(135deg, var(--naf-surface) 0%, #f4f1ec 100%);
-  color: var(--naf-ink);
-  text-decoration: none;
+  padding: 0.75rem 0 1.5rem;
+
+  @media (min-width: 992px) {
+    grid-template-columns: minmax(0, 10fr) minmax(0, 9fr);
+    gap: 3.5rem;
+    padding: 1.5rem 0 2rem;
+    --naf-shell-w: min(1360px, 100vw - 4rem);
+    width: var(--naf-shell-w);
+    margin-left: calc((100% - var(--naf-shell-w)) / 2);
+  }
+}
+
+.naf-hero-kicker {
+  font-family: var(--naf-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--naf-steel);
+  margin: 0 0 0.9rem;
+}
+
+.naf-hero-title {
+  font-size: clamp(2.3rem, 5.4vw, 3.6rem);
+  margin: 0 0 0.7rem;
+}
+
+.naf-hero-sub {
+  font-size: clamp(1rem, 1.5vw, 1.14rem);
+  color: var(--naf-steel);
+  max-width: 34rem;
+  margin: 0 0 1.4rem;
+
+  strong {
+    color: var(--naf-ink);
+    font-weight: 600;
+  }
+}
+
+.naf-hero-main .naf-versions {
+  margin-bottom: 0.85rem;
+}
+
+.naf-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 1.1rem;
+}
+
+.naf-home-cta-ghost {
+  background: transparent;
+  color: var(--naf-slate);
+  border-color: var(--naf-slate-mid);
 
   &:hover,
   &:focus-visible {
-    border-color: var(--naf-slate-mid);
+    background: var(--naf-line-soft);
+    color: var(--naf-ink);
+  }
+}
+
+/* Illustration : la branche suivie */
+
+.naf-hero-art {
+  min-width: 0;
+
+  svg {
+    display: block;
+    width: 100%;
+    max-width: 470px;
+    height: auto;
+    margin: 0 auto;
+  }
+}
+
+.naf-hero-twigs path {
+  fill: none;
+  stroke: var(--naf-steel-sub);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  opacity: 0.35;
+}
+
+.naf-hero-vine {
+  fill: none;
+  stroke: var(--naf-slate-mid);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-dasharray: 900;
+  stroke-dashoffset: 900;
+  animation: naf-vine-draw 1.4s ease-out 0.1s forwards;
+}
+
+@keyframes naf-vine-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+.naf-hero-node {
+  opacity: 0;
+  animation: naf-node-in 0.5s ease-out var(--d, 0.4s) forwards;
+}
+
+@keyframes naf-node-in {
+  to { opacity: 1; }
+}
+
+.naf-hero-code {
+  font-family: var(--naf-mono);
+  font-size: 16px;
+  font-weight: 600;
+  fill: var(--naf-ink);
+}
+
+.naf-hero-code-leaf {
+  font-size: 17px;
+}
+
+.naf-hero-lbl {
+  font-size: 12px;
+  fill: var(--naf-steel);
+}
+
+.naf-hero-hand {
+  font-family: "Excalifont", "Segoe Print", "Bradley Hand", cursive;
+  font-size: 19px;
+  fill: var(--naf-bronze);
+}
+
+.naf-hero-hand-arrow {
+  fill: none;
+  stroke: var(--naf-bronze);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (max-width: 560px) {
+  .naf-hero-lbl {
+    display: none;
+  }
+}
+
+/* Séquence éditoriale « Choisir son chemin » */
+
+.naf-paths {
+  max-width: 46rem;
+  margin: 2.5rem auto 0;
+}
+
+.naf-paths-title {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--naf-steel);
+  margin: 0 0 0.4rem;
+}
+
+.naf-path {
+  display: grid;
+  grid-template-columns: 3.2rem minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 0.9rem;
+  padding: 0.95rem 0.35rem;
+  border-top: 1px solid var(--naf-line);
+  color: var(--naf-ink);
+  text-decoration: none;
+  min-height: var(--naf-tap);
+
+  &:last-child {
+    border-bottom: 1px solid var(--naf-line);
+  }
+
+  &:hover,
+  &:focus-visible {
+    background: var(--naf-line-soft);
     color: var(--naf-ink);
     text-decoration: none;
 
-    .naf-voyage-cta {
-      background: var(--naf-slate-mid);
+    .naf-path-arrow {
+      transform: translateX(3px);
     }
   }
 }
 
-.naf-voyage-tree {
-  flex: 0 0 auto;
+.naf-path-num {
   font-family: var(--naf-mono);
-  font-size: 0.78rem;
-  line-height: 1.55;
-  white-space: pre;
-  color: var(--naf-steel);
-
-  .is-1 { color: #2a669f; font-weight: 600; }
-  .is-2 { color: #33607f; }
-  .is-3 { color: #4c6b85; }
-  .is-4 { color: #64768a; }
-  .is-5 { color: #2a669f; font-weight: 600; }
+  font-size: 1.15rem;
+  color: var(--naf-steel-sub);
 }
 
-.naf-voyage-text {
+.naf-path-body {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.3rem;
-  min-width: 0;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 0.75rem;
+  row-gap: 0.1rem;
 }
 
-.naf-voyage-kicker {
-  font-size: 0.78rem;
+.naf-path-name {
   font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 1.02rem;
+}
+
+.naf-path-desc {
   color: var(--naf-steel);
+  font-size: 0.88rem;
 }
 
-.naf-voyage-title {
-  font-size: 1.28rem;
-  font-weight: 650;
-  letter-spacing: -0.01em;
-}
-
-.naf-voyage-hand {
-  margin: 0.05rem 0 0.35rem;
-}
-
-.naf-voyage-cta {
-  display: inline-block;
-  padding: 0.5rem 0.95rem;
-  border-radius: var(--naf-radius);
-  background: var(--naf-slate);
-  color: #fff;
-  font-size: 0.92rem;
-  font-weight: 550;
-}
-
-@media (max-width: 560px) {
-  .naf-voyage {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.9rem;
-  }
-
-  .naf-voyage-tree {
-    font-size: 0.72rem;
-  }
+.naf-path-arrow {
+  color: var(--naf-steel);
+  transition: transform 0.15s ease;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -1643,12 +1776,14 @@ body {
   width: 30px;
 }
 
-// Le logo porte l'identité : le nom redevient un simple sous-titre.
+// Le logo porte l'identité ; « NAF 2008–2025 » est un repère, pas un titre.
 .navbar-title {
-  font-size: 0.95rem;
+  font-family: var(--naf-mono);
+  font-size: 0.92rem;
   font-weight: 500;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
   opacity: 0.92;
+  white-space: nowrap;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -1745,5 +1880,61 @@ body {
     left: 0.6rem;
     max-width: 9rem;
     font-size: 0.9rem;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Vue Arbre : caméra (contrôles de zoom + indication de manipulation)
+═══════════════════════════════════════════════════════════════════ */
+
+.naf-viz-zoomctrl {
+  position: absolute;
+  top: 0.7rem;
+  right: 0.7rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  button {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    line-height: 1;
+    color: var(--naf-slate-mid);
+    background: var(--naf-surface);
+    border: 1px solid var(--naf-line);
+    border-radius: var(--naf-radius);
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(20, 24, 29, 0.08);
+
+    &:hover {
+      color: var(--naf-ink);
+      border-color: var(--naf-slate-mid);
+    }
+  }
+}
+
+.naf-viz-pannote {
+  position: absolute;
+  bottom: 0.65rem;
+  left: 1rem;
+  margin: 0;
+  pointer-events: none;
+  font-size: 0.95rem;
+  line-height: 1.3;
+}
+
+@media (max-width: 860px) {
+  .naf-viz-zoomctrl button {
+    width: 42px;
+    height: 42px;
+  }
+
+  .naf-viz-pannote {
+    font-size: 0.85rem;
+    max-width: 11rem;
   }
 }
