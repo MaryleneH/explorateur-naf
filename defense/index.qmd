@@ -327,7 +327,8 @@ include-after-body: "../includes/defense-scripts.html"
       l'activité — fabriquer des instruments de navigation — pas le client
       final. En NAF 2025, la classe <code>26.51</code> garde le même numéro
       et le même objet (<code>26.51Y</code>), toujours sans distinction
-      civil/militaire.
+      civil/militaire&nbsp;: la table de correspondance officielle Insee y
+      transfère 26.51A et 26.51B, « tout le contenu » de chacune.
     </p>
     <p class="naf-case-links">
       <a href="https://www.insee.fr/fr/metadonnees/nafr2/sousClasse/26.51A" target="_blank" rel="noopener noreferrer">Fiche Insee 26.51A ↗</a> ·
@@ -456,12 +457,15 @@ include-after-body: "../includes/defense-scripts.html"
       propulsion, matériaux, R&amp;D). Ce n'est ni une statistique
       officielle, ni une liste de codes validés.</p>
       <p><strong>Table de correspondance.</strong> La table 2008 ↔ 2025
-      chargée sur ce site est une approximation par préfixe de classe (voir
-      la rubrique NAF 2008 ↔ 2025)&nbsp;: aucune qualification Défense ne
-      repose sur elle. Quand un argument s'appuie sur la structure de la
-      NAF 2025 (ex. 33.16Z face aux libellés 33.16Y/33.18G), la limite est
-      indiquée sur la fiche et la répartition précise reste à confirmer avec
-      la table officielle Insee.</p>
+      chargée sur ce site est la
+      <a href="https://www.insee.fr/fr/information/8181066" target="_blank"
+      rel="noopener noreferrer">table de correspondance officielle Insee ↗</a>
+      (réédition de janvier 2026). Quand un argument s'appuie sur le passage
+      d'un code à l'autre — la scission de 30.30Z en 30.31Y/30.32Y, le
+      transfert de la réparation d'armes de 33.11Z vers 33.11Y, la
+      répartition de 33.16Z vers 33.16Y et 33.18G —, la relation et le
+      contenu transféré sont ceux que l'Insee publie, cités sur la fiche
+      du code (« repère dans la source »).</p>
       <p><strong>Fournisseur n'est pas dual.</strong> Les deux dimensions
       restent distinctes&nbsp;: une activité peut compter des fournisseurs de
       la Défense sans être qualifiée de duale, et réciproquement. La

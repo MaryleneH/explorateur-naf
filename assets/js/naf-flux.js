@@ -1,10 +1,10 @@
 /**
  * naf-flux.js
  * « Voyage 2008 → 2025 » : diagramme de flux progressif entre les deux
- * nomenclatures, construit sur l'extrait local de la table de correspondance.
+ * nomenclatures, construit sur la table de correspondance officielle Insee.
  *
  * Parti pris :
- *   - JAMAIS les 736 relations d'un coup. La vue initiale agrège par section,
+ *   - JAMAIS les 1 223 relations d'un coup. La vue initiale agrège par section,
  *     puis chaque clic descend d'un niveau (divisions → groupes → classes →
  *     sous-classes) dans le périmètre cliqué. Chaque vue reste sous ~25 nœuds
  *     par colonne : pas besoin de pan/zoom, la page défile.
@@ -330,9 +330,7 @@
     if (!dom.hand) return;
     dom.hand.textContent = view.level === 0
       ? "« suivez les chemins qui changent de section »"
-      : (view.level === LEAF_LEVEL
-        ? "« regardez où les chemins se séparent »"
-        : "« descendez : c'est en bas que les chemins se séparent »");
+      : "« regardez où les chemins se séparent »";
   }
 
   function renderChart(view) {
@@ -641,6 +639,17 @@
     arrow.setAttribute("aria-hidden", "true");
     dom.panel.appendChild(arrow);
     dom.panel.appendChild(sideBlock("NAF 2025", "2025", p.code_2025, p.libelle_2025));
+
+    if (p.contenu_commun) {
+      var what = el("p", "naf-flux-panel-note");
+      what.appendChild(el("strong", null, "Ce qui passe par cette relation" +
+        (p.type_officiel ? " (" + p.type_officiel + ")" : "") + ". "));
+      what.appendChild(document.createTextNode(
+        p.contenu_commun.length > 260
+          ? p.contenu_commun.slice(0, 259) + "…"
+          : p.contenu_commun));
+      dom.panel.appendChild(what);
+    }
 
     if (line.type !== "identique") {
       dom.panel.appendChild(el("p", "naf-flux-panel-note",

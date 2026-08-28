@@ -74,16 +74,17 @@ officielle, qui les publie.
 :::
 
 ::: {.callout-note}
-## Table de correspondance : approximation du site
+## Table de correspondance : la table officielle Insee
 
-La table de passage chargée sur le site n'est **pas** la table officielle :
-c'est un rapprochement approximatif par préfixe de classe partagé (xx.xx),
-construit par nos scripts en attendant l'intégration de la
-[table officielle Insee rééditée en janvier 2026](https://www.insee.fr/fr/information/8181066),
-qui seule fait foi. Ni une relation affichée, ni une absence ne doivent être
-lues comme des faits officiels. La page
-[Explorer les changements](../comparer/index.qmd) affiche cette limite et la
-couverture réelle, calculées à partir des données.
+La table de passage chargée sur le site est la
+[table de correspondance officielle Insee NAF rév.2 → NAF 2025](https://www.insee.fr/fr/information/8181066)
+(réédition de janvier 2026) : 1 223 relations couvrant la totalité des
+sous-classes 2008, chacune portant le type officiel (Unique/Multiple) et la
+description du contenu qui passe d'un code à l'autre. La typologie du site
+(1→1, scission, regroupement, recomposition) est calculée sur les
+cardinalités des groupes de relations. La page
+[Explorer les changements](../comparer/index.qmd) affiche la couverture
+réelle, calculée à partir des données.
 :::
 
 ::: {.callout-note}

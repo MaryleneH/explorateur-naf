@@ -493,33 +493,34 @@ def build_correspondances(rows_2008, rows_2025) -> None:
     Construit data/correspondances_2008_2025.csv.
 
     SOURCE DE VÉRITÉ : la table de correspondance officielle Insee
-    (Correspondances_NAFrev2-NAF2025.xlsx). Le script la cherche en local
-    (option --correspondances, sinon data/raw/), puis tente de la
-    télécharger depuis l'Insee. À défaut seulement, il construit une
-    APPROXIMATION par préfixe de classe partagé, étiquetée comme telle
-    dans chaque ligne : ni la couverture ni la typologie de cette
-    approximation ne doivent être lues comme des faits officiels.
+    (Correspondances_NAFrev2-NAF2025.xlsx, rééditée en janvier 2026).
+    Le script la cherche en local (option --correspondances, sinon
+    data/raw/), puis tente de la télécharger. À défaut seulement, il
+    construit une APPROXIMATION par préfixe de classe partagé, étiquetée
+    comme telle dans chaque ligne.
 
-    Le type de correspondance est calculé sur les cardinalités des paires :
-      1→1, 1→n (scission), n→1 (regroupement), n↔n (recomposition).
+    Le type de correspondance (1→1, 1→n, n→1, n↔n) est calculé sur les
+    cardinalités des paires ; la table officielle apporte en plus son
+    propre type (Unique/Multiple) et la description du contenu commun.
     """
     print("\n=== Correspondances 2008 ↔ 2025 ===")
 
     index_2008 = {r["subclass_code"]: r for r in rows_2008}
     index_2025 = {r["subclass_code"]: r for r in rows_2025}
 
-    pairs, official = load_official_pairs(index_2008, index_2025)
+    lines, official = load_official_pairs(index_2008, index_2025)
 
     if not official:
         print("  ! Table officielle indisponible : approximation par préfixe "
               "de classe partagé (étiquetée comme telle).")
-        pairs = approximate_pairs(index_2008, index_2025)
+        lines = [{"c08": a, "c25": b, "type_officiel": "", "contenu": ""}
+                 for a, b in approximate_pairs(index_2008, index_2025)]
 
     # Cardinalités → type de correspondance
     count_targets, count_sources = {}, {}
-    for c2008, c2025 in pairs:
-        count_targets.setdefault(c2008, set()).add(c2025)
-        count_sources.setdefault(c2025, set()).add(c2008)
+    for line in lines:
+        count_targets.setdefault(line["c08"], set()).add(line["c25"])
+        count_sources.setdefault(line["c25"], set()).add(line["c08"])
 
     def corr_type(c2008, c2025):
         n_target = len(count_targets.get(c2008, set()))
@@ -532,11 +533,10 @@ def build_correspondances(rows_2008, rows_2025) -> None:
             return "n→1"
         return "n↔n"
 
+    source_url = "https://www.insee.fr/fr/information/8181066"
     if official:
-        source_url = "https://www.insee.fr/fr/information/8181066"
         source_reference = OFFICIAL_TABLE_REFERENCE
     else:
-        source_url = "https://www.insee.fr/fr/information/8181066"
         source_reference = (
             "Rapprochement par préfixe de classe (approximation du site) — "
             "à confirmer avec la table officielle Insee NAF rév.2 → NAF 2025"
@@ -545,20 +545,22 @@ def build_correspondances(rows_2008, rows_2025) -> None:
     fieldnames = [
         "code_2008", "libelle_2008",
         "code_2025", "libelle_2025",
-        "type_correspondance",
+        "type_correspondance", "type_officiel", "contenu_commun",
         "source_url", "source_reference",
     ]
 
     output_rows = []
-    for c2008, c2025 in sorted(pairs):
-        r2008 = index_2008.get(c2008, {})
-        r2025 = index_2025.get(c2025, {})
+    for line in sorted(lines, key=lambda l: (l["c08"], l["c25"])):
+        r2008 = index_2008.get(line["c08"], {})
+        r2025 = index_2025.get(line["c25"], {})
         output_rows.append({
-            "code_2008": c2008,
+            "code_2008": line["c08"],
             "libelle_2008": r2008.get("subclass_label", ""),
-            "code_2025": c2025,
+            "code_2025": line["c25"],
             "libelle_2025": r2025.get("subclass_label", ""),
-            "type_correspondance": corr_type(c2008, c2025),
+            "type_correspondance": corr_type(line["c08"], line["c25"]),
+            "type_officiel": line["type_officiel"],
+            "contenu_commun": line["contenu"],
             "source_url": source_url,
             "source_reference": source_reference,
         })
@@ -589,10 +591,14 @@ EXCLUDED_APPROX_PAIRS = {
 def load_official_pairs(index_2008, index_2025):
     """Charge la table officielle Insee si disponible.
 
-    Retourne (paires, True) si la table officielle a été lue, sinon
+    Retourne (lignes, True) si la table officielle a été lue, sinon
     ([], False). Cherche d'abord un fichier local (--correspondances ou
     data/raw/Correspondances_NAFrev2-NAF2025.xlsx), puis tente le
     téléchargement depuis l'Insee.
+
+    Chaque ligne est un dict {c08, c25, type_officiel, contenu} :
+    la réédition de janvier 2026 porte le type officiel (Unique/Multiple)
+    et la description du « contenu commun » qui passe d'un code à l'autre.
     """
     path = None
     argv = sys.argv[1:]
@@ -624,36 +630,59 @@ def load_official_pairs(index_2008, index_2025):
         return [], False
 
     wb = load_workbook(path, read_only=True, data_only=True)
-    pairs = set()
+    lines = []
+    seen = set()
     for ws in wb.worksheets:
         headers = {}
         header_row = None
         for row in ws.iter_rows(min_row=1, max_row=12):
             for cell in row:
                 value = str(cell.value or "")
-                if value.startswith("NAFold-code"):
+                # Réédition janvier 2026.
+                if value.startswith("Sous-classes NAF rév. 2 – codes"):
                     header_row = cell.row
+                    headers["c08"] = cell.column
+                elif value.startswith("Sous-classes NAF 2025 – codes"):
+                    headers["c25"] = cell.column
+                elif value.startswith("Type de correspondance"):
+                    headers["type"] = cell.column
+                elif value.startswith("Contenu commun"):
+                    headers["contenu"] = cell.column
+                # Édition antérieure (colonnes NAFold/NAFnew).
+                elif value.startswith("NAFold-code"):
+                    header_row = cell.row
+                    headers["c08"] = cell.column
+                elif value.startswith("NAFnew-code"):
+                    headers["c25"] = cell.column
             if header_row:
-                for cell in row:
-                    value = str(cell.value or "")
-                    if value.startswith("NAFold-code"):
-                        headers["code_2008"] = cell.column
-                    elif value.startswith("NAFnew-code"):
-                        headers["code_2025"] = cell.column
                 break
-        if len(headers) < 2:
+        if "c08" not in headers or "c25" not in headers:
             continue
         for row in ws.iter_rows(min_row=header_row + 1):
-            c2008 = str(row[headers["code_2008"] - 1].value or "").strip()
-            c2025 = str(row[headers["code_2025"] - 1].value or "").strip()
+            def cell_at(key):
+                col = headers.get(key)
+                if col is None or col - 1 >= len(row):
+                    return ""
+                return str(row[col - 1].value or "").strip()
+            c2008 = cell_at("c08")
+            c2025 = cell_at("c25")
             if not c2008 or not c2025:
                 continue
             if c2008 not in index_2008 or c2025 not in index_2025:
+                print(f"  ! Ligne ignorée (code inconnu) : {c2008} → {c2025}")
                 continue
-            pairs.add((c2008, c2025))
-    if pairs:
-        print(f"  Table officielle lue : {len(pairs)} relations ({path.name})")
-        return sorted(pairs), True
+            if (c2008, c2025) in seen:
+                continue
+            seen.add((c2008, c2025))
+            lines.append({
+                "c08": c2008,
+                "c25": c2025,
+                "type_officiel": cell_at("type"),
+                "contenu": " ".join(cell_at("contenu").split()),
+            })
+    if lines:
+        print(f"  Table officielle lue : {len(lines)} relations ({path.name})")
+        return lines, True
     return [], False
 
 
@@ -697,8 +726,16 @@ def main() -> None:
     print(f"Répertoire de sortie : {DATA_DIR}")
     print(f"Répertoire de cache  : {RAW_DIR}")
 
-    rows_2025 = build_naf2025()
-    rows_2008 = build_naf2008()
+    if "--only-correspondances" in sys.argv[1:]:
+        # Reconstruire seulement la table de correspondance, à partir des
+        # nomenclatures déjà présentes dans data/ (pas d'accès réseau).
+        with (DATA_DIR / "naf2025.csv").open(encoding="utf-8") as f:
+            rows_2025 = list(csv.DictReader(f))
+        with (DATA_DIR / "naf2008.csv").open(encoding="utf-8") as f:
+            rows_2008 = list(csv.DictReader(f))
+    else:
+        rows_2025 = build_naf2025()
+        rows_2008 = build_naf2008()
     build_correspondances(rows_2008, rows_2025)
     build_defense()
 

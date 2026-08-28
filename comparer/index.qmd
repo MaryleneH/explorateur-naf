@@ -57,9 +57,9 @@ include-after-body: "../includes/comparer-scripts.html"
         </svg>
         <span class="naf-did-step-head">1→n · Scission</span>
         <span class="naf-did-step-text">Une sous-classe est découpée plus
-        finement. Ex.&nbsp;: <code>53.20Z</code> Autres activités de poste et de
-        courrier se sépare en <code>53.20G</code> Livraison de colis et
-        <code>53.20H</code> Livraison à domicile de repas…</span>
+        finement. Ex.&nbsp;: <code>30.30Z</code> Construction aéronautique et
+        spatiale se sépare en <code>30.31Y</code> (civile) et
+        <code>30.32Y</code> (militaire).</span>
       </li>
       <li class="naf-did-step naf-chg-case" data-case="regroupement">
         <svg class="naf-chg-schema" viewBox="0 0 120 56" aria-hidden="true" focusable="false">
@@ -127,33 +127,37 @@ include-after-body: "../includes/comparer-scripts.html"
     <p class="naf-chg-featured-lede">Choisies dans la table pour leur ampleur —
     chaque carte ouvre la fiche correspondante dans la liste ci-dessous.</p>
     <div class="naf-chg-featured-grid">
-      <button type="button" class="naf-chg-fcard" data-chg-open="47.11A">
+      <button type="button" class="naf-chg-fcard" data-chg-open="45.20A">
         <span class="naf-chg-badge naf-chg-badge-recomposition">n↔n</span>
-        <span class="naf-chg-fcard-title">Le commerce alimentaire, reclassé par taille de magasin</span>
-        <span class="naf-chg-fcard-codes">47.11A…F → 47.11G…L</span>
-        <span class="naf-chg-fcard-text">Supérettes, supermarchés, hypermarchés&nbsp;:
-        six sous-classes redistribuées en cinq, désormais découpées par surface de vente.</span>
+        <span class="naf-chg-fcard-title">La grande toile du commerce</span>
+        <span class="naf-chg-fcard-codes">90 sous-classes ↔ 103 (358 relations)</span>
+        <span class="naf-chg-fcard-text">La plus vaste recomposition de la
+        NAF 2025&nbsp;: les nouveaux codes d'intermédiation (46.1x, 47.91Y)
+        tissent des liens entre presque tout le commerce et l'automobile.</span>
       </button>
-      <button type="button" class="naf-chg-fcard" data-chg-open="49.41A">
-        <span class="naf-chg-badge naf-chg-badge-recomposition">n↔n</span>
-        <span class="naf-chg-fcard-title">Le fret routier change de frontières</span>
-        <span class="naf-chg-fcard-codes">49.41A/B/C → 49.41G/H/J</span>
-        <span class="naf-chg-fcard-text">« Interurbain / proximité » devient
-        « longue distance / régional »&nbsp;: mêmes camions, découpage différent.</span>
+      <button type="button" class="naf-chg-fcard" data-chg-open="30.30Z">
+        <span class="naf-chg-badge naf-chg-badge-scission">1→n</span>
+        <span class="naf-chg-fcard-title">L'aéronautique séparée en civil et militaire</span>
+        <span class="naf-chg-fcard-codes">30.30Z → 30.31Y + 30.32Y</span>
+        <span class="naf-chg-fcard-text">La scission la plus commentée de la
+        NAF 2025&nbsp;: un même périmètre 2008, deux sous-classes 2025 selon la
+        destination.</span>
       </button>
       <button type="button" class="naf-chg-fcard" data-chg-open="33.20A">
         <span class="naf-chg-badge naf-chg-badge-regroupement">n→1</span>
         <span class="naf-chg-fcard-title">L'installation industrielle réunie</span>
         <span class="naf-chg-fcard-codes">33.20A…D → 33.20Y</span>
         <span class="naf-chg-fcard-text">Quatre sous-classes d'installation
-        d'équipements fusionnent en une seule.</span>
+        d'équipements fusionnent en une seule (quatre correspondances
+        « Uniques »).</span>
       </button>
-      <button type="button" class="naf-chg-fcard" data-chg-open="53.20Z">
-        <span class="naf-chg-badge naf-chg-badge-scission">1→n</span>
-        <span class="naf-chg-fcard-title">La livraison de colis prend son code</span>
-        <span class="naf-chg-fcard-codes">53.20Z → 53.20G + 53.20H</span>
-        <span class="naf-chg-fcard-text">L'essor de la livraison rend visible ce
-        que « autres activités de poste » agrégait.</span>
+      <button type="button" class="naf-chg-fcard" data-chg-open="10.13B">
+        <span class="naf-chg-badge naf-chg-badge-recomposition">n↔n</span>
+        <span class="naf-chg-fcard-title">La charcuterie, entre usine et boutique</span>
+        <span class="naf-chg-fcard-codes">10.13A/B → 10.13G/H (+ 10.89Y)</span>
+        <span class="naf-chg-fcard-text">L'artisan part entier vers la
+        préparation-vente&nbsp;; l'industriel se répartit — jusqu'aux farines
+        d'insectes, envoyées en 10.89Y.</span>
       </button>
     </div>
   </section>
@@ -225,18 +229,23 @@ include-after-body: "../includes/comparer-scripts.html"
           <p class="naf-case-code naf-mono">10.13H</p>
           <p class="naf-case-lbl">Préparation de produits à base de viande associée à leur vente au détail</p>
         </div>
+        <div>
+          <p class="naf-case-code naf-mono">10.89Y</p>
+          <p class="naf-case-lbl">Fabrication d'autres produits alimentaires n.c.a.</p>
+        </div>
       </div>
     </div>
     <p class="naf-hand naf-case-hand" aria-hidden="true">« la frontière passe désormais<br>entre l'usine et la boutique »</p>
     <p class="naf-case-text">
-      Dans la table approximative chargée ici, chacune des deux sous-classes
-      2008 est reliée <em>aux deux</em> sous-classes 2025&nbsp;: une
-      <strong>recomposition (n↔n)</strong>, pas une simple scission. Ce que
-      montrent les libellés officiels&nbsp;: la NAF 2008 séparait l'industriel
-      de l'artisan charcutier, la NAF 2025 sépare la production industrielle de
-      la préparation associée à la vente au détail. La frontière s'est
-      déplacée — l'activité, elle, n'a pas changé. La répartition précise
-      relève de la table officielle Insee.
+      D'après la table officielle, l'artisan charcutier (<code>10.13B</code>)
+      part <em>en entier</em> vers la préparation associée à la vente au détail
+      (<code>10.13H</code>, correspondance « Unique »). L'industriel
+      (<code>10.13A</code>) se répartit, lui, entre la production industrielle
+      (<code>10.13G</code>), la préparation-vente (<code>10.13H</code>) et —
+      détail savoureux du « contenu commun » officiel — la fabrication de
+      farines d'insectes, envoyée en <code>10.89Y</code>. La NAF 2008 séparait
+      l'industriel de l'artisan&nbsp;; la NAF 2025 sépare l'usine de la
+      boutique. La frontière s'est déplacée — l'activité, elle, n'a pas changé.
     </p>
     <p class="naf-case-links">
       <button type="button" class="naf-linklike" data-chg-open="10.13B">Ouvrir la fiche 10.13 ci-dessus</button> ·
@@ -245,26 +254,27 @@ include-after-body: "../includes/comparer-scripts.html"
     </p>
   </section>
 
-  <!-- Aéronautique : hors du périmètre de l'extrait, dit honnêtement -->
-  <section class="naf-case naf-case-warn" aria-labelledby="naf-chg-aero-title">
+  <!-- Aéronautique : la scission civil/militaire, attestée par la table -->
+  <section class="naf-case" aria-labelledby="naf-chg-aero-title">
     <p class="naf-case-kicker">Et l'aéronautique&nbsp;?</p>
-    <p class="naf-hand-heading naf-case-title" id="naf-chg-aero-title" role="heading" aria-level="2">Un changement que notre extrait ne couvre pas</p>
+    <p class="naf-hand-heading naf-case-title" id="naf-chg-aero-title" role="heading" aria-level="2">La séparation civil / militaire, noir sur blanc</p>
     <p class="naf-case-text">
-      La transformation la plus commentée de la NAF 2025 — la séparation du
-      civil et du militaire dans l'aéronautique — <strong>ne figure pas dans
-      la table approximative chargée ici</strong>, qui ne rapproche que des
-      codes de même classe&nbsp;: <code>30.30Z</code> Construction
-      aéronautique et spatiale (2008) d'un côté, et de l'autre les
-      sous-classes <code>30.31Y</code> Construction aéronautique et spatiale
-      <strong>civile</strong> et <code>30.32Y</code> Construction aéronautique
-      et spatiale <strong>militaire</strong>, que la NAF 2025 introduit
-      d'après les libellés officiels Insee. Pour la correspondance exacte
-      entre ces codes, seule la table officielle fait foi.
+      La transformation la plus commentée de la NAF 2025 est désormais lisible
+      directement dans la table officielle&nbsp;: <code>30.30Z</code>
+      Construction aéronautique et spatiale (2008) se sépare en
+      <code>30.31Y</code> Construction aéronautique et spatiale
+      <strong>civile</strong> (« la fabrication d'avions pour le transport de
+      marchandises ou de passagers, d'hélicoptères, de planeurs… ») et
+      <code>30.32Y</code> Construction aéronautique et spatiale
+      <strong>militaire</strong> (« fabrication d'aéronefs et d'engins
+      spatiaux militaires…, drones à usage militaire »). Un même métier, deux
+      sous-classes selon la destination — l'exemple type de ce que la NAF 2025
+      rend enfin visible.
     </p>
     <p class="naf-case-links">
-      <a href="../defense/">L'exemple complet, sur la page NAF &amp; Défense →</a> ·
-      <a href="https://www.insee.fr/fr/metadonnees/nafr2/sousClasse/30.30Z" target="_blank" rel="noopener noreferrer">Fiche Insee 30.30Z ↗</a> ·
-      <a href="https://www.insee.fr/fr/information/8181066" target="_blank" rel="noopener noreferrer">Table officielle ↗</a>
+      <button type="button" class="naf-linklike" data-chg-open="30.30Z">Ouvrir la fiche 30.30Z ci-dessus</button> ·
+      <a href="flux.html?code=30.30Z">Voir dans les flux →</a> ·
+      <a href="../defense/">Le prolongement, sur la page NAF &amp; Défense →</a>
     </p>
   </section>
 
@@ -299,25 +309,23 @@ include-after-body: "../includes/comparer-scripts.html"
       <p><strong>Une transformation = un groupe de relations.</strong> La table
       officielle liste des relations ligne à ligne. Pour compter « une
       transformation = un événement », nous regroupons les relations qui se
-      touchent (fermeture transitive)&nbsp;: la recomposition de la charcuterie,
-      qui occupe quatre lignes dans la table, compte pour une seule
-      transformation. Le type est déduit des cardinalités réelles du
-      groupe&nbsp;: 1→1, 1→n, n→1 ou n↔n.</p>
-      <p><strong>D'où vient la table chargée ici.</strong> Ce n'est
-      <strong>pas</strong> la
+      touchent (fermeture transitive)&nbsp;: la transformation de la
+      charcuterie, qui occupe plusieurs lignes dans la table, compte pour une
+      seule. Le type est déduit des cardinalités réelles du groupe&nbsp;:
+      1→1, 1→n, n→1 ou n↔n. La table officielle porte par ailleurs son propre
+      type par ligne — « Unique » quand tout le contenu d'une sous-classe 2008
+      part vers une seule sous-classe 2025, « Multiple » sinon — affiché dans
+      les fiches.</p>
+      <p><strong>D'où vient la table chargée ici.</strong> C'est la
       <a href="https://www.insee.fr/fr/information/8181066" target="_blank"
       rel="noopener noreferrer">table de correspondance officielle Insee
-      NAF rév.2 → NAF 2025 ↗</a> (rééditée en janvier 2026), que nous n'avons
-      pas encore pu intégrer&nbsp;: c'est une <strong>approximation construite
-      par le site</strong>, en rapprochant les sous-classes qui partagent le
-      même préfixe de classe (xx.xx) dans les deux nomenclatures. Elle est
-      donc intra-classe par construction, et six appariements dont les
-      libellés décrivaient des activités sans rapport (ex. 25.40Z « armes et
-      munitions » appariée à 25.40Y « forgeage ») ont été retirés plutôt que
-      corrigés à la main&nbsp;: on ne devine pas une table de correspondance,
-      on la cite. Nos scripts intègrent la table officielle dès qu'elle leur
-      est fournie&nbsp;; en attendant, ni une relation affichée ni une absence
-      ne doivent être lues comme des faits officiels.</p>
+      NAF rév.2 → NAF 2025 ↗</a>, rééditée en janvier 2026 et intégrée telle
+      quelle par nos scripts (<code>Correspondances_NAFrev2-NAF2025.xlsx</code>)&nbsp;:
+      1 223 relations couvrant la totalité des sous-classes 2008, avec pour
+      chacune la description officielle du « contenu commun » qui passe d'un
+      code à l'autre. Avant cette intégration, le site utilisait une
+      approximation par préfixe de classe, clairement étiquetée comme
+      telle&nbsp;; elle a été entièrement remplacée.</p>
       <p><strong>Vocabulaire.</strong> Nous n'écrivons jamais « activité créée »
       ou « activité supprimée »&nbsp;: un code apparaît ou disparaît, l'activité
       économique, elle, préexiste presque toujours au code qui la désigne.</p>

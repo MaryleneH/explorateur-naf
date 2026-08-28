@@ -9,9 +9,9 @@
  *     transformation : la fermeture transitive des relations (une scission
  *     1→n est un groupe, une recomposition n↔n aussi). C'est la seule façon
  *     de compter « une transformation = un événement » sans double compte ;
- *   - la table locale est une APPROXIMATION du site (rapprochement par
- *     préfixe de classe), pas la table officielle : le bandeau de couverture
- *     le dit explicitement et renvoie vers la table officielle Insee.
+ *   - la table locale est la TABLE OFFICIELLE Insee (réédition janvier
+ *     2026) : chaque relation porte le type officiel (Unique/Multiple) et la
+ *     description du contenu commun, affichés dans les fiches.
  */
 (function () {
   "use strict";
@@ -212,20 +212,27 @@
     pairs.forEach(function (p) { cov08.add(p.code_2008); cov25.add(p.code_2025); });
 
     clearNode(dom.cover);
+    var missing25 = [];
+    state.n25.rows.forEach(function (row) {
+      if (!cov25.has(row.subclass_code)) missing25.push(row.subclass_code);
+    });
     var p1 = el("p", null);
-    p1.appendChild(el("strong", null, "Table approximative du site. "));
+    p1.appendChild(el("strong", null, "Table officielle Insee. "));
     p1.appendChild(document.createTextNode(
-      "La table chargée ici n'est pas la table officielle : c'est un " +
-      "rapprochement construit par préfixe de classe partagé (xx.xx), en " +
-      "attendant l'intégration de la table officielle rééditée par l'Insee " +
-      "en janvier 2026. Elle compte " + pairs.length + " relations, couvrant " +
-      cov08.size + " des " + state.n08.counts.subclass + " sous-classes 2008 et " +
-      cov25.size + " des " + state.n25.counts.subclass + " sous-classes 2025, " +
-      "et ignore par construction les correspondances qui changent de " +
-      "classe — comme 30.30Z vers 30.31Y/30.32Y. Ni une absence, ni une " +
-      "relation affichée ici ne doivent être lues comme des faits " +
-      "officiels : "));
-    var link = el("a", null, "seule la table officielle Insee fait foi");
+      "La table chargée ici est la table de correspondance officielle " +
+      "NAF rév.2 → NAF 2025, rééditée par l'Insee en janvier 2026 : " +
+      pairs.length + " relations couvrant " +
+      (cov08.size === state.n08.counts.subclass
+        ? "la totalité des " + state.n08.counts.subclass + " sous-classes 2008"
+        : cov08.size + " des " + state.n08.counts.subclass + " sous-classes 2008") +
+      " et " + cov25.size + " des " + state.n25.counts.subclass +
+      " sous-classes 2025" +
+      (missing25.length && missing25.length <= 3
+        ? " (" + missing25.join(", ") + " n'a pas d'antécédent listé)"
+        : "") +
+      ". Chaque relation porte le type officiel (Unique ou Multiple) et la " +
+      "description du contenu qui passe d'un code à l'autre. "));
+    var link = el("a", null, "Consulter la publication Insee");
     link.href = OFFICIAL_URL;
     link.target = "_blank";
     link.rel = "noopener";
@@ -378,12 +385,16 @@
     badge.title = TYPES[g.type].one;
     head.appendChild(badge);
 
+    function codeSummary(list) {
+      if (list.length <= 4) return list.join(" + ");
+      return list.slice(0, 3).join(" + ") + " + … (" + list.length + " codes)";
+    }
     var codes = el("span", "naf-chg-codes");
-    codes.appendChild(el("span", "naf-chg-codes-08", g.codes08.join(" + ")));
+    codes.appendChild(el("span", "naf-chg-codes-08", codeSummary(g.codes08)));
     var arr = el("span", "naf-chg-codes-arrow", "→");
     arr.setAttribute("aria-hidden", "true");
     codes.appendChild(arr);
-    codes.appendChild(el("span", "naf-chg-codes-25", g.codes25.join(" + ")));
+    codes.appendChild(el("span", "naf-chg-codes-25", codeSummary(g.codes25)));
     head.appendChild(codes);
 
     head.appendChild(el("span", "naf-chg-hint",
@@ -416,6 +427,26 @@
     typeP.appendChild(document.createTextNode(TYPES[g.type].explain(g)));
     detail.appendChild(typeP);
 
+    // Le « contenu commun » officiel dit exactement ce qui passe d'un code
+    // à l'autre — affiché pour les groupes lisibles d'un coup d'œil.
+    if (g.lines.length <= 6 && g.lines.some(function (l) { return l.contenu_commun; })) {
+      var whatTitle = el("p", "naf-chg-detail-type");
+      whatTitle.appendChild(el("strong", null,
+        "Ce qui passe d'un code à l'autre (table officielle) :"));
+      detail.appendChild(whatTitle);
+      var whatList = el("ul", "naf-chg-contenu");
+      g.lines.forEach(function (line) {
+        if (!line.contenu_commun) return;
+        var li = el("li", null);
+        li.appendChild(el("span", "naf-mono", line.code_2008 + " → " + line.code_2025));
+        li.appendChild(document.createTextNode(
+          (line.type_officiel ? " (" + line.type_officiel + ") : " : " : ") +
+          truncate(line.contenu_commun, 220)));
+        whatList.appendChild(li);
+      });
+      detail.appendChild(whatList);
+    }
+
     var first = g.lines[0];
     if (first && (first.source_reference || first.source_url)) {
       var src = el("p", "naf-chg-detail-source");
@@ -441,11 +472,13 @@
     return detail;
   }
 
+  var DETAIL_CODES_MAX = 12;
+
   function detailColumn(title, versionId, codes, labels) {
     var col = el("div", "naf-chg-detail-col");
     col.appendChild(el("h4", null, title));
     var ul = el("ul", null);
-    codes.forEach(function (code) {
+    codes.slice(0, DETAIL_CODES_MAX).forEach(function (code) {
       var li = el("li", null);
       var a = el("a", "naf-chg-code", code);
       a.href = "../explorer/?v=" + versionId + "&code=" + encodeURIComponent(code);
@@ -455,6 +488,11 @@
       li.appendChild(document.createTextNode(" " + (labels.get(code) || "")));
       ul.appendChild(li);
     });
+    if (codes.length > DETAIL_CODES_MAX) {
+      ul.appendChild(el("li", "naf-chg-detail-more",
+        "… et " + (codes.length - DETAIL_CODES_MAX) +
+        " autres sous-classes — la vue en flux permet de les parcourir."));
+    }
     col.appendChild(ul);
     return col;
   }

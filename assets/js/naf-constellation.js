@@ -57,6 +57,7 @@
     note_officielle_insee: "Les notes officielles Insee de la sous-classe couvrent des usages civils et militaires",
     nomenclature_produits_cpf: "La nomenclature de produits officielle (CPF) rattache à cette activité des produits civils et militaires",
     structure_naf_2025: "La structure de la NAF 2025 (libellés officiels) atteste des deux volets de ce métier",
+    table_correspondance_officielle: "La table de correspondance officielle Insee transfère explicitement ce contenu, civil et militaire, vers cette sous-classe",
     enquete_ssm_refd: "Secteur observé parmi les entreprises de défense (enquête EDIS du SSM, adossée au REFD)",
     reglement_ue_bdu: "Le règlement (UE) 2021/821 classe certains biens de ce domaine en biens à double usage",
     dispositif_ministeriel: "Un dispositif officiel du ministère des Armées documente des projets duals dans ce domaine",

@@ -1475,6 +1475,29 @@ body {
   line-height: 1.55;
 }
 
+.naf-chg-contenu {
+  margin: 0.5rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.45rem;
+
+  li {
+    font-size: 0.88rem;
+    line-height: 1.5;
+    padding-left: 0.85rem;
+    border-left: 2px solid var(--naf-line-soft);
+    overflow-wrap: anywhere;
+  }
+
+  .naf-mono { font-weight: 650; }
+}
+
+.naf-chg-detail-more {
+  font-style: italic;
+  color: var(--naf-slate-mid);
+}
+
 .naf-chg-detail-source {
   margin: 0.45rem 0 0;
   font-size: 0.85rem;

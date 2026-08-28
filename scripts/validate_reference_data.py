@@ -263,6 +263,7 @@ VALID_DUALITES = {
 NAF_PROOFS = {
     "libelle_officiel", "note_officielle_insee",
     "nomenclature_produits_cpf", "structure_naf_2025",
+    "table_correspondance_officielle",
 }
 VALID_PROOFS = NAF_PROOFS | {
     "enquete_ssm_refd", "reglement_ue_bdu", "dispositif_ministeriel",
