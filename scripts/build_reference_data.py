@@ -7,8 +7,22 @@ Sources :
 - NAF 2025 : TheodoreBillotte/Job-Finder (hiérarchie complète, données issues de l'INSEE)
              datagouv/apistration (codes sous-classes officiels NAF 2025)
 - NAF rév.2 : SocialGouv/codes-naf (données issues de l'INSEE)
+- Correspondances 2008 ↔ 2025 : la SOURCE DE VÉRITÉ est la table officielle
+  Insee « Correspondances_NAFrev2-NAF2025.xlsx » (rééditée en janvier 2026).
+  Le script la cherche dans data/raw/, sinon tente de la télécharger depuis
+  l'Insee. À défaut seulement, il construit une APPROXIMATION par préfixe de
+  classe partagé, clairement étiquetée comme telle dans chaque ligne : cette
+  approximation n'est jamais présentée comme la table officielle.
+
+Usage :
+    python scripts/build_reference_data.py
+    python scripts/build_reference_data.py --correspondances chemin/vers/Correspondances_NAFrev2-NAF2025.xlsx
 
 Le site GitHub Pages n'a pas besoin de Python : il lit les CSV statiques générés.
+
+Le fichier data/defense_qualification.csv n'est PAS généré par ce script :
+il est maintenu à la main (chaque ligne portant justification, sources,
+repère et limite d'interprétation) et contrôlé par validate_reference_data.py.
 """
 
 import csv
@@ -40,11 +54,9 @@ SOURCES = {
         "https://raw.githubusercontent.com/SocialGouv/"
         "codes-naf/master/index.json"
     ),
-    "naf_correspondances": (
-        "https://raw.githubusercontent.com/"
-        "TheodoreBillotte/Job-Finder/main/data/"
-        "naf_levels/naf_correspondances.csv"
-    ),
+    # Les correspondances 2008 ↔ 2025 ne dépendent plus d'une copie tierce :
+    # voir load_official_pairs() (table officielle Insee, avec approximation
+    # par préfixe en secours explicite).
 }
 
 NAF2025_SOURCE_URL = "https://www.insee.fr/fr/information/8201411"
@@ -480,64 +492,31 @@ def build_correspondances(rows_2008, rows_2025) -> None:
     """
     Construit data/correspondances_2008_2025.csv.
 
-    Source : Correspondances_NAFrev2-NAF2025 (oficielle INSEE).
-    Si le fichier officiel n'est pas accessible, construit une table
-    approximative à partir des codes NACE partagés entre les deux versions.
+    SOURCE DE VÉRITÉ : la table de correspondance officielle Insee
+    (Correspondances_NAFrev2-NAF2025.xlsx). Le script la cherche en local
+    (option --correspondances, sinon data/raw/), puis tente de la
+    télécharger depuis l'Insee. À défaut seulement, il construit une
+    APPROXIMATION par préfixe de classe partagé, étiquetée comme telle
+    dans chaque ligne : ni la couverture ni la typologie de cette
+    approximation ne doivent être lues comme des faits officiels.
 
-    Le type de correspondance est calculé mécaniquement :
-      - 1→1 : un code 2008 correspond à exactement un code 2025
-      - 1→n : scission (un code 2008 → plusieurs codes 2025)
-      - n→1 : regroupement (plusieurs codes 2008 → un code 2025)
-      - n↔n : recomposition
+    Le type de correspondance est calculé sur les cardinalités des paires :
+      1→1, 1→n (scission), n→1 (regroupement), n↔n (recomposition).
     """
     print("\n=== Correspondances 2008 ↔ 2025 ===")
 
-    # Tenter de charger le fichier officiel depuis la source distante
-    corr_url = SOURCES.get("naf_correspondances")
-    raw_data = None
-    if corr_url:
-        try:
-            raw_data = fetch(corr_url, "naf_correspondances.csv")
-        except SystemExit:
-            raw_data = None
-
-    # Index par code
     index_2008 = {r["subclass_code"]: r for r in rows_2008}
     index_2025 = {r["subclass_code"]: r for r in rows_2025}
 
-    # Construire les relations via correspondance NACE partagé
-    # Le code NACE rev.2.1 (NAF 2025) est souvent identique ou très proche
-    # du code NACE rev.2 (NAF 2008), sauf lettre terminale.
-    # On utilise la base numérique (5 premiers chars) pour construire
-    # une correspondance initiale, puis on calcule le type.
+    pairs, official = load_official_pairs(index_2008, index_2025)
 
-    # Map : base_nace → liste sous-classes 2008
-    base_to_2008 = {}
-    for code in index_2008:
-        base = code[:5]
-        base_to_2008.setdefault(base, []).append(code)
+    if not official:
+        print("  ! Table officielle indisponible : approximation par préfixe "
+              "de classe partagé (étiquetée comme telle).")
+        pairs = approximate_pairs(index_2008, index_2025)
 
-    # Map : base_nace → liste sous-classes 2025
-    base_to_2025 = {}
-    for code in index_2025:
-        base = code[:5]
-        base_to_2025.setdefault(base, []).append(code)
-
-    # Construire toutes les paires
-    pairs = []  # (code_2008, code_2025)
-    all_bases = set(base_to_2008) | set(base_to_2025)
-    for base in all_bases:
-        codes_2008 = base_to_2008.get(base, [])
-        codes_2025 = base_to_2025.get(base, [])
-        if codes_2008 and codes_2025:
-            for c2008 in codes_2008:
-                for c2025 in codes_2025:
-                    pairs.append((c2008, c2025))
-
-    # Calculer les cardinalités pour le type de correspondance
-    # count_targets[code_2008] = nombre de codes 2025 correspondants
-    count_targets = {}
-    count_sources = {}
+    # Cardinalités → type de correspondance
+    count_targets, count_sources = {}, {}
     for c2008, c2025 in pairs:
         count_targets.setdefault(c2008, set()).add(c2025)
         count_sources.setdefault(c2025, set()).add(c2008)
@@ -552,6 +531,16 @@ def build_correspondances(rows_2008, rows_2025) -> None:
         if n_target == 1 and n_source > 1:
             return "n→1"
         return "n↔n"
+
+    if official:
+        source_url = "https://www.insee.fr/fr/information/8181066"
+        source_reference = OFFICIAL_TABLE_REFERENCE
+    else:
+        source_url = "https://www.insee.fr/fr/information/8181066"
+        source_reference = (
+            "Rapprochement par préfixe de classe (approximation du site) — "
+            "à confirmer avec la table officielle Insee NAF rév.2 → NAF 2025"
+        )
 
     fieldnames = [
         "code_2008", "libelle_2008",
@@ -570,217 +559,137 @@ def build_correspondances(rows_2008, rows_2025) -> None:
             "code_2025": c2025,
             "libelle_2025": r2025.get("subclass_label", ""),
             "type_correspondance": corr_type(c2008, c2025),
-            "source_url": NAF_CORRESP_SOURCE_URL,
-            "source_reference": (
-                f"Insee — Correspondances NAF rév.2 / NAF 2025 — "
-                f"{c2008} → {c2025}"
-            ),
+            "source_url": source_url,
+            "source_reference": source_reference,
         })
 
     write_csv(DATA_DIR / "correspondances_2008_2025.csv", fieldnames, output_rows)
+    print(f"  {'Table officielle' if official else 'Approximation'} : "
+          f"{len(output_rows)} relations écrites")
     return output_rows
+
+
+OFFICIAL_TABLE_URL = (
+    "https://www.insee.fr/fr/statistiques/fichier/8181066/"
+    "Correspondances_NAFrev2-NAF2025.xlsx"
+)
+OFFICIAL_TABLE_REFERENCE = (
+    "INSEE — Table de correspondance officielle NAF rév.2 → NAF 2025 "
+    "(Correspondances_NAFrev2-NAF2025.xlsx)"
+)
+
+# Paires produites par l'approximation par préfixe mais contredites par les
+# libellés officiels (voir data/README.md) : jamais réémises en mode secours.
+EXCLUDED_APPROX_PAIRS = {
+    ("25.40Z", "25.40Y"), ("25.61Z", "25.61Y"), ("38.21Z", "38.21Y"),
+    ("38.22Z", "38.22Y"), ("38.31Z", "38.31Y"), ("38.32Z", "38.32Y"),
+}
+
+
+def load_official_pairs(index_2008, index_2025):
+    """Charge la table officielle Insee si disponible.
+
+    Retourne (paires, True) si la table officielle a été lue, sinon
+    ([], False). Cherche d'abord un fichier local (--correspondances ou
+    data/raw/Correspondances_NAFrev2-NAF2025.xlsx), puis tente le
+    téléchargement depuis l'Insee.
+    """
+    path = None
+    argv = sys.argv[1:]
+    if "--correspondances" in argv:
+        path = Path(argv[argv.index("--correspondances") + 1])
+    else:
+        candidate = RAW_DIR / "Correspondances_NAFrev2-NAF2025.xlsx"
+        if candidate.exists():
+            path = candidate
+        else:
+            try:
+                print(f"  Téléchargement de la table officielle : {OFFICIAL_TABLE_URL}")
+                req = urllib.request.Request(
+                    OFFICIAL_TABLE_URL, headers={"User-Agent": "explorateur-naf"})
+                with urllib.request.urlopen(req, timeout=60) as resp:
+                    candidate.write_bytes(resp.read())
+                path = candidate
+            except Exception as error:  # noqa: BLE001 — réseau best-effort
+                print(f"  ! Téléchargement impossible ({error})")
+
+    if path is None or not path.exists():
+        return [], False
+
+    try:
+        from openpyxl import load_workbook
+    except ImportError:
+        print("  ! openpyxl absent : `pip install openpyxl` pour lire la table "
+              "officielle — approximation utilisée en attendant.")
+        return [], False
+
+    wb = load_workbook(path, read_only=True, data_only=True)
+    pairs = set()
+    for ws in wb.worksheets:
+        headers = {}
+        header_row = None
+        for row in ws.iter_rows(min_row=1, max_row=12):
+            for cell in row:
+                value = str(cell.value or "")
+                if value.startswith("NAFold-code"):
+                    header_row = cell.row
+            if header_row:
+                for cell in row:
+                    value = str(cell.value or "")
+                    if value.startswith("NAFold-code"):
+                        headers["code_2008"] = cell.column
+                    elif value.startswith("NAFnew-code"):
+                        headers["code_2025"] = cell.column
+                break
+        if len(headers) < 2:
+            continue
+        for row in ws.iter_rows(min_row=header_row + 1):
+            c2008 = str(row[headers["code_2008"] - 1].value or "").strip()
+            c2025 = str(row[headers["code_2025"] - 1].value or "").strip()
+            if not c2008 or not c2025:
+                continue
+            if c2008 not in index_2008 or c2025 not in index_2025:
+                continue
+            pairs.add((c2008, c2025))
+    if pairs:
+        print(f"  Table officielle lue : {len(pairs)} relations ({path.name})")
+        return sorted(pairs), True
+    return [], False
+
+
+def approximate_pairs(index_2008, index_2025):
+    """Approximation de secours : produit cartésien par préfixe de classe."""
+    base_to_2008, base_to_2025 = {}, {}
+    for code in index_2008:
+        base_to_2008.setdefault(code[:5], []).append(code)
+    for code in index_2025:
+        base_to_2025.setdefault(code[:5], []).append(code)
+    pairs = []
+    for base in set(base_to_2008) | set(base_to_2025):
+        for c2008 in base_to_2008.get(base, []):
+            for c2025 in base_to_2025.get(base, []):
+                if (c2008, c2025) in EXCLUDED_APPROX_PAIRS:
+                    continue
+                pairs.append((c2008, c2025))
+    return pairs
 
 
 # ---------------------------------------------------------------------------
 # Données Défense (10 entrées bien documentées)
 # ---------------------------------------------------------------------------
 
-DEFENSE_ROWS = [
-    # --- NAF 2025 ---
-    {
-        "naf_version": "NAF 2025",
-        "code": "30.32Y",
-        "niveau_defense": "explicite_industriel",
-        "justification": (
-            "Le libellé officiel est «\u202fConstruction aéronautique et "
-            "spatiale militaire\u202f». La mention «\u202fmilitaire\u202f» "
-            "figure explicitement dans l'intitulé de la sous-classe."
-        ),
-        "nature_preuve": "libelle_officiel",
-        "source_url": insee_url("NAF 2025", "subclass", "30.32Y"),
-        "source_reference": "INSEE — NAF 2025 — sous-classe 30.32Y",
-        "niveau_confiance": "élevé",
-        "commentaire": (
-            "Sous-classe créée spécifiquement pour l'industrie aéronautique "
-            "et spatiale militaire dans la NAF 2025."
-        ),
-    },
-    {
-        "naf_version": "NAF 2025",
-        "code": "30.40Y",
-        "niveau_defense": "explicite_industriel",
-        "justification": (
-            "Construction de véhicules militaires de combat — le terme "
-            "«\u202fmilitaires\u202f» est présent dans le libellé officiel."
-        ),
-        "nature_preuve": "libelle_officiel",
-        "source_url": insee_url("NAF 2025", "subclass", "30.40Y"),
-        "source_reference": "INSEE — NAF 2025 — sous-classe 30.40Y",
-        "niveau_confiance": "élevé",
-        "commentaire": "Véhicules blindés, chars, blindés légers.",
-    },
-    {
-        "naf_version": "NAF 2025",
-        "code": "25.30Y",
-        "niveau_defense": "explicite_industriel",
-        "justification": (
-            "Fabrication d'armes et de munitions — activité explicitement "
-            "militaire selon les notes officielles INSEE."
-        ),
-        "nature_preuve": "libelle_officiel",
-        "source_url": insee_url("NAF 2025", "subclass", "25.30Y"),
-        "source_reference": "INSEE — NAF 2025 — sous-classe 25.30Y",
-        "niveau_confiance": "élevé",
-        "commentaire": (
-            "Inclut la fabrication d'armes légères, d'artillerie, "
-            "de torpilles, de mines et de missiles."
-        ),
-    },
-    {
-        "naf_version": "NAF 2025",
-        "code": "30.13Y",
-        "niveau_defense": "dual_officiel",
-        "justification": (
-            "Construction navale militaire — les notes officielles mentionnent "
-            "à la fois les navires de guerre et les navires civils dans des "
-            "contextes séparés (dual civil/militaire selon NACE rév.2.1)."
-        ),
-        "nature_preuve": "libelle_officiel",
-        "source_url": insee_url("NAF 2025", "subclass", "30.13Y"),
-        "source_reference": "INSEE — NAF 2025 — sous-classe 30.13Y",
-        "niveau_confiance": "moyen",
-        "commentaire": (
-            "À distinguer de 30.11Y (construction de navires civils). "
-            "La qualification dual doit être vérifiée sur les notes "
-            "explicatives officielles."
-        ),
-    },
-    {
-        "naf_version": "NAF 2025",
-        "code": "33.18H",
-        "niveau_defense": "dual_officiel",
-        "justification": (
-            "Réparation et maintenance d'équipements de défense — les notes "
-            "officielles incluent la maintenance des systèmes d'armes."
-        ),
-        "nature_preuve": "libelle_officiel",
-        "source_url": insee_url("NAF 2025", "subclass", "33.18H"),
-        "source_reference": "INSEE — NAF 2025 — sous-classe 33.18H",
-        "niveau_confiance": "moyen",
-        "commentaire": (
-            "Maintenance de matériels militaires aéronautiques "
-            "et autres équipements de défense."
-        ),
-    },
-    {
-        "naf_version": "NAF 2025",
-        "code": "33.18G",
-        "niveau_defense": "dual_officiel",
-        "justification": (
-            "Réparation et maintenance de navires militaires — activité "
-            "potentiellement duale (civile et militaire)."
-        ),
-        "nature_preuve": "libelle_officiel",
-        "source_url": insee_url("NAF 2025", "subclass", "33.18G"),
-        "source_reference": "INSEE — NAF 2025 — sous-classe 33.18G",
-        "niveau_confiance": "moyen",
-        "commentaire": (
-            "À confirmer sur les notes officielles INSEE. "
-            "Peut couvrir maintenance navale civile et militaire."
-        ),
-    },
-    {
-        "naf_version": "NAF 2025",
-        "code": "84.22Y",
-        "niveau_defense": "administration_defense",
-        "justification": (
-            "Cette sous-classe concerne l'administration de la défense "
-            "nationale par les pouvoirs publics (ministère, armées, "
-            "gendarmerie nationale). "
-            "AVERTISSEMENT : ce code ne désigne PAS les entreprises "
-            "industrielles de défense. Il s'agit de l'administration "
-            "publique de la défense."
-        ),
-        "nature_preuve": "libelle_officiel",
-        "source_url": insee_url("NAF 2025", "subclass", "84.22Y"),
-        "source_reference": "INSEE — NAF 2025 — sous-classe 84.22Y",
-        "niveau_confiance": "élevé",
-        "commentaire": (
-            "Ne pas confondre avec l'industrie de défense. "
-            "Les armées, le ministère des Armées, la DRSD utilisent "
-            "ce code. Il ne s'agit pas du code NAF des industriels."
-        ),
-    },
-    # --- NAF rév.2 ---
-    {
-        "naf_version": "NAF rév.2",
-        "code": "25.40Z",
-        "niveau_defense": "explicite_industriel",
-        "justification": (
-            "Fabrication d'armes et de munitions — le libellé officiel "
-            "et les notes INSEE désignent explicitement les armes légères, "
-            "l'artillerie, les munitions et les missiles."
-        ),
-        "nature_preuve": "libelle_officiel",
-        "source_url": insee_url("NAF rév.2", "subclass", "25.40Z"),
-        "source_reference": "INSEE — NAF rév.2 — sous-classe 25.40Z",
-        "niveau_confiance": "élevé",
-        "commentaire": (
-            "Équivalent partiel de 25.30Y en NAF 2025. "
-            "Les correspondances officielles doivent être consultées."
-        ),
-    },
-    {
-        "naf_version": "NAF rév.2",
-        "code": "30.40Z",
-        "niveau_defense": "explicite_industriel",
-        "justification": (
-            "Construction de véhicules militaires de combat — libellé "
-            "officiel avec mention explicite du caractère militaire."
-        ),
-        "nature_preuve": "libelle_officiel",
-        "source_url": insee_url("NAF rév.2", "subclass", "30.40Z"),
-        "source_reference": "INSEE — NAF rév.2 — sous-classe 30.40Z",
-        "niveau_confiance": "élevé",
-        "commentaire": "Correspond à 30.40Y en NAF 2025.",
-    },
-    {
-        "naf_version": "NAF rév.2",
-        "code": "84.22Z",
-        "niveau_defense": "administration_defense",
-        "justification": (
-            "Administration de la défense nationale — même nature que "
-            "84.22Y en NAF 2025. Concerne l'administration publique "
-            "de la défense, pas les entreprises industrielles."
-        ),
-        "nature_preuve": "libelle_officiel",
-        "source_url": insee_url("NAF rév.2", "subclass", "84.22Z"),
-        "source_reference": "INSEE — NAF rév.2 — sous-classe 84.22Z",
-        "niveau_confiance": "élevé",
-        "commentaire": (
-            "AVERTISSEMENT : ne pas confondre avec le code NAF "
-            "des industriels de défense. Il désigne l'administration "
-            "publique (armées, ministère des Armées)."
-        ),
-    },
-]
-
-
 def build_defense() -> None:
-    """Construit data/defense_qualification.csv."""
-    print("\n=== Données Défense ===")
-    fieldnames = [
-        "naf_version", "code", "niveau_defense",
-        "justification", "nature_preuve",
-        "source_url", "source_reference",
-        "niveau_confiance", "commentaire",
-    ]
-    write_csv(DATA_DIR / "defense_qualification.csv", fieldnames, DEFENSE_ROWS)
+    """data/defense_qualification.csv n'est plus généré ici.
 
+    La couche « relation Défense & dualité » est maintenue à la main :
+    chaque ligne porte justification, nature de preuve, sources, repère
+    et limite d'interprétation, contrôlés par validate_reference_data.py.
+    Un générateur écraserait ce travail éditorial.
+    """
+    print("\n=== Qualification Défense ===")
+    print("  Fichier maintenu à la main (non régénéré) : "
+          "data/defense_qualification.csv")
 
-# ---------------------------------------------------------------------------
-# Point d'entrée
-# ---------------------------------------------------------------------------
 
 def main() -> None:
     print("Constructeur de données de référence — Explorateur NAF")

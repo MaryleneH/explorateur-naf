@@ -51,9 +51,11 @@ include-after-body: "../includes/flux-scripts.html"
       </li>
     </ol>
     <p class="naf-did-strong">
-      Ce diagramme repose sur l'extrait partiel de la table de correspondance
-      chargé sur ce site&nbsp;: ce qui n'y figure pas n'apparaît pas ici.
-      <a href="https://www.insee.fr/fr/information/8201411" target="_blank"
+      Ce diagramme repose sur la table <strong>approximative</strong> du site
+      (rapprochement par préfixe de classe), pas sur la table officielle&nbsp;:
+      ce qui n'y figure pas n'apparaît pas ici, et ce qui y figure reste à
+      confirmer.
+      <a href="https://www.insee.fr/fr/information/8181066" target="_blank"
       rel="noopener noreferrer">La table officielle Insee fait foi&nbsp;↗</a>
     </p>
   </section>

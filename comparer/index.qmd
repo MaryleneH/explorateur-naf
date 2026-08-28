@@ -229,17 +229,19 @@ include-after-body: "../includes/comparer-scripts.html"
     </div>
     <p class="naf-hand naf-case-hand" aria-hidden="true">« la frontière passe désormais<br>entre l'usine et la boutique »</p>
     <p class="naf-case-text">
-      Dans la table de correspondance, chacune des deux sous-classes 2008 est
-      reliée <em>aux deux</em> sous-classes 2025&nbsp;: c'est une
-      <strong>recomposition (n↔n)</strong>, pas une simple scission. La NAF 2008
-      séparait l'industriel de l'artisan charcutier&nbsp;; la NAF 2025 sépare la
-      production industrielle de la préparation associée à la vente au détail.
-      La frontière s'est déplacée — l'activité, elle, n'a pas changé.
+      Dans la table approximative chargée ici, chacune des deux sous-classes
+      2008 est reliée <em>aux deux</em> sous-classes 2025&nbsp;: une
+      <strong>recomposition (n↔n)</strong>, pas une simple scission. Ce que
+      montrent les libellés officiels&nbsp;: la NAF 2008 séparait l'industriel
+      de l'artisan charcutier, la NAF 2025 sépare la production industrielle de
+      la préparation associée à la vente au détail. La frontière s'est
+      déplacée — l'activité, elle, n'a pas changé. La répartition précise
+      relève de la table officielle Insee.
     </p>
     <p class="naf-case-links">
       <button type="button" class="naf-linklike" data-chg-open="10.13B">Ouvrir la fiche 10.13 ci-dessus</button> ·
       <a href="flux.html?code=10.13B">Voir dans les flux →</a> ·
-      <a href="https://www.insee.fr/fr/information/8201411" target="_blank" rel="noopener noreferrer">Table officielle Insee ↗</a>
+      <a href="https://www.insee.fr/fr/information/8181066" target="_blank" rel="noopener noreferrer">Table officielle Insee ↗</a>
     </p>
   </section>
 
@@ -250,18 +252,19 @@ include-after-body: "../includes/comparer-scripts.html"
     <p class="naf-case-text">
       La transformation la plus commentée de la NAF 2025 — la séparation du
       civil et du militaire dans l'aéronautique — <strong>ne figure pas dans
-      l'extrait de table chargé ici</strong>, car elle change de classe&nbsp;:
-      <code>30.30Z</code> Construction aéronautique et spatiale (2008) se
-      répartit entre <code>30.31Y</code> Construction aéronautique et spatiale
+      la table approximative chargée ici</strong>, qui ne rapproche que des
+      codes de même classe&nbsp;: <code>30.30Z</code> Construction
+      aéronautique et spatiale (2008) d'un côté, et de l'autre les
+      sous-classes <code>30.31Y</code> Construction aéronautique et spatiale
       <strong>civile</strong> et <code>30.32Y</code> Construction aéronautique
-      et spatiale <strong>militaire</strong>, d'après les libellés officiels
-      Insee. Pour le détail exact de la répartition, seule la table officielle
-      fait foi.
+      et spatiale <strong>militaire</strong>, que la NAF 2025 introduit
+      d'après les libellés officiels Insee. Pour la correspondance exacte
+      entre ces codes, seule la table officielle fait foi.
     </p>
     <p class="naf-case-links">
       <a href="../defense/">L'exemple complet, sur la page NAF &amp; Défense →</a> ·
       <a href="https://www.insee.fr/fr/metadonnees/nafr2/sousClasse/30.30Z" target="_blank" rel="noopener noreferrer">Fiche Insee 30.30Z ↗</a> ·
-      <a href="https://www.insee.fr/fr/information/8201411" target="_blank" rel="noopener noreferrer">Table officielle ↗</a>
+      <a href="https://www.insee.fr/fr/information/8181066" target="_blank" rel="noopener noreferrer">Table officielle ↗</a>
     </p>
   </section>
 
@@ -300,17 +303,21 @@ include-after-body: "../includes/comparer-scripts.html"
       qui occupe quatre lignes dans la table, compte pour une seule
       transformation. Le type est déduit des cardinalités réelles du
       groupe&nbsp;: 1→1, 1→n, n→1 ou n↔n.</p>
-      <p><strong>Couverture.</strong> La table chargée ici est un extrait
-      partiel et intra-classe de la
-      <a href="https://www.insee.fr/fr/information/8201411" target="_blank"
+      <p><strong>D'où vient la table chargée ici.</strong> Ce n'est
+      <strong>pas</strong> la
+      <a href="https://www.insee.fr/fr/information/8181066" target="_blank"
       rel="noopener noreferrer">table de correspondance officielle Insee
-      NAF rév.2 → NAF 2025 ↗</a>&nbsp;: elle ne contient que des relations
-      restant dans la même classe (xx.xx). Six lignes dont les libellés 2008 et
-      2025 décrivaient des activités sans rapport (appariements mécaniques de
-      codes, contredits par les libellés officiels — ex. 25.40Z « armes et
-      munitions » appariée à 25.40Y « forgeage ») ont été retirées plutôt que
-      corrigées à la main&nbsp;: on ne devine pas une table de correspondance,
-      on la cite. Ces codes apparaissent comme non couverts.</p>
+      NAF rév.2 → NAF 2025 ↗</a> (rééditée en janvier 2026), que nous n'avons
+      pas encore pu intégrer&nbsp;: c'est une <strong>approximation construite
+      par le site</strong>, en rapprochant les sous-classes qui partagent le
+      même préfixe de classe (xx.xx) dans les deux nomenclatures. Elle est
+      donc intra-classe par construction, et six appariements dont les
+      libellés décrivaient des activités sans rapport (ex. 25.40Z « armes et
+      munitions » appariée à 25.40Y « forgeage ») ont été retirés plutôt que
+      corrigés à la main&nbsp;: on ne devine pas une table de correspondance,
+      on la cite. Nos scripts intègrent la table officielle dès qu'elle leur
+      est fournie&nbsp;; en attendant, ni une relation affichée ni une absence
+      ne doivent être lues comme des faits officiels.</p>
       <p><strong>Vocabulaire.</strong> Nous n'écrivons jamais « activité créée »
       ou « activité supprimée »&nbsp;: un code apparaît ou disparaît, l'activité
       économique, elle, préexiste presque toujours au code qui la désigne.</p>

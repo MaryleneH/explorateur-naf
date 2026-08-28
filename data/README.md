@@ -11,22 +11,30 @@ Source : Insee — <https://www.insee.fr/fr/information/8201411>
 
 ## `correspondances_2008_2025.csv`
 
-Extrait **partiel** de la table de correspondance NAF rév.2 → NAF 2025.
-Une ligne = une relation entre une sous-classe 2008 et une sous-classe 2025.
+⚠️ **Ce fichier n'est PAS la table officielle Insee.** C'est une
+**approximation construite par le site** : un rapprochement par préfixe de
+classe partagé (`xx.xx`) entre les deux nomenclatures, en attendant
+l'intégration de la table officielle « Correspondances_NAFrev2-NAF2025.xlsx »
+rééditée par l'Insee en janvier 2026
+(<https://www.insee.fr/fr/information/8181066>). Chaque ligne porte cette
+mention dans `source_reference`, et l'interface l'affiche.
+
+`scripts/build_reference_data.py` cherche la table officielle (fichier local
+`data/raw/Correspondances_NAFrev2-NAF2025.xlsx`, option `--correspondances`,
+ou téléchargement direct depuis l'Insee) et ne retombe sur l'approximation
+qu'à défaut, en l'étiquetant comme telle.
 
 Colonnes : `code_2008, libelle_2008, code_2025, libelle_2025,
 type_correspondance, source_url, source_reference`.
 
 Limites connues, assumées et affichées dans l'interface :
 
-- **Couverture partielle.** Toutes les sous-classes n'y figurent pas ;
-  une absence de ligne ne signifie pas une absence de correspondance.
-  La table officielle complète fait foi :
-  <https://www.insee.fr/fr/information/8201411>
-- **Relations intra-classe uniquement.** Toutes les lignes relient des codes
-  partageant le même préfixe de classe (`xx.xx`). Les correspondances qui
-  changent de classe — par exemple 30.30Z (construction aéronautique et
-  spatiale) vers 30.31Y/30.32Y — ne sont **pas** couvertes par cet extrait.
+- **Approximation, pas constat.** Ni une relation affichée, ni une absence ne
+  doivent être lues comme des faits officiels ; la typologie (1→1, 1→n, n→1,
+  n↔n) est calculée sur les cardinalités de cette approximation.
+- **Relations intra-classe uniquement, par construction.** Les correspondances
+  qui changent de classe — par exemple 30.30Z (construction aéronautique et
+  spatiale) vers 30.31Y/30.32Y — n'y figurent pas.
 - Les compteurs affichés sur le site (relations, groupes de transformation,
   couverture) sont **calculés à partir de ce fichier**, jamais saisis à la main.
 
@@ -53,22 +61,34 @@ sphère défense. Schéma et méthode documentés sur la page « NAF & Défense 
 
 Colonnes : `naf_version, code, niveau_defense, nature_dualite, famille,
 justification, nature_preuve, usages_civils, usages_defense, source_url,
-source_reference, source_secondaire_url, source_secondaire_reference,
-niveau_confiance, commentaire`.
+source_reference, source_repere, source_secondaire_url,
+source_secondaire_reference, niveau_confiance, limite_interpretation,
+commentaire`.
 
-- `niveau_defense` : `explicite_industriel`, `dual_officiel`,
-  `ecosysteme_observe`, `administration_defense`, ou `piste_dualite` pour les
-  pistes de dualité **non validées** — jamais affichées comme duales ni
-  comptées.
-- `nature_dualite` (duales uniquement) : `dual_naf_explicite` (les notes ou la
-  nomenclature de produits officielles Insee couvrent des usages civils et
-  militaires), `dual_source_defense` (source institutionnelle, ex. dispositif
-  RAPID DGA/AID), `dual_refd_observe` (secteur observé parmi les entreprises
-  de défense par l'enquête EDIS du SSM, adossée au REFD, avec preuve
-  complémentaire — règlement (UE) 2021/821), `dual_a_confirmer` (piste).
-- Une duale validée doit porter justification, usages civils, usages Défense,
-  source(s) et niveau de confiance `élevé` ou `moyen` — contrôlé par
-  `scripts/validate_reference_data.py`, qui refuse aussi une catégorie duale
-  vide.
-- Fournisseur n'est pas dual : observer des fournisseurs de la Défense dans un
-  code ne suffit jamais à qualifier la sous-classe.
+Deux dimensions distinctes :
+
+- `niveau_defense` (statut) : `explicite_industriel`, `dualite_demontree`
+  (dualité prouvée au niveau de la nomenclature), `relation_intermediaire`
+  (dual-use / écosystème observé — jamais présentée comme dualité démontrée),
+  `administration_defense`, ou `piste_dualite` (**non validée** : jamais
+  affichée ni comptée).
+- `nature_dualite` (typologie de preuve, **multi-valuée**, séparateur `;`,
+  catégories non exclusives) : `dual_naf_directe` (fiche/notes/produits
+  officiels couvrent civil ET militaire), `dual_naf_crossref` (renvois
+  officiels entre structures ou nomenclatures), `technologie_dual_use`
+  (règlement (UE) 2021/821 — ne qualifie jamais toute la sous-classe),
+  `ecosysteme_defense_observe` (enquête EDIS/REFD — même limite),
+  `projets_duaux_documentes` (ex. dispositif RAPID), `dual_a_confirmer`.
+
+Règles contrôlées par `scripts/validate_reference_data.py` :
+
+- une dualité NAF démontrée exige une preuve de nomenclature
+  (`libelle_officiel`, `note_officielle_insee`, `nomenclature_produits_cpf`,
+  `structure_naf_2025`) **et** un `source_repere` (la phrase à chercher dans
+  la source) — EDIS ou le règlement européen seuls ne suffisent jamais ;
+- toute preuve intermédiaire porte une `limite_interpretation` affichée
+  (« ce qu'il ne faut pas en déduire ») ;
+- les catégories annoncées ne sont jamais vides ; les pistes sont marquées et
+  exclues des compteurs ;
+- fournisseur n'est pas dual : observer des fournisseurs de la Défense dans
+  un code ne suffit jamais à qualifier la sous-classe.

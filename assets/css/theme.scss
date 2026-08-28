@@ -2677,8 +2677,8 @@ body {
 }
 
 [data-level="explicite_industriel"] { --naf-lvl: var(--naf-lvl-explicite); }
-[data-level="dual_officiel"] { --naf-lvl: var(--naf-lvl-dual); }
-[data-level="ecosysteme_observe"] { --naf-lvl: var(--naf-lvl-ecosysteme); }
+[data-level="dualite_demontree"] { --naf-lvl: var(--naf-lvl-dual); }
+[data-level="relation_intermediaire"] { --naf-lvl: var(--naf-lvl-ecosysteme); }
 [data-level="administration_defense"] { --naf-lvl: var(--naf-lvl-administration); }
 
 .naf-def-badge {
@@ -3413,4 +3413,313 @@ body {
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Défense — rigueur méthodologique (pass 10)
+═══════════════════════════════════════════════════════════════════ */
+
+/* Étiquettes de nature de preuve : nouvelles catégories. La couleur ne
+   porte jamais seule l'information (texte en toutes lettres). */
+.naf-def-dualtag {
+  &[data-dualite="dual_naf_directe"] { background: #2a669f; }
+  &[data-dualite="dual_naf_crossref"] { background: #5aa0d0; color: #14181d; }
+  &[data-dualite="technologie_dual_use"] { background: #33475f; }
+  &[data-dualite="ecosysteme_defense_observe"] { background: #925019; }
+  &[data-dualite="projets_duaux_documentes"] { background: #46712b; }
+}
+
+.naf-def-statut {
+  padding: 0.08rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 650;
+  border: 1px solid var(--naf-line);
+  background: var(--naf-surface);
+  color: var(--naf-slate);
+
+  &[data-level="dualite_demontree"] { border-color: var(--naf-lvl-dual); color: var(--naf-lvl-dual); }
+  &[data-level="explicite_industriel"] { border-color: var(--naf-lvl-explicite); color: var(--naf-lvl-explicite); }
+  &[data-level="relation_intermediaire"] { border-color: var(--naf-lvl-ecosysteme); color: #46712b; }
+}
+
+.naf-def-repere {
+  font-style: italic;
+  color: var(--naf-slate-mid);
+}
+
+.naf-def-limite {
+  margin: 0.6rem 0 0;
+  padding: 0.6rem 0.9rem;
+  border-left: 3px solid var(--naf-lvl-ecosysteme);
+  background: var(--naf-surface);
+  border-radius: 0 var(--naf-radius) var(--naf-radius) 0;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--naf-slate);
+}
+
+/* — Bandeaux de strate dans le pont — */
+
+.naf-def-views {
+  flex-wrap: wrap;
+}
+
+.naf-def-stratum {
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  fill: var(--naf-steel);
+}
+
+.naf-def-stratum-demontree { fill: var(--naf-lvl-dual); }
+.naf-def-stratum-intermediaire { fill: #46712b; }
+
+/* — Vue « Pourquoi ce code ? » — */
+
+.naf-def-why {
+  display: grid;
+  gap: 1.1rem;
+  padding: 0.4rem 0.2rem 1rem;
+}
+
+.naf-def-why-picker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.naf-def-why-chip {
+  padding: 0.35rem 0.85rem;
+  border: 1px solid var(--naf-line);
+  border-radius: 999px;
+  background: var(--naf-surface);
+  font: inherit;
+  font-size: 0.85rem;
+  color: var(--naf-slate);
+  cursor: pointer;
+
+  &:hover { border-color: var(--naf-bronze); }
+}
+
+.naf-def-why-select {
+  flex: 1 1 14rem;
+  min-width: 0;
+  max-width: 26rem;
+}
+
+.naf-def-why-diagram {
+  display: grid;
+  gap: 0.6rem;
+  align-items: center;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 861px) {
+  .naf-def-why-diagram {
+    grid-template-columns: minmax(0, 1.2fr) auto minmax(0, 1fr) auto minmax(0, 1.2fr);
+  }
+}
+
+.naf-def-why-coltitle {
+  margin: 0 0 0.4rem;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--naf-steel);
+}
+
+.naf-def-why-sources {
+  display: grid;
+  gap: 0.6rem;
+  align-content: start;
+}
+
+.naf-def-why-card {
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--naf-line-soft);
+  border-radius: var(--naf-radius);
+  background: var(--naf-surface);
+  font-size: 0.88rem;
+
+  p { margin: 0 0 0.25rem; }
+}
+
+.naf-def-why-cardkind {
+  font-size: 0.8rem;
+  color: var(--naf-slate-mid);
+}
+
+.naf-def-why-arrow {
+  text-align: center;
+  font-size: 1.5rem;
+  color: var(--naf-bronze);
+}
+
+@media (max-width: 860px) {
+  .naf-def-why-arrow { transform: rotate(90deg); }
+}
+
+.naf-def-why-code {
+  padding: 0.9rem 1rem;
+  border: 2px solid;
+  border-radius: var(--naf-radius);
+  background: var(--naf-paper);
+  text-align: center;
+}
+
+.naf-def-why-codecode {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--naf-ink);
+}
+
+.naf-def-why-codelbl {
+  margin: 0.2rem 0 0.4rem;
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+
+.naf-def-why-tags { margin: 0; }
+
+.naf-def-why-verdict {
+  display: grid;
+  gap: 0.4rem;
+  align-content: start;
+
+  p { margin: 0; }
+}
+
+.naf-def-why-just {
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.naf-def-why-limit {
+  padding: 0.8rem 1rem;
+  border-left: 3px solid var(--naf-lvl-ecosysteme);
+  background: var(--naf-surface);
+  border-radius: 0 var(--naf-radius) var(--naf-radius) 0;
+  font-size: 0.92rem;
+  line-height: 1.55;
+
+  p { margin: 0; }
+  .naf-def-why-coltitle { margin-bottom: 0.3rem; }
+}
+
+.naf-def-why-hand {
+  margin: 0;
+  text-align: right;
+  font-size: 1.05rem;
+  color: var(--naf-slate-mid);
+}
+
+/* — Documenté vs estimé — */
+
+.naf-def-estimate { margin-top: 2.5rem; }
+
+.naf-def-est-grid {
+  display: grid;
+  gap: 0.9rem;
+  grid-template-columns: 1fr;
+  margin-top: 0.8rem;
+}
+
+@media (min-width: 700px) {
+  .naf-def-est-grid { grid-template-columns: 1fr 1fr; }
+}
+
+.naf-def-est-card {
+  padding: 1rem 1.2rem;
+  border: 1px solid var(--naf-line);
+  border-radius: var(--naf-radius);
+  background: var(--naf-surface);
+}
+
+.naf-def-est-card-soft {
+  border-style: dashed;
+  background: var(--naf-paper);
+}
+
+.naf-def-est-kicker {
+  margin: 0;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--naf-steel);
+}
+
+.naf-def-est-value {
+  margin: 0.15rem 0;
+  font-family: var(--naf-mono);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--naf-ink);
+}
+
+.naf-def-est-card-soft .naf-def-est-value { color: var(--naf-slate-mid); }
+
+.naf-def-est-text {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.naf-def-est-strong { max-width: 52rem; }
+
+.naf-def-est-why {
+  margin-top: 1rem;
+  padding: 0.9rem 1.1rem;
+  border-left: 3px solid var(--naf-bronze);
+  background: var(--naf-surface);
+  border-radius: 0 var(--naf-radius) var(--naf-radius) 0;
+  max-width: 52rem;
+
+  p { margin: 0; font-size: 0.92rem; line-height: 1.6; }
+}
+
+.naf-def-est-whytitle {
+  margin: 0 0 0.35rem !important;
+  font-weight: 700;
+  color: var(--naf-ink);
+}
+
+/* — Exemple comparatif — */
+
+.naf-def-compare-grid {
+  display: grid;
+  gap: 0.9rem;
+  grid-template-columns: 1fr;
+  margin: 0.8rem 0;
+}
+
+@media (min-width: 861px) {
+  .naf-def-compare-grid { grid-template-columns: 1fr 1fr; }
+}
+
+.naf-def-compare-col {
+  padding: 0.9rem 1.1rem;
+  border-radius: var(--naf-radius);
+  border: 1px solid var(--naf-line-soft);
+  background: var(--naf-surface);
+
+  &[data-kind="forte"] { border-left: 4px solid #2a669f; }
+  &[data-kind="intermediaire"] { border-left: 4px solid var(--naf-lvl-ecosysteme); }
+
+  p { margin: 0 0 0.35rem; }
+}
+
+.naf-def-compare-status {
+  font-size: 0.8rem;
+  font-weight: 650;
+  color: var(--naf-slate-mid);
+}
+
+.naf-def-compare-text {
+  font-size: 0.9rem;
+  line-height: 1.5;
 }

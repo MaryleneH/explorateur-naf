@@ -74,14 +74,16 @@ officielle, qui les publie.
 :::
 
 ::: {.callout-note}
-## Couverture de la table de correspondance
+## Table de correspondance : approximation du site
 
-La table de passage dont nous disposons est un extrait partiel, limité aux
-relations restant dans la même classe (xx.xx). Une absence de ligne ne signifie
-pas qu'aucune correspondance n'existe. La page
-[Explorer les changements](../comparer/index.qmd) affiche la couverture réelle,
-calculée à partir des données, et documente les lignes retirées de l'extrait ;
-la [table officielle Insee](https://www.insee.fr/fr/information/8201411) fait foi.
+La table de passage chargée sur le site n'est **pas** la table officielle :
+c'est un rapprochement approximatif par préfixe de classe partagé (xx.xx),
+construit par nos scripts en attendant l'intégration de la
+[table officielle Insee rééditée en janvier 2026](https://www.insee.fr/fr/information/8181066),
+qui seule fait foi. Ni une relation affichée, ni une absence ne doivent être
+lues comme des faits officiels. La page
+[Explorer les changements](../comparer/index.qmd) affiche cette limite et la
+couverture réelle, calculées à partir des données.
 :::
 
 ::: {.callout-note}

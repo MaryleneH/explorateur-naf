@@ -248,14 +248,30 @@ def validate_source_urls(name: str, segment: str, rows: list, code_field: str) -
 
 
 VALID_LEVELS = {
-    "explicite_industriel", "dual_officiel", "ecosysteme_observe",
+    "explicite_industriel", "dualite_demontree", "relation_intermediaire",
     "administration_defense", "piste_dualite",
 }
+# nature_dualite est multi-valuée (séparateur « ; ») : les catégories de
+# preuve ne sont pas exclusives, et c'est assumé dans l'interface.
 VALID_DUALITES = {
-    "dual_naf_explicite", "dual_source_defense", "dual_refd_observe",
-    "dual_a_confirmer", "",
+    "dual_naf_directe", "dual_naf_crossref", "technologie_dual_use",
+    "ecosysteme_defense_observe", "projets_duaux_documentes",
+    "dual_a_confirmer",
+}
+# Une dualité NAF démontrée exige une preuve de nomenclature : EDIS ou un
+# règlement seuls ne suffisent jamais.
+NAF_PROOFS = {
+    "libelle_officiel", "note_officielle_insee",
+    "nomenclature_produits_cpf", "structure_naf_2025",
+}
+VALID_PROOFS = NAF_PROOFS | {
+    "enquete_ssm_refd", "reglement_ue_bdu", "dispositif_ministeriel",
 }
 VALID_CONFIDENCE = {"élevé", "moyen", "piste"}
+
+
+def dualites_of(row) -> list:
+    return [v for v in row.get("nature_dualite", "").split(";") if v]
 
 
 def validate_defense_urls(nomenclature_rows: dict) -> None:
@@ -298,79 +314,110 @@ def validate_defense_urls(nomenclature_rows: dict) -> None:
         else:
             print(f"  {ICON_OK} {version} : tous les codes qualifiés existent dans la nomenclature")
 
-    # ── Couche dualité ────────────────────────────────────────────────────
+    # ── Couche dualité / relation Défense ─────────────────────────────────
     print(f"\n{'─' * 50}")
-    print("Couche « activités duales »")
+    print("Couche « relation Défense & dualité »")
     print(f"{'─' * 50}")
+
+    def fail(msg):
+        print(f"  {ICON_FAIL} {msg}")
+        errors.append(msg)
 
     for row in rows:
         code = row.get("code", "?")
-        if row.get("niveau_defense", "") not in VALID_LEVELS:
-            msg = f"{code} : niveau_defense invalide {row.get('niveau_defense')!r}"
-            print(f"  {ICON_FAIL} {msg}")
-            errors.append(msg)
-        if row.get("nature_dualite", "") not in VALID_DUALITES:
-            msg = f"{code} : nature_dualite invalide {row.get('nature_dualite')!r}"
-            print(f"  {ICON_FAIL} {msg}")
-            errors.append(msg)
+        level = row.get("niveau_defense", "")
+        if level not in VALID_LEVELS:
+            fail(f"{code} : niveau_defense invalide {level!r}")
+        for d in dualites_of(row):
+            if d not in VALID_DUALITES:
+                fail(f"{code} : nature_dualite invalide {d!r}")
+        if row.get("nature_preuve", "") not in VALID_PROOFS:
+            fail(f"{code} : nature_preuve invalide {row.get('nature_preuve')!r}")
         if row.get("niveau_confiance", "") not in VALID_CONFIDENCE:
-            msg = f"{code} : niveau_confiance invalide {row.get('niveau_confiance')!r}"
-            print(f"  {ICON_FAIL} {msg}")
-            errors.append(msg)
+            fail(f"{code} : niveau_confiance invalide {row.get('niveau_confiance')!r}")
         if not row.get("justification", "").strip():
-            msg = f"{code} : justification vide"
-            print(f"  {ICON_FAIL} {msg}")
-            errors.append(msg)
+            fail(f"{code} : justification vide")
         if not row.get("source_url", "").strip():
-            msg = f"{code} : source_url vide"
-            print(f"  {ICON_FAIL} {msg}")
-            errors.append(msg)
+            fail(f"{code} : source_url vide")
 
-    duals = [r for r in rows if r.get("niveau_defense") == "dual_officiel"]
+    demontrees = [r for r in rows if r.get("niveau_defense") == "dualite_demontree"]
+    intermediaires = [r for r in rows if r.get("niveau_defense") == "relation_intermediaire"]
     pistes = [r for r in rows if r.get("niveau_defense") == "piste_dualite"]
 
-    for row in duals:
+    # §42 — une dualité NAF démontrée (directe ou crossref) exige une preuve
+    # de nomenclature officielle ; EDIS/règlement seuls ne suffisent jamais.
+    for row in rows:
         code = row.get("code", "?")
-        # Une duale validée doit dire précisément pourquoi elle est duale.
-        if row.get("nature_dualite") in ("", "dual_a_confirmer"):
-            msg = f"{code} : duale validée sans nature_dualite validée"
-            print(f"  {ICON_FAIL} {msg}")
-            errors.append(msg)
+        dualites = set(dualites_of(row))
+        if dualites & {"dual_naf_directe", "dual_naf_crossref"}:
+            if row.get("nature_preuve") not in NAF_PROOFS:
+                fail(f"{code} : dualité NAF démontrée sans preuve de nomenclature "
+                     f"(nature_preuve={row.get('nature_preuve')!r})")
+            if not row.get("source_repere", "").strip():
+                fail(f"{code} : dualité NAF démontrée sans repère dans la source")
+        # §43 — technologie_dual_use exige une base institutionnelle explicite.
+        if "technologie_dual_use" in dualites:
+            text = row.get("justification", "") + row.get("source_secondaire_reference", "")
+            if "2021/821" not in text and "double usage" not in text:
+                fail(f"{code} : technologie_dual_use sans référence au règlement "
+                     "(UE) 2021/821 ou source institutionnelle équivalente")
+        # §44 — ecosysteme_defense_observe exige EDIS/REFD ou équivalent.
+        if "ecosysteme_defense_observe" in dualites:
+            text = (row.get("justification", "") +
+                    row.get("source_secondaire_reference", "") +
+                    row.get("source_secondaire_url", ""))
+            if "EDIS" not in text and "REFD" not in text:
+                fail(f"{code} : ecosysteme_defense_observe sans source EDIS/REFD")
+
+    for row in demontrees:
+        code = row.get("code", "?")
+        dualites = set(dualites_of(row))
+        if not dualites & {"dual_naf_directe", "dual_naf_crossref"}:
+            fail(f"{code} : dualite_demontree exige dual_naf_directe ou dual_naf_crossref")
         if row.get("niveau_confiance") == "piste":
-            msg = f"{code} : duale validée avec confiance « piste » — à déclasser en piste_dualite"
-            print(f"  {ICON_FAIL} {msg}")
-            errors.append(msg)
+            fail(f"{code} : dualité démontrée avec confiance « piste » — à déclasser")
         for field in ("usages_civils", "usages_defense"):
             if not row.get(field, "").strip():
-                msg = f"{code} : duale validée sans {field}"
-                print(f"  {ICON_FAIL} {msg}")
-                errors.append(msg)
+                fail(f"{code} : dualité démontrée sans {field}")
+
+    # §38/§41 — toute preuve intermédiaire porte une limite d'interprétation.
+    for row in intermediaires:
+        code = row.get("code", "?")
+        dualites = set(dualites_of(row))
+        if dualites & {"dual_naf_directe", "dual_naf_crossref"}:
+            fail(f"{code} : relation_intermediaire ne peut pas porter une dualité NAF démontrée")
+        if not dualites:
+            fail(f"{code} : relation_intermediaire sans nature_dualite")
+        if not row.get("limite_interpretation", "").strip():
+            fail(f"{code} : preuve intermédiaire sans limite_interpretation")
+        for field in ("usages_civils", "usages_defense"):
+            if not row.get(field, "").strip():
+                fail(f"{code} : relation intermédiaire sans {field}")
 
     for row in pistes:
         code = row.get("code", "?")
-        if row.get("nature_dualite") != "dual_a_confirmer":
-            msg = f"{code} : piste_dualite doit porter nature_dualite=dual_a_confirmer"
-            print(f"  {ICON_FAIL} {msg}")
-            errors.append(msg)
+        if dualites_of(row) != ["dual_a_confirmer"]:
+            fail(f"{code} : piste_dualite doit porter nature_dualite=dual_a_confirmer")
         if row.get("niveau_confiance") != "piste":
-            msg = f"{code} : piste_dualite doit porter niveau_confiance=piste"
-            print(f"  {ICON_FAIL} {msg}")
-            errors.append(msg)
+            fail(f"{code} : piste_dualite doit porter niveau_confiance=piste")
 
-    # La catégorie annoncée ne doit jamais être vide, dans aucune version.
+    # Les catégories annoncées ne doivent jamais être vides.
     for version in EXPECTED:
-        n = sum(1 for r in duals if r.get("naf_version") == version)
-        if n == 0:
-            msg = f"{version} : aucune activité duale validée — la catégorie serait vide"
-            print(f"  {ICON_FAIL} {msg}")
-            errors.append(msg)
+        n_dem = sum(1 for r in demontrees if r.get("naf_version") == version)
+        n_int = sum(1 for r in intermediaires if r.get("naf_version") == version)
+        if n_dem == 0:
+            fail(f"{version} : aucune dualité NAF démontrée — la catégorie serait vide")
         else:
-            print(f"  {ICON_OK} {version} : {n} activité(s) duale(s) validée(s)")
+            print(f"  {ICON_OK} {version} : {n_dem} dualité(s) NAF démontrée(s), "
+                  f"{n_int} relation(s) intermédiaire(s)")
 
     by_nature: dict = {}
-    for r in duals:
-        by_nature[r.get("nature_dualite", "")] = by_nature.get(r.get("nature_dualite", ""), 0) + 1
-    print(f"  {ICON_OK} Typologie : " + ", ".join(
+    for r in rows:
+        if r.get("niveau_defense") == "piste_dualite":
+            continue
+        for d in dualites_of(r):
+            by_nature[d] = by_nature.get(d, 0) + 1
+    print(f"  {ICON_OK} Natures de dualité (non exclusives) : " + ", ".join(
         f"{k}={v}" for k, v in sorted(by_nature.items())))
     print(f"  {ICON_OK} {len(pistes)} piste(s) non validée(s), hors compteurs")
 
