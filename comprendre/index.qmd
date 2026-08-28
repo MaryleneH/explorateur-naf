@@ -700,30 +700,220 @@ include-after-body: "../includes/comprendre-scripts.html"
     </p>
     <p class="naf-comp-lede">
       La NAF seule ne délimite pas la Défense — la page
-      <a href="../defense/index.html">NAF &amp; Défense</a> le démontre. La
-      réponse est le croisement : partir de la nomenclature, puis assembler
-      les sources qui observent chacune un morceau de la réalité.
+      <a href="../defense/index.html">NAF &amp; Défense</a> le démontre. Et
+      une étude ne commence pas nécessairement par la NAF : elle commence par
+      une <strong>question</strong>. C'est elle qui détermine le périmètre,
+      l'unité statistique, les sources, les appariements et la fraîcheur
+      nécessaire. Les sources n'ont pas d'ordre universel : elles apportent
+      des angles complémentaires.
     </p>
 
-    <div class="naf-comp-flow" role="img"
-         aria-label="Schéma conceptuel : la NAF cadre le périmètre, Sirene, le REFD et les données de marchés décrivent l'entreprise, complétées par le BODACC, les Douanes et l'INPI.">
-      <div class="naf-comp-flow-step naf-comp-flow-step-accent">
-        <strong>NAF</strong>
-        <span class="naf-comp-flow-note">cadre le périmètre d'activités</span>
+    <div class="naf-comp-hub" aria-label="Une question d'étude au centre, six familles de sources complémentaires autour, chacune dépliable.">
+      <div class="naf-comp-hub-center">
+        <p class="naf-comp-hub-kicker">Une question, plusieurs sources</p>
+        <p class="naf-comp-hub-title">Question d'étude</p>
+        <p class="naf-comp-hub-sub">le choix des sources dépend de ce que
+        l'on cherche à mesurer</p>
+        <p class="naf-hand" aria-hidden="true">« commencer par la question,<br>pas par la base »</p>
       </div>
-      <span class="naf-comp-flow-arrow" aria-hidden="true">↓</span>
-      <div class="naf-comp-flow-step">
-        <strong>Sirene · REFD · marchés (BOAMP/DECP)</strong>
-        <span class="naf-comp-flow-note">situent l'entreprise et ses relations observables</span>
-      </div>
-      <span class="naf-comp-flow-arrow" aria-hidden="true">↓</span>
-      <div class="naf-comp-flow-step">
-        <strong>BODACC · Douanes · INPI</strong>
-        <span class="naf-comp-flow-note">complètent : événements, dépendances, innovation</span>
+
+      <div class="naf-comp-hub-branches">
+
+        <details class="naf-comp-hub-item">
+          <summary>
+            <span class="naf-comp-hub-role">Classer, décrire l'activité</span>
+            <span class="naf-comp-hub-srcs">NAF · CPF <em>— activités · produits</em></span>
+            <span class="naf-comp-hub-q">Quelle activité ? Quels produits ?</span>
+          </summary>
+          <div class="naf-comp-hub-body">
+            <dl class="naf-deflist">
+              <dt>Objet observé</dt><dd>Des activités (NAF) et des produits (CPF) — jamais des entreprises nommées.</dd>
+              <dt>Fraîcheur</dt><dd>Nomenclatures stables entre deux révisions (2008 → 2025).</dd>
+              <dt>Intérêt</dt><dd>Aide à construire ou décrire un périmètre d'activités, et à caractériser la composition sectorielle d'une population venue d'ailleurs (REFD, marchés…).</dd>
+              <dt>Attention</dt><dd>La NAF n'est pas la première étape obligatoire d'une étude : selon la question, elle intervient au départ… ou en bout de chaîne.</dd>
+            </dl>
+          </div>
+        </details>
+
+        <details class="naf-comp-hub-item">
+          <summary>
+            <span class="naf-comp-hub-role">Identifier, localiser, structurer</span>
+            <span class="naf-comp-hub-srcs">Sirene · Sirus · SIDE / Flores <em>— unités légales · établissements</em></span>
+            <span class="naf-comp-hub-q">Quelle unité ? Quel établissement ? Où ? Quelle population statistique ?</span>
+          </summary>
+          <div class="naf-comp-hub-body">
+            <dl class="naf-deflist">
+              <dt>Objet observé</dt><dd>Unités légales (SIREN) et établissements (SIRET) ; champ des unités économiquement actives côté Sirus / SIDE.</dd>
+              <dt>Fraîcheur</dt><dd>Répertoire quasi temps réel, stocks mensuels ; champ statistique consolidé avec délai.</dd>
+              <dt>Intérêt</dt><dd>Identifier, localiser, suivre l'état administratif, asseoir une population d'étude.</dd>
+              <dt>Attention</dt><dd>Existence administrative ≠ activité économique.</dd>
+            </dl>
+          </div>
+        </details>
+
+        <details class="naf-comp-hub-item">
+          <summary>
+            <span class="naf-comp-hub-role">Observer le lien avec la Défense</span>
+            <span class="naf-comp-hub-srcs">REFD / EDIS · BOAMP / DECP <em>— fournisseurs observés · marchés</em></span>
+            <span class="naf-comp-hub-q">Observée parmi les fournisseurs ? Quels marchés publics visibles ?</span>
+          </summary>
+          <div class="naf-comp-hub-body">
+            <dl class="naf-deflist">
+              <dt>Objet observé</dt><dd>Deux mesures différentes, à ne pas fusionner : des fournisseurs observés et entreprises enquêtées (REFD / EDIS) d'un côté ; des annonces et marchés attribués — acheteurs, titulaires SIRET (BOAMP / DECP) de l'autre.</dd>
+              <dt>Fraîcheur</dt><dd>Millésimes et campagnes annuels (REFD / EDIS) ; annonces quotidiennes et alimentation continue (BOAMP / DECP).</dd>
+              <dt>Intérêt</dt><dd>Construire un périmètre empirique ; observer la commande publique visible.</dd>
+              <dt>Attention</dt><dd>Absence ≠ absence de lien avec la Défense : périmètres partiels, marchés sensibles hors données ouvertes.</dd>
+            </dl>
+          </div>
+        </details>
+
+        <details class="naf-comp-hub-item">
+          <summary>
+            <span class="naf-comp-hub-role">Suivre les événements</span>
+            <span class="naf-comp-hub-srcs">BODACC · RNE <em>— événements juridiques</em></span>
+            <span class="naf-comp-hub-q">Création ? Modification ? Cession ? Procédure ?</span>
+          </summary>
+          <div class="naf-comp-hub-body">
+            <dl class="naf-deflist">
+              <dt>Objet observé</dt><dd>Des événements juridiques rattachés à une unité légale, pas un état permanent.</dd>
+              <dt>Fraîcheur</dt><dd>Plusieurs parutions par semaine.</dd>
+              <dt>Intérêt</dt><dd>Suivi infra-annuel de la vie des entreprises d'un périmètre.</dd>
+              <dt>Attention</dt><dd>Événements publiés seulement ; lecture descriptive, jamais prédictive.</dd>
+            </dl>
+          </div>
+        </details>
+
+        <details class="naf-comp-hub-item">
+          <summary>
+            <span class="naf-comp-hub-role">Étudier les dépendances et les flux</span>
+            <span class="naf-comp-hub-srcs">Douanes <em>— produits × pays</em></span>
+            <span class="naf-comp-hub-q">De quels produits, de quels pays une chaîne de valeur dépend-elle ?</span>
+          </summary>
+          <div class="naf-comp-hub-body">
+            <dl class="naf-deflist">
+              <dt>Objet observé</dt><dd>Des flux produit (NC8) × pays — contrairement à Sirene, les Douanes ne décrivent pas directement des entreprises.</dd>
+              <dt>Fraîcheur</dt><dd>Mensuelle, avec délai de publication.</dd>
+              <dt>Intérêt</dt><dd>Concentration des importations d'une famille de produits.</dd>
+              <dt>Attention</dt><dd>Pas d'identification directe de chaque entreprise ; passerelle produits ↔ activités à documenter.</dd>
+            </dl>
+          </div>
+        </details>
+
+        <details class="naf-comp-hub-item">
+          <summary>
+            <span class="naf-comp-hub-role">Observer l'innovation</span>
+            <span class="naf-comp-hub-srcs">INPI · AID / DGA <em>— brevets · déposants · projets</em></span>
+            <span class="naf-comp-hub-q">Brevets ? Technologies ? Projets d'innovation ?</span>
+          </summary>
+          <div class="naf-comp-hub-body">
+            <dl class="naf-deflist">
+              <dt>Objet observé</dt><dd>Des brevets et leurs déposants (INPI) ; des annonces de projets (AID / DGA selon le sujet).</dd>
+              <dt>Fraîcheur</dt><dd>Publication des brevets différée (18 mois en général) ; annonces quasi immédiates.</dd>
+              <dt>Intérêt</dt><dd>Signaux technologiques, familles duales.</dd>
+              <dt>Attention</dt><dd>Tout n'est pas breveté ; rattachement déposant → SIREN à documenter.</dd>
+            </dl>
+          </div>
+        </details>
+
       </div>
     </div>
 
-    <p class="naf-hand naf-comp-hand" aria-hidden="true">« croiser les sources, pas additionner les certitudes »</p>
+    <p>
+      <strong>Croiser des sources ne signifie pas les empiler.</strong> Il
+      faut d'abord vérifier qu'elles parlent du même objet, au bon niveau et
+      à la bonne date.
+    </p>
+    <p class="naf-hand naf-comp-hand" aria-hidden="true">« même entreprise ? même unité ? même période ? »</p>
+
+    <div class="naf-did">
+      <p class="naf-did-title" role="heading" aria-level="4">Il n'existe pas une chaîne de traitement universelle</p>
+      <p class="naf-did-step-text">
+        Une étude sur les entreprises de Défense peut partir d'un code NAF,
+        d'un répertoire de fournisseurs, de marchés publics, d'un territoire
+        ou d'une famille de produits. Le choix dépend de la question posée.
+        La difficulté consiste ensuite à rapprocher des sources qui
+        n'observent pas toujours les mêmes unités, les mêmes périodes ni les
+        mêmes concepts.
+      </p>
+      <div class="naf-comp-vs">
+        <div class="naf-comp-vs-panel">
+          <p class="naf-comp-vs-title">Construire le périmètre</p>
+          <ul>
+            <li>REFD, marchés publics, liste d'entreprises documentée ;</li>
+            <li>ou une activité NAF, selon la question.</li>
+          </ul>
+        </div>
+        <div class="naf-comp-vs-panel">
+          <p class="naf-comp-vs-title">Caractériser, enrichir</p>
+          <ul>
+            <li>Sirene, NAF, Sirus pour décrire la population ;</li>
+            <li>BODACC, INPI, marchés pour la suivre.</li>
+          </ul>
+        </div>
+      </div>
+      <p class="naf-did-step-text">
+        Une même source peut servir aux deux : la frontière est
+        fonctionnelle, pas rigide.
+      </p>
+    </div>
+
+    <h3 class="naf-comp-h3">Quatre points de départ, quatre chemins</h3>
+
+    <div class="naf-comp-departs">
+      <div class="naf-comp-depart">
+        <p class="naf-comp-depart-name">Géographie industrielle</p>
+        <p class="naf-comp-depart-chain"><strong>Sirene</strong> → NAF → géolocalisation → REFD</p>
+        <p class="naf-comp-depart-note">On part des établissements, l'activité et le lien Défense viennent ensuite.</p>
+      </div>
+      <div class="naf-comp-depart">
+        <p class="naf-comp-depart-name">Commande publique</p>
+        <p class="naf-comp-depart-chain"><strong>DECP / BOAMP</strong> → SIREN / SIRET → Sirene → NAF</p>
+        <p class="naf-comp-depart-note">On part des marchés ; la NAF sert en bout de chaîne à caractériser les titulaires.</p>
+      </div>
+      <div class="naf-comp-depart">
+        <p class="naf-comp-depart-name">Fragilité d'un périmètre</p>
+        <p class="naf-comp-depart-chain"><strong>BODACC</strong> → Sirene → REFD → marchés</p>
+        <p class="naf-comp-depart-note">On part des événements juridiques, puis on qualifie qui ils touchent.</p>
+      </div>
+      <div class="naf-comp-depart">
+        <p class="naf-comp-depart-name">Dépendance extérieure</p>
+        <p class="naf-comp-depart-chain"><strong>Douanes</strong> → nomenclatures produits / CPF → NAF si possible</p>
+        <p class="naf-comp-depart-note">On part des produits ; le rapprochement avec les activités reste à documenter.</p>
+      </div>
+    </div>
+
+    <p>Il n'existe pas de source de départ universelle.</p>
+
+    <h3 class="naf-comp-h3">Avant de croiser : quel est le grain de la donnée ?</h3>
+    <p>
+      Chaque base répond à sa façon à la question « que représente une
+      ligne ? » — et porte sa propre date de référence.
+    </p>
+
+    <div class="naf-comp-grainwrap">
+      <table class="naf-comp-grain">
+        <thead>
+          <tr><th scope="col">Source</th><th scope="col">Une ligne représente</th><th scope="col">Sa date de référence</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>NAF</td><td>une activité</td><td>la révision de la nomenclature</td></tr>
+          <tr><td>Sirene</td><td>une unité légale ou un établissement</td><td>état courant, historique des variables</td></tr>
+          <tr><td>REFD</td><td>une entreprise fournisseur observée</td><td>le millésime du répertoire</td></tr>
+          <tr><td>DECP</td><td>un marché (acheteur, titulaires)</td><td>la date de notification</td></tr>
+          <tr><td>BODACC</td><td>un événement juridique</td><td>la date de parution</td></tr>
+          <tr><td>Douanes</td><td>un flux produit × pays</td><td>le mois du flux</td></tr>
+          <tr><td>INPI</td><td>un brevet, un déposant</td><td>dépôt et publication (différée)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="naf-hand naf-comp-hand" aria-hidden="true">« une ligne ne représente pas toujours une entreprise »</p>
+    <p>
+      Apparier deux sources demande donc aussi de choisir une <strong>date
+      de référence cohérente</strong> : l'état Sirene « à quelle date » face
+      à des marchés « notifiés quand » n'est pas un détail d'implémentation,
+      c'est une décision d'étude.
+    </p>
 
     <h3 class="naf-comp-h3">Le contexte, daté et sourcé</h3>
     <p>

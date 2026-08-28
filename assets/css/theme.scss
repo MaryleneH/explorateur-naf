@@ -4347,3 +4347,233 @@ body {
   .naf-comp-jalon p,
   .naf-comp-jalon-titre { grid-column: 1; }
 }
+
+/* ── Hub « question d'étude » : sources complémentaires, sans pipeline ── */
+
+.naf-comp-hub {
+  display: grid;
+  gap: 1.2rem;
+  margin: 1.2rem 0 1.4rem;
+}
+
+.naf-comp-hub-center {
+  position: relative;
+  align-self: center;
+  padding: 1.25rem 1.4rem 1.1rem;
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-slate-mid);
+  border-radius: var(--naf-radius);
+
+  .naf-hand { margin: 0.55rem 0 0; }
+}
+
+.naf-comp-hub-kicker {
+  margin: 0 0 0.25rem;
+  font-family: var(--naf-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--naf-bronze);
+}
+
+.naf-comp-hub-title {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--naf-ink);
+}
+
+.naf-comp-hub-sub {
+  margin: 0.2rem 0 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--naf-steel);
+}
+
+.naf-comp-hub-branches {
+  border-left: 1px solid var(--naf-line);
+  padding-left: 0.4rem;
+}
+
+.naf-comp-hub-item {
+  > summary {
+    display: grid;
+    grid-template-columns: 1.35rem minmax(0, 1fr) auto;
+    align-items: baseline;
+    row-gap: 0.1rem;
+    padding: 0.65rem 0.25rem 0.65rem 0;
+    cursor: pointer;
+    list-style: none;
+
+    &::-webkit-details-marker { display: none; }
+
+    /* Le tiret horizontal relie chaque famille au rail : complémentarité,
+       pas ordre d'utilisation. */
+    &::before {
+      content: "";
+      grid-column: 1;
+      grid-row: 1;
+      align-self: center;
+      width: 0.85rem;
+      height: 1px;
+      background: var(--naf-line);
+    }
+
+    &::after {
+      content: "+";
+      grid-column: 3;
+      grid-row: 1;
+      font-size: 1.15rem;
+      line-height: 1;
+      color: var(--naf-steel-sub);
+    }
+
+    &:hover .naf-comp-hub-role { color: var(--naf-bronze); }
+  }
+
+  &[open] > summary::after { content: "–"; }
+  &[open] > summary::before { background: var(--naf-bronze); }
+}
+
+.naf-comp-hub-role {
+  grid-column: 2;
+  grid-row: 1;
+  font-size: 0.98rem;
+  font-weight: 650;
+  color: var(--naf-ink);
+  transition: color 0.15s ease;
+}
+
+.naf-comp-hub-srcs {
+  grid-column: 2;
+  font-family: var(--naf-mono);
+  font-size: 0.82rem;
+  color: var(--naf-slate-mid);
+
+  em {
+    font-family: inherit;
+    font-style: normal;
+    color: var(--naf-steel-sub);
+  }
+}
+
+.naf-comp-hub-q {
+  grid-column: 2;
+  font-size: 0.85rem;
+  color: var(--naf-steel);
+}
+
+.naf-comp-hub-body {
+  padding: 0.1rem 0.25rem 1rem 1.35rem;
+}
+
+@media (min-width: 861px) {
+  .naf-comp-hub {
+    grid-template-columns: minmax(17rem, 23rem) minmax(0, 1fr);
+    column-gap: 2.4rem;
+  }
+
+  /* Trait fin du nœud central vers le rail des familles. */
+  .naf-comp-hub-center::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: -2.4rem;
+    width: 2.4rem;
+    height: 1px;
+    background: var(--naf-line);
+  }
+
+  .naf-comp-hub-branches { padding-left: 0.6rem; }
+}
+
+/* ── Points de départ ────────────────────────────────────────────── */
+
+.naf-comp-departs {
+  display: grid;
+  gap: 0.9rem;
+  margin: 1rem 0 1rem;
+}
+
+@media (min-width: 861px) {
+  .naf-comp-departs { grid-template-columns: 1fr 1fr; }
+}
+
+.naf-comp-depart {
+  padding: 0.9rem 1.05rem 0.95rem;
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-line);
+  border-radius: var(--naf-radius);
+  min-width: 0;
+
+  p { margin: 0; }
+}
+
+.naf-comp-depart-name {
+  font-size: 0.74rem;
+  font-weight: 650;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--naf-steel);
+}
+
+.naf-comp-depart-chain {
+  margin-top: 0.3rem !important;
+  font-family: var(--naf-mono);
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: var(--naf-slate-mid);
+  overflow-wrap: anywhere;
+
+  strong { color: var(--naf-ink); }
+}
+
+.naf-comp-depart-note {
+  margin-top: 0.35rem !important;
+  font-size: 0.86rem;
+  line-height: 1.45;
+  color: var(--naf-steel);
+}
+
+/* ── Table du grain ──────────────────────────────────────────────── */
+
+.naf-comp-grainwrap {
+  overflow-x: auto;
+  margin: 0.9rem 0 0.6rem;
+  border: 1px solid var(--naf-line);
+  border-radius: var(--naf-radius);
+  background: var(--naf-surface);
+}
+
+.naf-comp-grain {
+  width: 100%;
+  min-width: 34rem;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+
+  th {
+    padding: 0.6rem 1rem 0.5rem;
+    text-align: left;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--naf-steel);
+    border-bottom: 1px solid var(--naf-line);
+  }
+
+  td {
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid var(--naf-line-soft);
+    vertical-align: baseline;
+  }
+
+  tbody tr:last-child td { border-bottom: 0; }
+
+  td:first-child {
+    font-family: var(--naf-mono);
+    font-weight: 600;
+    color: var(--naf-slate-mid);
+    white-space: nowrap;
+  }
+}
