@@ -65,7 +65,13 @@ include-after-body: "../includes/defense-scripts.html"
 
   <!-- Outils -->
   <div class="naf-toolbar naf-def-toolbar">
-    <div class="naf-versions" role="radiogroup" aria-label="Version de la nomenclature">
+    <div class="naf-versions naf-def-views" role="radiogroup" aria-label="Choisir la vue">
+      <button type="button" class="naf-version is-current" role="radio" aria-checked="true"
+              data-view="constellation">Écosystème Défense</button>
+      <button type="button" class="naf-version" role="radio" aria-checked="false"
+              data-view="duales">Activités duales</button>
+    </div>
+    <div class="naf-versions naf-def-versions" role="radiogroup" aria-label="Version de la nomenclature">
       <button type="button" class="naf-version is-current" role="radio" aria-checked="true"
               data-version="2025">NAF 2025</button>
       <button type="button" class="naf-version" role="radio" aria-checked="false"
@@ -74,7 +80,7 @@ include-after-body: "../includes/defense-scripts.html"
     <div class="naf-versions naf-def-filters" role="radiogroup" aria-label="Filtrer par niveau de proximité">
       <button type="button" class="naf-version is-current" role="radio" aria-checked="true" data-level="all">Tout</button>
       <button type="button" class="naf-version" role="radio" aria-checked="false" data-level="explicite_industriel">Défense explicite</button>
-      <button type="button" class="naf-version" role="radio" aria-checked="false" data-level="dual_officiel">Dual</button>
+      <button type="button" class="naf-version" role="radio" aria-checked="false" data-level="dual_officiel">Activités duales</button>
       <button type="button" class="naf-version" role="radio" aria-checked="false" data-level="administration_defense">Administration</button>
     </div>
   </div>
@@ -108,6 +114,113 @@ include-after-body: "../includes/defense-scripts.html"
     <div class="naf-viz-panel" id="naf-def-panel" role="complementary"
          aria-label="Détail de l'activité sélectionnée" aria-live="polite"></div>
   </div>
+
+  <!-- Encadré : définition d'une activité duale -->
+  <section class="naf-did naf-def-dualdef" aria-labelledby="naf-def-dualdef-title">
+    <p class="naf-did-title" id="naf-def-dualdef-title" role="heading" aria-level="2">
+      Qu'appelle-t-on une activité duale ici&nbsp;?
+    </p>
+    <p class="naf-def-dualdef-text">
+      « Dual » n'est <strong>pas une catégorie officielle de la NAF</strong>.
+      Sur ce site, une activité est dite duale lorsque des éléments
+      documentés — notes officielles Insee, sources du ministère des Armées,
+      enquêtes statistiques — permettent d'établir qu'une même catégorie
+      d'activité économique peut contribuer à des productions ou services
+      destinés à la fois à des usages civils et militaires.
+    </p>
+    <div class="naf-def-dualneq">
+      <p><span class="naf-def-neq" aria-hidden="true">≠</span> Dual ne veut
+      <strong>pas</strong> dire que toutes les entreprises du code
+      travaillent pour la Défense.</p>
+      <p><span class="naf-def-neq" aria-hidden="true">≠</span> Dual ne veut
+      <strong>pas</strong> dire « moitié civil, moitié militaire »&nbsp;:
+      aucune proportion n'est sous-entendue.</p>
+    </div>
+    <p class="naf-hand naf-did-hand" aria-hidden="true">« parfois, la frontière<br>n'existe tout simplement pas »</p>
+    <p class="naf-did-strong">
+      C'est précisément dans les activités duales que l'on voit pourquoi une
+      nomenclature d'activité ne suffit pas à définir la BITD.
+    </p>
+  </section>
+
+  <!-- Liste des activités duales documentées -->
+  <section class="naf-def-dualsec" aria-labelledby="naf-def-duallist-title">
+    <p class="naf-hand-heading naf-def-h2" id="naf-def-duallist-title" role="heading" aria-level="2">
+      Activités duales documentées
+    </p>
+    <p class="naf-counts" id="naf-def-dualcounts" role="status" aria-live="polite">Chargement…</p>
+    <div class="naf-def-dualtools">
+      <label class="naf-def-sortlabel" for="naf-def-dualsort">Trier&nbsp;:</label>
+      <select id="naf-def-dualsort" class="naf-chg-secselect naf-def-sortselect">
+        <option value="code">Par code NAF</option>
+        <option value="famille">Par famille</option>
+        <option value="preuve">Par type de preuve</option>
+      </select>
+    </div>
+    <ol class="naf-def-duallistol" id="naf-def-duallist"></ol>
+  </section>
+
+  <!-- Pourquoi c'est important pour la BITD -->
+  <div class="naf-def-says naf-def-bitd">
+    <p><strong>Pourquoi c'est important pour la BITD.</strong> Une lecture
+    limitée aux codes explicitement militaires sous-estimerait fortement les
+    chaînes de valeur de la Défense. L'enquête EDIS du ministère des Armées
+    (SSM/OED) recense 4&nbsp;485 entreprises de défense dans l'industrie et
+    les services en 2021, pour 40&nbsp;milliards d'euros de chiffre
+    d'affaires militaire — soit <strong>un quart seulement de leur chiffre
+    d'affaires total</strong>&nbsp;: les entreprises de défense sont, dans
+    leur grande majorité, des entreprises largement duales, classées dans
+    des catégories NAF qui existent aussi sur des marchés civils —
+    électronique, optique, instruments de mesure, recherche.</p>
+    <p class="naf-def-bitd-src">Sources&nbsp;:
+    <a href="https://www.defense.gouv.fr/sites/default/files/ssm/EcoDef%20265%20-%20EDIS%202023.pdf"
+       target="_blank" rel="noopener noreferrer">Ministère des Armées — SSM/OED, EcoDef n°265 (EDIS)&nbsp;↗</a> ·
+    <a href="https://blog.insee.fr/l-industrie-de-defense-francaise-sous-tensions/"
+       target="_blank" rel="noopener noreferrer">Blog Insee — L'industrie de défense française&nbsp;↗</a></p>
+  </div>
+
+  <!-- Exemple complet de dualité : 26.51 -->
+  <section class="naf-case" aria-labelledby="naf-case-dual-title">
+    <p class="naf-case-kicker">Une même activité, deux débouchés</p>
+    <p class="naf-hand-heading naf-case-title" id="naf-case-dual-title" role="heading" aria-level="2">Prenons les instruments de navigation</p>
+    <div class="naf-case-flow naf-case-flow-dual">
+      <div class="naf-case-col">
+        <p class="naf-case-ver">NAF rév.2 (2008)</p>
+        <p class="naf-case-code naf-mono">26.51A</p>
+        <p class="naf-case-lbl">Fabrication d'équipements d'aide à la navigation</p>
+        <p class="naf-case-note">une seule sous-classe</p>
+      </div>
+      <div class="naf-case-arrow naf-case-arrow-split" aria-hidden="true">
+        <svg viewBox="0 0 60 40" focusable="false"><path d="M4 20 C 24 20 24 8 46 8 M4 20 C 24 20 24 32 46 32 M40 2 L 50 8 L 40 14 M40 26 L 50 32 L 40 38"/></svg>
+      </div>
+      <div class="naf-case-col naf-case-col-split">
+        <div>
+          <p class="naf-case-lbl"><strong>Usages civils.</strong> Instruments de
+          navigation aérienne et maritime, radars de contrôle aérien et de
+          météorologie.</p>
+        </div>
+        <div>
+          <p class="naf-case-lbl"><strong>Usages militaires.</strong> « Matériels
+          militaires de conduite du tir, autodirecteurs de missiles,
+          contre-mesures électroniques » — cités par la note officielle Insee
+          de la sous-classe.</p>
+        </div>
+      </div>
+    </div>
+    <p class="naf-hand naf-case-hand" aria-hidden="true">« c'est cela que nous appelons<br>une activité duale ici »</p>
+    <p class="naf-case-text">
+      L'avionique d'un avion de ligne et l'autodirecteur d'un missile
+      relèvent de la <strong>même sous-classe</strong>. La NAF décrit
+      l'activité — fabriquer des instruments de navigation — pas le client
+      final. En NAF 2025, ce périmètre se retrouve dans
+      <code>26.51Y</code>, toujours sans distinction civil/militaire.
+    </p>
+    <p class="naf-case-links">
+      <a href="https://www.insee.fr/fr/metadonnees/nafr2/sousClasse/26.51A" target="_blank" rel="noopener noreferrer">Fiche Insee 26.51A ↗</a> ·
+      <a href="https://www.insee.fr/fr/metadonnees/cpfr21/sousCategorie/26.51.20" target="_blank" rel="noopener noreferrer">CPF 26.51.20 — appareils radar ↗</a> ·
+      <a href="../explorer/index.html?v=2008&code=26.51A">Voir dans l'Explorer →</a>
+    </p>
+  </section>
 
   <!-- Exemple aéronautique -->
   <section class="naf-case" aria-labelledby="naf-case-aero-title">
@@ -178,6 +291,12 @@ include-after-body: "../includes/defense-scripts.html"
     </p>
   </section>
 
+  <!-- Pistes non validées -->
+  <details class="naf-sheet-section naf-def-pistes">
+    <summary class="naf-sheet-summary"><span class="naf-sheet-summary-text">Pistes encore à documenter</span></summary>
+    <div class="naf-sheet-body" id="naf-def-pistes"></div>
+  </details>
+
   <!-- Méthodologie repliable -->
   <details class="naf-sheet-section naf-def-method">
     <summary class="naf-sheet-summary"><span class="naf-sheet-summary-text">Comment avons-nous construit cette lecture&nbsp;?</span></summary>
@@ -186,6 +305,39 @@ include-after-body: "../includes/defense-scripts.html"
       par l'Insee. La lecture « proximité avec la Défense » présentée ici est une
       <strong>couche analytique construite pour ce site</strong>&nbsp;: l'Insee ne
       classe pas les codes selon leur proximité avec la Défense.</p>
+      <p><strong>Qualifier une activité de duale.</strong> Une activité n'est
+      qualifiée de duale que lorsque la dualité est documentée, selon trois
+      natures de preuve, de la plus forte à la plus indirecte&nbsp;:
+      <em>dualité explicite dans la nomenclature</em> (les notes ou la
+      nomenclature de produits officielles Insee couvrent des usages civils
+      et militaires — ex. la visée optique des fusils dans la CPF 26.70, ou
+      la scission civil/militaire opérée par la NAF 2025)&nbsp;;
+      <em>dualité documentée par une source institutionnelle</em> (ex. le
+      dispositif RAPID — Régime d'Appui pour l'Innovation Duale — de la DGA
+      et de l'Agence de l'innovation de défense, ou l'annexe I du
+      <a href="https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32021R0821"
+      target="_blank" rel="noopener noreferrer">règlement (UE) 2021/821 sur
+      les biens à double usage ↗</a>)&nbsp;;
+      <em>dualité observée empiriquement</em> (des entreprises du secteur
+      sont recensées parmi les entreprises de défense par l'
+      <a href="https://www.defense.gouv.fr/sites/default/files/ssm/EcoDef%20265%20-%20EDIS%202023.pdf"
+      target="_blank" rel="noopener noreferrer">enquête EDIS du SSM ↗</a>,
+      adossée au
+      <a href="https://www.defense.gouv.fr/ssm/repertoire-entreprises-fournisseurs-defense-refd"
+      target="_blank" rel="noopener noreferrer">répertoire REFD ↗</a>, alors
+      que l'activité est clairement présente sur des marchés civils — avec
+      une preuve complémentaire, car observer des fournisseurs ne suffit pas
+      à qualifier toute une sous-classe). Une activité qui ne satisfait
+      aucun de ces critères peut être conservée comme <em>piste à
+      confirmer</em>&nbsp;: elle n'entre alors ni dans la visualisation ni
+      dans les compteurs.</p>
+      <p><strong>Fournisseur n'est pas dual.</strong> Les deux dimensions
+      restent distinctes&nbsp;: une activité peut compter des fournisseurs de
+      la Défense sans être qualifiée de duale, et réciproquement. La
+      hiérarchie des sources privilégie systématiquement Insee, puis le
+      ministère des Armées et la DGA, puis les autres administrations et les
+      institutions européennes&nbsp;; aucune source commerciale ne fonde une
+      qualification.</p>
       <p><strong>Niveaux.</strong> <em>Défense explicite</em>&nbsp;: le libellé
       officiel mentionne un usage militaire. <em>Dual documenté</em>&nbsp;: le
       périmètre officiel couvrait les deux volets — preuve par la scission

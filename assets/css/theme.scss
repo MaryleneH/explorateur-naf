@@ -3142,3 +3142,275 @@ body {
     background: var(--naf-line-soft);
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   Défense — couche « activités duales » (pass 9)
+
+   Grammaire de la dualité : deux nappes de couleur (bleu minéral côté
+   civil, graphite côté Défense) qui se rejoignent dans la bande duale,
+   au bronze déjà associé aux duales. La couleur ne porte jamais seule
+   l'information : type de preuve écrit en toutes lettres sous chaque
+   nœud et dans la liste.
+═══════════════════════════════════════════════════════════════════ */
+
+.naf-def-h2 {
+  margin: 2.5rem 0 0.4rem;
+  font-size: 1.5rem;
+  color: var(--naf-ink);
+}
+
+/* — Le pont civil ↔ Défense — */
+
+.naf-def-wash {
+  stroke: none;
+}
+
+.naf-def-wash-civil {
+  fill: rgba(42, 102, 159, 0.10);
+}
+
+.naf-def-wash-defense {
+  fill: rgba(51, 71, 95, 0.14);
+}
+
+.naf-def-poletitle {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  fill: var(--naf-slate);
+}
+
+.naf-def-polesub {
+  font-size: 0.72rem;
+  fill: var(--naf-slate-mid);
+}
+
+.naf-def-strand {
+  fill: none;
+  stroke-width: 1.6;
+  stroke-opacity: 0.35;
+  transition: stroke-opacity 0.15s ease, stroke-width 0.15s ease;
+  pointer-events: none;
+}
+
+.naf-def-strand-civil {
+  stroke: #2a669f;
+}
+
+.naf-def-strand-defense {
+  stroke: #33475f;
+}
+
+.naf-def-strand.is-hot {
+  stroke-opacity: 0.9;
+  stroke-width: 2.6;
+}
+
+.naf-def-dualfam {
+  font-size: 0.74rem;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  fill: var(--naf-steel);
+}
+
+.naf-def-dualproof {
+  font-size: 0.66rem;
+  fill: var(--naf-slate-mid);
+  stroke: var(--naf-surface);
+  stroke-width: 3px;
+  paint-order: stroke;
+}
+
+/* — Étiquette de type de preuve — */
+
+.naf-def-dualtag {
+  display: inline-block;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 650;
+  color: #fff;
+  background: var(--naf-lvl-dual);
+  white-space: nowrap;
+
+  &[data-dualite="dual_naf_explicite"] { background: #2a669f; }
+  &[data-dualite="dual_source_defense"] { background: #33475f; }
+  &[data-dualite="dual_refd_observe"] { background: #925019; }
+  &[data-dualite="dual_a_confirmer"] { background: var(--naf-steel); }
+}
+
+/* — Encadré définition — */
+
+.naf-def-dualdef-text {
+  max-width: 46rem;
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+.naf-def-dualneq {
+  display: grid;
+  gap: 0.5rem;
+  margin: 1rem 0 0;
+  max-width: 40rem;
+
+  p {
+    margin: 0;
+    padding: 0.55rem 0.9rem;
+    background: var(--naf-surface);
+    border: 1px solid var(--naf-line-soft);
+    border-radius: var(--naf-radius);
+    font-size: 0.92rem;
+  }
+}
+
+.naf-def-neq {
+  font-weight: 700;
+  color: var(--naf-lvl-dual);
+  margin-right: 0.35rem;
+}
+
+/* — Liste des duales — */
+
+.naf-def-dualsec {
+  margin-top: 2.5rem;
+}
+
+.naf-def-dualtools {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0.6rem 0 0.4rem;
+}
+
+.naf-def-sortlabel {
+  font-size: 0.88rem;
+  color: var(--naf-slate-mid);
+}
+
+.naf-def-sortselect {
+  flex: 0 1 auto;
+  min-width: 11rem;
+}
+
+.naf-def-duallistol {
+  margin: 0.6rem 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--naf-line-soft);
+}
+
+.naf-def-dualitem {
+  border-bottom: 1px solid var(--naf-line-soft);
+}
+
+.naf-def-dualhead {
+  display: flex;
+  gap: 0.8rem;
+  align-items: baseline;
+  width: 100%;
+  padding: 0.65rem 0.4rem;
+  border: none;
+  background: none;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  min-height: 44px;
+
+  &:hover,
+  &:focus-visible,
+  &[aria-expanded="true"] {
+    background: var(--naf-surface);
+  }
+}
+
+.naf-def-dualcode {
+  flex-shrink: 0;
+  font-weight: 650;
+  color: var(--naf-ink);
+}
+
+.naf-def-dualbody {
+  display: grid;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.naf-def-duallbl {
+  font-size: 0.92rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.naf-def-dualmeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--naf-slate-mid);
+}
+
+.naf-def-dualfamtag {
+  padding: 0.08rem 0.45rem;
+  border: 1px solid var(--naf-line);
+  border-radius: 999px;
+  background: var(--naf-surface);
+}
+
+.naf-def-dualdetail {
+  padding: 0.2rem 0.4rem 1rem 0.4rem;
+  font-size: 0.92rem;
+  line-height: 1.55;
+
+  p { margin: 0.5rem 0 0; }
+}
+
+.naf-def-dualwhy-title {
+  font-weight: 650;
+  color: var(--naf-ink);
+}
+
+.naf-def-dualsrc,
+.naf-def-dualnote {
+  font-size: 0.85rem;
+  color: var(--naf-slate-mid);
+}
+
+/* — Encadré BITD — */
+
+.naf-def-bitd {
+  margin-top: 2rem;
+}
+
+.naf-def-bitd-src {
+  font-size: 0.85rem;
+  color: var(--naf-slate-mid);
+}
+
+/* — Pistes — */
+
+.naf-def-pistelist {
+  margin: 0.6rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.6rem;
+
+  li {
+    padding-left: 1rem;
+    border-left: 3px solid var(--naf-line);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+}
+
+/* — Flèche de l'exemple dual (un tronc, deux branches) — */
+
+.naf-case-arrow-split svg path {
+  fill: none;
+  stroke: var(--naf-bronze);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}

@@ -50,5 +50,25 @@ apparaissent donc comme « non couverts par l'extrait » dans l'interface.
 
 Qualification éditoriale (non officielle) du lien de sous-classes NAF avec la
 sphère défense. Schéma et méthode documentés sur la page « NAF & Défense ».
-Chaque ligne cite sa preuve (libellé officiel ou scission NAF 2025) et sa
-source Insee.
+
+Colonnes : `naf_version, code, niveau_defense, nature_dualite, famille,
+justification, nature_preuve, usages_civils, usages_defense, source_url,
+source_reference, source_secondaire_url, source_secondaire_reference,
+niveau_confiance, commentaire`.
+
+- `niveau_defense` : `explicite_industriel`, `dual_officiel`,
+  `ecosysteme_observe`, `administration_defense`, ou `piste_dualite` pour les
+  pistes de dualité **non validées** — jamais affichées comme duales ni
+  comptées.
+- `nature_dualite` (duales uniquement) : `dual_naf_explicite` (les notes ou la
+  nomenclature de produits officielles Insee couvrent des usages civils et
+  militaires), `dual_source_defense` (source institutionnelle, ex. dispositif
+  RAPID DGA/AID), `dual_refd_observe` (secteur observé parmi les entreprises
+  de défense par l'enquête EDIS du SSM, adossée au REFD, avec preuve
+  complémentaire — règlement (UE) 2021/821), `dual_a_confirmer` (piste).
+- Une duale validée doit porter justification, usages civils, usages Défense,
+  source(s) et niveau de confiance `élevé` ou `moyen` — contrôlé par
+  `scripts/validate_reference_data.py`, qui refuse aussi une catégorie duale
+  vide.
+- Fournisseur n'est pas dual : observer des fournisseurs de la Défense dans un
+  code ne suffit jamais à qualifier la sous-classe.
