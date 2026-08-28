@@ -1,44 +1,323 @@
 ---
-title: "Comparer 2008 ↔ 2025"
+pagetitle: "NAF 2008 ↔ 2025 — Explorer les changements"
+title: ""
+page-layout: full
 include-after-body: "../includes/comparer-scripts.html"
 ---
 
-::: {.naf-compare}
-
-Chercher un code ou une activité pour voir ce qu'elle devient d'une nomenclature à l'autre.
+::: {.naf-page}
 
 ```{=html}
-<div class="naf-compare-app" id="naf-compare">
+<div class="naf-viz naf-chg" id="naf-chg">
 
-  <form class="naf-searchbox" id="naf-compare-form" role="search" autocomplete="off">
-    <label class="naf-visually-hidden" for="naf-compare-q">Rechercher un code ou une activité</label>
-    <svg class="naf-search-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
-      <circle cx="9" cy="9" r="6"></circle>
-      <line x1="13.5" y1="13.5" x2="18" y2="18"></line>
-    </svg>
-    <input id="naf-compare-q" type="search" class="naf-search-input"
-           placeholder="30.30Z, 30.32Y, aéronautique…">
-    <button type="button" class="naf-search-clear" id="naf-compare-clear"
-            aria-label="Effacer la recherche" hidden>&times;</button>
-  </form>
+  <header class="naf-viz-intro">
+    <p class="naf-hand-heading naf-viz-title" role="heading" aria-level="1">Explorer les changements</p>
+    <p class="naf-viz-lede">
+      En 2025, la France a changé de nomenclature d'activités&nbsp;: la NAF 2025
+      succède à la NAF rév.2 de 2008. Deux photographies du même paysage
+      économique, prises avec deux découpages différents — cette page permet de
+      parcourir ce qui a changé, sans avoir à connaître un seul code.
+    </p>
+    <p class="naf-hand naf-viz-hand" aria-hidden="true">
+      « on change la carte, pas forcément le territoire »
+    </p>
+  </header>
 
-  <p class="naf-counts" id="naf-compare-counts" role="status" aria-live="polite">Chargement de la table…</p>
+  <!-- Chiffres clés calculés depuis les nomenclatures -->
+  <div class="naf-chg-statsblock" id="naf-chg-stats" aria-label="Chiffres clés"></div>
 
-  <div class="naf-compare-result" id="naf-compare-result"></div>
+  <!-- Couverture réelle de la table chargée, calculée -->
+  <div class="naf-chg-cover" id="naf-chg-cover" role="note"></div>
+
+  <!-- Encadré pédagogique : les quatre cas -->
+  <section class="naf-did naf-chg-did" aria-labelledby="naf-chg-did-title">
+    <p class="naf-did-title" id="naf-chg-did-title" role="heading" aria-level="2">
+      Comment lire un changement de nomenclature&nbsp;?
+    </p>
+    <ol class="naf-did-steps naf-chg-cases">
+      <li class="naf-did-step naf-chg-case" data-case="identique">
+        <svg class="naf-chg-schema" viewBox="0 0 120 56" aria-hidden="true" focusable="false">
+          <rect x="6" y="20" width="26" height="16" rx="4"></rect>
+          <path d="M36 28 H 82" marker-end="none"></path>
+          <path d="M76 22 L 84 28 L 76 34" fill="none"></path>
+          <rect x="88" y="20" width="26" height="16" rx="4"></rect>
+        </svg>
+        <span class="naf-did-step-head">1→1 · Reprise à l'identique</span>
+        <span class="naf-did-step-text">Le contenu ne bouge pas, seul le code
+        change. Ex.&nbsp;: <code>01.11Z</code> Culture de céréales… devient
+        <code>01.11Y</code>, au libellé près.</span>
+      </li>
+      <li class="naf-did-step naf-chg-case" data-case="scission">
+        <svg class="naf-chg-schema" viewBox="0 0 120 56" aria-hidden="true" focusable="false">
+          <rect x="6" y="20" width="26" height="16" rx="4"></rect>
+          <path d="M36 28 C 60 28 60 12 84 12" fill="none"></path>
+          <path d="M36 28 C 60 28 60 44 84 44" fill="none"></path>
+          <rect x="88" y="4" width="26" height="16" rx="4"></rect>
+          <rect x="88" y="36" width="26" height="16" rx="4"></rect>
+        </svg>
+        <span class="naf-did-step-head">1→n · Scission</span>
+        <span class="naf-did-step-text">Une sous-classe est découpée plus
+        finement. Ex.&nbsp;: <code>53.20Z</code> Autres activités de poste et de
+        courrier se sépare en <code>53.20G</code> Livraison de colis et
+        <code>53.20H</code> Livraison à domicile de repas…</span>
+      </li>
+      <li class="naf-did-step naf-chg-case" data-case="regroupement">
+        <svg class="naf-chg-schema" viewBox="0 0 120 56" aria-hidden="true" focusable="false">
+          <rect x="6" y="4" width="26" height="16" rx="4"></rect>
+          <rect x="6" y="36" width="26" height="16" rx="4"></rect>
+          <path d="M36 12 C 60 12 60 28 84 28" fill="none"></path>
+          <path d="M36 44 C 60 44 60 28 84 28" fill="none"></path>
+          <rect x="88" y="20" width="26" height="16" rx="4"></rect>
+        </svg>
+        <span class="naf-did-step-head">n→1 · Regroupement</span>
+        <span class="naf-did-step-text">Plusieurs sous-classes sont réunies en
+        une seule. Ex.&nbsp;: les quatre sous-classes d'installation
+        <code>33.20A</code>–<code>33.20D</code> deviennent
+        <code>33.20Y</code>.</span>
+      </li>
+      <li class="naf-did-step naf-chg-case" data-case="recomposition">
+        <svg class="naf-chg-schema" viewBox="0 0 120 56" aria-hidden="true" focusable="false">
+          <rect x="6" y="4" width="26" height="16" rx="4"></rect>
+          <rect x="6" y="36" width="26" height="16" rx="4"></rect>
+          <path d="M36 12 C 60 12 60 12 84 12" fill="none"></path>
+          <path d="M36 12 C 60 12 60 44 84 44" fill="none"></path>
+          <path d="M36 44 C 60 44 60 12 84 12" fill="none"></path>
+          <path d="M36 44 C 60 44 60 44 84 44" fill="none"></path>
+          <rect x="88" y="4" width="26" height="16" rx="4"></rect>
+          <rect x="88" y="36" width="26" height="16" rx="4"></rect>
+        </svg>
+        <span class="naf-did-step-head">n↔n · Recomposition</span>
+        <span class="naf-did-step-text">Les frontières sont redessinées entre
+        plusieurs sous-classes, sans correspondance simple ligne à ligne.
+        Ex.&nbsp;: la charcuterie (<code>10.13</code>), redécoupée entre
+        production industrielle et vente au détail.</span>
+      </li>
+    </ol>
+    <p class="naf-hand naf-did-hand" aria-hidden="true">« quatre façons de redessiner la carte »</p>
+    <p class="naf-did-strong">
+      Une table de correspondance n'est pas une table de conversion&nbsp;:
+      elle dit <em>où regarder</em>, pas comment convertir automatiquement des
+      chiffres d'une nomenclature à l'autre.
+    </p>
+  </section>
+
+  <!-- La carte et le territoire -->
+  <section class="naf-case naf-chg-carte" aria-labelledby="naf-chg-carte-title">
+    <p class="naf-case-kicker">L'idée à retenir</p>
+    <p class="naf-hand-heading naf-case-title" id="naf-chg-carte-title" role="heading" aria-level="2">
+      Un nouveau code n'est pas forcément une nouvelle activité économique
+    </p>
+    <p class="naf-case-text">
+      La nomenclature est une <strong>carte</strong> du paysage économique. En
+      2025, les cartographes ont redessiné des frontières&nbsp;: certaines
+      parcelles ont été découpées plus finement, d'autres réunies. Mais les
+      boulangeries ont continué de cuire du pain et les transporteurs de rouler.
+      Quand une sous-classe apparaît ou disparaît de la table, c'est d'abord le
+      <em>découpage</em> qui change — pas, en général, l'activité des
+      entreprises elles-mêmes.
+    </p>
+    <p class="naf-hand naf-case-hand" aria-hidden="true">« on change la carte,<br>pas forcément le territoire »</p>
+  </section>
+
+  <!-- Transformations structurantes (éditorial, ancré dans la table) -->
+  <section class="naf-chg-featured" aria-labelledby="naf-chg-featured-title">
+    <p class="naf-hand-heading naf-chg-h2" id="naf-chg-featured-title" role="heading" aria-level="2">
+      Quatre transformations structurantes
+    </p>
+    <p class="naf-chg-featured-lede">Choisies dans la table pour leur ampleur —
+    chaque carte ouvre la fiche correspondante dans la liste ci-dessous.</p>
+    <div class="naf-chg-featured-grid">
+      <button type="button" class="naf-chg-fcard" data-chg-open="47.11A">
+        <span class="naf-chg-badge naf-chg-badge-recomposition">n↔n</span>
+        <span class="naf-chg-fcard-title">Le commerce alimentaire, reclassé par taille de magasin</span>
+        <span class="naf-chg-fcard-codes">47.11A…F → 47.11G…L</span>
+        <span class="naf-chg-fcard-text">Supérettes, supermarchés, hypermarchés&nbsp;:
+        six sous-classes redistribuées en cinq, désormais découpées par surface de vente.</span>
+      </button>
+      <button type="button" class="naf-chg-fcard" data-chg-open="49.41A">
+        <span class="naf-chg-badge naf-chg-badge-recomposition">n↔n</span>
+        <span class="naf-chg-fcard-title">Le fret routier change de frontières</span>
+        <span class="naf-chg-fcard-codes">49.41A/B/C → 49.41G/H/J</span>
+        <span class="naf-chg-fcard-text">« Interurbain / proximité » devient
+        « longue distance / régional »&nbsp;: mêmes camions, découpage différent.</span>
+      </button>
+      <button type="button" class="naf-chg-fcard" data-chg-open="33.20A">
+        <span class="naf-chg-badge naf-chg-badge-regroupement">n→1</span>
+        <span class="naf-chg-fcard-title">L'installation industrielle réunie</span>
+        <span class="naf-chg-fcard-codes">33.20A…D → 33.20Y</span>
+        <span class="naf-chg-fcard-text">Quatre sous-classes d'installation
+        d'équipements fusionnent en une seule.</span>
+      </button>
+      <button type="button" class="naf-chg-fcard" data-chg-open="53.20Z">
+        <span class="naf-chg-badge naf-chg-badge-scission">1→n</span>
+        <span class="naf-chg-fcard-title">La livraison de colis prend son code</span>
+        <span class="naf-chg-fcard-codes">53.20Z → 53.20G + 53.20H</span>
+        <span class="naf-chg-fcard-text">L'essor de la livraison rend visible ce
+        que « autres activités de poste » agrégait.</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- Lien vers le voyage en flux -->
+  <p class="naf-chg-fluxlink">
+    <a class="naf-chg-cta naf-chg-cta-flux" href="flux.html">Voir ces transformations en flux — Voyage 2008&nbsp;→&nbsp;2025&nbsp;→</a>
+  </p>
+
+  <!-- Parcours de la table -->
+  <section class="naf-chg-browse" aria-labelledby="naf-chg-browse-title">
+    <p class="naf-hand-heading naf-chg-h2" id="naf-chg-browse-title" role="heading" aria-level="2">
+      Parcourir toutes les transformations
+    </p>
+
+    <div class="naf-chg-toolbar">
+      <div class="naf-chg-filterrow" id="naf-chg-filters" role="group"
+           aria-label="Filtrer par type de transformation"></div>
+      <div class="naf-chg-refine">
+        <label class="naf-chg-seclabel" for="naf-chg-section">Section&nbsp;:</label>
+        <select id="naf-chg-section" class="naf-chg-secselect"></select>
+        <form class="naf-searchbox naf-chg-searchbox" id="naf-chg-form" role="search" autocomplete="off">
+          <label class="naf-visually-hidden" for="naf-chg-q">Filtrer par code ou libellé (facultatif)</label>
+          <svg class="naf-search-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+            <circle cx="9" cy="9" r="6"></circle>
+            <line x1="13.5" y1="13.5" x2="18" y2="18"></line>
+          </svg>
+          <input id="naf-chg-q" type="search" class="naf-search-input"
+                 placeholder="Affiner&nbsp;: 10.13, boulangerie…">
+          <button type="button" class="naf-search-clear" id="naf-chg-clear"
+                  aria-label="Effacer le filtre" hidden>&times;</button>
+        </form>
+      </div>
+    </div>
+
+    <p class="naf-counts" id="naf-chg-count" role="status" aria-live="polite">Chargement de la table de correspondance…</p>
+
+    <ol class="naf-chg-list" id="naf-chg-list"></ol>
+
+    <nav class="naf-chg-pager" id="naf-chg-pager" aria-label="Pagination de la liste"></nav>
+  </section>
+
+  <!-- Exemple réel détaillé : la charcuterie -->
+  <section class="naf-case" aria-labelledby="naf-chg-case-title">
+    <p class="naf-case-kicker">Un exemple pour comprendre</p>
+    <p class="naf-hand-heading naf-case-title" id="naf-chg-case-title" role="heading" aria-level="2">Prenons la charcuterie</p>
+    <div class="naf-case-flow">
+      <div class="naf-case-col naf-case-col-split">
+        <div>
+          <p class="naf-case-ver">NAF rév.2 (2008)</p>
+          <p class="naf-case-code naf-mono">10.13A</p>
+          <p class="naf-case-lbl">Préparation industrielle de produits à base de viande</p>
+        </div>
+        <div>
+          <p class="naf-case-code naf-mono">10.13B</p>
+          <p class="naf-case-lbl">Charcuterie</p>
+        </div>
+      </div>
+      <div class="naf-case-arrow" aria-hidden="true">
+        <svg viewBox="0 0 60 40" focusable="false"><path d="M4 20 H 46 M38 10 L 50 20 L 38 30"/></svg>
+        <span>NAF 2025</span>
+      </div>
+      <div class="naf-case-col naf-case-col-split">
+        <div>
+          <p class="naf-case-code naf-mono">10.13G</p>
+          <p class="naf-case-lbl">Préparation industrielle de produits à base de viande</p>
+        </div>
+        <div>
+          <p class="naf-case-code naf-mono">10.13H</p>
+          <p class="naf-case-lbl">Préparation de produits à base de viande associée à leur vente au détail</p>
+        </div>
+      </div>
+    </div>
+    <p class="naf-hand naf-case-hand" aria-hidden="true">« la frontière passe désormais<br>entre l'usine et la boutique »</p>
+    <p class="naf-case-text">
+      Dans la table de correspondance, chacune des deux sous-classes 2008 est
+      reliée <em>aux deux</em> sous-classes 2025&nbsp;: c'est une
+      <strong>recomposition (n↔n)</strong>, pas une simple scission. La NAF 2008
+      séparait l'industriel de l'artisan charcutier&nbsp;; la NAF 2025 sépare la
+      production industrielle de la préparation associée à la vente au détail.
+      La frontière s'est déplacée — l'activité, elle, n'a pas changé.
+    </p>
+    <p class="naf-case-links">
+      <button type="button" class="naf-linklike" data-chg-open="10.13B">Ouvrir la fiche 10.13 ci-dessus</button> ·
+      <a href="flux.html?code=10.13B">Voir dans les flux →</a> ·
+      <a href="https://www.insee.fr/fr/information/8201411" target="_blank" rel="noopener noreferrer">Table officielle Insee ↗</a>
+    </p>
+  </section>
+
+  <!-- Aéronautique : hors du périmètre de l'extrait, dit honnêtement -->
+  <section class="naf-case naf-case-warn" aria-labelledby="naf-chg-aero-title">
+    <p class="naf-case-kicker">Et l'aéronautique&nbsp;?</p>
+    <p class="naf-hand-heading naf-case-title" id="naf-chg-aero-title" role="heading" aria-level="2">Un changement que notre extrait ne couvre pas</p>
+    <p class="naf-case-text">
+      La transformation la plus commentée de la NAF 2025 — la séparation du
+      civil et du militaire dans l'aéronautique — <strong>ne figure pas dans
+      l'extrait de table chargé ici</strong>, car elle change de classe&nbsp;:
+      <code>30.30Z</code> Construction aéronautique et spatiale (2008) se
+      répartit entre <code>30.31Y</code> Construction aéronautique et spatiale
+      <strong>civile</strong> et <code>30.32Y</code> Construction aéronautique
+      et spatiale <strong>militaire</strong>, d'après les libellés officiels
+      Insee. Pour le détail exact de la répartition, seule la table officielle
+      fait foi.
+    </p>
+    <p class="naf-case-links">
+      <a href="../defense/">L'exemple complet, sur la page NAF &amp; Défense →</a> ·
+      <a href="https://www.insee.fr/fr/metadonnees/nafr2/sousClasse/30.30Z" target="_blank" rel="noopener noreferrer">Fiche Insee 30.30Z ↗</a> ·
+      <a href="https://www.insee.fr/fr/information/8201411" target="_blank" rel="noopener noreferrer">Table officielle ↗</a>
+    </p>
+  </section>
+
+  <!-- Pourquoi c'est important -->
+  <section class="naf-chg-why" aria-labelledby="naf-chg-why-title">
+    <p class="naf-hand-heading naf-chg-h2" id="naf-chg-why-title" role="heading" aria-level="2">
+      Pourquoi est-ce important&nbsp;?
+    </p>
+    <ul class="naf-chg-why-list">
+      <li><strong>Pour les séries statistiques.</strong> Comparer l'emploi ou le
+      nombre d'entreprises « avant / après » sans passer par la table de
+      correspondance, c'est comparer deux découpages différents&nbsp;: une
+      hausse apparente peut n'être qu'un reclassement.</li>
+      <li><strong>Pour les entreprises.</strong> Une entreprise peut changer de
+      code sans changer d'activité. Son nouveau code dit où elle se trouve sur
+      la nouvelle carte — pas qu'elle a déménagé.</li>
+      <li><strong>Pour les études.</strong> Une étude « NAF 2008 » et une étude
+      « NAF 2025 » ne parlent pas exactement des mêmes périmètres. La typologie
+      ci-dessus (identique, scission, regroupement, recomposition) dit, cas par
+      cas, si la comparaison est directe ou demande précaution.</li>
+    </ul>
+  </section>
+
+  <!-- Méthodologie -->
+  <details class="naf-sheet-section naf-chg-method">
+    <summary class="naf-sheet-summary"><span class="naf-sheet-summary-text">D'où viennent ces chiffres&nbsp;?</span></summary>
+    <div class="naf-sheet-body">
+      <p><strong>Tout est calculé, rien n'est saisi à la main.</strong> Les
+      compteurs de cette page (sous-classes 2008 et 2025, relations, couverture,
+      nombre de transformations par type) sont recalculés à chaque chargement à
+      partir des fichiers de données du site.</p>
+      <p><strong>Une transformation = un groupe de relations.</strong> La table
+      officielle liste des relations ligne à ligne. Pour compter « une
+      transformation = un événement », nous regroupons les relations qui se
+      touchent (fermeture transitive)&nbsp;: la recomposition de la charcuterie,
+      qui occupe quatre lignes dans la table, compte pour une seule
+      transformation. Le type est déduit des cardinalités réelles du
+      groupe&nbsp;: 1→1, 1→n, n→1 ou n↔n.</p>
+      <p><strong>Couverture.</strong> La table chargée ici est un extrait
+      partiel et intra-classe de la
+      <a href="https://www.insee.fr/fr/information/8201411" target="_blank"
+      rel="noopener noreferrer">table de correspondance officielle Insee
+      NAF rév.2 → NAF 2025 ↗</a>&nbsp;: elle ne contient que des relations
+      restant dans la même classe (xx.xx). Six lignes dont les libellés 2008 et
+      2025 décrivaient des activités sans rapport (appariements mécaniques de
+      codes, contredits par les libellés officiels — ex. 25.40Z « armes et
+      munitions » appariée à 25.40Y « forgeage ») ont été retirées plutôt que
+      corrigées à la main&nbsp;: on ne devine pas une table de correspondance,
+      on la cite. Ces codes apparaissent comme non couverts.</p>
+      <p><strong>Vocabulaire.</strong> Nous n'écrivons jamais « activité créée »
+      ou « activité supprimée »&nbsp;: un code apparaît ou disparaît, l'activité
+      économique, elle, préexiste presque toujours au code qui la désigne.</p>
+    </div>
+  </details>
 
 </div>
 ```
-
-::: {.callout-note collapse="true"}
-## Comment lire les types de correspondance
-
-- `1→1` : la sous-classe est reprise à l'identique, seul le code change.
-- `1→n` : une sous-classe 2008 est éclatée en plusieurs sous-classes 2025.
-- `n→1` : plusieurs sous-classes 2008 sont regroupées en une seule.
-- `n↔n` : le périmètre est redécoupé, sans correspondance simple.
-
-Une correspondance de code ne garantit pas une identité de périmètre. Pour un usage
-statistique, se reporter à la table officielle et aux notes explicatives Insee.
-:::
 
 :::

@@ -133,7 +133,7 @@ include-after-body: "includes/home-scripts.html"
     <span class="naf-path-num" aria-hidden="true">03</span>
     <span class="naf-path-body">
       <span class="naf-path-name">Comparer</span>
-      <span class="naf-path-desc">Ce que devient une activité entre la NAF 2008 et la NAF 2025.</span>
+      <span class="naf-path-desc">Explorer les changements 2008 → 2025 et les suivre comme des flux.</span>
     </span>
     <span class="naf-path-arrow" aria-hidden="true">→</span>
   </a>
