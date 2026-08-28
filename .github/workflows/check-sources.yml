@@ -1,0 +1,56 @@
+# Contrôle de disponibilité des sources officielles référencées par le site.
+#
+# Volontairement SÉPARÉ du workflow Pages : une panne temporaire chez un
+# producteur de données ne doit jamais empêcher le déploiement du site.
+# En revanche un lien 404/410 sur une source critique fait échouer CE
+# workflow, pour être vu et corrigé.
+#
+# Aucune donnée n'est téléchargée : HEAD puis GET partiel (2 Ko max).
+
+name: Contrôle des sources
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Une fois par semaine, le lundi matin : inutile de solliciter les
+    # administrations plus souvent.
+    - cron: "17 6 * * 1"
+  push:
+    branches: [main]
+    paths:
+      - data/etudes/sources.csv
+      - scripts/quality/**
+      - tests/**
+      - comprendre/boite-outils.qmd
+      - .github/workflows/check-sources.yml
+
+permissions:
+  contents: read
+
+jobs:
+  check-sources:
+    name: Manifeste et liens
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Tests unitaires (sans réseau)
+        run: python -m unittest discover -s tests -v
+
+      - name: Contrôle des liens du manifeste
+        run: python scripts/quality/check_sources.py
+
+      - name: Publier le rapport
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: source-link-report
+          path: artifacts/source-link-report.*
+          retention-days: 30

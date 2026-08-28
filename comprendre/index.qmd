@@ -1319,109 +1319,21 @@ include-after-body: "../includes/comprendre-scripts.html"
         <span class="naf-comp-rung-main"><span class="naf-comp-rung-label"><strong>Publication</strong> — après validation humaine : la collecte ne modifie jamais le site directement.</span></span></div>
     </div>
 
-    <h3 class="naf-comp-h3">Les règles d'ingénierie</h3>
-
-    <div class="naf-comp-grid2">
-      <div class="naf-comp-vs-panel">
-        <p class="naf-comp-vs-title">Collecte</p>
-        <ul>
-          <li><strong>API &gt; téléchargement officiel &gt; scraping.</strong>
-              Le scraping n'apparaît qu'en dernier recours (veille AID de
-              l'étude 06), avec robots.txt vérifié, User-Agent explicite,
-              temporisation, cache et journal.</li>
-          <li>Timeout, retries, reprise sur erreur, date de collecte
-              enregistrée.</li>
-          <li>Pipeline : collecte → contrôle → validation → publication.
-              Jamais web → site directement.</li>
-        </ul>
-      </div>
-      <div class="naf-comp-vs-panel">
-        <p class="naf-comp-vs-title">Gros fichiers</p>
-        <ul>
-          <li>Jamais de <span class="naf-mono">read_csv()</span> naïf sur un
-              stock Sirene de plusieurs Go.</li>
-          <li>DuckDB / Parquet / Polars / Arrow, et lecture projetée :
-              <span class="naf-mono">SELECT</span> uniquement les colonnes
-              nécessaires.</li>
-          <li>Les bruts vivent dans <span class="naf-mono">data/cache/</span>
-              (ignoré par git) ; seuls de petits agrégats sont versionnés —
-              le site reste statique, aucun navigateur n'appelle l'API
-              Sirene.</li>
-        </ul>
-      </div>
-    </div>
-
     <p>
-      La provenance est tenue dans
-      <span class="naf-mono">data/etudes/sources.csv</span> : producteur,
-      URL, fréquence, format, mode d'accès, unité statistique, limites — et
-      deux dates que les scripts maintiennent sans jamais les confondre, la
-      <strong>date de collecte</strong> (quand a-t-on téléchargé ?) et la
-      <strong>date de référence</strong> (quelle période les données
-      décrivent-elles ?).
+      La suite est un atelier à part entière : récupérer les données,
+      choisir le bon grain, travailler en R ou en Python et garder les
+      sources officielles sous surveillance automatique. Fiches par source,
+      recettes de code et scripts <span class="naf-mono">--dry-run</span>
+      vivent dans une page dédiée.
+    </p>
+    <p class="naf-comp-ctas">
+      <a class="naf-chg-cta" href="boite-outils.html">Ouvrir la boîte à outils →</a>
     </p>
   </section>
 </div>
 ```
 
 ::: {.naf-comp}
-
-::: {.callout-note collapse="true"}
-## Exemple Python — compter les établissements par futur code NAF 2025
-
-Le fichier stock (plusieurs Go décompressé) n'est jamais chargé en mémoire :
-DuckDB ne lit que les quatre colonnes nécessaires. C'est le cœur du script
-`scripts/etudes/01_transition_naf2025.py`.
-
-```python
-import duckdb
-
-stock = "data/cache/StockEtablissement_utf8.csv"
-
-transition = duckdb.sql(f"""
-    SELECT activitePrincipaleEtablissement       AS ape_2008,
-           activitePrincipaleNAF25Etablissement  AS futur_ape_2025,
-           COUNT(*)                              AS etablissements
-    FROM read_csv('{stock}', header=true, all_varchar=true)
-    WHERE etatAdministratifEtablissement = 'A'
-      AND activitePrincipaleEtablissement = '30.30Z'
-    GROUP BY 1, 2
-    ORDER BY 3 DESC
-""").df()
-
-print(transition)
-# Les variables NAF25 sont diffusées du 16/12/2025 à début janvier 2027 :
-# vérifier leur présence dans le millésime téléchargé avant d'interpréter.
-```
-:::
-
-::: {.callout-note collapse="true"}
-## Exemple R — la même analyse avec DuckDB et dplyr
-
-```r
-library(duckdb)
-library(dplyr)
-
-con <- dbConnect(duckdb())
-stock <- "data/cache/StockEtablissement_utf8.csv"
-
-transition <- dbGetQuery(con, sprintf("
-  SELECT activitePrincipaleEtablissement      AS ape_2008,
-         activitePrincipaleNAF25Etablissement AS futur_ape_2025,
-         COUNT(*)                             AS etablissements
-  FROM read_csv('%s', header=true, all_varchar=true)
-  WHERE etatAdministratifEtablissement = 'A'
-    AND activitePrincipaleEtablissement = '30.30Z'
-  GROUP BY 1, 2 ORDER BY 3 DESC", stock))
-
-transition |>
-  group_by(ape_2008) |>
-  mutate(part = round(100 * etablissements / sum(etablissements), 1))
-
-dbDisconnect(con, shutdown = TRUE)
-# Jamais 30 millions de lignes en mémoire : DuckDB projette les colonnes.
-```
-:::
 
 ::: {.callout-tip collapse="true"}
 ## Vérifiez vos repères — dix questions, dix réponses courtes

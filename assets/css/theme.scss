@@ -4577,3 +4577,330 @@ body {
     white-space: nowrap;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   Boîte à outils — atelier R & Python
+═══════════════════════════════════════════════════════════════════ */
+
+/* Ligne de surveillance des liens */
+
+.naf-tb-watch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.4rem 0 0;
+  font-size: 0.82rem;
+  color: var(--naf-steel);
+
+  &::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--naf-sage);
+  }
+
+  a { color: var(--naf-slate-mid); }
+}
+
+/* ── Bascule Par besoin / Par source ─────────────────────────────── */
+
+.naf-tb-modes {
+  margin: 0.8rem 0 1.1rem;
+}
+
+.naf-tb[data-mode="besoin"] .naf-tb-fiches { display: none; }
+.naf-tb[data-mode="source"] .naf-tb-besoins { display: none; }
+
+/* ── « Je veux… » : rail de besoins ──────────────────────────────── */
+
+.naf-tb-besoins {
+  border-top: 1px solid var(--naf-line);
+}
+
+.naf-tb-need {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: baseline;
+  gap: 0.35rem 0.9rem;
+  width: 100%;
+  min-height: var(--naf-tap);
+  padding: 0.8rem 0.35rem;
+  border: 0;
+  border-bottom: 1px solid var(--naf-line);
+  background: none;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.12s ease;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--naf-line-soft);
+    text-decoration: none;
+  }
+
+  &:hover .naf-tb-need-arrow { transform: translateX(3px); }
+}
+
+.naf-tb-need-num {
+  font-family: var(--naf-mono);
+  font-size: 0.78rem;
+  color: var(--naf-bronze);
+}
+
+.naf-tb-need-text {
+  font-size: 0.98rem;
+  font-weight: 550;
+  color: var(--naf-ink);
+}
+
+.naf-tb-need-src {
+  font-family: var(--naf-mono);
+  font-size: 0.78rem;
+  color: var(--naf-slate-mid);
+  background: var(--naf-line-soft);
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+  white-space: nowrap;
+}
+
+.naf-tb-need-arrow {
+  color: var(--naf-steel-sub);
+  transition: transform 0.15s ease;
+}
+
+@media (max-width: 860px) {
+  .naf-tb-need { grid-template-columns: auto minmax(0, 1fr) auto; }
+  .naf-tb-need-src { grid-column: 2; justify-self: start; }
+}
+
+/* ── Fiches sources ──────────────────────────────────────────────── */
+
+.naf-tb-fiche {
+  border-bottom: 1px solid var(--naf-line);
+
+  &:first-of-type { border-top: 1px solid var(--naf-line); }
+
+  > summary {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: baseline;
+    row-gap: 0.15rem;
+    padding: 0.95rem 0.35rem;
+    cursor: pointer;
+    list-style: none;
+
+    &::-webkit-details-marker { display: none; }
+
+    &::after {
+      content: "+";
+      grid-column: 3;
+      grid-row: 1;
+      font-size: 1.3rem;
+      line-height: 1;
+      color: var(--naf-steel-sub);
+      margin-left: 0.7rem;
+    }
+
+    &:hover .naf-tb-fiche-name { color: var(--naf-bronze); }
+  }
+
+  &[open] > summary::after { content: "–"; }
+}
+
+.naf-tb-fiche-name {
+  grid-column: 1;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--naf-ink);
+  transition: color 0.15s ease;
+}
+
+.naf-tb-fiche-num {
+  grid-column: 2;
+  grid-row: 1;
+  font-family: var(--naf-mono);
+  font-size: 0.95rem;
+  color: var(--naf-steel-sub);
+}
+
+.naf-tb-fiche-tags {
+  grid-column: 1 / -1;
+  font-size: 0.86rem;
+  color: var(--naf-steel);
+}
+
+.naf-tb-fiche-body {
+  padding: 0.3rem 0.35rem 1.4rem;
+}
+
+/* Chips de grain : le premier regard sur ce que la source observe */
+
+.naf-tb-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin: 0.4rem 0 1rem;
+}
+
+.naf-tb-chip {
+  display: grid;
+  gap: 0.05rem;
+  padding: 0.45rem 0.8rem 0.5rem;
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-line);
+  border-radius: var(--naf-radius);
+  min-width: 7.5rem;
+}
+
+.naf-tb-chip-label {
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--naf-steel);
+}
+
+.naf-tb-chip-value {
+  font-size: 0.88rem;
+  font-weight: 550;
+  color: var(--naf-ink);
+}
+
+.naf-tb-chip-grain {
+  border-left: 3px solid var(--naf-bronze);
+}
+
+/* Points d'entrée injectés depuis le manifeste */
+
+.naf-tb-entries {
+  margin: 0.5rem 0 0.9rem;
+
+  p { margin: 0 0 0.2rem; }
+}
+
+.naf-tb-entry {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.2rem 0.7rem;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid var(--naf-line-soft);
+  font-size: 0.9rem;
+
+  &:last-child { border-bottom: 0; }
+}
+
+.naf-tb-entry-name {
+  font-weight: 600;
+  color: var(--naf-ink);
+}
+
+.naf-tb-entry-links a {
+  margin-right: 0.65rem;
+  color: var(--naf-slate-mid);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+
+  &:hover { color: var(--naf-ink); }
+}
+
+.naf-tb-entry-meta {
+  font-size: 0.8rem;
+  color: var(--naf-steel);
+}
+
+.naf-tb-recettes-link {
+  font-size: 0.88rem;
+  color: var(--naf-steel);
+
+  a {
+    font-family: var(--naf-mono);
+    margin-right: 0.4rem;
+    color: var(--naf-slate-mid);
+  }
+}
+
+/* ── Tabsets Python / R : pilules maison ─────────────────────────── */
+
+.naf-tb .panel-tabset {
+  margin: 0.6rem 0 0.4rem;
+
+  > .nav-tabs {
+    display: inline-flex;
+    gap: 0;
+    padding: 3px;
+    margin: 0 0 0.6rem;
+    background: var(--naf-line-soft);
+    border: 1px solid var(--naf-line);
+    border-radius: var(--naf-radius);
+
+    .nav-item { margin: 0; }
+
+    .nav-link {
+      min-height: 36px;
+      padding: 0.3rem 1.05rem;
+      border: 0;
+      border-radius: 3px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--naf-steel);
+
+      &:hover { color: var(--naf-ink); }
+
+      &.active {
+        color: var(--naf-ink);
+        background: var(--naf-surface);
+        box-shadow: 0 1px 2px rgba(20, 24, 29, 0.09);
+      }
+    }
+  }
+
+  > .tab-content {
+    border: 0;
+    padding: 0;
+  }
+}
+
+/* Code : lisible, clair, jamais un mur noir */
+
+.naf-tb div.sourceCode {
+  margin: 0.3rem 0 0.6rem;
+  border: 1px solid var(--naf-line);
+  border-radius: var(--naf-radius);
+  background: var(--naf-surface);
+
+  pre {
+    margin: 0;
+    padding: 0.85rem 1rem;
+    max-height: 24rem;
+    overflow: auto;
+  }
+}
+
+.naf-tb-attention {
+  margin: 0.4rem 0 0;
+  padding: 0.6rem 0.9rem;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--naf-ink);
+  background: #f7f4ee;
+  border-left: 3px solid var(--naf-bronze);
+  border-radius: 0 var(--naf-radius) var(--naf-radius) 0;
+}
+
+/* ── Scripts du dépôt ────────────────────────────────────────────── */
+
+.naf-tb-scripts {
+  margin: 0.8rem 0 0.4rem;
+  padding: 1rem 1.15rem;
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-line);
+  border-radius: var(--naf-radius);
+
+  p { margin: 0 0 0.35rem; font-size: 0.92rem; }
+
+  code { font-size: 0.84rem; }
+}
