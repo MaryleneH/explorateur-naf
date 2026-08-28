@@ -43,6 +43,13 @@ quarto render
 
 Puis ouvrir `_site/index.html`.
 
+## Contribuer / signaler un problème
+
+Vous avez repéré une erreur de donnée, un lien cassé ou un problème
+d'affichage ?
+[Ouvrir une issue](https://github.com/MaryleneH/explorateur-naf/issues/new?template=site-feedback.yml)
+— le formulaire guide le signalement en moins d'une minute.
+
 ## Données
 
 Les fichiers `data/` contiennent les nomenclatures complètes.
