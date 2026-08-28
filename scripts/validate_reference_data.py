@@ -247,8 +247,19 @@ def validate_source_urls(name: str, segment: str, rows: list, code_field: str) -
         print(f"  {ICON_OK} {len(rows)} URL Insee cohérentes (/{segment}/sousClasse/)")
 
 
-def validate_defense_urls() -> None:
-    """Contrôle les URL du fichier de qualification Défense."""
+VALID_LEVELS = {
+    "explicite_industriel", "dual_officiel", "ecosysteme_observe",
+    "administration_defense", "piste_dualite",
+}
+VALID_DUALITES = {
+    "dual_naf_explicite", "dual_source_defense", "dual_refd_observe",
+    "dual_a_confirmer", "",
+}
+VALID_CONFIDENCE = {"élevé", "moyen", "piste"}
+
+
+def validate_defense_urls(nomenclature_rows: dict) -> None:
+    """Contrôle le fichier de qualification Défense (URL + couche dualité)."""
     print(f"\n{'─' * 50}")
     print("Qualification Défense")
     print(f"{'─' * 50}")
@@ -276,6 +287,92 @@ def validate_defense_urls() -> None:
             errors.append(msg)
             continue
         validate_source_urls(version, spec["segment"], version_rows, code_field="code")
+
+        # Chaque code qualifié doit exister dans sa nomenclature.
+        known = {r.get("subclass_code", "") for r in nomenclature_rows.get(version, [])}
+        unknown = [r["code"] for r in version_rows if r.get("code") not in known]
+        if unknown:
+            msg = f"{version} : codes qualifiés absents de la nomenclature : {unknown[:5]}"
+            print(f"  {ICON_FAIL} {msg}")
+            errors.append(msg)
+        else:
+            print(f"  {ICON_OK} {version} : tous les codes qualifiés existent dans la nomenclature")
+
+    # ── Couche dualité ────────────────────────────────────────────────────
+    print(f"\n{'─' * 50}")
+    print("Couche « activités duales »")
+    print(f"{'─' * 50}")
+
+    for row in rows:
+        code = row.get("code", "?")
+        if row.get("niveau_defense", "") not in VALID_LEVELS:
+            msg = f"{code} : niveau_defense invalide {row.get('niveau_defense')!r}"
+            print(f"  {ICON_FAIL} {msg}")
+            errors.append(msg)
+        if row.get("nature_dualite", "") not in VALID_DUALITES:
+            msg = f"{code} : nature_dualite invalide {row.get('nature_dualite')!r}"
+            print(f"  {ICON_FAIL} {msg}")
+            errors.append(msg)
+        if row.get("niveau_confiance", "") not in VALID_CONFIDENCE:
+            msg = f"{code} : niveau_confiance invalide {row.get('niveau_confiance')!r}"
+            print(f"  {ICON_FAIL} {msg}")
+            errors.append(msg)
+        if not row.get("justification", "").strip():
+            msg = f"{code} : justification vide"
+            print(f"  {ICON_FAIL} {msg}")
+            errors.append(msg)
+        if not row.get("source_url", "").strip():
+            msg = f"{code} : source_url vide"
+            print(f"  {ICON_FAIL} {msg}")
+            errors.append(msg)
+
+    duals = [r for r in rows if r.get("niveau_defense") == "dual_officiel"]
+    pistes = [r for r in rows if r.get("niveau_defense") == "piste_dualite"]
+
+    for row in duals:
+        code = row.get("code", "?")
+        # Une duale validée doit dire précisément pourquoi elle est duale.
+        if row.get("nature_dualite") in ("", "dual_a_confirmer"):
+            msg = f"{code} : duale validée sans nature_dualite validée"
+            print(f"  {ICON_FAIL} {msg}")
+            errors.append(msg)
+        if row.get("niveau_confiance") == "piste":
+            msg = f"{code} : duale validée avec confiance « piste » — à déclasser en piste_dualite"
+            print(f"  {ICON_FAIL} {msg}")
+            errors.append(msg)
+        for field in ("usages_civils", "usages_defense"):
+            if not row.get(field, "").strip():
+                msg = f"{code} : duale validée sans {field}"
+                print(f"  {ICON_FAIL} {msg}")
+                errors.append(msg)
+
+    for row in pistes:
+        code = row.get("code", "?")
+        if row.get("nature_dualite") != "dual_a_confirmer":
+            msg = f"{code} : piste_dualite doit porter nature_dualite=dual_a_confirmer"
+            print(f"  {ICON_FAIL} {msg}")
+            errors.append(msg)
+        if row.get("niveau_confiance") != "piste":
+            msg = f"{code} : piste_dualite doit porter niveau_confiance=piste"
+            print(f"  {ICON_FAIL} {msg}")
+            errors.append(msg)
+
+    # La catégorie annoncée ne doit jamais être vide, dans aucune version.
+    for version in EXPECTED:
+        n = sum(1 for r in duals if r.get("naf_version") == version)
+        if n == 0:
+            msg = f"{version} : aucune activité duale validée — la catégorie serait vide"
+            print(f"  {ICON_FAIL} {msg}")
+            errors.append(msg)
+        else:
+            print(f"  {ICON_OK} {version} : {n} activité(s) duale(s) validée(s)")
+
+    by_nature: dict = {}
+    for r in duals:
+        by_nature[r.get("nature_dualite", "")] = by_nature.get(r.get("nature_dualite", ""), 0) + 1
+    print(f"  {ICON_OK} Typologie : " + ", ".join(
+        f"{k}={v}" for k, v in sorted(by_nature.items())))
+    print(f"  {ICON_OK} {len(pistes)} piste(s) non validée(s), hors compteurs")
 
 
 def validate_correspondances(rows_2008: list, rows_2025: list) -> None:
@@ -344,7 +441,7 @@ def main() -> None:
             rows_all[name] = []
 
     validate_correspondances(rows_all.get("NAF rév.2", []), rows_all.get("NAF 2025", []))
-    validate_defense_urls()
+    validate_defense_urls(rows_all)
 
     print(f"\n{'═' * 50}")
     if errors:

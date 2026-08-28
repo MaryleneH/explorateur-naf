@@ -27,8 +27,16 @@
     zoomIn: document.getElementById("naf-def-zoomin"),
     zoomOut: document.getElementById("naf-def-zoomout"),
     zoomFit: document.getElementById("naf-def-zoomfit"),
-    versions: app.querySelectorAll(".naf-versions:not(.naf-def-filters) .naf-version"),
+    zoomCtrl: app.querySelector(".naf-viz-zoomctrl"),
+    versions: app.querySelectorAll(".naf-def-versions .naf-version"),
+    views: app.querySelectorAll(".naf-def-views .naf-version"),
     filters: app.querySelectorAll(".naf-def-filters .naf-version"),
+    filtersGroup: app.querySelector(".naf-def-filters"),
+    says: app.querySelector(".naf-def-says"),
+    dualCounts: document.getElementById("naf-def-dualcounts"),
+    dualSort: document.getElementById("naf-def-dualsort"),
+    dualList: document.getElementById("naf-def-duallist"),
+    pistes: document.getElementById("naf-def-pistes"),
   };
 
   var el = NAF.el;
@@ -48,6 +56,17 @@
     libelle_officiel: "Le libellé officiel Insee mentionne l'usage militaire",
     scission_naf_2025: "La NAF 2025 sépare désormais les volets civil et militaire de ce périmètre",
     refd_observe: "Présence observée au répertoire REFD du ministère des Armées",
+    note_officielle_insee: "Les notes et produits officiels Insee couvrent des usages civils et militaires",
+    enquete_ssm_refd: "Secteur observé parmi les entreprises de défense (enquête EDIS du SSM, adossée au REFD), avec preuve complémentaire",
+    dispositif_ministeriel: "Un dispositif officiel du ministère des Armées documente le caractère dual de ce domaine",
+  };
+
+  /* Typologie de preuve de la dualité — voir la méthodologie de la page. */
+  var DUALITE_LABELS = {
+    dual_naf_explicite: { tiny: "Insee", short: "Nomenclature Insee", label: "Dualité explicite dans la nomenclature officielle" },
+    dual_source_defense: { tiny: "Ministère", short: "Source ministérielle", label: "Dualité documentée par une source institutionnelle Défense" },
+    dual_refd_observe: { tiny: "EDIS/REFD", short: "Observée (EDIS/REFD)", label: "Fournisseurs Défense observés (enquête SSM/REFD) + preuve complémentaire" },
+    dual_a_confirmer: { tiny: "À confirmer", short: "À confirmer", label: "Piste : preuve encore insuffisante" },
   };
 
   var CONFIDENCE = {
@@ -60,20 +79,28 @@
     aeronautique_spatial: "Aéronautique / spatial",
     naval: "Naval",
     terrestre: "Terrestre",
-    armement: "Armement",
+    armement: "Armement & matériaux énergétiques",
     maintenance: "Maintenance / réparation",
     administration: "Administration",
+    electronique: "Électronique & informatique",
+    optique_instruments: "Optique & instruments",
+    recherche: "Recherche & innovation",
+    ingenierie: "Ingénierie & essais",
+    numerique: "Numérique & logiciels",
   };
 
   // Secteur angulaire par famille (degrés, 0 = vers le haut). Les secteurs
-  // sont largement espacés : sur l'anneau explicite, chaque nœud doit rester
-  // dégagé de ses voisins et du centre.
+  // sont largement espacés : sur l'anneau des duales, jusqu'à douze nœuds
+  // doivent rester dégagés les uns des autres et des labels.
   var FAMILY_ANGLES = {
-    maintenance: -128,
-    aeronautique_spatial: -62,
-    armement: -8,
-    terrestre: 48,
-    naval: 105,
+    optique_instruments: -135,
+    maintenance: -95,
+    aeronautique_spatial: -66,
+    recherche: -38,
+    armement: -10,
+    terrestre: 38,
+    electronique: 100,
+    naval: 145,
     administration: 180,
   };
 
@@ -81,8 +108,12 @@
 
   var state = {
     versionId: "2025",
+    view: "constellation", // "constellation" | "duales"
     level: "all",
-    rows: [],          // lignes du CSV pour la version courante
+    rows: [],          // lignes validées du CSV
+    pistes: [],        // lignes « dual_a_confirmer », jamais dans la vue validée
+    corr: null,        // Set des codes présents dans la table de correspondance
+    dualSort: "code",  // tri de la liste des duales : code | famille | preuve
     selected: null,    // ligne sélectionnée
     nomenclatures: {}, // versionId → nomenclature naf-core
   };
@@ -149,10 +180,30 @@
     dom.panel.appendChild(el("p", "naf-viz-panel-kicker", "Vous regardez"));
 
     if (!row) {
-      dom.panel.appendChild(el("p", "naf-viz-panel-label", "La constellation Défense"));
+      var duales = state.view === "duales";
+      dom.panel.appendChild(el("p", "naf-viz-panel-label",
+        duales ? "Le pont civil ↔ Défense" : "La constellation Défense"));
       dom.panel.appendChild(el("p", "naf-viz-panel-help",
-        "Chaque nœud est un code NAF dont le lien avec la Défense est documenté. " +
-        "Cliquez un nœud pour lire pourquoi il est là, avec sa source."));
+        duales
+          ? "Chaque activité duale documentée est reliée à la fois aux usages " +
+            "civils et aux usages Défense. Cliquez une activité pour lire " +
+            "pourquoi elle est considérée comme duale, avec ses sources."
+          : "Chaque nœud est un code NAF dont le lien avec la Défense est documenté. " +
+            "Cliquez un nœud pour lire pourquoi il est là, avec sa source."));
+      if (duales) {
+        var dlegend = el("ul", "naf-def-legend");
+        Object.keys(DUALITE_LABELS).forEach(function (key) {
+          if (key === "dual_a_confirmer") return; // jamais dans la vue validée
+          var item = el("li", "naf-def-legend-item");
+          var tag = el("span", "naf-def-dualtag", DUALITE_LABELS[key].tiny);
+          tag.dataset.dualite = key;
+          item.appendChild(tag);
+          item.appendChild(el("span", null, DUALITE_LABELS[key].label));
+          dlegend.appendChild(item);
+        });
+        dom.panel.appendChild(dlegend);
+        return;
+      }
       var legend = el("ul", "naf-def-legend");
       Object.keys(LEVELS).forEach(function (key) {
         var item = el("li", "naf-def-legend-item");
@@ -195,12 +246,32 @@
       dom.panel.appendChild(warn);
     }
 
-    dom.panel.appendChild(el("p", "naf-viz-panel-section", "Pourquoi ce nœud est-il ici ?"));
+    var isDual = row.niveau_defense === "dual_officiel";
+    dom.panel.appendChild(el("p", "naf-viz-panel-section",
+      isDual ? "Pourquoi cette activité est-elle considérée comme duale ?"
+        : "Pourquoi ce nœud est-il ici ?"));
     dom.panel.appendChild(el("p", "naf-def-just", row.justification));
 
     dom.panel.appendChild(el("p", "naf-viz-panel-section", "Nature de la preuve"));
-    dom.panel.appendChild(el("p", "naf-viz-panel-counts",
+    var nature = el("p", "naf-viz-panel-counts");
+    if (isDual && DUALITE_LABELS[row.nature_dualite]) {
+      var tag = el("span", "naf-def-dualtag", DUALITE_LABELS[row.nature_dualite].short);
+      tag.dataset.dualite = row.nature_dualite;
+      nature.appendChild(tag);
+      nature.appendChild(document.createTextNode(" "));
+    }
+    nature.appendChild(document.createTextNode(
       NATURE_LABELS[row.nature_preuve] || row.nature_preuve));
+    dom.panel.appendChild(nature);
+
+    if (row.usages_civils) {
+      dom.panel.appendChild(el("p", "naf-viz-panel-section", "Usages civils documentés"));
+      dom.panel.appendChild(el("p", "naf-viz-panel-counts", row.usages_civils));
+    }
+    if (row.usages_defense) {
+      dom.panel.appendChild(el("p", "naf-viz-panel-section", "Usages Défense documentés"));
+      dom.panel.appendChild(el("p", "naf-viz-panel-counts", row.usages_defense));
+    }
 
     var conf = CONFIDENCE[row.niveau_confiance];
     if (conf) {
@@ -219,7 +290,8 @@
         path.map(function (n) { return n.code; }).join(" › ")));
     }
 
-    dom.panel.appendChild(el("p", "naf-viz-panel-section", "Source"));
+    dom.panel.appendChild(el("p", "naf-viz-panel-section",
+      row.source_secondaire_url ? "Sources" : "Source"));
     var src = el("p", "naf-viz-panel-counts");
     var link = el("a", "naf-link", (row.source_reference || "Fiche Insee") + " ↗");
     link.href = row.source_url;
@@ -227,6 +299,15 @@
     link.rel = "noopener noreferrer";
     src.appendChild(link);
     dom.panel.appendChild(src);
+    if (row.source_secondaire_url) {
+      var src2 = el("p", "naf-viz-panel-counts");
+      var link2 = el("a", "naf-link", (row.source_secondaire_reference || "Source complémentaire") + " ↗");
+      link2.href = row.source_secondaire_url;
+      link2.target = "_blank";
+      link2.rel = "noopener noreferrer";
+      src2.appendChild(link2);
+      dom.panel.appendChild(src2);
+    }
 
     var actions = el("p", "naf-def-actions");
     var explore = el("a", "naf-viz-panel-cta", "Voir dans l'Explorer →");
@@ -235,6 +316,14 @@
     var tree = el("a", "naf-viz-panel-cta naf-def-cta-ghost", "Voir dans l'arbre →");
     tree.href = treeUrl(row);
     actions.appendChild(tree);
+    // Passerelle vers la rubrique 2008 ↔ 2025, seulement quand l'extrait de
+    // table de correspondance couvre réellement ce code.
+    if (state.corr && state.corr.has(row.code)) {
+      var compare = el("a", "naf-viz-panel-cta naf-def-cta-ghost",
+        "Ce qui change entre 2008 et 2025 →");
+      compare.href = "../comparer/index.html?code=" + encodeURIComponent(row.code);
+      actions.appendChild(compare);
+    }
     dom.panel.appendChild(actions);
   }
 
@@ -254,11 +343,9 @@
     hideTooltip();
     state.selected = row;
     renderPanel();
-    if (camera.g) {
-      camera.g.selectAll("[data-sel]")
-        .attr("stroke", function (d) { return d === row ? "#14181d" : "none"; })
-        .attr("stroke-width", function (d) { return d === row ? 2.5 : 0; });
-    }
+    d3.select(dom.chart).selectAll("[data-sel]")
+      .attr("stroke", function (d) { return d === row ? "#14181d" : "none"; })
+      .attr("stroke-width", function (d) { return d === row ? 2.5 : 0; });
   }
 
   function renderChart() {
@@ -305,7 +392,8 @@
 
     /* Annotations Excalifont */
     deco.append("text").attr("class", "naf-def-handsvg")
-      .attr("x", cx + R[1] * 0.55).attr("y", cy + R[1] + 18)
+      .attr("x", cx).attr("y", cy + R[1] * 0.72)
+      .attr("text-anchor", "middle")
       .text("« ici, le lien est explicite »");
     var far1 = deco.append("text").attr("class", "naf-def-handsvg")
       .attr("x", cx - R[3] * 1.05).attr("y", cy + R[3] * 1.02);
@@ -315,9 +403,16 @@
     deco.append("text").attr("class", "naf-def-handsvg naf-def-handsvg-soft")
       .attr("x", cx + R[3] * 0.42).attr("y", cy - R[3] * 0.62)
       .text("anneau en cours de documentation (REFD)");
+    var distNote = deco.append("text")
+      .attr("class", "naf-def-handsvg naf-def-handsvg-soft")
+      .attr("x", cx + R[3] * 0.30).attr("y", cy + R[3] * 0.94);
+    distNote.append("tspan").attr("x", cx + R[3] * 0.30)
+      .text("« la distance indique un niveau de relation,");
+    distNote.append("tspan").attr("x", cx + R[3] * 0.30).attr("dy", 18)
+      .text("pas une mesure économique »");
     if (state.versionId === "2025") {
       deco.append("text").attr("class", "naf-def-handsvg naf-def-handsvg-soft")
-        .attr("x", cx + R[2] * 0.35).attr("y", cy + R[2] * 0.86)
+        .attr("x", cx + R[2] * 0.38).attr("y", cy + R[2] * 0.99)
         .text("la NAF 2025 sépare désormais civil et militaire");
     }
 
@@ -353,7 +448,7 @@
       var group = byFamilyLevel[row.famille + "|" + row.niveau_defense];
       var index = group.indexOf(row);
       var baseAngle = FAMILY_ANGLES[row.famille] != null ? FAMILY_ANGLES[row.famille] : 140;
-      var spread = group.length > 1 ? (index - (group.length - 1) / 2) * 24 : 0;
+      var spread = group.length > 1 ? (index - (group.length - 1) / 2) * 20 : 0;
       var a = ((baseAngle + spread) * Math.PI) / 180;
       var x = cx + ringR * Math.sin(a);
       var y = cy - ringR * Math.cos(a);
@@ -431,6 +526,265 @@
     fitCamera(false);
   }
 
+  /* ── Vue « Activités duales » : le pont civil ↔ Défense ─────────────────
+     Une même activité alimente deux mondes : chaque nœud est relié à la
+     fois au pôle des usages civils et au pôle des usages Défense. La
+     position est catégorielle (zone duale), jamais une mesure : il n'y a
+     pas de « pourcentage de dualité ». Layout déterministe, vertical sur
+     mobile (le pont se lit alors de haut en bas). ─────────────────────── */
+
+  function dualRows() {
+    return rowsForVersion().filter(function (r) {
+      return r.niveau_defense === "dual_officiel";
+    });
+  }
+
+  function renderDualChart() {
+    clear(dom.chart);
+    var w = dom.chart.clientWidth || 320;
+    var horizontal = w >= 700;
+    var rows = dualRows();
+
+    // Regroupement par famille éditoriale, familles triées par libellé.
+    var families = [];
+    var byFamily = {};
+    rows.forEach(function (row) {
+      if (!byFamily[row.famille]) {
+        byFamily[row.famille] = [];
+        families.push(row.famille);
+      }
+      byFamily[row.famille].push(row);
+    });
+    families.sort(function (a, b) {
+      return (FAMILY_LABELS[a] || a).localeCompare(FAMILY_LABELS[b] || b);
+    });
+    families.forEach(function (f) {
+      byFamily[f].sort(function (a, b) { return a.code.localeCompare(b.code); });
+    });
+
+    var rowPitch = 92;
+    var headH = 54;
+    var h = horizontal
+      ? Math.max(420, headH + families.length * rowPitch + 56)
+      : 240 + families.length * (rowPitch + 26) + 128;
+
+    var svg = d3.create("svg")
+      .attr("viewBox", [0, 0, w, h])
+      .attr("width", w).attr("height", h)
+      .attr("role", "img")
+      .attr("aria-label",
+        "Le pont civil-Défense : chaque activité duale documentée est reliée " +
+        "à la fois aux usages civils et aux usages Défense. Le détail de " +
+        "chaque activité est lisible dans le panneau et dans la liste.");
+    var g = svg.append("g");
+
+    // Géométrie des deux pôles et de la bande duale.
+    var pole = {};
+    if (horizontal) {
+      pole.civilX = Math.max(120, w * 0.13);
+      pole.defX = w - pole.civilX;
+      pole.bandLeft = w * 0.30;
+      pole.bandRight = w * 0.70;
+    }
+
+    var deco = g.append("g").attr("pointer-events", "none");
+    var layerLinks = g.append("g");
+    var layerNodes = g.append("g");
+    var layerHits = g.append("g");
+    var layerLabels = g.append("g");
+
+    function wash(x, y, width, height, kind, title, sub) {
+      deco.append("rect")
+        .attr("class", "naf-def-wash naf-def-wash-" + kind)
+        .attr("x", x).attr("y", y)
+        .attr("width", width).attr("height", height)
+        .attr("rx", 14);
+      deco.append("text")
+        .attr("class", "naf-def-poletitle")
+        .attr("x", x + width / 2).attr("y", y + (horizontal ? 30 : 28))
+        .attr("text-anchor", "middle")
+        .text(title);
+      deco.append("text")
+        .attr("class", "naf-def-polesub")
+        .attr("x", x + width / 2).attr("y", y + (horizontal ? 48 : 46))
+        .attr("text-anchor", "middle")
+        .text(sub);
+    }
+
+    var civilAnchor, defAnchor; // fonctions y|x → point d'attache
+    if (horizontal) {
+      var washW = Math.max(150, w * 0.19);
+      wash(8, headH, washW, h - headH - 46, "civil",
+        "USAGES CIVILS", "marchés civils");
+      wash(w - washW - 8, headH, washW, h - headH - 46, "defense",
+        "USAGES DÉFENSE", "programmes militaires");
+      civilAnchor = function (y) { return { x: 8 + washW, y: y }; };
+      defAnchor = function (y) { return { x: w - washW - 8, y: y }; };
+      deco.append("text")
+        .attr("class", "naf-def-ringlabel")
+        .attr("x", w / 2).attr("y", headH - 22)
+        .attr("text-anchor", "middle")
+        .text("ACTIVITÉS DUALES DOCUMENTÉES");
+      deco.append("text").attr("class", "naf-def-handsvg")
+        .attr("x", w / 2).attr("y", headH - 2)
+        .attr("text-anchor", "middle")
+        .text("« même activité, deux débouchés »");
+      deco.append("text").attr("class", "naf-def-handsvg naf-def-handsvg-soft")
+        .attr("x", w - washW - 16).attr("y", h - 14)
+        .attr("text-anchor", "end")
+        .text("« la NAF voit l'activité… pas le client final »");
+    } else {
+      var washH = 78;
+      wash(8, 8, w - 16, washH, "civil", "USAGES CIVILS", "marchés civils");
+      wash(8, h - washH - 40, w - 16, washH, "defense",
+        "USAGES DÉFENSE", "programmes militaires");
+      civilAnchor = function (x) { return { x: x, y: 8 + washH }; };
+      defAnchor = function (x) { return { x: x, y: h - washH - 40 }; };
+      deco.append("text")
+        .attr("class", "naf-def-ringlabel")
+        .attr("x", w / 2).attr("y", 8 + washH + 30)
+        .attr("text-anchor", "middle")
+        .text("ACTIVITÉS DUALES DOCUMENTÉES");
+      deco.append("text").attr("class", "naf-def-handsvg")
+        .attr("x", w / 2).attr("y", 8 + washH + 52)
+        .attr("text-anchor", "middle")
+        .text("« même activité, deux débouchés »");
+      deco.append("text").attr("class", "naf-def-handsvg naf-def-handsvg-soft")
+        .attr("x", w / 2).attr("y", h - 12)
+        .attr("text-anchor", "middle")
+        .text("« la NAF voit l'activité… pas le client final »");
+    }
+
+    function strand(from, to, kind, code) {
+      var mx = (from.x + to.x) / 2;
+      var my = (from.y + to.y) / 2;
+      var d = horizontal
+        ? "M" + from.x + "," + from.y + "C" + mx + "," + from.y + " " +
+          mx + "," + to.y + " " + to.x + "," + to.y
+        : "M" + from.x + "," + from.y + "C" + from.x + "," + my + " " +
+          to.x + "," + my + " " + to.x + "," + to.y;
+      layerLinks.append("path")
+        .attr("class", "naf-def-strand naf-def-strand-" + kind)
+        .attr("data-code", code)
+        .attr("d", d);
+    }
+
+    // Centre verticalement le bloc de familles quand la vue est peu remplie.
+    var familyStartY;
+    if (horizontal) {
+      var used = families.length * rowPitch;
+      familyStartY = headH + Math.max(26, (h - headH - 46 - used) / 2);
+    } else {
+      familyStartY = headH + 96;
+    }
+    families.forEach(function (family, fIndex) {
+      var group = byFamily[family];
+      var rowY, positions = [];
+      if (horizontal) {
+        rowY = familyStartY + fIndex * rowPitch;
+        var span = pole.bandRight - pole.bandLeft;
+        group.forEach(function (row, i) {
+          positions.push({
+            x: pole.bandLeft + (span * (i + 1)) / (group.length + 1),
+            y: rowY + 26,
+          });
+        });
+        deco.append("text")
+          .attr("class", "naf-def-dualfam")
+          .attr("x", pole.bandLeft).attr("y", rowY)
+          .attr("text-anchor", "start")
+          .text(FAMILY_LABELS[family] || family);
+      } else {
+        rowY = familyStartY + fIndex * (rowPitch + 26);
+        group.forEach(function (row, i) {
+          positions.push({
+            x: (w * (i + 1)) / (group.length + 1),
+            y: rowY + 30,
+          });
+        });
+        deco.append("text")
+          .attr("class", "naf-def-dualfam")
+          .attr("x", 16).attr("y", rowY)
+          .attr("text-anchor", "start")
+          .text(FAMILY_LABELS[family] || family);
+      }
+
+      group.forEach(function (row, i) {
+        var p = positions[i];
+        var key = horizontal ? p.y : p.x;
+        strand(civilAnchor(key), p, "civil", row.code);
+        strand(p, defAnchor(key), "defense", row.code);
+
+        var dual = DUALITE_LABELS[row.nature_dualite] || {};
+        var mark = layerNodes.append("circle")
+          .attr("cx", p.x).attr("cy", p.y).attr("r", 11)
+          .attr("fill", LEVELS.dual_officiel.color)
+          .attr("data-code", row.code)
+          .attr("data-sel", "")
+          .datum(row)
+          .attr("stroke", state.selected === row ? "#14181d" : "none")
+          .attr("stroke-width", state.selected === row ? 2.5 : 0);
+
+        var codeLabel = layerLabels.append("text")
+          .attr("class", "naf-def-nodecode")
+          .attr("x", p.x).attr("y", p.y + 26)
+          .attr("text-anchor", "middle")
+          .attr("data-code", row.code)
+          .datum(row)
+          .text(row.code);
+        layerLabels.append("text")
+          .attr("class", "naf-def-dualproof")
+          .attr("x", p.x).attr("y", p.y + 40)
+          .attr("text-anchor", "middle")
+          .attr("pointer-events", "none")
+          .text(dual.tiny || "");
+
+        var hit = layerHits.append("circle")
+          .attr("cx", p.x).attr("cy", p.y).attr("r", 30)
+          .attr("fill", "transparent")
+          .attr("data-code", row.code)
+          .datum(row);
+
+        [mark, codeLabel, hit].forEach(function (target) {
+          target.style("cursor", "pointer")
+            .on("click", function (event, r) { selectRow(r); highlightStrands(r.code); });
+          if (HOVER_FINE.matches) {
+            target.on("mousemove", function (event, r) {
+              highlightStrands(r.code);
+              moved(event, r);
+            }).on("mouseleave", function () {
+              highlightStrands(state.selected ? state.selected.code : null);
+              hideTooltip();
+            });
+          }
+        });
+      });
+    });
+
+    function highlightStrands(code) {
+      g.selectAll(".naf-def-strand").classed("is-hot", function () {
+        return code !== null &&
+          d3.select(this).attr("data-code") === code;
+      });
+    }
+
+    dom.chart.appendChild(svg.node());
+    camera.svg = null; camera.g = null; // pas de caméra : la vue tient en page
+    if (state.selected) highlightStrands(state.selected.code);
+  }
+
+  function renderActiveChart() {
+    if (state.view === "duales") renderDualChart();
+    else renderChart();
+    applyViewChrome();
+  }
+
+  function applyViewChrome() {
+    var duales = state.view === "duales";
+    if (dom.zoomCtrl) dom.zoomCtrl.hidden = duales;
+    if (dom.filtersGroup) dom.filtersGroup.hidden = duales;
+  }
+
   /* ── Caméra (pan/zoom, mêmes conventions que la vue Arbre) ──────────── */
 
   function installCamera() {
@@ -450,6 +804,7 @@
   }
 
   function fitCamera(animate) {
+    if (!camera.g) return;
     var bbox = camera.g.node().getBBox();
     if (!bbox.width) return;
     var pad = camera.w < 700 ? 24 : 40;
@@ -495,13 +850,155 @@
     });
   }
 
+  /* ── Liste des activités duales documentées ─────────────────────────── */
+
+  var DUAL_SORTS = {
+    code: function (a, b) { return a.code.localeCompare(b.code); },
+    famille: function (a, b) {
+      var fa = FAMILY_LABELS[a.famille] || a.famille;
+      var fb = FAMILY_LABELS[b.famille] || b.famille;
+      return fa === fb ? a.code.localeCompare(b.code) : fa.localeCompare(fb);
+    },
+    preuve: function (a, b) {
+      var order = { dual_naf_explicite: 0, dual_source_defense: 1, dual_refd_observe: 2 };
+      var na = order[a.nature_dualite] != null ? order[a.nature_dualite] : 9;
+      var nb = order[b.nature_dualite] != null ? order[b.nature_dualite] : 9;
+      return na === nb ? a.code.localeCompare(b.code) : na - nb;
+    },
+  };
+
+  function renderDualCounts() {
+    if (!dom.dualCounts) return;
+    var rows = dualRows();
+    var byNature = {};
+    rows.forEach(function (r) {
+      byNature[r.nature_dualite] = (byNature[r.nature_dualite] || 0) + 1;
+    });
+    var parts = [];
+    if (byNature.dual_naf_explicite) {
+      parts.push(byNature.dual_naf_explicite + " avec dualité explicite dans la nomenclature Insee");
+    }
+    if (byNature.dual_source_defense) {
+      parts.push(byNature.dual_source_defense + " documentée" +
+        (byNature.dual_source_defense > 1 ? "s" : "") + " par une source ministérielle");
+    }
+    if (byNature.dual_refd_observe) {
+      parts.push(byNature.dual_refd_observe + " observées via l'enquête SSM/REFD avec preuve complémentaire");
+    }
+    dom.dualCounts.textContent = rows.length + " activités duales documentées en " +
+      NAF.VERSIONS[state.versionId].shortLabel + " — " + parts.join(", ") + ".";
+  }
+
+  function renderDualList() {
+    if (!dom.dualList) return;
+    clear(dom.dualList);
+    var rows = dualRows().slice().sort(DUAL_SORTS[state.dualSort] || DUAL_SORTS.code);
+
+    rows.forEach(function (row) {
+      var flat = nodeFor(row);
+      var dual = DUALITE_LABELS[row.nature_dualite] || {};
+      var conf = CONFIDENCE[row.niveau_confiance];
+      var item = el("li", "naf-def-dualitem");
+
+      var head = el("button", "naf-def-dualhead");
+      head.type = "button";
+      head.setAttribute("aria-expanded",
+        state.selected === row ? "true" : "false");
+      head.appendChild(el("span", "naf-mono naf-def-dualcode", row.code));
+      var body = el("span", "naf-def-dualbody");
+      body.appendChild(el("span", "naf-def-duallbl", flat ? flat.label : ""));
+      var meta = el("span", "naf-def-dualmeta");
+      meta.appendChild(el("span", "naf-def-dualfamtag",
+        FAMILY_LABELS[row.famille] || row.famille));
+      var proof = el("span", "naf-def-dualtag", dual.short || "");
+      proof.dataset.dualite = row.nature_dualite;
+      meta.appendChild(proof);
+      if (conf) meta.appendChild(el("span", "naf-def-confdots", conf.dots + " " + conf.label));
+      body.appendChild(meta);
+      head.appendChild(body);
+      head.addEventListener("click", function () {
+        selectRow(state.selected === row ? null : row);
+        renderDualList();
+      });
+      item.appendChild(head);
+
+      if (state.selected === row) {
+        var detail = el("div", "naf-def-dualdetail");
+        detail.appendChild(el("p", "naf-def-dualwhy-title",
+          "Pourquoi cette activité est-elle considérée comme duale ?"));
+        detail.appendChild(el("p", null, row.justification));
+        if (row.usages_civils) {
+          var uc = el("p", null);
+          uc.appendChild(el("strong", null, "Usages civils documentés. "));
+          uc.appendChild(document.createTextNode(row.usages_civils));
+          detail.appendChild(uc);
+        }
+        if (row.usages_defense) {
+          var ud = el("p", null);
+          ud.appendChild(el("strong", null, "Usages Défense documentés. "));
+          ud.appendChild(document.createTextNode(row.usages_defense));
+          detail.appendChild(ud);
+        }
+        var srcs = el("p", "naf-def-dualsrc");
+        srcs.appendChild(document.createTextNode("Sources : "));
+        var a1 = el("a", "naf-link", row.source_reference || "Fiche Insee");
+        a1.href = row.source_url; a1.target = "_blank"; a1.rel = "noopener noreferrer";
+        srcs.appendChild(a1);
+        if (row.source_secondaire_url) {
+          srcs.appendChild(document.createTextNode(" · "));
+          var a2 = el("a", "naf-link", row.source_secondaire_reference || "Source complémentaire");
+          a2.href = row.source_secondaire_url; a2.target = "_blank"; a2.rel = "noopener noreferrer";
+          srcs.appendChild(a2);
+        }
+        detail.appendChild(srcs);
+        if (row.commentaire) {
+          detail.appendChild(el("p", "naf-def-dualnote", row.commentaire));
+        }
+        item.appendChild(detail);
+      }
+      dom.dualList.appendChild(item);
+    });
+  }
+
+  /* ── Pistes non validées, repliées et hors compteurs ────────────────── */
+
+  function renderPistes() {
+    if (!dom.pistes) return;
+    clear(dom.pistes);
+    var rows = state.pistes.filter(function (r) {
+      return r.naf_version === VERSION_CSV[state.versionId];
+    });
+    if (!rows.length) {
+      dom.pistes.appendChild(el("p", null,
+        "Aucune piste en cours pour cette version de la nomenclature."));
+      return;
+    }
+    dom.pistes.appendChild(el("p", null,
+      "Ces activités semblent susceptibles d'être duales, mais la preuve " +
+      "publique réunie à ce stade est insuffisante : elles ne sont ni " +
+      "affichées dans la visualisation, ni comptées comme duales."));
+    var ul = el("ul", "naf-def-pistelist");
+    rows.forEach(function (row) {
+      var flat = nodeFor(row);
+      var li = el("li", null);
+      li.appendChild(el("span", "naf-mono", row.code + " "));
+      li.appendChild(el("span", null,
+        (flat ? flat.label : "") + " — " + row.justification));
+      ul.appendChild(li);
+    });
+    dom.pistes.appendChild(ul);
+  }
+
   /* ── État ───────────────────────────────────────────────────────────── */
 
   function refresh() {
     renderCounts();
-    renderChart();
+    renderActiveChart();
     renderPanel();
     renderList();
+    renderDualCounts();
+    renderDualList();
+    renderPistes();
   }
 
   Array.prototype.forEach.call(dom.versions, function (button) {
@@ -518,6 +1015,20 @@
     });
   });
 
+  Array.prototype.forEach.call(dom.views, function (button) {
+    button.addEventListener("click", function () {
+      if (button.dataset.view === state.view) return;
+      state.view = button.dataset.view;
+      Array.prototype.forEach.call(dom.views, function (b) {
+        var current = b === button;
+        b.classList.toggle("is-current", current);
+        b.setAttribute("aria-checked", current ? "true" : "false");
+      });
+      renderActiveChart();
+      renderPanel();
+    });
+  });
+
   Array.prototype.forEach.call(dom.filters, function (button) {
     button.addEventListener("click", function () {
       state.level = button.dataset.level;
@@ -526,32 +1037,60 @@
         b.classList.toggle("is-current", current);
         b.setAttribute("aria-checked", current ? "true" : "false");
       });
-      renderChart();
+      renderActiveChart();
     });
   });
 
+  if (dom.dualSort) dom.dualSort.addEventListener("change", function () {
+    state.dualSort = dom.dualSort.value;
+    renderDualList();
+  });
+
   if (dom.zoomIn) dom.zoomIn.addEventListener("click", function () {
-    camera.svg.transition().duration(200).call(camera.zoom.scaleBy, 1.4);
+    if (camera.svg) camera.svg.transition().duration(200).call(camera.zoom.scaleBy, 1.4);
   });
   if (dom.zoomOut) dom.zoomOut.addEventListener("click", function () {
-    camera.svg.transition().duration(200).call(camera.zoom.scaleBy, 1 / 1.4);
+    if (camera.svg) camera.svg.transition().duration(200).call(camera.zoom.scaleBy, 1 / 1.4);
   });
   if (dom.zoomFit) dom.zoomFit.addEventListener("click", function () { fitCamera(true); });
 
   window.addEventListener("resize", NAF.debounce(function () {
-    if (state.rows.length) renderChart();
+    if (state.rows.length) renderActiveChart();
   }, 200));
 
   /* ── Chargement ─────────────────────────────────────────────────────── */
+
+  function applyUrl() {
+    var params = new URLSearchParams(window.location.search);
+    if (params.get("view") === "duales") {
+      state.view = "duales";
+      Array.prototype.forEach.call(dom.views, function (b) {
+        var current = b.dataset.view === "duales";
+        b.classList.toggle("is-current", current);
+        b.setAttribute("aria-checked", current ? "true" : "false");
+      });
+    }
+  }
 
   Promise.all([
     NAF.loadDefense(),
     NAF.loadNomenclature("2025"),
     NAF.loadNomenclature("2008"),
+    NAF.loadCorrespondances(),
   ]).then(function (results) {
-    state.rows = results[0].filter(function (r) { return r.code && r.niveau_defense; });
+    var all = results[0].filter(function (r) { return r.code && r.niveau_defense; });
+    // Les pistes « à confirmer » ne rejoignent jamais la couche validée :
+    // elles vivent uniquement dans le bloc replié qui leur est dédié.
+    state.rows = all.filter(function (r) { return r.niveau_defense !== "piste_dualite"; });
+    state.pistes = all.filter(function (r) { return r.niveau_defense === "piste_dualite"; });
     state.nomenclatures["2025"] = results[1];
     state.nomenclatures["2008"] = results[2];
+    state.corr = new Set();
+    results[3].forEach(function (p) {
+      state.corr.add(p.code_2008);
+      state.corr.add(p.code_2025);
+    });
+    applyUrl();
     refresh();
   }).catch(function (error) {
     dom.counts.textContent = "";
