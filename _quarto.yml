@@ -5,6 +5,9 @@ project:
   # détecter dans le HTML, il faut donc les déclarer explicitement en ressources.
   resources:
     - data/*.csv
+    # Référentiels des études (manifeste de provenance, contexte daté,
+    # passerelle produits) : publiés pour la traçabilité.
+    - data/etudes/*.csv
     # La police d'annotation est référencée depuis fonts.css : Quarto ne suit
     # pas les url() des feuilles de style, il faut la déclarer explicitement.
     - assets/fonts/*.woff2

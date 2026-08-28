@@ -1,0 +1,12 @@
+produit,code,famille,justification,source,niveau_confiance
+Armes de guerre et armes automatiques,9301,armement,"Position SH 93.01 « armes de guerre, autres que revolvers, pistolets et armes blanches » : périmètre militaire par définition de la nomenclature.",Système harmonisé (OMD) — chapitre 93,élevé
+"Bombes, grenades, torpilles, missiles et munitions",9306,armement,"Position SH 93.06 « bombes, grenades, torpilles, mines, missiles, cartouches et autres munitions » : périmètre militaire ou dual armement.",Système harmonisé (OMD) — chapitre 93,élevé
+Chars et véhicules blindés de combat,8710,terrestre,"Position SH 87.10 « chars et automobiles blindées de combat, armés ou non » : exclusivement militaire.",Système harmonisé (OMD) — chapitre 87,élevé
+Navires de guerre,890610,naval,Sous-position SH 8906.10 « navires de guerre » : exclusivement militaire.,Système harmonisé (OMD) — chapitre 89,élevé
+Aéronefs sans pilote (drones),8806,aéronautique,"Position SH 88.06 (créée par le SH 2022) « aéronefs sans pilote » : couvre usages civils et militaires, à lire comme famille duale.",Système harmonisé (OMD) 2022 — chapitre 88,élevé
+"Avions et autres véhicules aériens, véhicules spatiaux",8802,aéronautique,"Position SH 88.02 : couvre aviation civile et militaire sans distinction : famille duale, à croiser avec d'autres signaux.",Système harmonisé (OMD) — chapitre 88,moyen
+"Turboréacteurs, turbopropulseurs et turbines à gaz",8411,propulsion,"Position SH 84.11 : propulsion aéronautique et navale, civile et militaire : famille duale.",Système harmonisé (OMD) — chapitre 84,moyen
+"Appareils de radiodétection (radar), radionavigation et radiotélécommande",8526,électronique,"Position SH 85.26 : radars et radionavigation, usages civils et militaires : famille duale.",Système harmonisé (OMD) — chapitre 85,moyen
+Circuits intégrés électroniques,8542,composants,"Position SH 85.42 : composant critique transverse (souveraineté numérique et systèmes d'armes) : famille duale très large, interpréter avec prudence.",Système harmonisé (OMD) — chapitre 85,moyen
+"Lasers et instruments d'optique, non repris ailleurs",9013,optronique,"Position SH 90.13 (dont lasers) : optronique civile et militaire : famille duale.",Système harmonisé (OMD) — chapitre 90,moyen
+Poudres propulsives et explosifs préparés,3602,énergétique,"Positions SH 36.01-36.02 (poudres, explosifs préparés) : usages civils (mines, carrières) et militaires : dual, lire avec 9306.",Système harmonisé (OMD) — chapitre 36,moyen

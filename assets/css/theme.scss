@@ -3723,3 +3723,627 @@ body {
   font-size: 0.9rem;
   line-height: 1.5;
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   Comprendre — mini-cours NAF, sources et carnet d'études
+═══════════════════════════════════════════════════════════════════ */
+
+.naf-comp {
+  // Même sortie de colonne que .naf-viz : la page utilise la largeur de la
+  // fenêtre au lieu de rester dans la colonne Quarto (1135 px).
+  @media (min-width: 992px) {
+    --naf-comp-w: min(1380px, 100vw - 6rem);
+    width: var(--naf-comp-w);
+    margin-left: calc((100% - var(--naf-comp-w)) / 2);
+  }
+}
+
+/* ── Navigation interne collante ─────────────────────────────────── */
+
+.naf-comp-nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  gap: 0.35rem;
+  padding: 0.55rem 0.15rem;
+  margin: 0 -0.15rem 1.4rem;
+  background: var(--naf-paper);
+  border-bottom: 1px solid var(--naf-line);
+  overflow-x: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar { display: none; }
+}
+
+.naf-comp-nav-link {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 40px;
+  padding: 0 0.9rem;
+  border: 1px solid var(--naf-line);
+  border-radius: 999px;
+  background: var(--naf-surface);
+  color: var(--naf-slate-mid);
+  font-size: 0.88rem;
+  font-weight: 550;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: border-color 0.15s ease, color 0.15s ease,
+              background 0.15s ease;
+
+  &:hover { color: var(--naf-ink); border-color: var(--naf-steel); }
+
+  &[aria-current="true"] {
+    color: var(--naf-ink);
+    border-color: var(--naf-bronze);
+    background: #f7f4ee;
+  }
+}
+
+.naf-comp-nav-num {
+  font-family: var(--naf-mono);
+  font-size: 0.74rem;
+  color: var(--naf-bronze);
+}
+
+/* ── Sections ────────────────────────────────────────────────────── */
+
+.naf-comp-section {
+  margin: 0 0 2.6rem;
+  scroll-margin-top: 4.2rem; /* la nav collante ne masque pas les ancres */
+}
+
+.naf-comp-h2 {
+  margin: 0 0 0.3rem;
+  font-size: clamp(1.45rem, 3.4vw, 1.9rem);
+}
+
+.naf-comp-kicker {
+  margin: 0 0 0.2rem;
+  font-family: var(--naf-mono);
+  font-size: 0.76rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--naf-bronze);
+}
+
+.naf-comp-lede {
+  max-width: 46rem;
+  margin: 0 0 1.2rem;
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: var(--naf-slate-mid);
+}
+
+.naf-comp-h3 {
+  margin: 1.6rem 0 0.5rem;
+  font-size: 1.08rem;
+  font-weight: 650;
+  color: var(--naf-ink);
+}
+
+.naf-comp p { max-width: 46rem; }
+
+.naf-comp-hand {
+  margin: 0.4rem 0 1rem;
+}
+
+/* ── Grilles ─────────────────────────────────────────────────────── */
+
+.naf-comp-grid2 {
+  display: grid;
+  gap: 1.1rem;
+  margin: 1rem 0 1.4rem;
+}
+
+@media (min-width: 861px) {
+  .naf-comp-grid2 { grid-template-columns: 1fr 1fr; align-items: start; }
+  .naf-comp-grid2 > * { min-width: 0; }
+}
+
+/* ── Schéma : flux vertical (activité → NAF → statistiques…) ─────── */
+
+.naf-comp-flow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  margin: 1.1rem auto 1.3rem;
+  padding: 1.2rem 1rem;
+  max-width: 30rem;
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-line);
+  border-radius: var(--naf-radius);
+}
+
+.naf-comp-flow-step {
+  width: 100%;
+  padding: 0.55rem 0.9rem;
+  text-align: center;
+  border: 1px solid var(--naf-line);
+  border-radius: var(--naf-radius);
+  background: var(--naf-paper);
+
+  strong { display: block; font-size: 0.98rem; }
+}
+
+.naf-comp-flow-step-accent {
+  border-color: var(--naf-slate-mid);
+  background: #eef2f7;
+}
+
+.naf-comp-flow-note {
+  font-size: 0.82rem;
+  color: var(--naf-steel);
+}
+
+.naf-comp-flow-arrow {
+  color: var(--naf-bronze);
+  font-size: 1.05rem;
+  line-height: 1.4;
+}
+
+.naf-comp-flow-arrowlbl {
+  font-size: 0.78rem;
+  color: var(--naf-steel);
+  font-style: italic;
+}
+
+/* ── Schéma : les cinq niveaux (échelle) ─────────────────────────── */
+
+.naf-comp-ladder {
+  margin: 1.1rem 0 0.6rem;
+  padding: 0.4rem 0 0.4rem 0.35rem;
+}
+
+.naf-comp-rung {
+  position: relative;
+  display: grid;
+  grid-template-columns: 6.4rem minmax(0, 1fr);
+  gap: 0.15rem 0.9rem;
+  padding: 0.5rem 0 0.5rem 1.15rem;
+  border-left: 2px solid var(--naf-line);
+
+  &:last-child { border-left-color: var(--naf-bronze); }
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: -5px;
+    top: 1rem;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--naf-slate-mid);
+  }
+
+  &:last-child::before { background: var(--naf-bronze); }
+}
+
+.naf-comp-rung-level {
+  grid-column: 1;
+  font-size: 0.7rem;
+  font-weight: 650;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--naf-steel);
+}
+
+.naf-comp-rung-code {
+  grid-column: 1;
+  font-family: var(--naf-mono);
+  font-size: 1.05rem;
+  font-weight: 650;
+  color: var(--naf-ink);
+}
+
+.naf-comp-rung-main { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
+
+.naf-comp-rung-label {
+  display: block;
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+
+/* ── Schéma : arbre SIREN / SIRET ────────────────────────────────── */
+
+.naf-comp-tree {
+  margin: 1.1rem 0 0.9rem;
+  padding: 1.1rem 1.1rem 1.1rem 1.3rem;
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-line);
+  border-radius: var(--naf-radius);
+  overflow-x: auto;
+}
+
+.naf-comp-tree ul {
+  margin: 0;
+  padding-left: 1.15rem;
+  list-style: none;
+  border-left: 1px solid var(--naf-line);
+}
+
+.naf-comp-tree > ul { border-left: 0; padding-left: 0; }
+
+.naf-comp-tree li {
+  position: relative;
+  padding: 0.28rem 0 0.28rem 0.35rem;
+  font-size: 0.93rem;
+}
+
+.naf-comp-tree-root {
+  font-weight: 650;
+  font-size: 0.98rem;
+}
+
+.naf-comp-tag {
+  display: inline-block;
+  margin-left: 0.45rem;
+  padding: 0.05rem 0.5rem;
+  font-family: var(--naf-mono);
+  font-size: 0.72rem;
+  color: var(--naf-slate-mid);
+  background: var(--naf-line-soft);
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.naf-comp-tag-siren { color: #2a669f; background: #e9f0f7; }
+.naf-comp-tag-siret { color: var(--naf-sage); background: #eaf0ee; }
+
+/* ── Panneaux « dit / ne dit pas » et comparaisons ───────────────── */
+
+.naf-comp-vs {
+  display: grid;
+  gap: 1rem;
+  margin: 1.1rem 0 1.2rem;
+}
+
+@media (min-width: 861px) {
+  .naf-comp-vs { grid-template-columns: 1fr 1fr; }
+}
+
+.naf-comp-vs-panel {
+  padding: 1rem 1.15rem 1.05rem;
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-line);
+  border-top: 3px solid var(--naf-slate-mid);
+  border-radius: var(--naf-radius);
+  min-width: 0;
+
+  ul { margin: 0.4rem 0 0; padding-left: 1.1rem; }
+  li { margin: 0.18rem 0; font-size: 0.93rem; }
+  p { margin: 0.35rem 0 0; font-size: 0.93rem; }
+}
+
+.naf-comp-vs-panel-neg { border-top-color: var(--naf-bronze); }
+
+.naf-comp-vs-title {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 650;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--naf-steel);
+}
+
+.naf-comp-vs-strong {
+  margin: 0.25rem 0 0;
+  font-size: 1.02rem;
+  font-weight: 650;
+  color: var(--naf-ink);
+}
+
+/* ── Frise fraîcheur ↔ consolidation ─────────────────────────────── */
+
+.naf-comp-frise {
+  margin: 1.2rem 0 1.3rem;
+  padding: 1.1rem 1.15rem 1.2rem;
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-line);
+  border-radius: var(--naf-radius);
+}
+
+.naf-comp-frise-axis {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--naf-steel);
+  padding-bottom: 0.45rem;
+  margin-bottom: 0.7rem;
+  border-bottom: 2px solid;
+  border-image: linear-gradient(90deg, var(--naf-bronze), var(--naf-slate-mid)) 1;
+}
+
+.naf-comp-frise-rows { display: grid; gap: 0.4rem; }
+
+.naf-comp-frise-row {
+  display: grid;
+  grid-template-columns: minmax(8.5rem, 14rem) minmax(0, 1fr);
+  gap: 0.7rem;
+  align-items: baseline;
+  font-size: 0.9rem;
+}
+
+.naf-comp-frise-src { font-weight: 600; color: var(--naf-ink); }
+.naf-comp-frise-freq { color: var(--naf-steel); font-size: 0.85rem; }
+
+/* ── Matrice question → source ───────────────────────────────────── */
+
+.naf-comp-matrix { margin: 1rem 0 1.2rem; }
+
+.naf-comp-matrix .naf-sheet-summary { text-transform: none; letter-spacing: 0; }
+
+.naf-comp-matrix-q {
+  flex: 1 1 auto;
+  font-size: 0.95rem;
+  font-weight: 550;
+  color: var(--naf-ink);
+}
+
+.naf-comp-matrix-src {
+  flex: 0 0 auto;
+  margin-left: 0.8rem;
+  font-family: var(--naf-mono);
+  font-size: 0.78rem;
+  color: var(--naf-slate-mid);
+  background: var(--naf-line-soft);
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+  white-space: nowrap;
+}
+
+/* ── Statuts d'étude ─────────────────────────────────────────────── */
+
+.naf-statut {
+  display: inline-block;
+  padding: 0.14rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.naf-statut-mesure {
+  color: #fff;
+  background: var(--naf-sage);
+}
+
+.naf-statut-protocole {
+  color: var(--naf-slate-mid);
+  background: #eef2f7;
+  border: 1px solid var(--naf-slate-mid);
+}
+
+.naf-statut-piste {
+  color: var(--naf-steel);
+  background: transparent;
+  border: 1px dashed var(--naf-steel);
+}
+
+.naf-comp-statuts {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0.9rem 0 1.3rem;
+  font-size: 0.9rem;
+
+  > div { display: flex; align-items: baseline; gap: 0.6rem; }
+}
+
+/* ── Carnet d'études ─────────────────────────────────────────────── */
+
+.naf-carnet { margin: 1.2rem 0 1rem; }
+
+.naf-carnet-item {
+  border-top: 1px solid var(--naf-line);
+
+  &:last-child { border-bottom: 1px solid var(--naf-line); }
+
+  > summary {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    min-height: var(--naf-tap);
+    padding: 0.85rem 0.25rem;
+    cursor: pointer;
+    list-style: none;
+
+    &::-webkit-details-marker { display: none; }
+    &:hover .naf-carnet-title { color: var(--naf-bronze); }
+
+    &::after {
+      content: "+";
+      margin-left: auto;
+      font-size: 1.25rem;
+      color: var(--naf-steel-sub);
+    }
+  }
+
+  &[open] > summary::after { content: "–"; }
+}
+
+.naf-carnet-num {
+  flex: 0 0 auto;
+  font-family: var(--naf-mono);
+  font-size: 1.7rem;
+  font-weight: 650;
+  line-height: 1;
+  color: var(--naf-steel-sub);
+}
+
+.naf-carnet-head { flex: 1 1 auto; min-width: 0; }
+
+.naf-carnet-title {
+  display: block;
+  font-size: 1.02rem;
+  font-weight: 650;
+  color: var(--naf-ink);
+  transition: color 0.15s ease;
+}
+
+.naf-carnet-q {
+  display: block;
+  margin-top: 0.1rem;
+  font-size: 0.88rem;
+  color: var(--naf-steel);
+}
+
+.naf-carnet-body {
+  padding: 0.2rem 0.25rem 1.3rem;
+}
+
+@media (min-width: 861px) {
+  .naf-carnet-body { padding-left: 3.4rem; }
+}
+
+.naf-carnet-fiche {
+  display: grid;
+  gap: 0;
+  margin: 0.4rem 0 0.8rem;
+
+  dt {
+    margin-top: 0.75rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--naf-bronze);
+  }
+
+  dd {
+    margin: 0.15rem 0 0;
+    font-size: 0.94rem;
+    line-height: 1.55;
+    max-width: 46rem;
+
+    ul { margin: 0.2rem 0 0; padding-left: 1.1rem; }
+    li { margin: 0.12rem 0; }
+  }
+}
+
+.naf-carnet-scripts {
+  font-family: var(--naf-mono);
+  font-size: 0.84rem;
+  color: var(--naf-slate-mid);
+  overflow-wrap: anywhere;
+}
+
+/* ── Erreurs à éviter ────────────────────────────────────────────── */
+
+.naf-comp-erreurs {
+  display: grid;
+  gap: 1rem;
+  margin: 1.1rem 0 0.7rem;
+}
+
+@media (min-width: 861px) {
+  .naf-comp-erreurs { grid-template-columns: repeat(3, 1fr); }
+}
+
+.naf-comp-erreur {
+  padding: 0.95rem 1.05rem 1rem;
+  border: 1px solid var(--naf-line);
+  border-left: 3px solid var(--naf-bronze);
+  border-radius: var(--naf-radius);
+  background: var(--naf-surface);
+  min-width: 0;
+
+  p { margin: 0; font-size: 0.92rem; line-height: 1.5; }
+}
+
+.naf-comp-erreur-num {
+  display: block;
+  font-family: var(--naf-mono);
+  font-size: 0.76rem;
+  color: var(--naf-bronze);
+  margin-bottom: 0.3rem;
+}
+
+/* ── Contexte stratégique daté ───────────────────────────────────── */
+
+.naf-comp-jalons {
+  display: grid;
+  gap: 0.85rem;
+  margin: 1rem 0 0.8rem;
+}
+
+@media (min-width: 861px) {
+  .naf-comp-jalons { grid-template-columns: 1fr 1fr; }
+}
+
+.naf-comp-jalon {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.2rem 0.9rem;
+  padding: 0.85rem 1rem;
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-line);
+  border-radius: var(--naf-radius);
+
+  p { margin: 0; font-size: 0.9rem; line-height: 1.5; grid-column: 2; }
+}
+
+.naf-comp-jalon-date {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  font-family: var(--naf-mono);
+  font-size: 0.82rem;
+  font-weight: 650;
+  color: var(--naf-bronze);
+  align-self: start;
+  padding-top: 0.1rem;
+  white-space: nowrap;
+}
+
+.naf-comp-jalon-titre {
+  grid-column: 2;
+  font-weight: 650;
+  font-size: 0.96rem;
+
+  a { color: inherit; text-decoration: none; }
+  a:hover { color: var(--naf-bronze); }
+}
+
+.naf-comp-verifdate {
+  font-size: 0.82rem;
+  color: var(--naf-steel);
+  font-style: italic;
+}
+
+/* ── Divers ──────────────────────────────────────────────────────── */
+
+.naf-comp-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1rem 0 0.4rem;
+}
+
+.naf-comp .naf-sheet-section .naf-sheet-body pre {
+  overflow-x: auto;
+  border: 1px solid var(--naf-line);
+  border-radius: var(--naf-radius);
+}
+
+.naf-comp-quiz {
+  margin: 0.4rem 0 0.3rem;
+
+  dt { font-weight: 600; margin-top: 0.7rem; font-size: 0.95rem; }
+  dd { margin: 0.15rem 0 0; color: var(--naf-slate-mid); font-size: 0.92rem; }
+}
+
+@media (max-width: 860px) {
+  .naf-comp-frise-row { grid-template-columns: 1fr; gap: 0.05rem; }
+  .naf-comp-jalon { grid-template-columns: 1fr; }
+  .naf-comp-jalon-date { grid-row: auto; }
+  .naf-comp-jalon p,
+  .naf-comp-jalon-titre { grid-column: 1; }
+}
