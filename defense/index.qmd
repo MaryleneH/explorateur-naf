@@ -37,7 +37,7 @@ include-after-body: "../includes/defense-scripts.html"
         <code>30.32Y</code> Construction aéronautique et spatiale militaire.</span>
       </li>
       <li class="naf-did-step">
-        <span class="naf-did-dot" data-level="dual_officiel" aria-hidden="true"></span>
+        <span class="naf-did-dot" data-level="dualite_demontree" aria-hidden="true"></span>
         <span class="naf-did-step-head">2 · Plus loin</span>
         <span class="naf-did-step-text">Certaines activités couvrent à la fois
         des usages civils et militaires. En NAF 2008, une même sous-classe
@@ -45,7 +45,7 @@ include-after-body: "../includes/defense-scripts.html"
         Chaque qualification « duale » est justifiée et sourcée.</span>
       </li>
       <li class="naf-did-step">
-        <span class="naf-did-dot" data-level="ecosysteme_observe" aria-hidden="true"></span>
+        <span class="naf-did-dot" data-level="relation_intermediaire" aria-hidden="true"></span>
         <span class="naf-did-step-head">3 · Encore plus loin</span>
         <span class="naf-did-step-text">Des activités sans aucune mention de la
         Défense dans la NAF — mécanique, électronique, logiciel, ingénierie —
@@ -70,6 +70,8 @@ include-after-body: "../includes/defense-scripts.html"
               data-view="constellation">Écosystème Défense</button>
       <button type="button" class="naf-version" role="radio" aria-checked="false"
               data-view="duales">Activités duales</button>
+      <button type="button" class="naf-version" role="radio" aria-checked="false"
+              data-view="pourquoi">Pourquoi ce code&nbsp;?</button>
     </div>
     <div class="naf-versions naf-def-versions" role="radiogroup" aria-label="Version de la nomenclature">
       <button type="button" class="naf-version is-current" role="radio" aria-checked="true"
@@ -77,10 +79,11 @@ include-after-body: "../includes/defense-scripts.html"
       <button type="button" class="naf-version" role="radio" aria-checked="false"
               data-version="2008">NAF 2008</button>
     </div>
-    <div class="naf-versions naf-def-filters" role="radiogroup" aria-label="Filtrer par niveau de proximité">
+    <div class="naf-versions naf-def-filters" role="radiogroup" aria-label="Filtrer par niveau de preuve">
       <button type="button" class="naf-version is-current" role="radio" aria-checked="true" data-level="all">Tout</button>
       <button type="button" class="naf-version" role="radio" aria-checked="false" data-level="explicite_industriel">Défense explicite</button>
-      <button type="button" class="naf-version" role="radio" aria-checked="false" data-level="dual_officiel">Activités duales</button>
+      <button type="button" class="naf-version" role="radio" aria-checked="false" data-level="dualite_demontree">Dualité démontrée</button>
+      <button type="button" class="naf-version" role="radio" aria-checked="false" data-level="relation_intermediaire">Dual-use / écosystème</button>
       <button type="button" class="naf-version" role="radio" aria-checked="false" data-level="administration_defense">Administration</button>
     </div>
   </div>
@@ -143,10 +146,48 @@ include-after-body: "../includes/defense-scripts.html"
     </p>
   </section>
 
-  <!-- Liste des activités duales documentées -->
+  <!-- Encadré : les trois natures de preuve -->
+  <section class="naf-did naf-def-proofs" aria-labelledby="naf-def-proofs-title">
+    <p class="naf-did-title" id="naf-def-proofs-title" role="heading" aria-level="2">
+      Toutes les relations ne reposent pas sur la même preuve
+    </p>
+    <ol class="naf-did-steps">
+      <li class="naf-did-step">
+        <span class="naf-did-step-head">A · Dualité visible dans la NAF</span>
+        <span class="naf-did-step-text">La même sous-classe couvre
+        explicitement des usages civils et militaires, dans sa fiche, ses
+        notes ou sa nomenclature de produits. Ex.&nbsp;: <code>26.70Y</code>
+        (jumelles… et matériel de visée équipant les fusils). C'est la
+        preuve la plus forte.</span>
+      </li>
+      <li class="naf-did-step">
+        <span class="naf-did-step-head">B · Technologie ou bien à double usage</span>
+        <span class="naf-did-step-text">Certains produits relevant d'une
+        activité sont classés « biens à double usage » (règlement (UE)
+        2021/821). <strong>Cela ne signifie pas que toute la sous-classe NAF
+        est duale.</strong></span>
+      </li>
+      <li class="naf-did-step">
+        <span class="naf-did-step-head">C · Activité observée dans l'écosystème Défense</span>
+        <span class="naf-did-step-text">Des entreprises de l'activité sont
+        observées parmi les fournisseurs de la Défense (enquête EDIS,
+        répertoire REFD). <strong>Cela ne signifie ni que toutes les
+        entreprises du code travaillent pour la Défense, ni que la
+        sous-classe est intrinsèquement duale.</strong></span>
+      </li>
+    </ol>
+    <p class="naf-hand naf-did-hand" aria-hidden="true">« même destination,<br>pas toujours même niveau de preuve »</p>
+    <p class="naf-did-strong">
+      Le lecteur doit toujours pouvoir répondre à trois questions&nbsp;:
+      pourquoi ce code est-il ici&nbsp;? quel est le niveau de preuve&nbsp;?
+      qu'est-ce que je ne dois pas en déduire&nbsp;?
+    </p>
+  </section>
+
+  <!-- Liste des activités documentées -->
   <section class="naf-def-dualsec" aria-labelledby="naf-def-duallist-title">
     <p class="naf-hand-heading naf-def-h2" id="naf-def-duallist-title" role="heading" aria-level="2">
-      Activités duales documentées
+      Dualités et relations documentées
     </p>
     <p class="naf-counts" id="naf-def-dualcounts" role="status" aria-live="polite">Chargement…</p>
     <div class="naf-def-dualtools">
@@ -158,6 +199,78 @@ include-after-body: "../includes/defense-scripts.html"
       </select>
     </div>
     <ol class="naf-def-duallistol" id="naf-def-duallist"></ol>
+  </section>
+
+  <!-- Documenté vs estimé -->
+  <section class="naf-def-estimate" aria-labelledby="naf-def-estimate-title">
+    <p class="naf-hand-heading naf-def-h2" id="naf-def-estimate-title" role="heading" aria-level="2">
+      Ce que nous démontrons, ce que nous estimons
+    </p>
+    <div class="naf-def-est-grid">
+      <div class="naf-def-est-card">
+        <p class="naf-def-est-kicker">Documenté aujourd'hui</p>
+        <p class="naf-def-est-value" id="naf-def-est-doc">…</p>
+        <p class="naf-def-est-text">dualités démontrées au niveau de la
+        sous-classe NAF, chacune avec sa source et son repère.</p>
+      </div>
+      <div class="naf-def-est-card naf-def-est-card-soft">
+        <p class="naf-def-est-kicker">Périmètre potentiel — estimation analytique</p>
+        <p class="naf-def-est-value">≈ 35</p>
+        <p class="naf-def-est-text">sous-classes NAF 2025 potentiellement
+        duales (ordre de grandeur&nbsp;: 30 à 45). Ce périmètre potentiel
+        n'est <strong>ni une classification officielle, ni une liste
+        exhaustive</strong>&nbsp;: c'est une estimation du site.</p>
+      </div>
+    </div>
+    <p class="naf-did-strong naf-def-est-strong">
+      Le nombre documenté mesure ce que nous pouvons démontrer aujourd'hui au
+      niveau de la sous-classe NAF. L'estimation indique l'ordre de grandeur
+      d'un périmètre potentiel plus large.
+    </p>
+    <div class="naf-def-est-why">
+      <p class="naf-def-est-whytitle" role="heading" aria-level="3">Pourquoi probablement davantage&nbsp;?</p>
+      <p>Les sources Défense montrent que les technologies et chaînes de
+      valeur duales couvrent des domaines beaucoup plus larges que les seules
+      sous-classes où la dualité est directement visible dans la
+      nomenclature&nbsp;: électronique, informatique, télécommunications,
+      capteurs, navigation, propulsion, matériaux, R&amp;D… Ce sont des
+      <strong>domaines</strong> désignés par ces sources (règlement européen
+      sur les biens à double usage, enquête EDIS, dispositifs d'innovation
+      duale) — pas des codes NAF validés un par un. L'estimation compte les
+      sous-classes NAF 2025 de ces domaines&nbsp;; la documentation
+      code par code, elle, avance au rythme des preuves.</p>
+    </div>
+  </section>
+
+  <!-- Exemple comparatif : preuve forte vs preuve intermédiaire -->
+  <section class="naf-case naf-def-compare" aria-labelledby="naf-def-compare-title">
+    <p class="naf-case-kicker">Deux codes, deux niveaux de preuve</p>
+    <p class="naf-hand-heading naf-case-title" id="naf-def-compare-title" role="heading" aria-level="2">Comparons 26.70Y et 26.11Y</p>
+    <div class="naf-def-compare-grid">
+      <div class="naf-def-compare-col" data-kind="forte">
+        <p class="naf-case-code naf-mono">26.70Y</p>
+        <p class="naf-case-lbl">Fabrication de matériels optique et photographique…</p>
+        <p class="naf-def-compare-status">Dualité NAF démontrée · preuve directe · confiance élevée</p>
+        <p class="naf-def-compare-text">La nomenclature de produits officielle
+        de la classe couvre à la fois les jumelles et microscopes civils
+        <em>et</em> « le matériel de visée optique équipant les fusils »&nbsp;:
+        la dualité est écrite dans la nomenclature elle-même.</p>
+      </div>
+      <div class="naf-def-compare-col" data-kind="intermediaire">
+        <p class="naf-case-code naf-mono">26.11Y</p>
+        <p class="naf-case-lbl">Fabrication de composants électroniques</p>
+        <p class="naf-def-compare-status">Preuve intermédiaire · dual-use + écosystème observé · confiance moyenne</p>
+        <p class="naf-def-compare-text">L'enquête EDIS observe le secteur parmi
+        les entreprises de défense, et le règlement (UE) 2021/821 classe
+        certains biens électroniques à double usage. Mais <em>rien ne démontre
+        que toute la sous-classe soit duale</em>.</p>
+      </div>
+    </div>
+    <p class="naf-case-text">
+      Les deux codes sont intéressants pour l'analyse de la Défense — mais ils
+      ne reçoivent pas le même statut, parce que la preuve n'est pas la même.
+    </p>
+    <p class="naf-hand naf-case-hand" aria-hidden="true">« la preuve compte autant que le code »</p>
   </section>
 
   <!-- Pourquoi c'est important pour la BITD -->
@@ -212,8 +325,9 @@ include-after-body: "../includes/defense-scripts.html"
       L'avionique d'un avion de ligne et l'autodirecteur d'un missile
       relèvent de la <strong>même sous-classe</strong>. La NAF décrit
       l'activité — fabriquer des instruments de navigation — pas le client
-      final. En NAF 2025, ce périmètre se retrouve dans
-      <code>26.51Y</code>, toujours sans distinction civil/militaire.
+      final. En NAF 2025, la classe <code>26.51</code> garde le même numéro
+      et le même objet (<code>26.51Y</code>), toujours sans distinction
+      civil/militaire.
     </p>
     <p class="naf-case-links">
       <a href="https://www.insee.fr/fr/metadonnees/nafr2/sousClasse/26.51A" target="_blank" rel="noopener noreferrer">Fiche Insee 26.51A ↗</a> ·
@@ -305,32 +419,49 @@ include-after-body: "../includes/defense-scripts.html"
       par l'Insee. La lecture « proximité avec la Défense » présentée ici est une
       <strong>couche analytique construite pour ce site</strong>&nbsp;: l'Insee ne
       classe pas les codes selon leur proximité avec la Défense.</p>
-      <p><strong>Qualifier une activité de duale.</strong> Une activité n'est
-      qualifiée de duale que lorsque la dualité est documentée, selon trois
-      natures de preuve, de la plus forte à la plus indirecte&nbsp;:
-      <em>dualité explicite dans la nomenclature</em> (les notes ou la
-      nomenclature de produits officielles Insee couvrent des usages civils
-      et militaires — ex. la visée optique des fusils dans la CPF 26.70, ou
-      la scission civil/militaire opérée par la NAF 2025)&nbsp;;
-      <em>dualité documentée par une source institutionnelle</em> (ex. le
-      dispositif RAPID — Régime d'Appui pour l'Innovation Duale — de la DGA
-      et de l'Agence de l'innovation de défense, ou l'annexe I du
+      <p><strong>La typologie de preuve.</strong> Chaque activité affichée
+      porte une ou plusieurs natures de preuve — les catégories ne sont pas
+      exclusives, et les compteurs par catégorie peuvent donc se
+      chevaucher&nbsp;: <em>dualité NAF directe</em> (la fiche, les notes ou
+      la nomenclature de produits officielles de la sous-classe couvrent des
+      usages civils et militaires — la preuve la plus forte)&nbsp;;
+      <em>dualité NAF par renvoi</em> (la dualité est établie par des
+      renvois officiels entre structures ou nomenclatures, ex. la classe
+      coutellerie et sa nomenclature de produits)&nbsp;;
+      <em>technologie dual-use</em> (certains biens de l'activité relèvent
+      de l'annexe I du
       <a href="https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32021R0821"
-      target="_blank" rel="noopener noreferrer">règlement (UE) 2021/821 sur
-      les biens à double usage ↗</a>)&nbsp;;
-      <em>dualité observée empiriquement</em> (des entreprises du secteur
-      sont recensées parmi les entreprises de défense par l'
+      target="_blank" rel="noopener noreferrer">règlement (UE) 2021/821 ↗</a>
+      — ce qui ne qualifie jamais toute la sous-classe)&nbsp;;
+      <em>écosystème Défense observé</em> (des entreprises du secteur sont
+      recensées par l'
       <a href="https://www.defense.gouv.fr/sites/default/files/ssm/EcoDef%20265%20-%20EDIS%202023.pdf"
       target="_blank" rel="noopener noreferrer">enquête EDIS du SSM ↗</a>,
       adossée au
       <a href="https://www.defense.gouv.fr/ssm/repertoire-entreprises-fournisseurs-defense-refd"
-      target="_blank" rel="noopener noreferrer">répertoire REFD ↗</a>, alors
-      que l'activité est clairement présente sur des marchés civils — avec
-      une preuve complémentaire, car observer des fournisseurs ne suffit pas
-      à qualifier toute une sous-classe). Une activité qui ne satisfait
-      aucun de ces critères peut être conservée comme <em>piste à
-      confirmer</em>&nbsp;: elle n'entre alors ni dans la visualisation ni
-      dans les compteurs.</p>
+      target="_blank" rel="noopener noreferrer">répertoire REFD ↗</a> — même
+      limite)&nbsp;; <em>projets duals documentés</em> (ex. le dispositif
+      RAPID de la DGA et de l'Agence de l'innovation de défense). Seules les
+      deux premières fondent une « dualité NAF démontrée »&nbsp;: EDIS ou le
+      règlement européen seuls ne suffisent jamais. Les autres donnent une
+      <em>preuve intermédiaire</em>, toujours accompagnée d'une limite
+      d'interprétation affichée. Une hypothèse plausible mais insuffisamment
+      prouvée reste une <em>piste à confirmer</em>&nbsp;: ni visualisée, ni
+      comptée.</p>
+      <p><strong>L'estimation « ≈ 35 ».</strong> Le périmètre potentiel
+      affiché (ordre de grandeur 30–45 sous-classes NAF 2025) est une
+      estimation analytique du site&nbsp;: le compte des sous-classes des
+      domaines désignés comme duals par les sources institutionnelles
+      (électronique, informatique, télécommunications, capteurs, navigation,
+      propulsion, matériaux, R&amp;D). Ce n'est ni une statistique
+      officielle, ni une liste de codes validés.</p>
+      <p><strong>Table de correspondance.</strong> La table 2008 ↔ 2025
+      chargée sur ce site est une approximation par préfixe de classe (voir
+      la rubrique NAF 2008 ↔ 2025)&nbsp;: aucune qualification Défense ne
+      repose sur elle. Quand un argument s'appuie sur la structure de la
+      NAF 2025 (ex. 33.16Z face aux libellés 33.16Y/33.18G), la limite est
+      indiquée sur la fiche et la répartition précise reste à confirmer avec
+      la table officielle Insee.</p>
       <p><strong>Fournisseur n'est pas dual.</strong> Les deux dimensions
       restent distinctes&nbsp;: une activité peut compter des fournisseurs de
       la Défense sans être qualifiée de duale, et réciproquement. La

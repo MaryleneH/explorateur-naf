@@ -9,8 +9,9 @@
  *     transformation : la fermeture transitive des relations (une scission
  *     1→n est un groupe, une recomposition n↔n aussi). C'est la seule façon
  *     de compter « une transformation = un événement » sans double compte ;
- *   - la table locale est un extrait partiel, intra-classe : la couverture
- *     réelle est affichée et la table officielle Insee citée en référence.
+ *   - la table locale est une APPROXIMATION du site (rapprochement par
+ *     préfixe de classe), pas la table officielle : le bandeau de couverture
+ *     le dit explicitement et renvoie vers la table officielle Insee.
  */
 (function () {
   "use strict";
@@ -34,7 +35,7 @@
     pager: document.getElementById("naf-chg-pager"),
   };
 
-  var OFFICIAL_URL = "https://www.insee.fr/fr/information/8201411";
+  var OFFICIAL_URL = "https://www.insee.fr/fr/information/8181066";
   var PAGE_SIZE = 20;
 
   /* Typologie calculée sur les cardinalités réelles du groupe. */
@@ -212,16 +213,19 @@
 
     clearNode(dom.cover);
     var p1 = el("p", null);
-    p1.appendChild(el("strong", null, "Extrait partiel de la table officielle. "));
+    p1.appendChild(el("strong", null, "Table approximative du site. "));
     p1.appendChild(document.createTextNode(
-      "La table chargée ici compte " + pairs.length + " relations, couvrant " +
+      "La table chargée ici n'est pas la table officielle : c'est un " +
+      "rapprochement construit par préfixe de classe partagé (xx.xx), en " +
+      "attendant l'intégration de la table officielle rééditée par l'Insee " +
+      "en janvier 2026. Elle compte " + pairs.length + " relations, couvrant " +
       cov08.size + " des " + state.n08.counts.subclass + " sous-classes 2008 et " +
-      cov25.size + " des " + state.n25.counts.subclass + " sous-classes 2025. " +
-      "Elle ne contient que des relations restant dans la même classe (xx.xx) : " +
-      "les correspondances qui changent de classe — comme 30.30Z vers " +
-      "30.31Y/30.32Y — n'y figurent pas. Une absence ici ne signifie donc " +
-      "jamais une absence de correspondance. "));
-    var link = el("a", null, "La table officielle Insee fait foi");
+      cov25.size + " des " + state.n25.counts.subclass + " sous-classes 2025, " +
+      "et ignore par construction les correspondances qui changent de " +
+      "classe — comme 30.30Z vers 30.31Y/30.32Y. Ni une absence, ni une " +
+      "relation affichée ici ne doivent être lues comme des faits " +
+      "officiels : "));
+    var link = el("a", null, "seule la table officielle Insee fait foi");
     link.href = OFFICIAL_URL;
     link.target = "_blank";
     link.rel = "noopener";
