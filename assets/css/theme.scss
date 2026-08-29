@@ -5564,3 +5564,451 @@ body {
   .naf-src-chip { grid-column: 1; grid-row: 3; justify-self: start; }
   .naf-src-fiche > summary::after { grid-column: 2; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   Bonus — atelier d'étude
+═══════════════════════════════════════════════════════════════════ */
+
+.naf-at-layout {
+  display: grid;
+  gap: 1.4rem;
+  align-items: start;
+}
+
+@media (min-width: 992px) {
+  .naf-at-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 22rem);
+    gap: 2rem;
+  }
+}
+
+.naf-at-main { min-width: 0; }
+
+/* ── Choix de la question ────────────────────────────────────────── */
+
+.naf-at-q {
+  width: 100%;
+  background: none;
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+}
+
+.naf-at-q-verbe {
+  display: block;
+  font-family: var(--naf-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--naf-bronze);
+}
+
+.naf-at-autre {
+  margin: 1rem 0 0;
+  font-size: 0.88rem;
+  color: var(--naf-steel);
+  max-width: 46rem;
+}
+
+/* ── Question courante ───────────────────────────────────────────── */
+
+.naf-at-current {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding-bottom: 0.7rem;
+  border-bottom: 2px solid var(--naf-ink);
+  margin-bottom: 0.6rem;
+}
+
+.naf-at-current-title {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--naf-ink);
+}
+
+.naf-linklike {
+  border: 0;
+  background: none;
+  padding: 0;
+  font: inherit;
+  font-size: 0.86rem;
+  color: var(--naf-slate-mid);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible { color: var(--naf-ink); }
+}
+
+/* ── Sections de travail ─────────────────────────────────────────── */
+
+.naf-at-section {
+  margin: 0 0 1.8rem;
+}
+
+.naf-at-section-head { margin-bottom: 0.5rem; }
+
+.naf-at-section-title {
+  margin: 1rem 0 0.15rem;
+  font-size: 1.08rem;
+  font-weight: 650;
+  color: var(--naf-ink);
+}
+
+.naf-at-section-hint {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--naf-steel);
+  max-width: 46rem;
+}
+
+.naf-at-hand { margin: 0.15rem 0 0.6rem; font-size: 0.98rem; }
+
+.naf-at-text {
+  margin: 0.2rem 0 0.4rem;
+  max-width: 46rem;
+  line-height: 1.55;
+}
+
+/* ── Lignes de choix (radio / checkbox réels) ────────────────────── */
+
+.naf-at-choice {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.9rem;
+  align-items: start;
+  padding: 0.75rem 0.6rem;
+  margin: 0;
+  border-bottom: 1px solid var(--naf-line-soft);
+  cursor: pointer;
+  transition: background 0.12s ease;
+
+  &:hover { background: var(--naf-line-soft); }
+
+  &.is-checked {
+    background: rgba(31, 43, 58, 0.04);
+    border-left: 2px solid var(--naf-bronze);
+    padding-left: calc(0.6rem - 2px);
+  }
+
+  input {
+    margin-top: 0.3rem;
+    width: 1.05rem;
+    height: 1.05rem;
+    accent-color: var(--naf-bronze);
+    flex: none;
+  }
+}
+
+.naf-at-choice-body {
+  display: grid;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.naf-at-choice-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.3rem 0.7rem;
+}
+
+.naf-at-cle {
+  font-size: 0.78rem;
+  color: var(--naf-steel);
+}
+
+.naf-at-choice-desc {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--naf-slate-mid);
+  max-width: 46rem;
+
+  em { color: var(--naf-steel); font-style: normal; font-weight: 650; }
+}
+
+.naf-at-choice-warn {
+  font-size: 0.86rem;
+  color: #7e5c30;
+}
+
+.naf-at-src-meta {
+  font-size: 0.8rem;
+  color: var(--naf-steel);
+}
+
+.naf-at-src-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 0.8rem;
+  font-size: 0.8rem;
+  color: var(--naf-steel);
+}
+
+/* Niveaux et rôles : texte explicite, jamais la couleur seule */
+
+.naf-at-niveau,
+.naf-at-role {
+  padding: 0.08rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.naf-at-niveau-recommande,
+.naf-at-role-recommandee { color: #3c5d50; background: #e9f0ec; }
+
+.naf-at-niveau-possible,
+.naf-at-role-complementaire { color: var(--naf-slate-mid); background: #edf1f5; }
+
+.naf-at-niveau-prudence { color: #7e5c30; background: #f7f0e4; }
+
+.naf-at-role-optionnelle { color: var(--naf-steel); background: var(--naf-line-soft); }
+
+/* ── Sélecteur de code NAF ───────────────────────────────────────── */
+
+.naf-at-nafpick { margin: 0.6rem 0 0.2rem; max-width: 30rem; }
+
+.naf-at-nafpick-label {
+  display: block;
+  font-size: 0.82rem;
+  color: var(--naf-steel);
+  margin-bottom: 0.25rem;
+}
+
+.naf-at-nafresults { display: grid; }
+
+.naf-at-nafresult {
+  display: flex;
+  gap: 0.7rem;
+  align-items: baseline;
+  width: 100%;
+  padding: 0.5rem 0.6rem;
+  border: 0;
+  border-bottom: 1px solid var(--naf-line-soft);
+  background: none;
+  text-align: left;
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+
+  &:hover { background: var(--naf-line-soft); }
+}
+
+.naf-at-nafchip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: baseline;
+  margin: 0.3rem 0 0;
+  padding: 0.5rem 0.8rem;
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-line);
+  border-left: 3px solid var(--naf-bronze);
+  border-radius: var(--naf-radius);
+  font-size: 0.92rem;
+}
+
+/* ── Limites et alertes ──────────────────────────────────────────── */
+
+.naf-at-limites {
+  margin: 0.3rem 0 0.8rem;
+  padding-left: 1.2rem;
+  max-width: 46rem;
+
+  li { margin: 0.35rem 0; font-size: 0.92rem; line-height: 1.5; }
+}
+
+.naf-at-alerte {
+  margin: 0 0 1rem;
+  padding: 0.8rem 1rem;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  background: #f7f0e4;
+  border-left: 3px solid var(--naf-bronze);
+  border-radius: 0 var(--naf-radius) var(--naf-radius) 0;
+
+  .naf-linklike { margin-left: 0.4rem; }
+}
+
+/* ── Synthèse latérale ───────────────────────────────────────────── */
+
+.naf-at-synthpanel {
+  position: sticky;
+  top: 1rem;
+  padding: 1.1rem 1.2rem 1.2rem;
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-line);
+  border-top: 3px solid var(--naf-bronze);
+  border-radius: var(--naf-radius);
+}
+
+.naf-at-badge {
+  display: inline-block;
+  margin: 0 0 0.4rem;
+  padding: 0.14rem 0.6rem;
+  border: 1px solid var(--naf-slate-mid);
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--naf-slate-mid);
+}
+
+.naf-at-synth-title {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.naf-at-synth-list {
+  margin: 0;
+
+  dt {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--naf-bronze);
+    margin-top: 0.55rem;
+  }
+
+  dd {
+    margin: 0.1rem 0 0;
+    font-size: 0.88rem;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+  }
+}
+
+.naf-at-synth-alerte {
+  margin: 0.7rem 0 0;
+  font-size: 0.84rem;
+  font-weight: 650;
+  color: #7e5c30;
+}
+
+@media (max-width: 991px) {
+  .naf-at-synthpanel { position: static; }
+}
+
+/* ── Fiche méthode ───────────────────────────────────────────────── */
+
+.naf-at-fiche {
+  max-width: 52rem;
+}
+
+.naf-at-fiche-head { margin-bottom: 1.2rem; }
+
+.naf-at-fiche-title {
+  margin: 0.3rem 0 0.2rem;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.naf-at-fiche-sub {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--naf-steel);
+}
+
+.naf-at-fiche-section {
+  margin: 0 0 1.2rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--naf-line);
+
+  p, li { font-size: 0.95rem; line-height: 1.55; }
+  ul, ol { margin: 0.2rem 0 0; padding-left: 1.2rem; }
+  li { margin: 0.3rem 0; }
+}
+
+.naf-at-fiche-h {
+  margin: 0 0 0.3rem;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--naf-bronze);
+}
+
+.naf-at-mention {
+  margin: 1.4rem 0 0;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--naf-line);
+  font-size: 0.84rem;
+  color: var(--naf-steel);
+}
+
+/* ── Impression : la fiche seule, propre ─────────────────────────── */
+
+@media print {
+  .navbar,
+  .nav-footer,
+  .naf-at-noprint,
+  #naf-at-chooser,
+  #naf-at-work,
+  #quarto-search,
+  .naf-px-panel {
+    display: none !important;
+  }
+
+  .naf-at-fiche {
+    max-width: 100%;
+  }
+
+  body { background: #fff; }
+  a { color: inherit; text-decoration: none; }
+}
+
+/* Quarto (page-layout: full) propage ses classes page-columns/page-full sur
+   les div de l'atelier et sa grille nommée écraserait la nôtre : on reprend
+   la main avec une spécificité supérieure, uniquement dans #naf-at. */
+@media (min-width: 992px) {
+  main .naf-at-layout.page-columns {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 22rem);
+    gap: 2rem;
+  }
+
+  main #naf-at.page-columns,
+  main .naf-at-main.page-columns,
+  main .naf-at-work.page-columns,
+  main .naf-at-fiche.page-columns,
+  main .naf-at-synthpanel.page-columns {
+    display: block;
+  }
+}
+
+@media (max-width: 991px) {
+  main .naf-at-layout.page-columns,
+  main #naf-at.page-columns,
+  main .naf-at-main.page-columns,
+  main .naf-at-work.page-columns {
+    display: block;
+  }
+
+  main .naf-at-synthpanel.page-columns { display: block; }
+}
+
+/* Quarto route les <aside> vers sa colonne de marge (grid-column:
+   body-end/page-end), ce qui éjecte la synthèse et crée des pistes
+   implicites : ancrage explicite des deux enfants de la grille atelier. */
+@media (min-width: 992px) {
+  main .naf-at-layout > .naf-at-main { grid-column: 1; }
+  main .naf-at-layout > .naf-at-synthpanel { grid-column: 2; grid-row: 1; }
+}
+
+@media (max-width: 991px) {
+  main .naf-at-layout > .naf-at-main,
+  main .naf-at-layout > .naf-at-synthpanel { grid-column: auto; }
+}

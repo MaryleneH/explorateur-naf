@@ -967,6 +967,10 @@ include-after-body: "../includes/comprendre-scripts.html"
       confondre :
     </p>
 
+    <p class="naf-comp-ctas">
+      <a class="naf-chg-cta" href="../bonus/atelier.html">Construire votre propre protocole →</a>
+    </p>
+
     <div class="naf-comp-statuts">
       <div><span class="naf-statut naf-statut-mesure">Résultat mesuré</span>
         <span>des chiffres réellement calculés sur les données citées.</span></div>

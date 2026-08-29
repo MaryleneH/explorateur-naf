@@ -1,0 +1,293 @@
+{
+  "_comment": "Atelier d'étude (Bonus 03) : RÈGLES méthodologiques uniquement. L'identité des sources (nom, grain, fréquence, accès, limites) vit dans data/etudes/sources.csv, leur disponibilité dans data/quality/source_status.json, les recettes dans la Boîte à outils : ce fichier n'associe que des questions à des choix, avec leurs conséquences. Contrôlé par tests/test_atelier.py.",
+
+  "grains": {
+    "entreprise": { "label": "Entreprise (sens statistique)", "cle": "regroupement d'unités légales", "description": "L'acteur économique : peut regrouper plusieurs unités légales organisées ensemble." },
+    "unite_legale": { "label": "Unité légale", "cle": "SIREN", "description": "La personnalité juridique. Clé d'appariement la plus courante entre sources." },
+    "etablissement": { "label": "Établissement", "cle": "SIRET", "description": "Le lieu d'exercice. C'est lui qui a une adresse, et son propre code d'activité." },
+    "marche": { "label": "Marché", "cle": "id de marché · titulaires SIRET", "description": "Une ligne DECP n'est pas d'abord une entreprise : c'est un marché avec un ou plusieurs titulaires." },
+    "annonce": { "label": "Annonce", "cle": "id d'annonce", "description": "Une publication (appel d'offres, avis, annonce légale), pas un état permanent." },
+    "produit_pays": { "label": "Produit × pays × période", "cle": "NC8 / SH", "description": "Un flux de commerce extérieur. Aucune entreprise n'est identifiée à ce grain." },
+    "brevet": { "label": "Brevet / déposant", "cle": "n° de publication · déposant", "description": "Un titre de propriété industrielle, publié avec délai." },
+    "evenement": { "label": "Événement", "cle": "SIREN au registre", "description": "Un fait juridique daté (procédure, cession, radiation…), pas une caractéristique durable." }
+  },
+
+  "fraicheurs": {
+    "tres_recent": { "label": "Très récent", "horizon": "jours / semaines", "consequence": "Signaux administratifs et annonces (API, BOAMP, BODACC, DECP) : très frais, mais moins consolidés qu'une statistique." },
+    "conjoncturel": { "label": "Conjoncturel", "horizon": "mois", "consequence": "Stocks mensuels et statistiques du mois : bon équilibre entre fraîcheur et stabilité." },
+    "structurel": { "label": "Structurel", "horizon": "année / millésime consolidé", "consequence": "Champ statistique consolidé (SIDE, millésimes, enquêtes) : plus juste, avec un ou deux ans de recul." }
+  },
+
+  "limitations": {
+    "etab_capacite": "Un établissement Sirene n'est pas une mesure de capacité productive : un site unique peut concentrer l'essentiel de la production.",
+    "admin_vs_actif": "Existence administrative ≠ activité économique : le répertoire compte des unités immatriculées, pas le champ statistique des actifs.",
+    "refd_non_exhaustif": "Le REFD est un périmètre empirique de fournisseurs observés : il n'est ni exhaustif, ni équivalent à la BITD. Une entreprise absente du REFD n'est pas nécessairement hors Défense.",
+    "naf_pas_appartenance": "Un code NAF, même dual, décrit une activité : il ne définit ni les clients, ni la part Défense. La NAF caractérise une population, elle ne la définit pas nécessairement.",
+    "ape_principale": "Le code APE ne montre que l'activité principale : les activités secondaires restent invisibles.",
+    "marches_couverture": "Couverture publique seulement : un marché sensible, classifié ou sous seuil peut être absent des données ouvertes. Absence ≠ absence de commande.",
+    "decp_qualite": "Les DECP sont hétérogènes (doublons, montants, identifiants) : montants et doublons doivent être contrôlés avant toute agrégation.",
+    "produits_pas_activites": "Le commerce extérieur classe des produits (NC8/SH), pas des activités (NAF) : tout rapprochement passe par des passerelles documentées (CPF/CPA), jamais par intuition.",
+    "douanes_confidentialite": "Des flux peuvent être confidentialisés ou sous le seuil ; les réexportations et chaînes intra-groupe brouillent la lecture pays.",
+    "evenements_publies": "Seuls les événements publiés sont visibles, et leur lecture est descriptive : un événement isolé n'a aucune valeur prédictive. Pas de « score de risque » sans méthodologie explicite.",
+    "brevet_delai": "Un brevet est un signal retardé d'innovation : publication environ 18 mois après le dépôt. L'activité brevets récente ne mesure pas l'innovation en temps réel.",
+    "brevet_pas_tout": "Tout n'est pas breveté (secret industriel), et le rattachement déposant → SIREN demande un appariement documenté.",
+    "naf25_informatif": "Jusqu'à la bascule de janvier 2027, le futur code NAF 2025 diffusé dans Sirene est informatif et corrigeable par les entreprises.",
+    "siege_vs_site": "Le siège juridique d'une unité légale peut être très différent de ses sites de production."
+  },
+
+  "invisibles_defense": [
+    "les contrats non publiés et les données classifiées",
+    "les activités secondaires invisibles dans l'APE",
+    "la sous-traitance indirecte",
+    "les microdonnées non ouvertes (Sirus, enquêtes)"
+  ],
+
+  "scenarios": [
+    {
+      "id": "implantations",
+      "numero": "01",
+      "verbe": "Localiser",
+      "titre": "Où sont implantées les activités ?",
+      "grains": [
+        { "id": "etablissement", "niveau": "recommande", "pourquoi": "Pour une implantation géographique, l'établissement est généralement plus pertinent que l'unité légale : c'est lui qui a une adresse." },
+        { "id": "unite_legale", "niveau": "prudence", "avertissement": "Vous étudierez la localisation juridique de l'unité, pas nécessairement les sites de production." }
+      ],
+      "perimetres": [
+        { "id": "naf", "niveau": "recommande", "avantage": "reproductible et facilement agrégable", "limite": "peut inclure des entreprises sans lien avec votre question précise" },
+        { "id": "territoire", "niveau": "possible", "avantage": "part du terrain (une zone, un département)", "limite": "demande ensuite de qualifier les activités trouvées" },
+        { "id": "liste", "niveau": "possible", "avantage": "population maîtrisée", "limite": "à documenter : d'où vient la liste ?" }
+      ],
+      "naf_selectable": true,
+      "sources": [
+        { "id": "sirene_stock", "role": "recommandee", "pourquoi": "SIRET, activité, commune, état administratif" },
+        { "id": "sirene_geo", "role": "complementaire", "pourquoi": "coordonnées et cartes pour l'analyse territoriale" },
+        { "id": "side", "role": "complementaire", "pourquoi": "recaler sur le champ économiquement actif" },
+        { "id": "refd", "role": "optionnelle", "pourquoi": "si l'étude porte spécifiquement sur les fournisseurs Défense" }
+      ],
+      "fraicheurs": [
+        { "id": "conjoncturel", "niveau": "recommande", "note": "stocks mensuels Sirene" },
+        { "id": "structurel", "niveau": "possible", "note": "SIDE pour une population consolidée, avec délai" }
+      ],
+      "appariement": "Périmètre → établissements Sirene par le code d'activité ou la zone, puis géolocalisation par SIRET. Ne compter que les établissements actifs.",
+      "indicateurs": [
+        { "label": "nombre d'établissements" },
+        { "label": "part des trois premières régions" },
+        { "label": "nombre de départements couverts" },
+        { "label": "HHI territorial", "note": "somme des carrés des parts territoriales : mesure la concentration du nombre d'établissements, rien d'autre" }
+      ],
+      "limites": ["etab_capacite", "admin_vs_actif", "ape_principale"],
+      "alertes": [
+        { "si_grain": "unite_legale", "texte": "Le siège juridique peut être différent du site industriel : pour des implantations, l'établissement (SIRET) est généralement préférable.", "suggere_grain": "etablissement" }
+      ]
+    },
+    {
+      "id": "fournisseurs_defense",
+      "numero": "02",
+      "verbe": "Identifier",
+      "titre": "Qui apparaît dans l'écosystème Défense ?",
+      "grains": [
+        { "id": "entreprise", "niveau": "recommande", "pourquoi": "Le REFD et l'enquête EDIS observent des entreprises fournisseurs : c'est leur grain natif." },
+        { "id": "unite_legale", "niveau": "possible", "pourquoi": "pour les appariements SIREN avec les autres sources" },
+        { "id": "etablissement", "niveau": "possible", "pourquoi": "si la question devient géographique" }
+      ],
+      "perimetres": [
+        { "id": "refd", "niveau": "recommande", "avantage": "population empirique de fournisseurs observés", "limite": "ne constitue pas une liste exhaustive de la BITD" },
+        { "id": "naf", "niveau": "prudence", "avantage": "reproductible", "limite": "un code dual n'est pas une appartenance : la NAF caractérise ici la population, elle ne la définit pas" },
+        { "id": "liste", "niveau": "possible", "avantage": "panel maîtrisé", "limite": "provenance à documenter" }
+      ],
+      "naf_selectable": true,
+      "sources": [
+        { "id": "refd", "role": "recommandee", "pourquoi": "point d'entrée empirique : fournisseurs observés" },
+        { "id": "edis", "role": "recommandee", "pourquoi": "cadrage statistique du secteur (résultats agrégés)" },
+        { "id": "sirene_stock", "role": "complementaire", "pourquoi": "caractériser la population : activité, taille, territoire" },
+        { "id": "bodacc", "role": "optionnelle", "pourquoi": "suivre ensuite la vie du panel" }
+      ],
+      "fraicheurs": [
+        { "id": "structurel", "niveau": "recommande", "note": "millésimes REFD et campagnes EDIS annuels" },
+        { "id": "conjoncturel", "niveau": "possible", "note": "pour l'enrichissement Sirene" }
+      ],
+      "appariement": "REFD → SIREN → Sirene pour caractériser. La composition sectorielle (APE) vient après le périmètre, pas avant.",
+      "indicateurs": [
+        { "label": "taille de la population observée" },
+        { "label": "composition sectorielle (via l'APE)", "note": "activité principale seulement" },
+        { "label": "répartition territoriale des établissements" }
+      ],
+      "limites": ["refd_non_exhaustif", "naf_pas_appartenance", "ape_principale"],
+      "alertes": [
+        { "si_perimetre": "naf", "texte": "La NAF seule ne délimite pas la Défense : un code dual n'est pas une appartenance. Croiser avec un périmètre empirique (REFD/EDIS)." }
+      ]
+    },
+    {
+      "id": "marches_publics",
+      "numero": "03",
+      "verbe": "Observer",
+      "titre": "Quels marchés publics sont visibles ?",
+      "grains": [
+        { "id": "marche", "niveau": "recommande", "pourquoi": "Une ligne DECP n'est pas d'abord une entreprise : c'est un marché avec un ou plusieurs titulaires." },
+        { "id": "annonce", "niveau": "possible", "pourquoi": "pour la veille BOAMP en amont de l'attribution" },
+        { "id": "unite_legale", "niveau": "prudence", "avertissement": "l'entreprise n'apparaît qu'après appariement des titulaires : ce n'est pas le grain de départ" }
+      ],
+      "perimetres": [
+        { "id": "marche_filtre", "niveau": "recommande", "avantage": "part des marchés eux-mêmes (dates, acheteurs, objet)", "limite": "couverture publique seulement" },
+        { "id": "liste", "niveau": "possible", "avantage": "suivre un panel de titulaires connus", "limite": "provenance à documenter" },
+        { "id": "naf", "niveau": "possible", "avantage": "caractériser les titulaires après appariement", "limite": "n'intervient qu'en bout de chaîne" }
+      ],
+      "naf_selectable": false,
+      "sources": [
+        { "id": "decp", "role": "recommandee", "pourquoi": "marchés attribués : titulaires SIRET, montants, CPV, notification" },
+        { "id": "boamp", "role": "recommandee", "pourquoi": "annonces très fraîches, filtre plein texte", "alternative_id": "decp" },
+        { "id": "sirene_stock", "role": "complementaire", "pourquoi": "enrichir les titulaires (activité, localisation) — après appariement" }
+      ],
+      "fraicheurs": [
+        { "id": "tres_recent", "niveau": "recommande", "note": "annonces quotidiennes, alimentation continue des DECP" }
+      ],
+      "appariement": "DECP : titulaire SIRET → Sirene (activité, établissement). Mesurer le taux d'appariement : un titulaire non retrouvé est une information.",
+      "indicateurs": [
+        { "label": "nombre de marchés" },
+        { "label": "nombre de titulaires distincts" },
+        { "label": "montants publiés", "note": "montants et doublons doivent être contrôlés" },
+        { "label": "nouveaux titulaires observés" }
+      ],
+      "limites": ["marches_couverture", "decp_qualite"],
+      "alertes": []
+    },
+    {
+      "id": "dependances",
+      "numero": "04",
+      "verbe": "Mesurer",
+      "titre": "Existe-t-il des dépendances aux importations ?",
+      "grains": [
+        { "id": "produit_pays", "niveau": "recommande", "pourquoi": "Cette étude ne part pas naturellement d'un code NAF : le commerce extérieur s'observe au grain produit × pays × période." }
+      ],
+      "perimetres": [
+        { "id": "produits", "niveau": "recommande", "avantage": "familles de produits documentées (positions SH/NC justifiées)", "limite": "la passerelle vers les activités reste à documenter" },
+        { "id": "naf", "niveau": "prudence", "avantage": "lecture sectorielle familière", "limite": "activité ≠ produit : passage uniquement par des passerelles CPF/CPA documentées" }
+      ],
+      "naf_selectable": false,
+      "sources": [
+        { "id": "douanes", "role": "recommandee", "pourquoi": "flux mensuels produit (NC8) × pays — la seule source qui répond directement à la question" },
+        { "id": "sirene_stock", "role": "optionnelle", "pourquoi": "lecture sectorielle éventuelle, après passerelle produits ↔ activités" }
+      ],
+      "fraicheurs": [
+        { "id": "conjoncturel", "niveau": "recommande", "note": "publication mensuelle avec délai ; suivre le dernier millésime disponible" }
+      ],
+      "appariement": "Selon les données ouvertes mobilisées, le commerce extérieur s'observe au niveau produit × pays sans identification directe des entreprises. NAF ↔ CPF/CPA ↔ NC/SH uniquement par passerelles documentées.",
+      "indicateurs": [
+        { "label": "part du premier pays fournisseur" },
+        { "label": "part des trois premiers pays" },
+        { "label": "HHI pays", "note": "concentration des importations d'une famille de produits — pas un « indice de dépendance Défense »" },
+        { "label": "évolution sur 13 mois" }
+      ],
+      "limites": ["produits_pas_activites", "douanes_confidentialite"],
+      "alertes": [
+        { "si_sources_sans": "douanes", "texte": "Les sources sélectionnées ne permettent pas de répondre directement à votre question : les dépendances aux importations s'observent dans les données des Douanes.", "suggere_source": "douanes" }
+      ]
+    },
+    {
+      "id": "resilience",
+      "numero": "05",
+      "verbe": "Surveiller",
+      "titre": "Observe-t-on des fragilités chez certains fournisseurs ?",
+      "grains": [
+        { "id": "evenement", "niveau": "recommande", "pourquoi": "On observe des faits juridiques datés (procédures, cessions, radiations), pas un état permanent." },
+        { "id": "unite_legale", "niveau": "possible", "pourquoi": "le panel suivi est une liste de SIREN" }
+      ],
+      "perimetres": [
+        { "id": "liste", "niveau": "recommande", "avantage": "population documentée (par exemple issue du REFD)", "limite": "provenance et date de la liste à documenter" },
+        { "id": "refd", "niveau": "possible", "avantage": "point de départ empirique", "limite": "non exhaustif" },
+        { "id": "naf", "niveau": "possible", "avantage": "panel sectoriel large", "limite": "beaucoup d'unités sans lien avec la Défense" }
+      ],
+      "naf_selectable": true,
+      "sources": [
+        { "id": "bodacc", "role": "recommandee", "pourquoi": "événements juridiques publiés, plusieurs parutions par semaine" },
+        { "id": "sirene_stock", "role": "complementaire", "pourquoi": "état administratif et établissements du panel" },
+        { "id": "decp", "role": "optionnelle", "pourquoi": "contextualiser la commande publique observable" },
+        { "id": "refd", "role": "optionnelle", "pourquoi": "définir ou enrichir le panel" }
+      ],
+      "fraicheurs": [
+        { "id": "tres_recent", "niveau": "recommande", "note": "suivi infra-annuel des événements" }
+      ],
+      "appariement": "BODACC : SIREN au registre → Sirene pour les caractéristiques. Historique SIREN × date × type d'événement, lecture strictement descriptive.",
+      "indicateurs": [
+        { "label": "nombre de procédures collectives" },
+        { "label": "fermetures d'établissements" },
+        { "label": "créations de sites" },
+        { "label": "cessions et modifications juridiques", "note": "pas de « score de risque fournisseur » sans méthodologie explicite" }
+      ],
+      "limites": ["evenements_publies", "refd_non_exhaustif"],
+      "alertes": []
+    },
+    {
+      "id": "innovation",
+      "numero": "06",
+      "verbe": "Suivre",
+      "titre": "Quels signaux d'innovation peut-on suivre ?",
+      "grains": [
+        { "id": "brevet", "niveau": "recommande", "pourquoi": "Le signal observable est le brevet et son déposant — publié avec délai." },
+        { "id": "entreprise", "niveau": "possible", "pourquoi": "après appariement des déposants au SIREN" }
+      ],
+      "perimetres": [
+        { "id": "thematique", "niveau": "recommande", "avantage": "familles technologiques par dictionnaire explicite (classifications CIB/CPC, lexique documenté)", "limite": "un dictionnaire se critique et s'améliore" },
+        { "id": "liste", "niveau": "possible", "avantage": "suivre les dépôts d'un panel", "limite": "appariement déposant → SIREN à documenter" },
+        { "id": "naf", "niveau": "possible", "avantage": "caractériser les déposants", "limite": "en bout de chaîne, après appariement" }
+      ],
+      "naf_selectable": false,
+      "sources": [
+        { "id": "inpi_brevets", "role": "recommandee", "pourquoi": "déposants, titres, résumés, classifications" },
+        { "id": "sirene_stock", "role": "complementaire", "pourquoi": "caractériser les déposants appariés" },
+        { "id": "refd", "role": "optionnelle", "pourquoi": "croiser avec les fournisseurs observés" }
+      ],
+      "fraicheurs": [
+        { "id": "structurel", "niveau": "recommande", "note": "le délai de publication (~18 mois) impose une lecture par périodes de dépôt" },
+        { "id": "tres_recent", "niveau": "possible", "note": "annonces publiques (AID/DGA) pour des signaux frais, sans interprétation automatique" }
+      ],
+      "appariement": "Déposant → SIREN : appariement à documenter (raisons sociales, adresses), taux de réussite mesuré.",
+      "indicateurs": [
+        { "label": "dépôts par famille technologique" },
+        { "label": "nombre de déposants distincts" },
+        { "label": "évolution par période de dépôt", "note": "par date de dépôt, pas de publication" }
+      ],
+      "limites": ["brevet_delai", "brevet_pas_tout"],
+      "alertes": []
+    },
+    {
+      "id": "transition_naf",
+      "numero": "07",
+      "verbe": "Comparer",
+      "titre": "Que change la NAF 2025 ?",
+      "grains": [
+        { "id": "etablissement", "niveau": "recommande", "pourquoi": "Chaque établissement actif porte en 2026 son APE officiel (NAF rév. 2) ET son futur code NAF 2025 : on observe les deux classifications sur les mêmes unités." },
+        { "id": "unite_legale", "niveau": "possible", "pourquoi": "même double codage au niveau SIREN" }
+      ],
+      "perimetres": [
+        { "id": "naf", "niveau": "recommande", "avantage": "partir des codes 2008 les plus recomposés (scissions civil/militaire notamment)", "limite": "la table de correspondance ne remplace pas l'observation des unités réelles" }
+      ],
+      "naf_selectable": true,
+      "sources": [
+        { "id": "sirene_stock", "role": "recommandee", "pourquoi": "variables activitePrincipaleNAF25* diffusées du 16/12/2025 à début janvier 2027 — fenêtre unique" },
+        { "id": "naf_correspondance", "role": "recommandee", "pourquoi": "la table officielle cadre les relations attendues (1→1, 1→n, n→1, n↔n)" }
+      ],
+      "fraicheurs": [
+        { "id": "conjoncturel", "niveau": "recommande", "note": "stocks mensuels — et une fenêtre d'observation qui se referme début 2027" }
+      ],
+      "appariement": "Aucun appariement externe : les deux codes coexistent dans la même ligne Sirene. Comparer les répartitions réellement observées à la table officielle.",
+      "indicateurs": [
+        { "label": "répartition des unités vers leurs futurs codes" },
+        { "label": "parts calculées par code 2008 d'origine", "note": "toujours calculées, jamais supposées" },
+        { "label": "ventilation territoriale des reclassements" }
+      ],
+      "limites": ["naf25_informatif", "admin_vs_actif"],
+      "alertes": []
+    }
+  ],
+
+  "perimetre_labels": {
+    "naf": "Par activité (codes NAF)",
+    "refd": "Par observation empirique (REFD / EDIS)",
+    "marche_filtre": "Par marché (filtres DECP / BOAMP)",
+    "liste": "Par liste documentée d'entreprises (SIREN)",
+    "territoire": "Par territoire",
+    "produits": "Par produits (nomenclature douanière / CPF)",
+    "thematique": "Par familles technologiques (dictionnaire documenté)"
+  }
+}

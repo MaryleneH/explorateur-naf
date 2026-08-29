@@ -1,0 +1,53 @@
+---
+pagetitle: "Atelier d'étude — Explorateur NAF"
+title: ""
+page-layout: full
+include-after-body: "../includes/atelier-scripts.html"
+---
+
+::: {.naf-page}
+
+::: {.naf-comp}
+
+```{=html}
+<div id="naf-at">
+
+  <header class="naf-viz-intro naf-at-noprint">
+    <p class="naf-comp-kicker">Bonus · Atelier d'étude</p>
+    <p class="naf-hand-heading naf-viz-title" role="heading" aria-level="1">
+      Construire une étude
+    </p>
+    <p class="naf-viz-lede">
+      Une question, plusieurs choix méthodologiques : construisez pas à pas
+      un protocole d'analyse statistique. Chaque choix montre ses
+      conséquences, ses alternatives et ses limites — l'atelier aide à
+      raisonner, il n'impose pas de recette.
+    </p>
+    <p class="naf-hand naf-viz-hand" aria-hidden="true">
+      « commencer par ce que l'on veut comprendre »
+    </p>
+  </header>
+
+  <div class="naf-at-layout">
+    <div class="naf-at-main">
+      <nav class="naf-px-list naf-at-chooser" id="naf-at-chooser"
+           aria-label="Que voulez-vous étudier ?">
+        Chargement de l'atelier…
+      </nav>
+      <div id="naf-at-work" class="naf-at-work" hidden></div>
+      <article id="naf-at-fiche" class="naf-at-fiche" hidden
+               aria-label="Fiche méthode"></article>
+    </div>
+    <!-- div + role="complementary" plutôt que <aside> : Quarto route les
+         aside vers sa colonne de marge avec un !important. -->
+    <div id="naf-at-synth" class="naf-at-synthpanel naf-at-noprint" hidden
+         role="complementary" aria-label="Synthèse du protocole"
+         aria-live="polite"></div>
+  </div>
+
+</div>
+```
+
+:::
+
+:::

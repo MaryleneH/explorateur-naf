@@ -41,6 +41,17 @@ page-layout: full
     <a class="naf-chg-cta" href="sources.html">Ouvrir l'observatoire →</a>
   </p>
 </section>
+
+<section class="naf-bx-module" aria-labelledby="naf-bx-atelier">
+  <span class="naf-bx-module-num" aria-hidden="true">03</span>
+  <h2 class="naf-bx-module-title" id="naf-bx-atelier">Atelier d'étude</h2>
+  <p class="naf-bx-module-desc">Partir d'une question et construire un
+  protocole statistique adapté.</p>
+  <p class="naf-bx-module-meta">question · unité · sources · limites</p>
+  <p class="naf-comp-ctas" style="grid-column: 2;">
+    <a class="naf-chg-cta" href="atelier.html">Construire une étude →</a>
+  </p>
+</section>
 ```
 
 :::

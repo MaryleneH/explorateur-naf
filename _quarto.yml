@@ -12,6 +12,8 @@ project:
     - data/parcours.json
     # Dernier état de contrôle des sources (page Bonus « État des sources »).
     - data/quality/*.json
+    # Règles méthodologiques de l'Atelier d'étude (Bonus 03).
+    - data/atelier_scenarios.json
     # La police d'annotation est référencée depuis fonts.css : Quarto ne suit
     # pas les url() des feuilles de style, il faut la déclarer explicitement.
     - assets/fonts/*.woff2
@@ -44,14 +46,14 @@ website:
         text: Comprendre
       - href: methode/index.qmd
         text: Méthode & sources
-      # Rubrique extensible : ajouter « Atelier d'étude » ici quand il
-      # existera.
       - text: Bonus
         menu:
           - href: bonus/parcours.qmd
             text: Parcours guidés
           - href: bonus/sources.qmd
             text: État des sources
+          - href: bonus/atelier.qmd
+            text: Atelier d'étude
     right:
       - search
   # Footer global : auteur, transparence (code source), amélioration continue

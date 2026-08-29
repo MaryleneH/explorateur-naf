@@ -1138,6 +1138,10 @@ l'étude a besoin.</p>
 <p><strong>Une boîte à outils n'est pas une recette unique.</strong>
 Le choix du point d'entrée dépend de la question, du grain nécessaire, de
 la fraîcheur recherchée et du volume à traiter.</p>
+<p>Vous ne savez pas encore quelle source choisir ?</p>
+<p class="naf-comp-ctas">
+  <a class="naf-chg-cta" href="../bonus/atelier.html">Ouvrir l'Atelier d'étude →</a>
+</p>
 <p class="naf-hand naf-comp-hand" aria-hidden="true">« la bonne source est celle qui répond à la bonne question »</p>
 ```
 
