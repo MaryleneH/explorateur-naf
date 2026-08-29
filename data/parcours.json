@@ -162,15 +162,15 @@
         },
         {
           "titre": "La source : Sirene établissements",
-          "texte": "Grain établissement, clé SIRET, stock mensuel ou API : la fiche Sirene de la boîte à outils donne les points d'entrée officiels — et le réflexe : ne compter que les établissements <em>actifs</em>.",
+          "texte": "Grain établissement, clé SIRET, stock mensuel ou API : la fiche Sirene de l'État des sources donne les points d'entrée officiels — et le réflexe : ne compter que les établissements <em>actifs</em>.",
           "action": "Parcourir la fiche Sirene",
-          "url": "comprendre/boite-outils.html#fiche-sirene"
+          "url": "bonus/sources.html#source-sirene_stock"
         },
         {
           "titre": "Du filtre au code qui tourne",
-          "texte": "La recette 03 filtre un stock Sirene par code NAF, en Python ou en R, sans jamais charger le fichier entier. Selon la question, on enrichit ensuite : géolocalisation Sirene, REFD…",
-          "action": "Ouvrir la recette 03",
-          "url": "comprendre/boite-outils.html#recette-03"
+          "texte": "La recette « Filtrer un gros fichier Sirene » extrait par code NAF, en Python ou en R, sans jamais charger le fichier entier. Selon la question, on enrichit ensuite : géolocalisation Sirene, REFD…",
+          "action": "Ouvrir la recette",
+          "url": "comprendre/boite-outils.html#stock-sirene"
         },
         {
           "titre": "Ce qu'il faut retenir",

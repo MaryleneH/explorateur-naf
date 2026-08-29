@@ -16,9 +16,11 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
-TOOLBOX_ANCHORS = {"fiche-sirene", "fiche-sirus", "fiche-side",
-                   "fiche-boamp", "fiche-decp", "fiche-bodacc",
-                   "fiche-douanes", "fiche-inpi", "fiche-refd", "fiche-naf"}
+# Gestes de la Boîte à outils refondue (identifiants explicites) —
+# ce sont les cibles des cartes TOOLBOX de naf-atelier.js et naf-sources.js.
+TOOLBOX_ANCHORS = {"trouver-entreprise", "etablissements", "stock-sirene",
+                   "boamp", "decp", "bodacc", "appariement",
+                   "douanes", "inpi"}
 
 
 def load_rules():

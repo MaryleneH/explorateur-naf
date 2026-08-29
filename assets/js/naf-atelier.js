@@ -66,14 +66,10 @@
   };
 
   var TOOLBOX = {
-    sirene_stock: "fiche-sirene", sirene_api: "fiche-sirene",
-    sirene_geo: "fiche-sirene", sirus: "fiche-sirus",
-    side: "fiche-side", side_stocks: "fiche-side",
-    boamp: "fiche-boamp", decp: "fiche-decp",
-    bodacc: "fiche-bodacc", rne: "fiche-bodacc",
-    douanes: "fiche-douanes", inpi_brevets: "fiche-inpi",
-    refd: "fiche-refd", edis: "fiche-refd",
-    naf_correspondance: "fiche-naf",
+    sirene_stock: "stock-sirene", sirene_api: "trouver-entreprise",
+    sirene_geo: "stock-sirene",
+    boamp: "boamp", decp: "decp", bodacc: "bodacc",
+    douanes: "douanes", inpi_brevets: "inpi",
   };
 
   var state = null;
@@ -163,8 +159,8 @@
     var autre = el("p", "naf-at-autre",
       "Autre question ? L'atelier couvre sept familles d'études ; pour un " +
       "sujet différent, la même grille reste valable : question → unité → " +
-      "périmètre → sources → fraîcheur → limites. Les fiches de la Boîte à " +
-      "outils et la page Comprendre vous aideront à la remplir.");
+      "périmètre → sources → fraîcheur → limites. Les fiches de l'État des " +
+      "sources et la page Comprendre vous aideront à la remplir.");
     dom.chooser.appendChild(autre);
   }
 

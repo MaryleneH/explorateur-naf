@@ -6012,3 +6012,144 @@ body {
   main .naf-at-layout > .naf-at-main,
   main .naf-at-layout > .naf-at-synthpanel { grid-column: auto; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   Boîte à outils refondue — gestes d'abord
+═══════════════════════════════════════════════════════════════════ */
+
+.naf-tb-lang {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.7rem;
+  margin-top: 0.9rem;
+}
+
+.naf-tb-lang-label {
+  font-size: 0.9rem;
+  font-weight: 650;
+  color: var(--naf-ink);
+}
+
+.naf-tb-lang-note {
+  font-size: 0.8rem;
+  color: var(--naf-steel);
+}
+
+/* Carte « Je débute » : visible sans devenir une bannière marketing. */
+.naf-tb-start {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.15rem 1.2rem;
+  align-items: center;
+  max-width: 40rem;
+  margin: 1.2rem 0 1.1rem;
+  padding: 1rem 1.25rem 1.1rem;
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-line);
+  border-left: 4px solid var(--naf-bronze);
+  border-radius: var(--naf-radius);
+  text-decoration: none;
+  transition: border-color 0.15s ease, background 0.15s ease;
+
+  &:hover,
+  &:focus-visible {
+    background: #fbf9f5;
+    border-color: var(--naf-bronze);
+    text-decoration: none;
+  }
+}
+
+.naf-tb-start-kicker {
+  font-family: var(--naf-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--naf-bronze);
+}
+
+.naf-tb-start-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--naf-ink);
+}
+
+.naf-tb-start-meta {
+  font-size: 0.84rem;
+  color: var(--naf-steel);
+}
+
+.naf-tb-start-cta {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  align-self: center;
+  font-weight: 650;
+  color: var(--naf-bronze);
+  white-space: nowrap;
+}
+
+/* Catégories de l'index des gestes */
+.naf-tb-cat {
+  margin: 1.3rem 0 0;
+  padding-bottom: 0.3rem;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--naf-steel);
+
+  &:first-child { margin-top: 0.2rem; }
+}
+
+/* Bande entrée → action → sortie */
+.naf-tb-eas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.6rem;
+  margin: 0.5rem 0 0.7rem;
+  padding: 0.6rem 0.9rem;
+  background: var(--naf-line-soft);
+  border-radius: var(--naf-radius);
+  font-size: 0.88rem;
+
+  > span > em {
+    font-style: normal;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--naf-bronze);
+    margin-right: 0.35rem;
+  }
+}
+
+.naf-tb-ilfaut,
+.naf-tb-srcline,
+.naf-tb-result,
+.naf-tb-suite {
+  margin: 0.4rem 0 0.6rem;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  max-width: 46rem;
+}
+
+.naf-tb-suite { color: var(--naf-steel); }
+
+/* Bandeau Atelier */
+.naf-tb-atelier {
+  max-width: 46rem;
+  margin: 1.6rem 0 2rem;
+  padding: 1rem 1.2rem 0.9rem;
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-line);
+  border-left: 4px solid var(--naf-slate-mid);
+  border-radius: var(--naf-radius);
+
+  p { margin: 0 0 0.5rem; }
+  .naf-hand { margin: 0.2rem 0 0; }
+}
+
+.naf-tb-fin { margin-top: 2.2rem; }
+
+.naf-tb-demsteps { margin-bottom: 1.2rem; }

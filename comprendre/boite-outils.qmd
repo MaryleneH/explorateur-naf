@@ -15,447 +15,251 @@ include-after-body: "../includes/toolbox-scripts.html"
     La boîte à outils du statisticien
   </p>
   <p class="naf-viz-lede">
-    Trouver la source, comprendre son grain et préparer son ingestion en R
-    ou en Python. Rien n'est téléchargé depuis cette page : elle montre
-    comment le faire proprement, dans votre environnement.
+    Dites ce que vous voulez faire : la page montre comment, en R ou en
+    Python. Le choix de la source appartient à l'<a
+    href="../bonus/atelier.html">Atelier d'étude</a>, son diagnostic à
+    l'<a href="../bonus/sources.html">État des sources</a> — ici, on agit.
   </p>
-  <p class="naf-hand naf-viz-hand" aria-hidden="true">
-    « les bonnes données commencent par le bon point d'entrée »
-  </p>
-  <p class="naf-tb-watch">Liens vers les sources contrôlés automatiquement par
-    <a href="https://github.com/MaryleneH/explorateur-naf/actions/workflows/check-sources.yml"
-       target="_blank" rel="noopener noreferrer">GitHub Actions ↗</a>
-    (hebdomadaire, statuts OK / avertissement / lien cassé).</p>
+  <p class="naf-hand naf-viz-hand" aria-hidden="true">« une recette = un geste »</p>
+
+  <div class="naf-tb-lang">
+    <span class="naf-tb-lang-label">Votre langage :</span>
+    <div class="naf-versions" id="naf-tb-lang" role="radiogroup"
+         aria-label="Choisir le langage des recettes">
+      <button type="button" class="naf-version is-current" role="radio"
+              aria-checked="true" data-lang="python">Python</button>
+      <button type="button" class="naf-version" role="radio"
+              aria-checked="false" data-lang="r">R</button>
+    </div>
+    <span class="naf-tb-lang-note">choisi une fois, mémorisé partout</span>
+  </div>
 </header>
 
-<section class="naf-did" aria-labelledby="naf-tb-reflexes">
-  <p class="naf-did-title" id="naf-tb-reflexes" role="heading" aria-level="2">
-    Trois réflexes avant d'ingérer
+<a class="naf-tb-start" href="#demarrage">
+  <span class="naf-tb-start-kicker">Je débute</span>
+  <span class="naf-tb-start-title">Votre première extraction</span>
+  <span class="naf-tb-start-meta">≈ 5 minutes · Sirene · une entreprise ·
+    quelques lignes de code</span>
+  <span class="naf-tb-start-cta">Commencer →</span>
+</a>
+
+<nav class="naf-comp-nav" id="naf-tb-nav" aria-label="Sommaire de la boîte à outils">
+  <a class="naf-comp-nav-link" href="#demarrage">Démarrage</a>
+  <a class="naf-comp-nav-link" href="#entreprises">Entreprises</a>
+  <a class="naf-comp-nav-link" href="#marches">Marchés</a>
+  <a class="naf-comp-nav-link" href="#suivi">Suivi</a>
+  <a class="naf-comp-nav-link" href="#autres">Autres données</a>
+  <a class="naf-comp-nav-link" href="#avance">Avancé</a>
+</nav>
+
+<!-- ══════════════════ DÉMARRAGE RAPIDE ══════════════════ -->
+<section class="naf-comp-section" id="demarrage" aria-labelledby="naf-tb-dem-t">
+  <p class="naf-comp-kicker">Je débute</p>
+  <p class="naf-hand-heading naf-comp-h2" id="naf-tb-dem-t" role="heading"
+     aria-level="2">Faire une première extraction en 5 minutes</p>
+  <p class="naf-comp-lede">
+    L'objectif n'est pas de tout comprendre de Sirene : c'est de réussir
+    une première requête, la lire, et repartir de là.
   </p>
-  <ol class="naf-did-steps">
+  <p class="naf-hand naf-comp-hand" aria-hidden="true">« commencer petit »</p>
+
+  <ol class="naf-did-steps naf-tb-demsteps">
     <li class="naf-did-step">
-      <span class="naf-did-step-head">1 · Vérifier le grain</span>
-      <span class="naf-did-step-text">Que représente une ligne : une unité
-      légale, un établissement, un marché, un flux produit × pays ? Le grain
-      décide de tout ce qui suit.</span>
+      <span class="naf-did-step-head">1 · Choisir Python ou R</span>
+      <span class="naf-did-step-text">Avec le sélecteur en haut de page —
+      votre choix suivra toutes les recettes.</span>
     </li>
     <li class="naf-did-step">
-      <span class="naf-did-step-head">2 · Vérifier la date de référence</span>
-      <span class="naf-did-step-text">La date de téléchargement n'est pas la
-      période que décrivent les données. Un stock « d'août » décrit un état,
-      un flux « d'août » décrit un mois.</span>
+      <span class="naf-did-step-head">2 · Comprendre le SIREN</span>
+      <span class="naf-did-step-text">Neuf chiffres qui identifient une
+      unité légale — l'entreprise au sens juridique. Exemple utilisé
+      partout ici : <span class="naf-mono">552100554</span>.</span>
     </li>
     <li class="naf-did-step">
-      <span class="naf-did-step-head">3 · Vérifier le volume</span>
-      <span class="naf-did-step-text">Une requête ciblée d'API suffit
-      souvent ; un stock complet exige une lecture en colonnes projetées,
-      jamais un chargement intégral en mémoire.</span>
+      <span class="naf-did-step-head">3 · Préparer l'accès</span>
+      <span class="naf-did-step-text">Vérifier la liste « Avant de
+      commencer » ci-dessous, et créer votre clé API Sirene (compte
+      gratuit sur le portail Insee — lien dans la recette).</span>
+    </li>
+    <li class="naf-did-step">
+      <span class="naf-did-step-head">4 · Lancer la requête</span>
+      <span class="naf-did-step-text">La recette
+      <a href="#trouver-entreprise">« Trouver une entreprise »</a> contient
+      le code complet, prêt à copier.</span>
+    </li>
+    <li class="naf-did-step">
+      <span class="naf-did-step-head">5 · Lire le résultat</span>
+      <span class="naf-did-step-text">Dénomination, état administratif,
+      activité principale… Vous venez de réaliser votre première
+      extraction.</span>
     </li>
   </ol>
-  <p class="naf-hand naf-did-hand" aria-hidden="true">« ouvrir 30 millions de lignes<br>n'est pas toujours nécessaire »</p>
+
+  <div class="naf-comp-vs">
+    <div class="naf-comp-vs-panel">
+      <p class="naf-comp-vs-title">Avant de commencer — Python</p>
+      <ul>
+        <li>Python installé (3.10 ou plus récent) ;</li>
+        <li>le package <span class="naf-mono">requests</span>
+            (<span class="naf-mono">pip install requests</span>) ;</li>
+        <li>une clé API Sirene dans la variable d'environnement
+            <span class="naf-mono">SIRENE_API_TOKEN</span>.</li>
+      </ul>
+    </div>
+    <div class="naf-comp-vs-panel">
+      <p class="naf-comp-vs-title">Avant de commencer — R</p>
+      <ul>
+        <li>R installé (4.2 ou plus récent) ;</li>
+        <li>le package <span class="naf-mono">httr2</span>
+            (<span class="naf-mono">install.packages("httr2")</span>) ;</li>
+        <li>la même clé dans
+            <span class="naf-mono">SIRENE_API_TOKEN</span>.</li>
+      </ul>
+    </div>
+  </div>
+
+  <details class="naf-sheet-section">
+    <summary class="naf-sheet-summary"><span class="naf-sheet-summary-text">Où mettre ma clé API ?</span></summary>
+    <div class="naf-sheet-body">
+      <p class="naf-sheet-text">La clé se crée gratuitement sur le portail
+      api.insee.fr (lien officiel dans la recette 01). Elle ne s'écrit
+      jamais dans le code : le code lit une <strong>variable
+      d'environnement</strong>, définie avant l'exécution.</p>
+      <dl class="naf-deflist">
+        <dt>Terminal (macOS / Linux)</dt>
+        <dd><span class="naf-mono">export SIRENE_API_TOKEN="votre-clé"</span>
+        puis lancer votre script dans le même terminal.</dd>
+        <dt>Windows (PowerShell)</dt>
+        <dd><span class="naf-mono">$env:SIRENE_API_TOKEN = "votre-clé"</span></dd>
+        <dt>R (fichier .Renviron)</dt>
+        <dd>Ajouter la ligne <span class="naf-mono">SIRENE_API_TOKEN=votre-clé</span>
+        dans <span class="naf-mono">~/.Renviron</span>, puis redémarrer R.</dd>
+        <dt>Vérifier</dt>
+        <dd>Python : <span class="naf-mono">os.getenv("SIRENE_API_TOKEN")</span>
+        ne doit pas renvoyer <span class="naf-mono">None</span>.
+        R : <span class="naf-mono">Sys.getenv("SIRENE_API_TOKEN")</span>
+        ne doit pas renvoyer une chaîne vide.</dd>
+      </dl>
+    </div>
+  </details>
 </section>
 
-<p class="naf-comp-kicker">Trouver son point d'entrée</p>
-<p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Je veux…</p>
-<p class="naf-comp-lede">
-  Le premier choix n'est pas une base, c'est un besoin. Chaque besoin mène à
-  sa fiche source : grain, accès, points d'entrée officiels et recettes.
-</p>
+<!-- ══════════════════ QUE VOULEZ-VOUS FAIRE ? ══════════════════ -->
+<p class="naf-comp-kicker">L'index des gestes</p>
+<p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Que voulez-vous faire ?</p>
 
-<div class="naf-versions naf-tb-modes" role="radiogroup" aria-label="Mode de navigation dans les sources">
-  <button type="button" class="naf-version is-current" role="radio" aria-checked="true" data-mode="besoin">Par besoin</button>
-  <button type="button" class="naf-version" role="radio" aria-checked="false" data-mode="source">Par source</button>
-</div>
-
-<nav class="naf-tb-besoins" aria-label="Choisir une source selon le besoin">
-  <a class="naf-tb-need" href="#fiche-sirene">
+<nav class="naf-tb-besoins" aria-label="Choisir un geste">
+  <p class="naf-tb-cat">Entreprises</p>
+  <a class="naf-tb-need" href="#trouver-entreprise">
     <span class="naf-tb-need-num" aria-hidden="true">01</span>
-    <span class="naf-tb-need-text">identifier ou localiser des entreprises</span>
-    <span class="naf-tb-need-src">Sirene</span>
+    <span class="naf-tb-need-text">Trouver une entreprise</span>
+    <span class="naf-tb-need-src">API Sirene · unité légale</span>
     <span class="naf-tb-need-arrow" aria-hidden="true">→</span>
   </a>
-  <a class="naf-tb-need" href="#fiche-sirus">
+  <a class="naf-tb-need" href="#etablissements">
     <span class="naf-tb-need-num" aria-hidden="true">02</span>
-    <span class="naf-tb-need-text">travailler sur une population statistique</span>
-    <span class="naf-tb-need-src">Sirus · SIDE</span>
+    <span class="naf-tb-need-text">Récupérer ses établissements</span>
+    <span class="naf-tb-need-src">API Sirene · SIRET</span>
     <span class="naf-tb-need-arrow" aria-hidden="true">→</span>
   </a>
-  <a class="naf-tb-need" href="#fiche-boamp">
+  <a class="naf-tb-need" href="#stock-sirene">
     <span class="naf-tb-need-num" aria-hidden="true">03</span>
-    <span class="naf-tb-need-text">observer la commande publique</span>
-    <span class="naf-tb-need-src">BOAMP · DECP</span>
+    <span class="naf-tb-need-text">Filtrer un gros fichier Sirene</span>
+    <span class="naf-tb-need-src">Sirene stock · DuckDB</span>
     <span class="naf-tb-need-arrow" aria-hidden="true">→</span>
   </a>
-  <a class="naf-tb-need" href="#fiche-bodacc">
+
+  <p class="naf-tb-cat">Marchés publics</p>
+  <a class="naf-tb-need" href="#boamp">
     <span class="naf-tb-need-num" aria-hidden="true">04</span>
-    <span class="naf-tb-need-text">suivre des événements d'entreprises</span>
-    <span class="naf-tb-need-src">BODACC · RNE</span>
+    <span class="naf-tb-need-text">Interroger le BOAMP (annonces)</span>
+    <span class="naf-tb-need-src">BOAMP · annonce</span>
     <span class="naf-tb-need-arrow" aria-hidden="true">→</span>
   </a>
-  <a class="naf-tb-need" href="#fiche-douanes">
+  <a class="naf-tb-need" href="#decp">
     <span class="naf-tb-need-num" aria-hidden="true">05</span>
-    <span class="naf-tb-need-text">étudier des flux internationaux</span>
-    <span class="naf-tb-need-src">Douanes</span>
+    <span class="naf-tb-need-text">Récupérer des marchés attribués (DECP)</span>
+    <span class="naf-tb-need-src">DECP · marché</span>
     <span class="naf-tb-need-arrow" aria-hidden="true">→</span>
   </a>
-  <a class="naf-tb-need" href="#fiche-inpi">
+
+  <p class="naf-tb-cat">Suivre une population</p>
+  <a class="naf-tb-need" href="#bodacc">
     <span class="naf-tb-need-num" aria-hidden="true">06</span>
-    <span class="naf-tb-need-text">observer des signaux d'innovation</span>
-    <span class="naf-tb-need-src">INPI</span>
+    <span class="naf-tb-need-text">Lire les événements BODACC</span>
+    <span class="naf-tb-need-src">BODACC · événement</span>
     <span class="naf-tb-need-arrow" aria-hidden="true">→</span>
   </a>
-  <a class="naf-tb-need" href="#fiche-refd">
+  <a class="naf-tb-need" href="#appariement">
     <span class="naf-tb-need-num" aria-hidden="true">07</span>
-    <span class="naf-tb-need-text">travailler sur les fournisseurs Défense</span>
-    <span class="naf-tb-need-src">REFD · EDIS</span>
+    <span class="naf-tb-need-text">Apparier une liste de SIREN</span>
+    <span class="naf-tb-need-src">périmètre × Sirene</span>
     <span class="naf-tb-need-arrow" aria-hidden="true">→</span>
   </a>
-  <a class="naf-tb-need" href="#fiche-naf">
+
+  <p class="naf-tb-cat">Autres données</p>
+  <a class="naf-tb-need" href="#douanes">
     <span class="naf-tb-need-num" aria-hidden="true">08</span>
-    <span class="naf-tb-need-text">passer de NAF 2008 à NAF 2025</span>
-    <span class="naf-tb-need-src">correspondances Insee</span>
+    <span class="naf-tb-need-text">Travailler avec les données Douanes</span>
+    <span class="naf-tb-need-src">produit × pays</span>
+    <span class="naf-tb-need-arrow" aria-hidden="true">→</span>
+  </a>
+  <a class="naf-tb-need" href="#inpi">
+    <span class="naf-tb-need-num" aria-hidden="true">09</span>
+    <span class="naf-tb-need-text">Accéder aux données INPI</span>
+    <span class="naf-tb-need-src">brevets · compte requis</span>
     <span class="naf-tb-need-arrow" aria-hidden="true">→</span>
   </a>
 </nav>
 
-<div class="naf-tb-fiches">
-
-  <details class="naf-tb-fiche" id="fiche-sirene">
-    <summary>
-      <span class="naf-tb-fiche-name">Sirene</span>
-      <span class="naf-tb-fiche-num" aria-hidden="true">01</span>
-      <span class="naf-tb-fiche-tags">identifier · localiser · activité — répertoire administratif de référence</span>
-    </summary>
-    <div class="naf-tb-fiche-body">
-      <div class="naf-tb-chips">
-        <span class="naf-tb-chip naf-tb-chip-grain"><span class="naf-tb-chip-label">grain</span><span class="naf-tb-chip-value">unité légale / établissement</span></span>
-        <span class="naf-tb-chip"><span class="naf-tb-chip-label">clé</span><span class="naf-tb-chip-value">SIREN / SIRET</span></span>
-        <span class="naf-tb-chip"><span class="naf-tb-chip-label">fraîcheur</span><span class="naf-tb-chip-value">mensuelle ou API</span></span>
-        <span class="naf-tb-chip"><span class="naf-tb-chip-label">accès</span><span class="naf-tb-chip-value">open data / API</span></span>
-      </div>
-      <dl class="naf-deflist">
-        <dt>À quoi sert-elle ?</dt>
-        <dd>Identifier une unité, la localiser, connaître son état
-        administratif et son code d'activité — et, en 2026, son futur code
-        NAF 2025. C'est le socle de presque tous les appariements.</dd>
-        <dt>Que puis-je récupérer ?</dt>
-        <dd>Trois stratégies selon le besoin. <strong>Fichiers stock</strong>
-        (analyses de masse, populations complètes, traitements mensuels) :
-        retrouver la ressource la plus récente via les métadonnées
-        data.gouv, sans jamais figer un lien mensuel — le format Parquet est
-        disponible depuis 2026. <strong>API Sirene 3.11</strong> (requêtes
-        ciblées, recherches d'unités, mises à jour fines) : clé du portail
-        api.insee.fr, quotas, pagination par curseur.
-        <strong>Géolocalisation</strong> (études territoriales) : fichier
-        dédié de coordonnées des établissements.</dd>
-        <dt>Limites</dt>
-        <dd>Existence administrative ≠ activité économique ; activité
-        principale seulement ; qualité du géocodage variable.</dd>
-      </dl>
-      <div class="naf-tb-entries"><p class="naf-comp-vs-title">Points d'entrée officiels</p>
-        <div data-mf-links="sirene_stock,sirene_api,sirene_geo"></div>
-      </div>
-      <p class="naf-tb-recettes-link">Recettes :
-        <a href="#recette-01">01</a> <a href="#recette-02">02</a>
-        <a href="#recette-03">03</a> <a href="#recette-09">09</a>
-      </p>
-    </div>
-  </details>
-
-  <details class="naf-tb-fiche" id="fiche-sirus">
-    <summary>
-      <span class="naf-tb-fiche-name">Sirus</span>
-      <span class="naf-tb-fiche-num" aria-hidden="true">02</span>
-      <span class="naf-tb-fiche-tags">population statistique · unité statistique — le référentiel du système statistique</span>
-    </summary>
-    <div class="naf-tb-fiche-body">
-      <div class="naf-tb-chips">
-        <span class="naf-tb-chip naf-tb-chip-grain"><span class="naf-tb-chip-label">grain</span><span class="naf-tb-chip-value">unité statistique</span></span>
-        <span class="naf-tb-chip"><span class="naf-tb-chip-label">clé</span><span class="naf-tb-chip-value">SIREN</span></span>
-        <span class="naf-tb-chip"><span class="naf-tb-chip-label">fraîcheur</span><span class="naf-tb-chip-value">continue</span></span>
-        <span class="naf-tb-chip"><span class="naf-tb-chip-label">accès</span><span class="naf-tb-chip-value">selon droits</span></span>
-      </div>
-      <dl class="naf-deflist">
-        <dt>À quoi sert-il ?</dt>
-        <dd>Définir le champ des unités économiquement actives et porter les
-        enrichissements statistiques : effectifs, chiffre d'affaires,
-        classement sectoriel, notion d'unité statistique.</dd>
-        <dt>Attention à l'accès</dt>
-        <dd>La documentation est publique ; les <strong>microdonnées ne se
-        téléchargent pas</strong> comme Sirene : accès chercheurs ou
-        environnement statistique. Pour une analyse reproductible en sources
-        ouvertes, utiliser les sorties publiques : SIDE (fiche 03), Flores
-        selon le millésime, publications Insee.</dd>
-      </dl>
-      <div class="naf-tb-entries"><p class="naf-comp-vs-title">Points d'entrée officiels</p>
-        <div data-mf-links="sirus"></div>
-      </div>
-    </div>
-  </details>
-
-  <details class="naf-tb-fiche" id="fiche-side">
-    <summary>
-      <span class="naf-tb-fiche-name">SIDE</span>
-      <span class="naf-tb-fiche-num" aria-hidden="true">03</span>
-      <span class="naf-tb-fiche-tags">démographie d'entreprises · résultats publics consolidés</span>
-    </summary>
-    <div class="naf-tb-fiche-body">
-      <div class="naf-tb-chips">
-        <span class="naf-tb-chip naf-tb-chip-grain"><span class="naf-tb-chip-label">grain</span><span class="naf-tb-chip-value">unité / établissement actif</span></span>
-        <span class="naf-tb-chip"><span class="naf-tb-chip-label">fraîcheur</span><span class="naf-tb-chip-value">mensuelle à annuelle</span></span>
-        <span class="naf-tb-chip"><span class="naf-tb-chip-label">accès</span><span class="naf-tb-chip-value">résultats publics</span></span>
-      </div>
-      <dl class="naf-deflist">
-        <dt>À quoi sert-il ?</dt>
-        <dd>Créations, cessations et stocks d'unités légales et
-        d'établissements <strong>économiquement actifs</strong> — le champ
-        statistique, alimenté par Sirene enrichi de Sirus.</dd>
-        <dt>Limites</dt>
-        <dd>Consolidation avec délai : plus lent que le répertoire, plus
-        juste que lui. Donnée fraîche ≠ donnée consolidée.</dd>
-      </dl>
-      <div class="naf-tb-entries"><p class="naf-comp-vs-title">Points d'entrée officiels</p>
-        <div data-mf-links="side,side_stocks"></div>
-      </div>
-    </div>
-  </details>
-
-  <details class="naf-tb-fiche" id="fiche-boamp">
-    <summary>
-      <span class="naf-tb-fiche-name">BOAMP</span>
-      <span class="naf-tb-fiche-num" aria-hidden="true">04</span>
-      <span class="naf-tb-fiche-tags">commande publique · annonces — appels d'offres et résultats</span>
-    </summary>
-    <div class="naf-tb-fiche-body">
-      <div class="naf-tb-chips">
-        <span class="naf-tb-chip naf-tb-chip-grain"><span class="naf-tb-chip-label">grain</span><span class="naf-tb-chip-value">annonce de marché</span></span>
-        <span class="naf-tb-chip"><span class="naf-tb-chip-label">fraîcheur</span><span class="naf-tb-chip-value">quotidienne</span></span>
-        <span class="naf-tb-chip"><span class="naf-tb-chip-label">accès</span><span class="naf-tb-chip-value">API Opendatasoft</span></span>
-      </div>
-      <dl class="naf-deflist">
-        <dt>À quoi sert-il ?</dt>
-        <dd>Veille très fraîche sur les annonces : appels d'offres,
-        attributions, acheteurs quand ils sont publiés. Filtrage plein texte
-        (<span class="naf-mono">search('défense')</span>) et par date.</dd>
-        <dt>Limites</dt>
-        <dd>Couverture = annonces soumises à publication. Un marché sensible
-        ou sous seuil peut être absent : absence ≠ absence de commande.</dd>
-      </dl>
-      <div class="naf-tb-entries"><p class="naf-comp-vs-title">Points d'entrée officiels</p>
-        <div data-mf-links="boamp"></div>
-      </div>
-      <p class="naf-tb-recettes-link">Recette : <a href="#recette-04">04</a></p>
-    </div>
-  </details>
-
-  <details class="naf-tb-fiche" id="fiche-decp">
-    <summary>
-      <span class="naf-tb-fiche-name">DECP</span>
-      <span class="naf-tb-fiche-num" aria-hidden="true">05</span>
-      <span class="naf-tb-fiche-tags">marchés attribués · titulaires — les données essentielles de la commande publique</span>
-    </summary>
-    <div class="naf-tb-fiche-body">
-      <div class="naf-tb-chips">
-        <span class="naf-tb-chip naf-tb-chip-grain"><span class="naf-tb-chip-label">grain</span><span class="naf-tb-chip-value">marché / titulaire</span></span>
-        <span class="naf-tb-chip"><span class="naf-tb-chip-label">clé</span><span class="naf-tb-chip-value">SIRET titulaires</span></span>
-        <span class="naf-tb-chip"><span class="naf-tb-chip-label">fraîcheur</span><span class="naf-tb-chip-value">alimentation continue</span></span>
-        <span class="naf-tb-chip"><span class="naf-tb-chip-label">accès</span><span class="naf-tb-chip-value">API / CSV</span></span>
-      </div>
-      <dl class="naf-deflist">
-        <dt>À quoi servent-elles ?</dt>
-        <dd>Marchés attribués : acheteur, titulaires (SIRET, éclatés en
-        <span class="naf-mono">titulaire_id_1/2/3</span>), montants, CPV,
-        date de notification. C'est le pont naturel vers Sirene.</dd>
-        <dt>Limites</dt>
-        <dd>Qualité hétérogène (doublons, montants, identifiants) :
-        contrôles indispensables avant toute agrégation.</dd>
-      </dl>
-      <div class="naf-tb-entries"><p class="naf-comp-vs-title">Points d'entrée officiels</p>
-        <div data-mf-links="decp"></div>
-      </div>
-      <p class="naf-tb-recettes-link">Recettes : <a href="#recette-05">05</a> <a href="#recette-09">09</a></p>
-    </div>
-  </details>
-
-  <details class="naf-tb-fiche" id="fiche-bodacc">
-    <summary>
-      <span class="naf-tb-fiche-name">BODACC · RNE</span>
-      <span class="naf-tb-fiche-num" aria-hidden="true">06</span>
-      <span class="naf-tb-fiche-tags">événements d'entreprises — annonces civiles et commerciales, registre</span>
-    </summary>
-    <div class="naf-tb-fiche-body">
-      <div class="naf-tb-chips">
-        <span class="naf-tb-chip naf-tb-chip-grain"><span class="naf-tb-chip-label">grain</span><span class="naf-tb-chip-value">annonce / événement</span></span>
-        <span class="naf-tb-chip"><span class="naf-tb-chip-label">clé</span><span class="naf-tb-chip-value">SIREN (registre)</span></span>
-        <span class="naf-tb-chip"><span class="naf-tb-chip-label">fraîcheur</span><span class="naf-tb-chip-value">plusieurs fois par semaine</span></span>
-        <span class="naf-tb-chip"><span class="naf-tb-chip-label">accès</span><span class="naf-tb-chip-value">API Opendatasoft / compte INPI</span></span>
-      </div>
-      <dl class="naf-deflist">
-        <dt>À quoi servent-ils ?</dt>
-        <dd>Suivre la vie juridique d'un périmètre : immatriculations,
-        modifications, cessions, procédures collectives, comptes déposés
-        (BODACC) ; actes et données du registre (RNE, sur compte INPI).</dd>
-        <dt>Limites</dt>
-        <dd>Événements publiés seulement ; lecture descriptive, jamais
-        prédictive.</dd>
-      </dl>
-      <div class="naf-tb-entries"><p class="naf-comp-vs-title">Points d'entrée officiels</p>
-        <div data-mf-links="bodacc,rne"></div>
-      </div>
-      <p class="naf-tb-recettes-link">Recettes : <a href="#recette-06">06</a> <a href="#recette-09">09</a></p>
-    </div>
-  </details>
-
-  <details class="naf-tb-fiche" id="fiche-douanes">
-    <summary>
-      <span class="naf-tb-fiche-name">Douanes</span>
-      <span class="naf-tb-fiche-num" aria-hidden="true">07</span>
-      <span class="naf-tb-fiche-tags">commerce extérieur · dépendances — des produits, pas des entreprises</span>
-    </summary>
-    <div class="naf-tb-fiche-body">
-      <div class="naf-tb-chips">
-        <span class="naf-tb-chip naf-tb-chip-grain"><span class="naf-tb-chip-label">grain</span><span class="naf-tb-chip-value">produit × pays × période</span></span>
-        <span class="naf-tb-chip"><span class="naf-tb-chip-label">clé</span><span class="naf-tb-chip-value">NC8 / SH</span></span>
-        <span class="naf-tb-chip"><span class="naf-tb-chip-label">fraîcheur</span><span class="naf-tb-chip-value">mensuelle</span></span>
-        <span class="naf-tb-chip"><span class="naf-tb-chip-label">accès</span><span class="naf-tb-chip-value">open data</span></span>
-      </div>
-      <dl class="naf-deflist">
-        <dt>À quoi servent-elles ?</dt>
-        <dd>Mesurer ce qui traverse la frontière : valeur importée et
-        exportée par produit fin (NC8) et par pays, en national et en
-        régional.</dd>
-        <dt>Limites</dt>
-        <dd><strong>Pas d'identification directe des entreprises</strong> :
-        le grain est le flux de produits. Toute passerelle vers les
-        activités (NAF) passe par les nomenclatures de produits (CPF) et
-        doit être documentée. Confidentialisation possible.</dd>
-      </dl>
-      <div class="naf-tb-entries"><p class="naf-comp-vs-title">Points d'entrée officiels</p>
-        <div data-mf-links="douanes"></div>
-      </div>
-      <p class="naf-tb-recettes-link">Recette : <a href="#recette-07">07</a></p>
-    </div>
-  </details>
-
-  <details class="naf-tb-fiche" id="fiche-inpi">
-    <summary>
-      <span class="naf-tb-fiche-name">INPI</span>
-      <span class="naf-tb-fiche-num" aria-hidden="true">08</span>
-      <span class="naf-tb-fiche-tags">brevets · propriété industrielle — signaux d'innovation différés</span>
-    </summary>
-    <div class="naf-tb-fiche-body">
-      <div class="naf-tb-chips">
-        <span class="naf-tb-chip naf-tb-chip-grain"><span class="naf-tb-chip-label">grain</span><span class="naf-tb-chip-value">brevet / déposant</span></span>
-        <span class="naf-tb-chip"><span class="naf-tb-chip-label">fraîcheur</span><span class="naf-tb-chip-value">publication différée (~18 mois)</span></span>
-        <span class="naf-tb-chip"><span class="naf-tb-chip-label">accès</span><span class="naf-tb-chip-value">open data avec compte</span></span>
-      </div>
-      <dl class="naf-deflist">
-        <dt>À quoi sert-il ?</dt>
-        <dd>Déposants, titres, résumés, classifications CIB/CPC : des
-        signaux technologiques par famille, à croiser avec un périmètre
-        d'entreprises.</dd>
-        <dt>Limites</dt>
-        <dd>Signal retardé (publication à 18 mois en général) ; tout n'est
-        pas breveté ; rattachement déposant → SIREN à documenter.</dd>
-      </dl>
-      <div class="naf-tb-entries"><p class="naf-comp-vs-title">Points d'entrée officiels</p>
-        <div data-mf-links="inpi_brevets"></div>
-      </div>
-      <p class="naf-tb-recettes-link">Recette : <a href="#recette-08">08</a></p>
-    </div>
-  </details>
-
-  <details class="naf-tb-fiche" id="fiche-refd">
-    <summary>
-      <span class="naf-tb-fiche-name">REFD · EDIS</span>
-      <span class="naf-tb-fiche-num" aria-hidden="true">09</span>
-      <span class="naf-tb-fiche-tags">fournisseurs Défense — périmètres empiriques du ministère des Armées</span>
-    </summary>
-    <div class="naf-tb-fiche-body">
-      <div class="naf-tb-chips">
-        <span class="naf-tb-chip naf-tb-chip-grain"><span class="naf-tb-chip-label">grain</span><span class="naf-tb-chip-value">fournisseur observé / entreprise enquêtée</span></span>
-        <span class="naf-tb-chip"><span class="naf-tb-chip-label">fraîcheur</span><span class="naf-tb-chip-value">millésimes annuels</span></span>
-        <span class="naf-tb-chip"><span class="naf-tb-chip-label">accès</span><span class="naf-tb-chip-value">publications ministérielles</span></span>
-      </div>
-      <dl class="naf-deflist">
-        <dt>À quoi servent-ils ?</dt>
-        <dd>Construire ou enrichir un périmètre Défense empirique : le REFD
-        répertorie des fournisseurs observés, l'enquête EDIS produit des
-        résultats statistiques structurés. Deux mesures différentes, à ne
-        pas fusionner.</dd>
-        <dt>Limites</dt>
-        <dd>Périmètres partiels par construction : être absent ne signifie
-        pas être étranger à la Défense. Reprendre leurs définitions exactes
-        — voir <a href="../defense/index.html">NAF &amp; Défense</a>.</dd>
-      </dl>
-      <div class="naf-tb-entries"><p class="naf-comp-vs-title">Points d'entrée officiels</p>
-        <div data-mf-links="refd,edis"></div>
-      </div>
-    </div>
-  </details>
-
-  <details class="naf-tb-fiche" id="fiche-naf">
-    <summary>
-      <span class="naf-tb-fiche-name">NAF &amp; correspondances</span>
-      <span class="naf-tb-fiche-num" aria-hidden="true">10</span>
-      <span class="naf-tb-fiche-tags">nomenclatures · 2008 ↔ 2025 — classer et suivre le changement de version</span>
-    </summary>
-    <div class="naf-tb-fiche-body">
-      <div class="naf-tb-chips">
-        <span class="naf-tb-chip naf-tb-chip-grain"><span class="naf-tb-chip-label">grain</span><span class="naf-tb-chip-value">activité / relation entre codes</span></span>
-        <span class="naf-tb-chip"><span class="naf-tb-chip-label">fraîcheur</span><span class="naf-tb-chip-value">à la révision</span></span>
-        <span class="naf-tb-chip"><span class="naf-tb-chip-label">accès</span><span class="naf-tb-chip-value">open data</span></span>
-      </div>
-      <dl class="naf-deflist">
-        <dt>À quoi servent-elles ?</dt>
-        <dd>Décrire un périmètre d'activités, caractériser une population —
-        et suivre la transition : en 2026, chaque unité Sirene porte l'APE
-        officiel (NAF rév. 2) et son futur code NAF 2025. La table
-        officielle relie les deux nomenclatures.</dd>
-        <dt>Limites</dt>
-        <dd>Correspondance ≠ conversion : relations 1→n, n→1, n↔n non
-        inversibles. Ce site embarque les deux nomenclatures complètes
-        (<span class="naf-mono">data/naf2025.csv</span>,
-        <span class="naf-mono">data/naf2008.csv</span>) — voir
-        <a href="../comparer/index.html">NAF 2008 ↔ 2025</a>.</dd>
-      </dl>
-      <div class="naf-tb-entries"><p class="naf-comp-vs-title">Points d'entrée officiels</p>
-        <div data-mf-links="naf_correspondance"></div>
-      </div>
-      <p class="naf-tb-recettes-link">Recette : <a href="#recette-03">03</a></p>
-    </div>
-  </details>
-
+<div class="naf-tb-atelier">
+  <p><strong>Vous ne savez pas encore quelle source utiliser ?</strong>
+  C'est une question de méthode, pas de code : question, grain, périmètre,
+  fraîcheur, limites.</p>
+  <p class="naf-comp-ctas">
+    <a class="naf-chg-cta" href="../bonus/atelier.html">Construire mon étude →</a>
+  </p>
+  <p class="naf-hand" aria-hidden="true">« besoin de choisir la source ?<br>passez par l'Atelier »</p>
 </div>
-
-<p class="naf-hand naf-comp-hand" aria-hidden="true">« une ligne n'est pas toujours une entreprise »</p>
 ```
 
 ```{=html}
-<p class="naf-comp-kicker">Passer au code</p>
-<p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Les recettes</p>
-<p class="naf-comp-lede">
-  Neuf gestes de base, chacun en Python et en R. Le choix du langage reste
-  mémorisé d'une recette à l'autre. Chaque recette annonce d'abord ce
-  qu'elle fait ; le code vient ensuite.
-</p>
+<section class="naf-comp-section" id="entreprises">
+  <p class="naf-comp-kicker">Entreprises</p>
+</section>
 ```
 
 ::: {.naf-carnet}
 
-<details class="naf-carnet-item" id="recette-01">
+<details class="naf-carnet-item" id="trouver-entreprise">
 <summary>
 <span class="naf-carnet-num" aria-hidden="true">01</span>
 <span class="naf-carnet-head">
-<span class="naf-carnet-title">Trouver une entreprise par SIREN</span>
-<span class="naf-carnet-q">API Sirene 3.11 · grain : unité légale · clé d'API en variable d'environnement</span>
+<span class="naf-carnet-title">Trouver une entreprise</span>
+<span class="naf-carnet-q">API Sirene · unité légale · quelques Ko</span>
 </span>
 </summary>
 <div class="naf-carnet-body">
 
-Une requête ciblée sur une unité légale : quelques kilo-octets, pas un
-stock. La clé vient du portail api.insee.fr et ne s'écrit jamais dans le
-code.
+**Ce que vous allez faire :** retrouver une unité légale à partir de son
+SIREN.
+
+```{=html}
+<div class="naf-tb-eas" role="img" aria-label="Entrée : un SIREN. Action : interroger l'API Sirene. Sortie : les informations de l'unité légale.">
+  <span><em>Entrée</em> un SIREN</span>
+  <span aria-hidden="true">→</span>
+  <span><em>Action</em> interroger l'API Sirene</span>
+  <span aria-hidden="true">→</span>
+  <span><em>Sortie</em> l'unité légale</span>
+</div>
+<p class="naf-tb-ilfaut"><strong>Il vous faut :</strong> un SIREN · une clé
+API Sirene (voir <a href="#demarrage">Démarrage</a>) · Python +
+<span class="naf-mono">requests</span> ou R + <span class="naf-mono">httr2</span>.</p>
+<p class="naf-tb-srcline"><strong>Source :</strong> API Sirene (Insee) ·
+<a class="naf-link" data-src-doc="sirene_api" target="_blank"
+   rel="noopener noreferrer">Documentation officielle ↗</a> ·
+<a class="naf-link" href="../bonus/sources.html#source-sirene_api">Fiche de la source →</a></p>
+```
 
 ::: {.panel-tabset group="langage"}
 ### Python
@@ -497,24 +301,58 @@ unite$uniteLegale$periodesUniteLegale[[1]]$denominationUniteLegale
 ```
 :::
 
-<p class="naf-tb-attention"><strong>Attention.</strong> L'API a des quotas :
-pour une population entière, préférer les fichiers stock (recette 03).</p>
+```{=html}
+<p class="naf-tb-result"><strong>Ce que vous devez obtenir :</strong> une
+unité légale avec notamment sa dénomination et son état administratif —
+pour <span class="naf-mono">552100554</span>, la dénomination
+<span class="naf-mono">SAFRAN</span> et un état administratif
+<span class="naf-mono">A</span> (active).</p>
+
+<details class="naf-sheet-section">
+  <summary class="naf-sheet-summary"><span class="naf-sheet-summary-text">Si ça ne marche pas</span></summary>
+  <div class="naf-sheet-body"><dl class="naf-deflist">
+    <dt>401 / 403</dt><dd>vérifier la clé (variable d'environnement définie dans la même session, en-tête <span class="naf-mono">X-INSEE-Api-Key-Integration</span>).</dd>
+    <dt>404</dt><dd>vérifier le SIREN : neuf chiffres, sans espaces.</dd>
+    <dt>timeout</dt><dd>vérifier l'accès réseau (proxy d'entreprise ?).</dd>
+  </dl></div>
+</details>
+
+<p class="naf-callout"><strong>À vérifier.</strong> Le SIREN identifie
+l'unité légale, pas chacun de ses établissements — et l'API a des quotas :
+pour une population entière, préférer le stock (recette 03).</p>
+<p class="naf-tb-suite">Suite :
+  <a class="naf-link" href="#etablissements">Récupérer ses établissements →</a></p>
+```
 
 </div>
 </details>
 
-<details class="naf-carnet-item" id="recette-02">
+<details class="naf-carnet-item" id="etablissements">
 <summary>
 <span class="naf-carnet-num" aria-hidden="true">02</span>
 <span class="naf-carnet-head">
-<span class="naf-carnet-title">Récupérer les établissements d'une unité</span>
-<span class="naf-carnet-q">API Sirene 3.11 · grain : établissement · pagination par curseur</span>
+<span class="naf-carnet-title">Récupérer ses établissements</span>
+<span class="naf-carnet-q">API Sirene · SIRET · pagination par curseur</span>
 </span>
 </summary>
 <div class="naf-carnet-body">
 
-Le passage de l'unité légale (SIREN) à ses lieux d'exercice (SIRET) : le
-bon grain pour la géographie.
+**Ce que vous allez faire :** passer de l'unité légale (SIREN) à ses lieux
+d'exercice (SIRET) — le bon grain pour la géographie.
+
+```{=html}
+<div class="naf-tb-eas" role="img" aria-label="Entrée : un SIREN. Action : interroger l'API Sirene. Sortie : les SIRET, communes et états administratifs.">
+  <span><em>Entrée</em> SIREN</span>
+  <span aria-hidden="true">→</span>
+  <span><em>Action</em> requête /siret</span>
+  <span aria-hidden="true">→</span>
+  <span><em>Sortie</em> SIRET · commune · état</span>
+</div>
+<p class="naf-tb-srcline"><strong>Source :</strong> API Sirene (Insee) ·
+<a class="naf-link" data-src-doc="sirene_api" target="_blank"
+   rel="noopener noreferrer">Documentation officielle ↗</a> ·
+<a class="naf-link" href="../bonus/sources.html#source-sirene_api">Fiche de la source →</a></p>
+```
 
 ::: {.panel-tabset group="langage"}
 ### Python
@@ -565,27 +403,64 @@ for (etab in etabs$etablissements) {
 ```
 :::
 
-<p class="naf-tb-attention"><strong>Attention.</strong> Chaque établissement
-a son propre code d'activité : ne pas plaquer celui de l'unité légale sur
-ses sites.</p>
+```{=html}
+<p class="naf-tb-result"><strong>Ce que vous devez obtenir :</strong> une
+ligne par établissement — le SIRET (14 chiffres), un indicateur de siège
+et la commune.</p>
+<p class="naf-callout"><strong>À vérifier.</strong> Chaque établissement
+peut avoir sa propre activité principale : ne pas plaquer le code de
+l'unité légale sur ses sites.</p>
+<p class="naf-tb-suite">Suite :
+  <a class="naf-link" href="#stock-sirene">Passer à l'échelle avec le stock →</a></p>
+```
 
 </div>
 </details>
 
-<details class="naf-carnet-item" id="recette-03">
+<details class="naf-carnet-item" id="stock-sirene">
 <summary>
 <span class="naf-carnet-num" aria-hidden="true">03</span>
 <span class="naf-carnet-head">
-<span class="naf-carnet-title">Filtrer un stock Sirene par code NAF</span>
-<span class="naf-carnet-q">Fichier stock · grain : établissement · DuckDB en colonnes projetées</span>
+<span class="naf-carnet-title">Filtrer un gros fichier Sirene</span>
+<span class="naf-carnet-q">Sirene stock · DuckDB · sans tout charger en mémoire</span>
 </span>
 </summary>
 <div class="naf-carnet-body">
 
-Le stock complet fait des millions de lignes : on ne lit que les colonnes
-et les lignes utiles, on ne charge jamais tout en mémoire. Le fichier
-s'obtient via `scripts/toolbox/python/sirene.py stock` (métadonnées
-data.gouv, dernière ressource, Parquet disponible).
+**Ce que vous allez faire :** extraire tous les établissements d'un code
+NAF depuis le stock complet, sans jamais le charger en mémoire.
+
+```{=html}
+<div class="naf-comp-vs">
+  <div class="naf-comp-vs-panel">
+    <p class="naf-comp-vs-title">À utiliser lorsque</p>
+    <p>vous avez besoin d'un grand nombre d'unités : une population
+    complète, un code d'activité entier, un traitement mensuel.</p>
+  </div>
+  <div class="naf-comp-vs-panel naf-comp-vs-panel-neg">
+    <p class="naf-comp-vs-title">À éviter lorsque</p>
+    <p>vous cherchez seulement quelques entreprises : l'API ciblée
+    (recettes 01–02) suffit, sans téléchargement de plusieurs Go.</p>
+  </div>
+</div>
+<div class="naf-tb-eas" role="img" aria-label="Entrée : le fichier stock téléchargé. Action : lecture DuckDB en colonnes projetées. Sortie : les établissements actifs du code choisi.">
+  <span><em>Entrée</em> stock téléchargé</span>
+  <span aria-hidden="true">→</span>
+  <span><em>Action</em> DuckDB, colonnes projetées</span>
+  <span aria-hidden="true">→</span>
+  <span><em>Sortie</em> établissements actifs du code</span>
+</div>
+<p class="naf-tb-ilfaut"><strong>Il vous faut :</strong> le fichier stock
+dans <span class="naf-mono">data/raw/</span> (téléchargeable via
+<span class="naf-mono">scripts/toolbox/python/sirene.py stock</span>, qui
+retrouve la dernière ressource — Parquet disponible) · DuckDB
+(<span class="naf-mono">pip install duckdb</span> /
+<span class="naf-mono">install.packages("duckdb")</span>).</p>
+<p class="naf-tb-srcline"><strong>Source :</strong> Sirene stock (Insee) ·
+<a class="naf-link" data-src-doc="sirene_stock" target="_blank"
+   rel="noopener noreferrer">Documentation officielle ↗</a> ·
+<a class="naf-link" href="../bonus/sources.html#source-sirene_stock">Fiche de la source →</a></p>
+```
 
 ::: {.panel-tabset group="langage"}
 ### Python
@@ -628,26 +503,63 @@ dbDisconnect(con, shutdown = TRUE)
 ```
 :::
 
-<p class="naf-tb-attention"><strong>Attention.</strong> En 2026, le stock
-porte aussi <span class="naf-mono">activitePrincipaleNAF25Etablissement</span>
-(futur code NAF 2025, retiré début 2027) : une occasion unique de comparer
-les deux nomenclatures sur les mêmes unités.</p>
+```{=html}
+<p class="naf-tb-result"><strong>Ce que vous devez obtenir :</strong> un
+tableau de quelques centaines à quelques milliers de lignes (selon le
+code), en quelques secondes, sans saturer la mémoire.</p>
+<p class="naf-callout"><strong>À vérifier.</strong> En 2026, le stock porte
+aussi <span class="naf-mono">activitePrincipaleNAF25Etablissement</span>
+(futur code NAF 2025, retiré début 2027) — et pour les études
+territoriales, le fichier de géolocalisation Sirene complète le stock.</p>
+<p class="naf-tb-suite">Suite :
+  <a class="naf-link" href="#appariement">Apparier une liste de SIREN →</a> ·
+  <a class="naf-link" href="#avance">Performance &amp; gros volumes →</a></p>
+```
 
 </div>
 </details>
 
-<details class="naf-carnet-item" id="recette-04">
+:::
+
+```{=html}
+<section class="naf-comp-section" id="marches">
+  <p class="naf-comp-kicker">Marchés publics</p>
+  <p class="naf-comp-lede">Deux sources, deux objets : le
+  <strong>BOAMP</strong> publie des <em>annonces</em> (appels d'offres,
+  avis) ; les <strong>DECP</strong> décrivent des <em>marchés
+  attribués</em>, avec leurs titulaires. La veille se fait au BOAMP,
+  l'analyse des attributions dans les DECP.</p>
+</section>
+```
+
+::: {.naf-carnet}
+
+<details class="naf-carnet-item" id="boamp">
 <summary>
 <span class="naf-carnet-num" aria-hidden="true">04</span>
 <span class="naf-carnet-head">
 <span class="naf-carnet-title">Interroger le BOAMP</span>
-<span class="naf-carnet-q">API Opendatasoft · grain : annonce · filtre plein texte et par date</span>
+<span class="naf-carnet-q">annonces de marchés · filtre plein texte et par date</span>
 </span>
 </summary>
 <div class="naf-carnet-body">
 
-Une veille sur les annonces de marchés : filtre côté serveur, jamais
-d'aspiration du dataset.
+**Ce que vous allez faire :** une veille sur les annonces de marchés,
+filtrée côté serveur.
+
+```{=html}
+<div class="naf-tb-eas" role="img" aria-label="Entrée : un filtre par date ou mot-clé. Action : interroger l'API BOAMP. Sortie : des annonces.">
+  <span><em>Entrée</em> date · mot-clé</span>
+  <span aria-hidden="true">→</span>
+  <span><em>Action</em> API Opendatasoft</span>
+  <span aria-hidden="true">→</span>
+  <span><em>Sortie</em> des annonces</span>
+</div>
+<p class="naf-tb-srcline"><strong>Source :</strong> BOAMP (DILA) ·
+<a class="naf-link" data-src-doc="boamp" target="_blank"
+   rel="noopener noreferrer">Portail officiel ↗</a> ·
+<a class="naf-link" href="../bonus/sources.html#source-boamp">Fiche de la source →</a></p>
+```
 
 ::: {.panel-tabset group="langage"}
 ### Python
@@ -694,27 +606,53 @@ for (annonce in annonces$results) {
 ```
 :::
 
-<p class="naf-tb-attention"><strong>Attention.</strong> La pagination de
-l'API s'arrête à 10 000 lignes : au-delà, resserrer le
-<span class="naf-mono">where</span> (par mois, par acheteur) plutôt que
-d'aspirer.</p>
+```{=html}
+<p class="naf-tb-result"><strong>Ce que vous devez obtenir :</strong> des
+annonces datées, avec leur identifiant et leur objet.</p>
+<details class="naf-sheet-section">
+  <summary class="naf-sheet-summary"><span class="naf-sheet-summary-text">Si ça ne marche pas</span></summary>
+  <div class="naf-sheet-body"><dl class="naf-deflist">
+    <dt>aucun résultat</dt><dd>élargir la date ou le mot-clé du <span class="naf-mono">where</span>.</dd>
+    <dt>erreur ODSQL</dt><dd>vérifier la syntaxe du <span class="naf-mono">where</span> (guillemets simples autour des dates).</dd>
+  </dl></div>
+</details>
+<p class="naf-callout"><strong>À vérifier.</strong> La pagination s'arrête
+à 10 000 lignes : resserrer le filtre plutôt que d'aspirer — et une annonce
+n'est pas un marché attribué (voir la recette 05).</p>
+<p class="naf-tb-suite">Suite :
+  <a class="naf-link" href="#decp">Récupérer les marchés attribués →</a></p>
+```
 
 </div>
 </details>
 
-<details class="naf-carnet-item" id="recette-05">
+<details class="naf-carnet-item" id="decp">
 <summary>
 <span class="naf-carnet-num" aria-hidden="true">05</span>
 <span class="naf-carnet-head">
-<span class="naf-carnet-title">Récupérer des marchés DECP</span>
-<span class="naf-carnet-q">API Opendatasoft · grain : marché · titulaires SIRET éclatés en trois colonnes</span>
+<span class="naf-carnet-title">Récupérer des marchés attribués</span>
+<span class="naf-carnet-q">DECP · titulaires SIRET · le pont vers Sirene</span>
 </span>
 </summary>
 <div class="naf-carnet-body">
 
-Les marchés attribués, avec leurs titulaires : le pont vers Sirene. Le
-schéma réel éclate les titulaires en
-`titulaire_id_1/2/3` — vérifié sur le dataset en production.
+**Ce que vous allez faire :** lire les marchés attribués avec leurs
+titulaires — le grain est le marché, pas l'entreprise.
+
+```{=html}
+<div class="naf-tb-eas" role="img" aria-label="Entrée : une période. Action : interroger les DECP. Sortie : des marchés avec acheteur et titulaires SIRET.">
+  <span><em>Entrée</em> une période</span>
+  <span aria-hidden="true">→</span>
+  <span><em>Action</em> API DECP</span>
+  <span aria-hidden="true">→</span>
+  <span><em>Sortie</em> marchés · titulaires SIRET</span>
+</div>
+<p class="naf-tb-srcline"><strong>Source :</strong> DECP
+(data.economie.gouv.fr) ·
+<a class="naf-link" data-src-doc="decp" target="_blank"
+   rel="noopener noreferrer">Portail officiel ↗</a> ·
+<a class="naf-link" href="../bonus/sources.html#source-decp">Fiche de la source →</a></p>
+```
 
 ::: {.panel-tabset group="langage"}
 ### Python
@@ -745,6 +683,8 @@ for marche in reponse.json()["results"]:
 ```r
 library(httr2)
 
+`%||%` <- function(x, y) if (is.null(x)) y else x
+
 marches <- request(paste0(
     "https://data.economie.gouv.fr/api/explore/v2.1",
     "/catalog/datasets/decp-v3-marches-valides/records")) |>
@@ -760,29 +700,59 @@ for (marche in marches$results) {
   siren <- substr(marche$titulaire_id_1 %||% "", 1, 9)
   cat(marche$datenotification, siren, marche$acheteur_nom, "\n")
 }
-`%||%` <- function(x, y) if (is.null(x)) y else x
 ```
 :::
 
-<p class="naf-tb-attention"><strong>Attention.</strong> Qualité hétérogène :
-doublons, montants aberrants, identifiants manquants. Contrôler avant
+```{=html}
+<p class="naf-tb-result"><strong>Ce que vous devez obtenir :</strong> des
+marchés datés avec l'acheteur et le SIRET du premier titulaire (les
+titulaires sont éclatés en <span class="naf-mono">titulaire_id_1/2/3</span>).</p>
+<p class="naf-callout"><strong>À vérifier.</strong> Qualité hétérogène :
+doublons, montants aberrants, identifiants manquants — contrôler avant
 d'agréger, et tester les trois colonnes de titulaires.</p>
+<p class="naf-tb-suite">Suite :
+  <a class="naf-link" href="#appariement">Apparier les titulaires à Sirene →</a></p>
+```
 
 </div>
 </details>
 
-<details class="naf-carnet-item" id="recette-06">
+:::
+
+```{=html}
+<section class="naf-comp-section" id="suivi">
+  <p class="naf-comp-kicker">Suivre une population</p>
+</section>
+```
+
+::: {.naf-carnet}
+
+<details class="naf-carnet-item" id="bodacc">
 <summary>
 <span class="naf-carnet-num" aria-hidden="true">06</span>
 <span class="naf-carnet-head">
-<span class="naf-carnet-title">Lire les annonces BODACC d'un périmètre</span>
-<span class="naf-carnet-q">API Opendatasoft · grain : annonce · filtre par SIREN au registre</span>
+<span class="naf-carnet-title">Lire les événements BODACC</span>
+<span class="naf-carnet-q">événements juridiques · filtre par SIREN</span>
 </span>
 </summary>
 <div class="naf-carnet-body">
 
-Les événements juridiques publiés pour une liste de SIREN : le suivi
-infra-annuel d'un périmètre de fournisseurs.
+**Ce que vous allez faire :** suivre la vie juridique publiée d'une liste
+de SIREN (procédures, cessions, radiations…).
+
+```{=html}
+<div class="naf-tb-eas" role="img" aria-label="Entrée : des SIREN et une date. Action : interroger l'API BODACC. Sortie : des événements datés par famille d'avis.">
+  <span><em>Entrée</em> SIREN · date</span>
+  <span aria-hidden="true">→</span>
+  <span><em>Action</em> API Opendatasoft</span>
+  <span aria-hidden="true">→</span>
+  <span><em>Sortie</em> événements datés</span>
+</div>
+<p class="naf-tb-srcline"><strong>Source :</strong> BODACC (DILA) ·
+<a class="naf-link" data-src-doc="bodacc" target="_blank"
+   rel="noopener noreferrer">Portail officiel ↗</a> ·
+<a class="naf-link" href="../bonus/sources.html#source-bodacc">Fiche de la source →</a></p>
+```
 
 ::: {.panel-tabset group="langage"}
 ### Python
@@ -836,145 +806,45 @@ for (annonce in annonces$results) {
 ```
 :::
 
-<p class="naf-tb-attention"><strong>Attention.</strong> Pour un grand
-périmètre, interroger par paquets de quelques dizaines de SIREN : les
-clauses <span class="naf-mono">where</span> ont une longueur limitée.</p>
+```{=html}
+<p class="naf-tb-result"><strong>Ce que vous devez obtenir :</strong> des
+événements datés par famille d'avis (dépôts des comptes, procédures
+collectives, modifications…).</p>
+<p class="naf-callout"><strong>À vérifier.</strong> Pour un grand
+périmètre, interroger par paquets de quelques dizaines de SIREN — et un
+événement isolé n'a aucune valeur prédictive.</p>
+<p class="naf-tb-suite">Suite :
+  <a class="naf-link" href="#appariement">Croiser avec Sirene →</a></p>
+```
 
 </div>
 </details>
 
-<details class="naf-carnet-item" id="recette-07">
+<details class="naf-carnet-item" id="appariement">
 <summary>
 <span class="naf-carnet-num" aria-hidden="true">07</span>
 <span class="naf-carnet-head">
-<span class="naf-carnet-title">Agréger des données Douanes</span>
-<span class="naf-carnet-q">Open data DGDDI · grain : produit × pays · agrégation DuckDB</span>
+<span class="naf-carnet-title">Apparier une liste de SIREN</span>
+<span class="naf-carnet-q">périmètre × stock Sirene · taux d'appariement mesuré</span>
 </span>
 </summary>
 <div class="naf-carnet-body">
 
-Le fichier détaillé se télécharge depuis l'open data des Douanes (fiche 07)
-vers `data/raw/`. Les noms de colonnes varient selon les millésimes : les
-vérifier avant d'interpréter.
+**Ce que vous allez faire :** joindre votre périmètre (titulaires DECP,
+liste documentée…) au répertoire, et mesurer ce qui ne s'apparie pas.
 
-::: {.panel-tabset group="langage"}
-### Python
-
-```python
-import duckdb
-
-flux = "data/raw/commerce_exterieur_nc8.csv"   # depuis douane.gouv.fr
-
-duckdb.sql(f"""
-    SELECT pays, SUM(TRY_CAST(valeur AS DOUBLE)) AS importations
-    FROM read_csv('{flux}', header=true, all_varchar=true)
-    WHERE flux = 'I'
-      AND starts_with(nc8, '8802')     -- aéronefs (position SH 88.02)
-    GROUP BY pays
-    ORDER BY importations DESC
-""").show()
-# Adapter les noms de colonnes au millésime réellement téléchargé
-# (voir l'étude 04 et data/etudes/mapping_produits_defense.csv).
-```
-
-### R
-
-```r
-library(duckdb)
-
-con <- dbConnect(duckdb())
-flux <- "data/raw/commerce_exterieur_nc8.csv"  # depuis douane.gouv.fr
-
-imports <- dbGetQuery(con, sprintf("
-  SELECT pays, SUM(TRY_CAST(valeur AS DOUBLE)) AS importations
-  FROM read_csv('%s', header=true, all_varchar=true)
-  WHERE flux = 'I'
-    AND starts_with(nc8, '8802')      -- aéronefs (position SH 88.02)
-  GROUP BY pays ORDER BY importations DESC", flux))
-
-head(imports)
-dbDisconnect(con, shutdown = TRUE)
-# Adapter les noms de colonnes au millésime réellement téléchargé.
-```
-:::
-
-<p class="naf-tb-attention"><strong>Attention.</strong> Le grain est le
-produit, pas l'entreprise : jamais de passage direct NAF → importations.
-La passerelle produits ↔ activités doit être documentée.</p>
-
+```{=html}
+<div class="naf-tb-eas" role="img" aria-label="Entrée : une liste de SIREN et le stock Sirene. Action : jointure DuckDB. Sortie : le périmètre enrichi, avec son taux d'appariement.">
+  <span><em>Entrée</em> liste SIREN + stock</span>
+  <span aria-hidden="true">→</span>
+  <span><em>Action</em> jointure DuckDB</span>
+  <span aria-hidden="true">→</span>
+  <span><em>Sortie</em> périmètre enrichi</span>
 </div>
-</details>
-
-<details class="naf-carnet-item" id="recette-08">
-<summary>
-<span class="naf-carnet-num" aria-hidden="true">08</span>
-<span class="naf-carnet-head">
-<span class="naf-carnet-title">Préparer un client INPI authentifié</span>
-<span class="naf-carnet-q">API INPI · grain : brevet / déposant · clé en variable d'environnement</span>
-</span>
-</summary>
-<div class="naf-carnet-body">
-
-Les API INPI (brevets, RNE) demandent un compte. On prépare un client
-propre — la clé vient de l'environnement, le point d'entrée exact de la
-documentation liée à la fiche 08.
-
-::: {.panel-tabset group="langage"}
-### Python
-
-```python
-import os
-import requests
-
-token = os.getenv("INPI_TOKEN")                  # compte data.inpi.fr
-
-session = requests.Session()
-session.headers.update({
-    "Authorization": f"Bearer {token}",
-    "User-Agent": "mon-etude/1.0 (contact@example.org)",
-})
-# Le point d'entrée exact dépend du service (brevets, RNE) :
-# se référer à la documentation de la fiche INPI ci-dessus.
-# Rappel : un brevet est publié ~18 mois après dépôt — signal différé.
+<p class="naf-tb-ilfaut"><strong>Il vous faut :</strong> un CSV avec une
+colonne <span class="naf-mono">siren</span> · le stock (recette 03) ·
+DuckDB.</p>
 ```
-
-### R
-
-```r
-library(httr2)
-
-token <- Sys.getenv("INPI_TOKEN")                # compte data.inpi.fr
-
-client <- request("https://data.inpi.fr") |>
-  req_auth_bearer_token(token) |>
-  req_user_agent("mon-etude/1.0 (contact@example.org)") |>
-  req_timeout(60)
-# Le point d'entrée exact dépend du service (brevets, RNE) :
-# se référer à la documentation de la fiche INPI ci-dessus.
-# Rappel : un brevet est publié ~18 mois après dépôt — signal différé.
-```
-:::
-
-<p class="naf-tb-attention"><strong>Attention.</strong> Jamais de clé dans
-le code, un dépôt git ou un notebook partagé. Variables d'environnement
-uniquement.</p>
-
-</div>
-</details>
-
-<details class="naf-carnet-item" id="recette-09">
-<summary>
-<span class="naf-carnet-num" aria-hidden="true">09</span>
-<span class="naf-carnet-head">
-<span class="naf-carnet-title">Préparer un appariement SIREN</span>
-<span class="naf-carnet-q">Périmètre × stock Sirene · jointure DuckDB · taux d'appariement mesuré</span>
-</span>
-</summary>
-<div class="naf-carnet-body">
-
-Le geste central de toute étude multi-sources : joindre un périmètre
-documenté (REFD, titulaires DECP…) au répertoire, et **mesurer** ce qui ne
-s'apparie pas.
 
 ::: {.panel-tabset group="langage"}
 ### Python
@@ -1024,10 +894,16 @@ dbDisconnect(con, shutdown = TRUE)
 ```
 :::
 
-<p class="naf-tb-attention"><strong>Attention.</strong> Avant de joindre :
+```{=html}
+<p class="naf-tb-result"><strong>Ce que vous devez obtenir :</strong> votre
+liste enrichie du nombre d'établissements actifs — et le décompte des SIREN
+non appariés.</p>
+<p class="naf-callout"><strong>À vérifier.</strong> Avant de joindre :
 même unité ? même période ? L'état Sirene « à quelle date » face à des
-marchés « notifiés quand » est une décision d'étude, pas un détail
-d'implémentation.</p>
+marchés « notifiés quand » est une décision d'étude.</p>
+<p class="naf-tb-suite">Suite :
+  <a class="naf-link" href="../bonus/atelier.html">Cadrer l'étude complète dans l'Atelier →</a></p>
+```
 
 </div>
 </details>
@@ -1035,114 +911,297 @@ d'implémentation.</p>
 :::
 
 ```{=html}
-<p class="naf-comp-kicker">Dimensionner</p>
-<p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Petits et gros volumes</p>
+<section class="naf-comp-section" id="autres">
+  <p class="naf-comp-kicker">Autres données</p>
+</section>
+```
 
-<div class="naf-comp-vs">
-  <div class="naf-comp-vs-panel">
-    <p class="naf-comp-vs-title">Petite requête ciblée</p>
-    <ul>
-      <li>API + <span class="naf-mono">requests</span> /
-          <span class="naf-mono">httr2</span> ;</li>
-      <li>résultat en <span class="naf-mono">pandas</span> /
-          <span class="naf-mono">dplyr</span> sans précaution particulière ;</li>
-      <li>filtrer côté serveur (<span class="naf-mono">where</span>,
-          <span class="naf-mono">select</span>).</li>
-    </ul>
-  </div>
-  <div class="naf-comp-vs-panel naf-comp-vs-panel-neg">
-    <p class="naf-comp-vs-title">Gros stock</p>
-    <ul>
-      <li>Parquet quand il existe (Sirene en propose depuis 2026) ;</li>
-      <li>DuckDB / Arrow / Polars, lecture en colonnes projetées ;</li>
-      <li>explorer avec <span class="naf-mono">LIMIT</span>, filtrer en
-          amont, ne lire que ce dont on a besoin.</li>
-    </ul>
-  </div>
+::: {.naf-carnet}
+
+<details class="naf-carnet-item" id="douanes">
+<summary>
+<span class="naf-carnet-num" aria-hidden="true">08</span>
+<span class="naf-carnet-head">
+<span class="naf-carnet-title">Travailler avec les données Douanes</span>
+<span class="naf-carnet-q">produit × pays · agrégation DuckDB</span>
+</span>
+</summary>
+<div class="naf-carnet-body">
+
+**Ce que vous allez faire :** agréger les importations d'une famille de
+produits par pays — le grain est le produit, pas l'entreprise.
+
+```{=html}
+<div class="naf-tb-eas" role="img" aria-label="Entrée : le fichier détaillé du commerce extérieur. Action : agrégation DuckDB par pays. Sortie : les importations par pays pour une famille de produits.">
+  <span><em>Entrée</em> fichier détaillé NC8</span>
+  <span aria-hidden="true">→</span>
+  <span><em>Action</em> agrégation par pays</span>
+  <span aria-hidden="true">→</span>
+  <span><em>Sortie</em> importations par pays</span>
 </div>
+<p class="naf-tb-ilfaut"><strong>Il vous faut :</strong> le fichier détaillé
+téléchargé depuis l'open data des Douanes vers
+<span class="naf-mono">data/raw/</span> · DuckDB.</p>
+<p class="naf-tb-srcline"><strong>Source :</strong> Commerce extérieur
+(DGDDI) ·
+<a class="naf-link" data-src-doc="douanes" target="_blank"
+   rel="noopener noreferrer">Open data officiel ↗</a> ·
+<a class="naf-link" href="../bonus/sources.html#source-douanes">Fiche de la source →</a></p>
+```
 
-<div class="naf-comp-grid2">
-  <div class="naf-comp-vs-panel naf-comp-vs-panel-neg">
-    <p class="naf-comp-vs-title">Plutôt que</p>
-    <p><span class="naf-mono">df = pandas.read_csv("stock_sirene.csv")</span></p>
-    <p>— tout le fichier en mémoire, toutes les colonnes, toutes les
-    lignes, pour n'en garder que 2 %.</p>
-  </div>
-  <div class="naf-comp-vs-panel">
-    <p class="naf-comp-vs-title">Écrire</p>
-    <p><span class="naf-mono">SELECT siren, activite, commune FROM
-    read_parquet(...) WHERE activite = '30.30Z'</span></p>
-    <p>— le moteur ne lit que trois colonnes et saute les blocs qui ne
-    contiennent pas le code cherché.</p>
-  </div>
+::: {.panel-tabset group="langage"}
+### Python
+
+```python
+import duckdb
+
+flux = "data/raw/commerce_exterieur_nc8.csv"   # depuis douane.gouv.fr
+
+duckdb.sql(f"""
+    SELECT pays, SUM(TRY_CAST(valeur AS DOUBLE)) AS importations
+    FROM read_csv('{flux}', header=true, all_varchar=true)
+    WHERE flux = 'I'
+      AND starts_with(nc8, '8802')     -- aéronefs (position SH 88.02)
+    GROUP BY pays
+    ORDER BY importations DESC
+""").show()
+# Adapter les noms de colonnes au millésime réellement téléchargé.
+```
+
+### R
+
+```r
+library(duckdb)
+
+con <- dbConnect(duckdb())
+flux <- "data/raw/commerce_exterieur_nc8.csv"  # depuis douane.gouv.fr
+
+imports <- dbGetQuery(con, sprintf("
+  SELECT pays, SUM(TRY_CAST(valeur AS DOUBLE)) AS importations
+  FROM read_csv('%s', header=true, all_varchar=true)
+  WHERE flux = 'I'
+    AND starts_with(nc8, '8802')      -- aéronefs (position SH 88.02)
+  GROUP BY pays ORDER BY importations DESC", flux))
+
+head(imports)
+dbDisconnect(con, shutdown = TRUE)
+# Adapter les noms de colonnes au millésime réellement téléchargé.
+```
+:::
+
+```{=html}
+<p class="naf-tb-result"><strong>Ce que vous devez obtenir :</strong> un
+classement des pays fournisseurs par valeur importée, pour la famille de
+produits choisie.</p>
+<p class="naf-callout"><strong>À vérifier.</strong> Jamais de passage
+direct NAF → importations : le commerce extérieur classe des produits ;
+la passerelle vers les activités doit être documentée (CPF/CPA).</p>
+<p class="naf-tb-suite">Suite :
+  <a class="naf-link" href="../bonus/atelier.html?question=dependances">Cadrer une étude de dépendances →</a></p>
+```
+
 </div>
+</details>
 
-<h3 class="naf-comp-h3">Quel outil choisir ?</h3>
+<details class="naf-carnet-item" id="inpi">
+<summary>
+<span class="naf-carnet-num" aria-hidden="true">09</span>
+<span class="naf-carnet-head">
+<span class="naf-carnet-title">Accéder aux données INPI</span>
+<span class="naf-carnet-q">brevets · compte requis · client authentifié</span>
+</span>
+</summary>
+<div class="naf-carnet-body">
 
-<div class="naf-comp-grainwrap">
-  <table class="naf-comp-grain">
-    <thead>
-      <tr><th scope="col">Besoin</th><th scope="col">Outil raisonnable</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>API ciblée</td><td>Python <span class="naf-mono">requests</span> · R <span class="naf-mono">httr2</span></td></tr>
-      <tr><td>CSV moyen</td><td><span class="naf-mono">pandas</span> · <span class="naf-mono">readr</span></td></tr>
-      <tr><td>gros CSV</td><td>DuckDB (lecture projetée)</td></tr>
-      <tr><td>Parquet</td><td>DuckDB · Arrow · Polars</td></tr>
-      <tr><td>API paginée</td><td>boucle contrôlée + temporisation + cache</td></tr>
-    </tbody>
-  </table>
+**Ce que vous allez faire :** préparer un client authentifié pour les API
+INPI (brevets, RNE) — la clé vient de l'environnement, jamais du code.
+
+```{=html}
+<div class="naf-tb-eas" role="img" aria-label="Entrée : un compte INPI. Action : préparer un client authentifié. Sortie : un accès prêt pour les requêtes brevets.">
+  <span><em>Entrée</em> compte INPI</span>
+  <span aria-hidden="true">→</span>
+  <span><em>Action</em> client authentifié</span>
+  <span aria-hidden="true">→</span>
+  <span><em>Sortie</em> accès prêt</span>
 </div>
+<p class="naf-tb-srcline"><strong>Source :</strong> INPI ·
+<a class="naf-link" data-src-doc="inpi_brevets" target="_blank"
+   rel="noopener noreferrer">Portail officiel ↗</a> ·
+<a class="naf-link" href="../bonus/sources.html#source-inpi_brevets">Fiche de la source →</a></p>
+```
 
-<p>Sans dogmatisme : le bon outil est celui qui lit seulement ce dont
-l'étude a besoin.</p>
+::: {.panel-tabset group="langage"}
+### Python
 
-<p class="naf-comp-kicker">S'orienter</p>
-<p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Trois parcours complets</p>
+```python
+import os
+import requests
 
-<div class="naf-comp-departs">
-  <div class="naf-comp-depart">
-    <p class="naf-comp-depart-name">Implantations d'une activité</p>
-    <p class="naf-comp-depart-chain"><strong>Sirene établissements</strong> → grain SIRET → stock ou API → Python / R</p>
-    <p class="naf-comp-depart-note">Attention à l'état administratif : ne compter que les établissements actifs, et se rappeler qu'actif administrativement ≠ actif économiquement.</p>
-  </div>
-  <div class="naf-comp-depart">
-    <p class="naf-comp-depart-name">Marchés remportés par une entreprise</p>
-    <p class="naf-comp-depart-chain"><strong>DECP / BOAMP</strong> → marché / annonce → SIREN-SIRET titulaire → appariement Sirene</p>
-    <p class="naf-comp-depart-note">On ne commence pas par la NAF : elle sert en bout de chaîne, pour caractériser les titulaires trouvés.</p>
-  </div>
-  <div class="naf-comp-depart">
-    <p class="naf-comp-depart-name">Dépendance à un pays</p>
-    <p class="naf-comp-depart-chain"><strong>Douanes</strong> → produits × pays → nomenclature produit → passerelle CPF / activités si possible</p>
-    <p class="naf-comp-depart-note">Jamais « code NAF → importations » : le commerce extérieur classe des produits, pas des activités.</p>
-  </div>
+token = os.getenv("INPI_TOKEN")                  # compte data.inpi.fr
+
+session = requests.Session()
+session.headers.update({
+    "Authorization": f"Bearer {token}",
+    "User-Agent": "mon-etude/1.0 (contact@example.org)",
+})
+# Le point d'entrée exact dépend du service (brevets, RNE) :
+# se référer à la documentation officielle liée ci-dessus.
+# Rappel : un brevet est publié ~18 mois après dépôt — signal différé.
+```
+
+### R
+
+```r
+library(httr2)
+
+token <- Sys.getenv("INPI_TOKEN")                # compte data.inpi.fr
+
+client <- request("https://data.inpi.fr") |>
+  req_auth_bearer_token(token) |>
+  req_user_agent("mon-etude/1.0 (contact@example.org)") |>
+  req_timeout(60)
+# Le point d'entrée exact dépend du service (brevets, RNE) :
+# se référer à la documentation officielle liée ci-dessus.
+# Rappel : un brevet est publié ~18 mois après dépôt — signal différé.
+```
+:::
+
+```{=html}
+<p class="naf-tb-result"><strong>Ce que vous devez obtenir :</strong> un
+client prêt à interroger le service choisi, sans clé dans le code.</p>
+<p class="naf-callout"><strong>À vérifier.</strong> Jamais de clé dans un
+dépôt git ou un notebook partagé — et le rattachement déposant → SIREN
+demande un appariement documenté.</p>
+```
+
 </div>
+</details>
 
-<p class="naf-comp-kicker">Reproduire</p>
-<p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Les scripts du dépôt</p>
+:::
 
-<div class="naf-tb-scripts">
-  <p><span class="naf-mono">scripts/toolbox/python/sirene.py</span> ·
-     <span class="naf-mono">scripts/toolbox/R/sirene.R</span> — retrouver la
-     ressource stock la plus récente via les métadonnées data.gouv,
-     interroger l'API 3.11, récupérer la géolocalisation.</p>
-  <p><span class="naf-mono">scripts/toolbox/python/opendatasoft.py</span> ·
-     <span class="naf-mono">scripts/toolbox/R/opendatasoft.R</span> — client
-     générique BOAMP / BODACC / DECP.</p>
-  <p>Tous acceptent <span class="naf-mono">--dry-run</span> : l'URL, les
-     paramètres et la destination s'affichent, rien n'est téléchargé.
-     Exemple : <span class="naf-mono">python scripts/toolbox/python/sirene.py
-     stock --format parquet --dry-run</span></p>
-</div>
+```{=html}
+<!-- ══════════════════ POUR ALLER PLUS LOIN ══════════════════ -->
+<section class="naf-comp-section" id="avance">
+  <p class="naf-comp-kicker">Pour aller plus loin</p>
+  <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Quand les volumes grossissent</p>
+  <p class="naf-hand naf-comp-hand" aria-hidden="true">« voir le résultat avant de passer à l'échelle »</p>
 
-<p><strong>Une boîte à outils n'est pas une recette unique.</strong>
-Le choix du point d'entrée dépend de la question, du grain nécessaire, de
-la fraîcheur recherchée et du volume à traiter.</p>
-<p>Vous ne savez pas encore quelle source choisir ?</p>
-<p class="naf-comp-ctas">
-  <a class="naf-chg-cta" href="../bonus/atelier.html">Ouvrir l'Atelier d'étude →</a>
-</p>
-<p class="naf-hand naf-comp-hand" aria-hidden="true">« la bonne source est celle qui répond à la bonne question »</p>
+  <details class="naf-sheet-section">
+    <summary class="naf-sheet-summary"><span class="naf-sheet-summary-text">Avant une extraction plus importante — trois réflexes</span></summary>
+    <div class="naf-sheet-body">
+      <dl class="naf-deflist">
+        <dt>1 · Vérifier le grain</dt>
+        <dd>Que représente une ligne : une unité légale, un établissement,
+        un marché, un flux produit × pays ? Le grain décide de tout ce qui
+        suit.</dd>
+        <dt>2 · Vérifier la date de référence</dt>
+        <dd>La date de téléchargement n'est pas la période que décrivent
+        les données : un stock « d'août » décrit un état, un flux
+        « d'août » décrit un mois.</dd>
+        <dt>3 · Vérifier le volume</dt>
+        <dd>Une requête ciblée d'API suffit souvent ; un stock complet
+        exige une lecture en colonnes projetées, jamais un chargement
+        intégral en mémoire.</dd>
+      </dl>
+    </div>
+  </details>
+
+  <details class="naf-sheet-section">
+    <summary class="naf-sheet-summary"><span class="naf-sheet-summary-text">Performance &amp; gros volumes</span></summary>
+    <div class="naf-sheet-body">
+      <div class="naf-comp-vs">
+        <div class="naf-comp-vs-panel">
+          <p class="naf-comp-vs-title">Petite requête ciblée</p>
+          <ul>
+            <li>API + <span class="naf-mono">requests</span> /
+                <span class="naf-mono">httr2</span> ;</li>
+            <li>résultat en <span class="naf-mono">pandas</span> /
+                <span class="naf-mono">dplyr</span> sans précaution
+                particulière ;</li>
+            <li>filtrer côté serveur (<span class="naf-mono">where</span>,
+                <span class="naf-mono">select</span>).</li>
+          </ul>
+        </div>
+        <div class="naf-comp-vs-panel naf-comp-vs-panel-neg">
+          <p class="naf-comp-vs-title">Gros stock</p>
+          <ul>
+            <li>Parquet quand il existe (Sirene en propose depuis 2026) ;</li>
+            <li>DuckDB / Arrow / Polars, lecture en colonnes projetées ;</li>
+            <li>explorer avec <span class="naf-mono">LIMIT</span>, filtrer
+                en amont, ne lire que ce dont on a besoin.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="naf-comp-grainwrap">
+        <table class="naf-comp-grain">
+          <thead>
+            <tr><th scope="col">Besoin</th><th scope="col">Outil raisonnable</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>API ciblée</td><td>Python <span class="naf-mono">requests</span> · R <span class="naf-mono">httr2</span></td></tr>
+            <tr><td>CSV moyen</td><td><span class="naf-mono">pandas</span> · <span class="naf-mono">readr</span></td></tr>
+            <tr><td>gros CSV</td><td>DuckDB (lecture projetée)</td></tr>
+            <tr><td>Parquet</td><td>DuckDB · Arrow · Polars</td></tr>
+            <tr><td>API paginée</td><td>boucle contrôlée + temporisation + cache</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="naf-sheet-text">Plutôt que
+      <span class="naf-mono">pandas.read_csv("stock_sirene.csv")</span>
+      (tout en mémoire pour n'en garder que 2 %), écrire
+      <span class="naf-mono">SELECT siren, activite, commune FROM
+      read_parquet(...) WHERE activite = '30.30Z'</span> : le moteur ne lit
+      que trois colonnes et saute les blocs inutiles.</p>
+    </div>
+  </details>
+
+  <details class="naf-sheet-section">
+    <summary class="naf-sheet-summary"><span class="naf-sheet-summary-text">Scripts réutilisables du dépôt</span></summary>
+    <div class="naf-sheet-body">
+      <p class="naf-sheet-text"><span class="naf-mono">scripts/toolbox/python/sirene.py</span> ·
+      <span class="naf-mono">scripts/toolbox/R/sirene.R</span> — retrouver
+      la ressource stock la plus récente via les métadonnées data.gouv
+      (jamais de lien mensuel figé), interroger l'API 3.11, récupérer la
+      géolocalisation.</p>
+      <p class="naf-sheet-text"><span class="naf-mono">scripts/toolbox/python/opendatasoft.py</span> ·
+      <span class="naf-mono">scripts/toolbox/R/opendatasoft.R</span> —
+      client générique BOAMP / BODACC / DECP.</p>
+      <p class="naf-sheet-text">Tous acceptent
+      <span class="naf-mono">--dry-run</span> : l'URL, les paramètres et la
+      destination s'affichent, rien n'est téléchargé. Exemple :
+      <span class="naf-mono">python scripts/toolbox/python/sirene.py stock
+      --format parquet --dry-run</span></p>
+    </div>
+  </details>
+</section>
+
+<!-- ══════════════════ FIN ══════════════════ -->
+<section class="naf-comp-section naf-tb-fin">
+  <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Besoin d'aller plus loin ?</p>
+  <nav class="naf-tb-besoins" aria-label="Les autres rubriques du site">
+    <a class="naf-tb-need" href="../bonus/atelier.html">
+      <span class="naf-tb-need-text">Choisir la bonne source</span>
+      <span class="naf-tb-need-src">Atelier d'étude</span>
+      <span class="naf-tb-need-arrow" aria-hidden="true">→</span>
+    </a>
+    <a class="naf-tb-need" href="../bonus/sources.html">
+      <span class="naf-tb-need-text">Vérifier une source (grain, rythme, disponibilité)</span>
+      <span class="naf-tb-need-src">État des sources</span>
+      <span class="naf-tb-need-arrow" aria-hidden="true">→</span>
+    </a>
+    <a class="naf-tb-need" href="index.html">
+      <span class="naf-tb-need-text">Comprendre SIREN, SIRET, NAF, Sirus, SIDE…</span>
+      <span class="naf-tb-need-src">Comprendre</span>
+      <span class="naf-tb-need-arrow" aria-hidden="true">→</span>
+    </a>
+    <a class="naf-tb-need" href="https://github.com/MaryleneH/explorateur-naf"
+       target="_blank" rel="noopener noreferrer">
+      <span class="naf-tb-need-text">Voir les scripts complets</span>
+      <span class="naf-tb-need-src">GitHub</span>
+      <span class="naf-tb-need-arrow" aria-hidden="true">→</span>
+    </a>
+  </nav>
+</section>
 ```
 
 :::

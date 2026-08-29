@@ -24,9 +24,15 @@ PAGE_SOURCES = {
     "comprendre/index.html": "comprendre/index.qmd",
     "comprendre/boite-outils.html": "comprendre/boite-outils.qmd",
     "bonus/parcours.html": "bonus/parcours.qmd",
+    "bonus/sources.html": "bonus/sources.qmd",
 }
 
 TOKEN_RE = re.compile(r"\{\{(2025|2008):([0-9.]+[A-Z])\}\}")
+
+# Ancres construites par JavaScript (non présentes dans le .qmd source) :
+# bonus/sources.html crée une fiche id="source-<source_id>" par ligne du
+# manifeste — on valide donc contre data/etudes/sources.csv.
+DYNAMIC_ANCHOR_PAGES = {"bonus/sources.html": "source-"}
 
 
 def load_json():
@@ -123,10 +129,19 @@ class TestCibles(unittest.TestCase):
                               f"absent de naf{version}")
 
     def test_ancres_existent_dans_les_sources(self):
+        with (ROOT / "data" / "etudes" / "sources.csv").open(
+                encoding="utf-8") as f:
+            manifest_ids = {r["source_id"] for r in csv.DictReader(f)}
         for story, n, step in self.iter_steps():
             if not step.get("url") or "#" not in step["url"]:
                 continue
             parsed = urlparse(step["url"])
+            prefix = DYNAMIC_ANCHOR_PAGES.get(parsed.path)
+            if prefix and parsed.fragment.startswith(prefix):
+                self.assertIn(parsed.fragment[len(prefix):], manifest_ids,
+                              f"{story['id']} étape {n} : source inconnue "
+                              f"dans l'ancre #{parsed.fragment}")
+                continue
             source = (ROOT / PAGE_SOURCES[parsed.path]).read_text(
                 encoding="utf-8")
             self.assertIn(f'id="{parsed.fragment}"', source,
