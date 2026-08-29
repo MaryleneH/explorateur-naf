@@ -30,6 +30,17 @@ page-layout: full
     <a class="naf-chg-cta" href="parcours.html">Choisir un parcours →</a>
   </p>
 </section>
+
+<section class="naf-bx-module" aria-labelledby="naf-bx-sources">
+  <span class="naf-bx-module-num" aria-hidden="true">02</span>
+  <h2 class="naf-bx-module-title" id="naf-bx-sources">État des sources</h2>
+  <p class="naf-bx-module-desc">Voir les sources du site, leur rythme et
+  leur disponibilité — contrôlées automatiquement chaque semaine.</p>
+  <p class="naf-bx-module-meta">observatoire · contrôle hebdomadaire automatisé</p>
+  <p class="naf-comp-ctas" style="grid-column: 2;">
+    <a class="naf-chg-cta" href="sources.html">Ouvrir l'observatoire →</a>
+  </p>
+</section>
 ```
 
 :::

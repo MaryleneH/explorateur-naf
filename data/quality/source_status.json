@@ -1,0 +1,118 @@
+{
+  "generated_at": "2026-08-29T18:57:06Z",
+  "summary": {
+    "total": 15,
+    "AVAILABLE": 11,
+    "WARNING": 0,
+    "ACCESS_SPECIFIC": 4,
+    "UNAVAILABLE": 0,
+    "MANUAL": 0
+  },
+  "sources": [
+    {
+      "source_id": "sirene_stock",
+      "status": "AVAILABLE",
+      "message": "le point d'entrée répond normalement",
+      "http_status": 200,
+      "response_time": 0.5
+    },
+    {
+      "source_id": "sirene_api",
+      "status": "ACCESS_SPECIFIC",
+      "message": "accès sous conditions (compte, clé ou droits statistiques)",
+      "http_status": 200,
+      "response_time": 0.43
+    },
+    {
+      "source_id": "sirene_geo",
+      "status": "AVAILABLE",
+      "message": "le point d'entrée répond normalement",
+      "http_status": 200,
+      "response_time": 0.33
+    },
+    {
+      "source_id": "sirus",
+      "status": "ACCESS_SPECIFIC",
+      "message": "accès sous conditions (compte, clé ou droits statistiques)",
+      "http_status": 200,
+      "response_time": 0.16
+    },
+    {
+      "source_id": "side",
+      "status": "AVAILABLE",
+      "message": "le point d'entrée répond normalement",
+      "http_status": 200,
+      "response_time": 0.23
+    },
+    {
+      "source_id": "side_stocks",
+      "status": "AVAILABLE",
+      "message": "le point d'entrée répond normalement",
+      "http_status": 200,
+      "response_time": 0.34
+    },
+    {
+      "source_id": "boamp",
+      "status": "AVAILABLE",
+      "message": "le point d'entrée répond normalement",
+      "http_status": 200,
+      "response_time": 0.24
+    },
+    {
+      "source_id": "decp",
+      "status": "AVAILABLE",
+      "message": "le point d'entrée répond normalement",
+      "http_status": 200,
+      "response_time": 0.28
+    },
+    {
+      "source_id": "bodacc",
+      "status": "AVAILABLE",
+      "message": "le point d'entrée répond normalement",
+      "http_status": 200,
+      "response_time": 0.16
+    },
+    {
+      "source_id": "douanes",
+      "status": "AVAILABLE",
+      "message": "le point d'entrée répond normalement",
+      "http_status": 200,
+      "response_time": 0.25
+    },
+    {
+      "source_id": "inpi_brevets",
+      "status": "ACCESS_SPECIFIC",
+      "message": "accès sous conditions (compte, clé ou droits statistiques) ; HTTP 403 : protection anti-bot probable, à vérifier manuellement",
+      "http_status": 403,
+      "response_time": 0.15
+    },
+    {
+      "source_id": "rne",
+      "status": "ACCESS_SPECIFIC",
+      "message": "accès sous conditions (compte, clé ou droits statistiques)",
+      "http_status": 200,
+      "response_time": 0.09
+    },
+    {
+      "source_id": "refd",
+      "status": "AVAILABLE",
+      "message": "le point d'entrée répond normalement",
+      "http_status": 200,
+      "response_time": 0.24
+    },
+    {
+      "source_id": "edis",
+      "status": "AVAILABLE",
+      "message": "le point d'entrée répond normalement",
+      "http_status": 200,
+      "response_time": 0.17
+    },
+    {
+      "source_id": "naf_correspondance",
+      "status": "AVAILABLE",
+      "message": "le point d'entrée répond normalement",
+      "http_status": 200,
+      "response_time": 0.15
+    }
+  ]
+}

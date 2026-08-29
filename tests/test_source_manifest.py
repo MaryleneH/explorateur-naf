@@ -55,7 +55,10 @@ class TestValidationSynthetique(unittest.TestCase):
     def base_row(self, **overrides) -> dict:
         row = {"source_id": "test", "nom": "Test", "producteur": "X",
                "url": "https://example.org", "mode_controle": "public",
-               "criticite": "standard", "auth_requise": "non"}
+               "criticite": "standard", "auth_requise": "non",
+               "categorie": "identifier", "controle": "http",
+               "mot_attendu": "", "frequence": "mensuelle",
+               "unite": "unité légale", "limitations": "exemple"}
         row.update(overrides)
         return row
 
@@ -87,6 +90,23 @@ class TestValidationSynthetique(unittest.TestCase):
         self.assertTrue(valid_url("https://example.org/page"))
         self.assertFalse(valid_url("pas une url"))
         self.assertFalse(valid_url("ftp://example.org"))
+
+    def test_categorie_invalide(self):
+        errors = validate_manifest([self.base_row(categorie="autre")])
+        self.assertTrue(any("categorie" in e for e in errors))
+
+    def test_controle_inconnu(self):
+        errors = validate_manifest([self.base_row(controle="magique")])
+        self.assertTrue(any("controle" in e for e in errors))
+
+    def test_http_keyword_exige_un_mot(self):
+        errors = validate_manifest(
+            [self.base_row(controle="http_keyword", mot_attendu="")])
+        self.assertTrue(any("mot_attendu" in e for e in errors))
+
+    def test_champs_methodologiques_obligatoires(self):
+        errors = validate_manifest([self.base_row(frequence="")])
+        self.assertTrue(any("frequence" in e for e in errors))
 
     def test_referentiels_fermes(self):
         # Les jeux de valeurs autorisées restent explicites et fermés.

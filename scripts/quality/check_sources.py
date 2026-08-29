@@ -54,6 +54,21 @@ URL_FIELDS = ["url", "url_documentation", "url_api", "url_download"]
 MODES = {"public", "authentification", "anti_bot_possible", ""}
 CRITICITES = {"critical", "standard", "informative", ""}
 AUTH = {"oui", "non", ""}
+CATEGORIES = {"identifier", "commande_publique", "vie_entreprise",
+              "commerce_exterieur", "innovation", "defense", "nomenclature"}
+CONTROLES = {"http", "http_keyword", "manual", ""}
+
+# Statuts agrégés PAR SOURCE, consommés par la page Bonus « État des
+# sources » (data/quality/source_status.json) :
+#   AVAILABLE        le point d'entrée répond normalement ;
+#   WARNING          réponse inhabituelle probablement temporaire ;
+#   ACCESS_SPECIFIC  authentification / accès sous conditions — pas une
+#                    erreur (Sirus, INPI, API Sirene…) ;
+#   UNAVAILABLE      lien réellement cassé (404/410, domaine disparu) ;
+#   MANUAL           source déclarée non contrôlable automatiquement.
+SOURCE_STATUSES = {"AVAILABLE", "WARNING", "ACCESS_SPECIFIC",
+                   "UNAVAILABLE", "MANUAL"}
+SNAPSHOT_PATH = ROOT / "data" / "quality" / "source_status.json"
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -90,6 +105,21 @@ def validate_manifest(rows: list[dict]) -> list[str]:
             if value and not valid_url(value):
                 errors.append(f"ligne {i} ({sid}) : URL invalide dans "
                               f"{field} : {value}")
+        if (row.get("categorie") or "").strip() not in CATEGORIES:
+            errors.append(f"ligne {i} ({sid}) : categorie invalide "
+                          f"« {row.get('categorie')} »")
+        controle = (row.get("controle") or "").strip()
+        if controle not in CONTROLES:
+            errors.append(f"ligne {i} ({sid}) : controle inconnu "
+                          f"« {controle} »")
+        if controle == "http_keyword" and not (row.get("mot_attendu")
+                                               or "").strip():
+            errors.append(f"ligne {i} ({sid}) : controle http_keyword "
+                          "sans mot_attendu")
+        for field in ("frequence", "unite", "limitations"):
+            if not (row.get(field) or "").strip():
+                errors.append(f"ligne {i} ({sid}) : champ méthodologique "
+                              f"vide « {field} »")
     return errors
 
 
@@ -197,13 +227,133 @@ def classify(row: dict, status: int | None, error: str) -> tuple[str, str]:
 
 
 # ---------------------------------------------------------------------------
+# Contrôle sémantique léger et agrégation par source
+# ---------------------------------------------------------------------------
+
+def default_body_fetcher(url: str, timeout: int, max_bytes: int = 30000) -> str:
+    """Lit le tout début d'une page (jamais plus de max_bytes) pour un
+    contrôle de mot-clé. Ce n'est pas du scraping : on cherche un titre."""
+    req = urllib.request.Request(url, headers={
+        "User-Agent": USER_AGENT, "Accept": "text/html,*/*",
+        "Range": f"bytes=0-{max_bytes - 1}",
+    })
+    with urllib.request.urlopen(req, timeout=timeout) as resp:
+        return resp.read(max_bytes).decode("utf-8", errors="replace")
+
+
+def keyword_present(row: dict, body_fetcher, timeout: int) -> tuple[bool, str]:
+    """Vérifie la présence du mot attendu dans le début de la page."""
+    word = (row.get("mot_attendu") or "").strip()
+    try:
+        body = body_fetcher(row["url"].strip(), timeout)
+    except Exception as exc:
+        return False, f"lecture impossible ({type(exc).__name__})"
+    if word.lower() in body.lower():
+        return True, f"mot attendu « {word} » présent"
+    return False, f"mot attendu « {word} » absent du début de page"
+
+
+def aggregate_source_status(row: dict, url_results: list[dict]) -> tuple[str, str]:
+    """Statut PAR SOURCE à partir des contrôles d'URL et du manifeste.
+
+    Priorités : MANUAL (déclaré) > UNAVAILABLE (lien cassé) >
+    ACCESS_SPECIFIC (auth_requise=oui : l'accès sous conditions est une
+    caractéristique, pas une panne) > WARNING > AVAILABLE.
+    """
+    if (row.get("controle") or "").strip() == "manual":
+        return "MANUAL", "source contrôlée manuellement (non automatisable)"
+
+    fails = [r for r in url_results if r["status"] == "FAIL"]
+    warnings = [r for r in url_results if r["status"] == "WARNING"]
+
+    if fails:
+        return "UNAVAILABLE", fails[0]["message"]
+    if (row.get("auth_requise") or "").strip() == "oui":
+        note = "accès sous conditions (compte, clé ou droits statistiques)"
+        if warnings:
+            note += " ; " + warnings[0]["message"]
+        return "ACCESS_SPECIFIC", note
+    if warnings:
+        return "WARNING", warnings[0]["message"]
+    if not url_results:
+        return "MANUAL", "aucune URL contrôlable déclarée"
+    return "AVAILABLE", "le point d'entrée répond normalement"
+
+
+def build_snapshot(rows: list[dict], results: list[dict]) -> dict:
+    by_source: dict[str, list[dict]] = {}
+    for r in results:
+        by_source.setdefault(r["source_id"], []).append(r)
+
+    sources = []
+    for row in rows:
+        sid = row["source_id"]
+        url_results = by_source.get(sid, [])
+        status, message = aggregate_source_status(row, url_results)
+        main = next((r for r in url_results if r["champ"] == "url"), None)
+        sources.append({
+            "source_id": sid,
+            "status": status,
+            "message": message,
+            "http_status": main["http_status"] if main else "",
+            "response_time": main["response_time"] if main else "",
+        })
+
+    counts = {"AVAILABLE": 0, "WARNING": 0, "ACCESS_SPECIFIC": 0,
+              "UNAVAILABLE": 0, "MANUAL": 0}
+    for source in sources:
+        counts[source["status"]] += 1
+    return {
+        "generated_at": dt.datetime.now(dt.timezone.utc)
+                          .strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "summary": {"total": len(sources), **counts},
+        "sources": sources,
+    }
+
+
+def write_snapshot(snapshot: dict) -> bool:
+    """Écrit data/quality/source_status.json UNIQUEMENT si un statut change.
+
+    generated_at seul ne justifie pas un commit hebdomadaire : tant que les
+    statuts sont identiques au snapshot versionné, le fichier n'est pas
+    touché (zéro churn Git). Retourne True si le fichier a été (ré)écrit.
+    """
+    import json
+
+    new_states = [(s["source_id"], s["status"]) for s in snapshot["sources"]]
+    if SNAPSHOT_PATH.exists():
+        try:
+            old = json.loads(SNAPSHOT_PATH.read_text(encoding="utf-8"))
+            old_states = [(s["source_id"], s["status"])
+                          for s in old.get("sources", [])]
+            if old_states == new_states:
+                print("[snapshot] statuts inchangés : "
+                      f"{SNAPSHOT_PATH.name} conservé tel quel "
+                      f"(état stable depuis {old.get('generated_at', '?')})")
+                return False
+        except (ValueError, OSError):
+            pass
+    SNAPSHOT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    SNAPSHOT_PATH.write_text(
+        json.dumps(snapshot, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8")
+    print(f"[snapshot] statuts modifiés : {SNAPSHOT_PATH} mis à jour")
+    return True
+
+
+# ---------------------------------------------------------------------------
 # Exécution et rapports
 # ---------------------------------------------------------------------------
 
-def run_checks(rows: list[dict], fetcher, timeout: int) -> list[dict]:
+def run_checks(rows: list[dict], fetcher, timeout: int,
+               body_fetcher=None) -> list[dict]:
     results = []
     now = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     for row in rows:
+        if (row.get("controle") or "").strip() == "manual":
+            print(f"  ? [MANUEL ] {row['source_id']:<20} contrôle "
+                  "automatique désactivé pour cette source")
+            continue
         for field in URL_FIELDS:
             url = (row.get(field) or "").strip()
             if not url:
@@ -217,6 +367,19 @@ def run_checks(rows: list[dict], fetcher, timeout: int) -> list[dict]:
                 status_http, final, error = probe(url, fetcher, timeout)
                 elapsed = round(time.monotonic() - start, 2)
                 verdict, message = classify(row, status_http, error)
+                # Contrôle sémantique léger, uniquement sur l'URL principale
+                # des sources qui le déclarent : la page répond, mais
+                # est-ce toujours la bonne page ?
+                if (verdict == "OK" and field == "url"
+                        and (row.get("controle") or "").strip()
+                        == "http_keyword" and body_fetcher is not None):
+                    ok_kw, kw_message = keyword_present(row, body_fetcher,
+                                                        timeout)
+                    if not ok_kw:
+                        verdict = "WARNING"
+                        message = kw_message
+                    else:
+                        message += f" ; {kw_message}"
             results.append({
                 "source_id": row["source_id"],
                 "champ": field,
@@ -291,8 +454,18 @@ def main() -> int:
     for error in errors:
         print(f"  ✕ [MANIFESTE] {error}")
 
-    results = run_checks(rows, default_fetcher, args.timeout)
+    results = run_checks(rows, default_fetcher, args.timeout,
+                         body_fetcher=default_body_fetcher)
     write_reports(results, errors)
+
+    snapshot = build_snapshot(rows, results)
+    write_snapshot(snapshot)
+    summary = snapshot["summary"]
+    print(f"\nÉtat par source : {summary['AVAILABLE']} disponibles, "
+          f"{summary['WARNING']} à surveiller, "
+          f"{summary['ACCESS_SPECIFIC']} accès spécifique, "
+          f"{summary['UNAVAILABLE']} indisponibles, "
+          f"{summary['MANUAL']} manuelles")
 
     fails = [r for r in results if r["status"] == "FAIL"]
     print(f"\n{len(results)} liens : "

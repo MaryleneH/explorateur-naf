@@ -5,7 +5,15 @@
 # En revanche un lien 404/410 sur une source critique fait échouer CE
 # workflow, pour être vu et corrigé.
 #
-# Aucune donnée n'est téléchargée : HEAD puis GET partiel (2 Ko max).
+# Aucune donnée n'est téléchargée : HEAD puis GET partiel (2 Ko, 30 Ko au
+# plus pour un contrôle de mot-clé).
+#
+# État des sources (page Bonus) : le checker écrit
+# data/quality/source_status.json UNIQUEMENT quand un statut change
+# (zéro churn : pas de commit hebdomadaire pour une simple date). Quand le
+# fichier change lors d'un passage planifié ou manuel, il est commité, ce
+# qui redéploie le site avec l'état à jour. Les runs déclenchés par push
+# ne committent jamais (pas de course avec le travail en cours).
 
 name: Contrôle des sources
 
@@ -22,10 +30,11 @@ on:
       - scripts/quality/**
       - tests/**
       - comprendre/boite-outils.qmd
+      - bonus/sources.qmd
       - .github/workflows/check-sources.yml
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   check-sources:
@@ -46,6 +55,19 @@ jobs:
 
       - name: Contrôle des liens du manifeste
         run: python scripts/quality/check_sources.py
+
+      - name: Publier le nouvel état si un statut a changé
+        if: github.event_name != 'push'
+        run: |
+          if git diff --quiet -- data/quality/source_status.json; then
+            echo "Statuts inchangés : rien à publier."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add data/quality/source_status.json
+            git commit -m "chore: état des sources — un statut a changé (contrôle automatisé)"
+            git push
+          fi
 
       - name: Publier le rapport
         if: always()
