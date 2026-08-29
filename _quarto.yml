@@ -8,6 +8,8 @@ project:
     # Référentiels des études (manifeste de provenance, contexte daté,
     # passerelle produits) : publiés pour la traçabilité.
     - data/etudes/*.csv
+    # Contenu des parcours guidés, chargé par assets/js/naf-parcours.js.
+    - data/parcours.json
     # La police d'annotation est référencée depuis fonts.css : Quarto ne suit
     # pas les url() des feuilles de style, il faut la déclarer explicitement.
     - assets/fonts/*.woff2
@@ -40,6 +42,15 @@ website:
         text: Comprendre
       - href: methode/index.qmd
         text: Méthode & sources
+      # Rubrique extensible : quand « État des sources » et « Atelier
+      # d'étude » existeront, transformer cette entrée en menu :
+      #   - text: Bonus
+      #     menu:
+      #       - href: bonus/parcours.qmd
+      #         text: Parcours guidés
+      #       - …
+      - href: bonus/index.qmd
+        text: Bonus
     right:
       - search
   # Footer global : auteur, transparence (code source), amélioration continue

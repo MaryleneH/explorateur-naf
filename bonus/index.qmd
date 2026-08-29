@@ -1,0 +1,37 @@
+---
+pagetitle: "Bonus — Explorateur NAF"
+title: ""
+page-layout: full
+---
+
+::: {.naf-page}
+
+::: {.naf-comp}
+
+```{=html}
+<header class="naf-viz-intro">
+  <p class="naf-comp-kicker">Bonus</p>
+  <p class="naf-hand-heading naf-viz-title" role="heading" aria-level="1">Explorer autrement</p>
+  <p class="naf-viz-lede">
+    Quelques expériences pour parcourir la NAF, ses transformations et ses
+    usages statistiques autrement. Rien de nouveau à apprendre par cœur :
+    des chemins pour mieux comprendre ce qui est déjà là.
+  </p>
+  <p class="naf-hand naf-viz-hand" aria-hidden="true">« explorer autrement »</p>
+</header>
+
+<section class="naf-bx-module" aria-labelledby="naf-bx-parcours">
+  <span class="naf-bx-module-num" aria-hidden="true">01</span>
+  <h2 class="naf-bx-module-title" id="naf-bx-parcours">Parcours guidés</h2>
+  <p class="naf-bx-module-desc">Suivre une histoire à travers les données,
+  les codes et les visualisations du site.</p>
+  <p class="naf-bx-module-meta">4 parcours · 3 à 5 min</p>
+  <p class="naf-comp-ctas" style="grid-column: 2;">
+    <a class="naf-chg-cta" href="parcours.html">Choisir un parcours →</a>
+  </p>
+</section>
+```
+
+:::
+
+:::

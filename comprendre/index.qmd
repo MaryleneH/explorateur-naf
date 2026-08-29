@@ -1378,6 +1378,11 @@ produits, INPI pour les brevets, REFD/EDIS pour les fournisseurs observés.
 :::
 
 ```{=html}
+<p>Vous préférez apprendre en explorant ?</p>
+<p class="naf-comp-ctas">
+  <a class="naf-chg-cta" href="../bonus/parcours.html">Suivre un parcours guidé →</a>
+</p>
+
 <nav class="naf-comp-ctas" aria-label="Continuer sur le site">
   <a class="naf-chg-cta" href="../explorer/visualisation.html?view=arbre">Voir la NAF dans l'arbre →</a>
   <a class="naf-chg-cta" href="../comparer/index.html">Comparer 2008 et 2025 →</a>

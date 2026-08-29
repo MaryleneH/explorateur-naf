@@ -1,0 +1,184 @@
+{
+  "_comment": "Parcours guidés (rubrique Bonus). Source unique du contenu narratif : assets/js/naf-parcours.js lit ce fichier. Les jetons {{2025:CODE}} / {{2008:CODE}} sont remplacés au runtime par le libellé officiel lu dans data/naf2025.csv / naf2008.csv — aucun libellé NAF n'est dupliqué ici. Les URLs sont relatives à la racine du site ; les paramètres utilisés (v=, code=, view=, ancres) sont ceux réellement supportés par chaque page. Contrôlé par tests/test_parcours.py.",
+  "stories": [
+    {
+      "id": "aeronautique",
+      "numero": "01",
+      "titre": "De 30.30Z à 30.32Y",
+      "sous_titre": "Comment la NAF isole mieux le militaire",
+      "question": "Que devient l'activité aéronautique entre NAF 2008 et NAF 2025 ?",
+      "duree": "≈ 3 min",
+      "theme": "2008 → 2025",
+      "intro": "Vous allez suivre une même activité, la construction aéronautique, à travers les deux nomenclatures puis dans l'arbre.",
+      "steps": [
+        {
+          "titre": "Un seul code pour tout l'aérien",
+          "texte": "En NAF rév.2 (2008), la sous-classe <strong>30.30Z</strong> — {{2008:30.30Z}} — couvre d'un seul code les avions civils, les hélicoptères, le spatial… et le militaire. Parcourez la fiche : son lien « Sources » ouvre la fiche officielle Insee.",
+          "action": "Observer la fiche",
+          "url": "explorer/index.html?v=2008&code=30.30Z"
+        },
+        {
+          "titre": "2025 : le civil d'abord",
+          "texte": "La NAF 2025 scinde ce périmètre. Première moitié : <strong>30.31Y</strong> — {{2025:30.31Y}}. La scission est documentée par les fiches officielles Insee (la fiche militaire exclut explicitement ce versant civil) ; la table 2008 ↔ 2025 du site, approximation à classe constante, ne porte pas cette relation trans-classe.",
+          "action": "Observer la fiche",
+          "url": "explorer/index.html?v=2025&code=30.31Y"
+        },
+        {
+          "titre": "…et le militaire devient visible",
+          "texte": "Seconde moitié : <strong>30.32Y</strong> — {{2025:30.32Y}}. La mention « militaire » entre dans le libellé officiel. Ouvrez la section « Défense » de la fiche : qualification <em>Défense explicite</em>, sourcée.",
+          "hand": "« regardez ce qui vient de se séparer »",
+          "action": "Ouvrir la section Défense de la fiche",
+          "check": { "selector": ".naf-sheet-summary", "contains": "Défense", "done": "Section Défense ouverte" },
+          "url": "explorer/index.html?v=2025&code=30.32Y"
+        },
+        {
+          "titre": "Sa place dans l'arbre",
+          "texte": "C → 30 → 30.3 → 30.32 → <strong>30.32Y</strong> : la nouvelle feuille au bout de la branche. Chaque niveau affine, la dernière lettre est française.",
+          "action": "Suivre la branche jusqu'à la feuille",
+          "url": "explorer/visualisation.html?view=arbre&code=30.32Y"
+        },
+        {
+          "titre": "Ce qu'il faut retenir",
+          "texte": "Une révision de nomenclature peut rendre certaines réalités économiques <strong>plus visibles</strong> sans que l'activité elle-même soit nouvelle : les usines de 2024 n'ont pas déménagé, c'est la carte qui a gagné en précision.",
+          "hand": "« on change la carte, pas forcément le territoire »",
+          "conclusion": true
+        }
+      ]
+    },
+    {
+      "id": "code-ne-suffit-pas",
+      "numero": "02",
+      "titre": "Un code NAF ne suffit pas",
+      "sous_titre": "Pourquoi identifier la Défense est difficile",
+      "question": "Pourquoi la NAF seule ne permet-elle pas de délimiter les entreprises de Défense ?",
+      "duree": "≈ 4 min",
+      "theme": "NAF & Défense",
+      "intro": "Trois codes réels, trois situations très différentes — puis les sources qu'il faut croiser.",
+      "steps": [
+        {
+          "titre": "Le cas évident",
+          "texte": "<strong>30.32Y</strong> — {{2025:30.32Y}}. Ici, le lien avec la Défense est explicite : il est écrit dans le libellé officiel. C'est le cas le plus simple… et le plus rare.",
+          "action": "Observer la fiche",
+          "url": "explorer/index.html?v=2025&code=30.32Y"
+        },
+        {
+          "titre": "Le cas dual",
+          "texte": "<strong>26.51Y</strong> — {{2025:26.51Y}}. Ouvrez la section « Défense » : usages civils documentés (navigation civile, radars de contrôle aérien, météorologie) et usages Défense documentés (conduite de tir, radars militaires), preuve tirée de la nomenclature officielle de produits. La NAF décrit une activité qui peut servir plusieurs marchés.",
+          "hand": "« ici, la NAF ne suffit plus »",
+          "action": "Ouvrir la section Défense de la fiche",
+          "check": { "selector": ".naf-sheet-summary", "contains": "Défense", "done": "Section Défense ouverte" },
+          "url": "explorer/index.html?v=2025&code=26.51Y"
+        },
+        {
+          "titre": "Le cas fournisseur",
+          "texte": "<strong>26.11Y</strong> — {{2025:26.11Y}}. Cette activité est observée dans l'écosystème Défense (enquête EDIS du ministère des Armées), mais sa dualité n'est pas démontrée par la nomenclature elle-même : preuve intermédiaire. <strong>Présence dans l'écosystème ≠ sous-classe intrinsèquement Défense.</strong>",
+          "action": "Observer la fiche",
+          "url": "explorer/index.html?v=2025&code=26.11Y"
+        },
+        {
+          "titre": "Sortir de la nomenclature",
+          "texte": "Pour comprendre une entreprise, il faut souvent croiser : Sirene pour l'identifier, REFD/EDIS pour l'observer côté Défense, BOAMP/DECP pour ses marchés publics visibles… Le schéma ci-dessous place la <strong>question</strong> au centre, pas la NAF.",
+          "action": "Parcourir les familles de sources",
+          "url": "comprendre/index.html#etudier-la-defense"
+        },
+        {
+          "titre": "Ce qu'il faut retenir",
+          "texte": "<strong>La NAF permet de classer l'activité. Elle ne permet pas, seule, de définir la BITD.</strong> Un code explicite est rare, un code dual n'est pas une appartenance, une présence observée n'est pas une nature.",
+          "hand": "« le code voit l'activité, pas le client final »",
+          "conclusion": true
+        }
+      ]
+    },
+    {
+      "id": "dualite",
+      "numero": "03",
+      "titre": "Une activité, deux usages",
+      "sous_titre": "Comprendre la dualité avec 26.51Y",
+      "question": "Que signifie réellement « dual » pour une activité économique ?",
+      "duree": "≈ 3 min",
+      "theme": "Dualité",
+      "intro": "Un seul fil rouge : 26.51Y, l'activité duale la mieux documentée du site.",
+      "steps": [
+        {
+          "titre": "Le code et son libellé",
+          "texte": "<strong>26.51Y</strong> — {{2025:26.51Y}}. Rien, dans ce libellé, ne dit « Défense ». Et pourtant.",
+          "action": "Observer la fiche",
+          "url": "explorer/index.html?v=2025&code=26.51Y"
+        },
+        {
+          "titre": "Les usages civils",
+          "texte": "Ouvrez la section « Défense » de la fiche : les usages civils documentés vont des instruments de navigation aérienne et maritime aux radars de contrôle aérien et de météorologie.",
+          "action": "Ouvrir la section Défense de la fiche",
+          "check": { "selector": ".naf-sheet-summary", "contains": "Défense", "done": "Section Défense ouverte" },
+          "url": "explorer/index.html?v=2025&code=26.51Y"
+        },
+        {
+          "titre": "Les usages Défense",
+          "texte": "Dans la même section : conduite du tir, autodirecteurs de missiles, contre-mesures électroniques, radars militaires. La preuve n'est pas une opinion : la nomenclature officielle de produits (CPF) rattache à cette activité des produits civils <em>et</em> militaires.",
+          "url": "explorer/index.html?v=2025&code=26.51Y"
+        },
+        {
+          "titre": "Dans la constellation des duales",
+          "texte": "Retrouvez <strong>26.51Y</strong> (famille optique et instruments) dans la liste des activités à dualité démontrée de la page NAF & Défense.",
+          "action": "Repérer 26.51Y dans la liste",
+          "url": "defense/index.html?view=duales#naf-def-duallist-title"
+        },
+        {
+          "titre": "Ce qu'il faut retenir",
+          "texte": "Dual ≠ 50 % civil / 50 % militaire. Dual ≠ « toutes les entreprises du code travaillent pour la Défense ». <strong>Une activité duale est une catégorie économique dont certains usages peuvent être civils comme militaires ; ce n'est ni une proportion, ni une certification Défense.</strong>",
+          "hand": "« même activité, plusieurs débouchés »",
+          "conclusion": true
+        }
+      ]
+    },
+    {
+      "id": "du-code-a-letude",
+      "numero": "04",
+      "titre": "Du code à l'étude",
+      "sous_titre": "Comment un statisticien construit son analyse",
+      "question": "Comment passe-t-on d'un code NAF à une vraie étude sur les entreprises ?",
+      "duree": "≈ 5 min",
+      "theme": "Méthode",
+      "intro": "Une question d'implantation industrielle, et le chemin complet : question, code, unité, source, méthode.",
+      "steps": [
+        {
+          "titre": "La question d'abord",
+          "texte": "« Où sont implantées les entreprises d'une activité potentiellement pertinente pour la Défense ? » Une étude ne commence pas par une base : elle commence par une question — c'est elle qui choisira les sources.",
+          "hand": "« commencer par la question, pas par la base »",
+          "action": "Observer le schéma des sources",
+          "url": "comprendre/index.html#etudier-la-defense"
+        },
+        {
+          "titre": "Le code : un périmètre, pas une liste",
+          "texte": "<strong>26.51Y</strong> — {{2025:26.51Y}} — délimite un périmètre d'activités possible. Ce n'est pas encore une liste d'entreprises : c'est un filtre que l'on appliquera à une source.",
+          "url": "explorer/index.html?v=2025&code=26.51Y"
+        },
+        {
+          "titre": "Quelle unité compter ?",
+          "texte": "Entreprise ? Unité légale (SIREN) ? Établissement (SIRET) ? Pour une étude d'<strong>implantations</strong>, c'est l'établissement qui est généralement pertinent : c'est lui qui a une adresse.",
+          "hand": "« quelle unité faut-il compter ? »",
+          "action": "Observer le schéma SIREN / SIRET",
+          "url": "comprendre/index.html#une-entreprise"
+        },
+        {
+          "titre": "La source : Sirene établissements",
+          "texte": "Grain établissement, clé SIRET, stock mensuel ou API : la fiche Sirene de la boîte à outils donne les points d'entrée officiels — et le réflexe : ne compter que les établissements <em>actifs</em>.",
+          "action": "Parcourir la fiche Sirene",
+          "url": "comprendre/boite-outils.html#fiche-sirene"
+        },
+        {
+          "titre": "Du filtre au code qui tourne",
+          "texte": "La recette 03 filtre un stock Sirene par code NAF, en Python ou en R, sans jamais charger le fichier entier. Selon la question, on enrichit ensuite : géolocalisation Sirene, REFD…",
+          "action": "Ouvrir la recette 03",
+          "url": "comprendre/boite-outils.html#recette-03"
+        },
+        {
+          "titre": "Ce qu'il faut retenir",
+          "texte": "Question → unité → source → appariement → indicateur → limites. <strong>Une bonne étude ne commence pas par « quelle base puis-je utiliser ? », mais par « quelle question, et quelle unité dois-je observer ? »</strong>",
+          "hand": "« la bonne source est celle qui répond à la bonne question »",
+          "conclusion": true
+        }
+      ]
+    }
+  ]
+}

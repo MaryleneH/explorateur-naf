@@ -4959,3 +4959,360 @@ body {
 
   code { font-size: 0.84rem; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   Bonus — parcours guidés
+═══════════════════════════════════════════════════════════════════ */
+
+/* ── Panneau narratif (couche au-dessus des pages existantes) ────── */
+
+.naf-px-panel {
+  position: fixed;
+  z-index: 60;
+  right: 1.1rem;
+  bottom: 1.1rem;
+  width: min(23.5rem, calc(100vw - 2.2rem));
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-line);
+  border-top: 3px solid var(--naf-bronze);
+  border-radius: var(--naf-radius);
+  box-shadow: 0 10px 30px rgba(20, 24, 29, 0.14);
+  font-size: 0.92rem;
+}
+
+.naf-px-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.7rem 0.5rem 1rem;
+  border-bottom: 1px solid var(--naf-line-soft);
+}
+
+.naf-px-kicker {
+  flex: 1 1 auto;
+  margin: 0;
+  font-family: var(--naf-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--naf-bronze);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.naf-px-quit,
+.naf-px-fold {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: 0;
+  border-radius: var(--naf-radius);
+  background: none;
+  color: var(--naf-steel);
+  font-size: 1.05rem;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--naf-line-soft);
+    color: var(--naf-ink);
+    text-decoration: none;
+  }
+}
+
+.naf-px-panel.is-folded .naf-px-body { display: none; }
+
+.naf-px-body {
+  padding: 0.8rem 1rem 1rem;
+  max-height: min(52vh, 26rem);
+  overflow-y: auto;
+}
+
+.naf-px-dots {
+  display: flex;
+  gap: 0.35rem;
+  margin: 0 0 0.6rem;
+}
+
+.naf-px-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--naf-line);
+
+  &.is-done { background: var(--naf-bronze); }
+}
+
+.naf-px-title {
+  margin: 0 0 0.35rem;
+  font-size: 1.05rem;
+  font-weight: 650;
+  line-height: 1.3;
+  color: var(--naf-ink);
+}
+
+.naf-px-text {
+  margin: 0 0 0.5rem;
+  line-height: 1.55;
+  color: var(--naf-ink);
+
+  em { color: var(--naf-slate-mid); font-style: italic; }
+}
+
+.naf-px-hand {
+  margin: 0.15rem 0 0.5rem;
+  font-size: 0.98rem;
+}
+
+.naf-px-action {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.3rem 0.7rem;
+  margin: 0 0 0.4rem;
+  font-size: 0.84rem;
+  color: var(--naf-steel);
+
+  &::before {
+    content: "›";
+    color: var(--naf-bronze);
+    font-weight: 700;
+  }
+}
+
+.naf-px-check {
+  color: var(--naf-sage);
+  font-weight: 650;
+}
+
+.naf-px-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.7rem;
+}
+
+.naf-px-btn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 1rem;
+  border: 1px solid var(--naf-bronze);
+  border-radius: 999px;
+  background: var(--naf-bronze);
+  color: #fff;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.15s ease, color 0.15s ease;
+
+  &:hover,
+  &:focus-visible {
+    background: #7e5c30;
+    border-color: #7e5c30;
+    color: #fff;
+    text-decoration: none;
+  }
+}
+
+.naf-px-btn-ghost {
+  background: none;
+  color: var(--naf-bronze);
+
+  &:hover,
+  &:focus-visible {
+    background: var(--naf-bronze);
+    color: #fff;
+  }
+}
+
+/* Mobile : bottom sheet pleine largeur, repliable, la page reste
+   manipulable au-dessus. */
+@media (max-width: 860px) {
+  .naf-px-panel {
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    border-radius: 10px 10px 0 0;
+    border-left: 0;
+    border-right: 0;
+  }
+
+  .naf-px-body { max-height: 42vh; }
+
+  /* Le contenu de page ne finit jamais caché sous la sheet. */
+  body.naf-px-active { padding-bottom: 30vh; }
+}
+
+/* ── Pages Bonus ─────────────────────────────────────────────────── */
+
+.naf-bx-module {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.3rem 1.2rem;
+  max-width: 40rem;
+  margin: 1.6rem 0 0;
+  padding: 1.4rem 0 1.5rem;
+  border-top: 1px solid var(--naf-line);
+  border-bottom: 1px solid var(--naf-line);
+}
+
+.naf-bx-module-num {
+  grid-row: 1 / span 3;
+  font-family: var(--naf-mono);
+  font-size: 2.1rem;
+  font-weight: 650;
+  line-height: 1;
+  color: var(--naf-steel-sub);
+}
+
+.naf-bx-module-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--naf-ink);
+}
+
+.naf-bx-module-desc {
+  margin: 0;
+  color: var(--naf-steel);
+  font-size: 0.95rem;
+}
+
+.naf-bx-module-meta {
+  margin: 0.1rem 0 0.6rem;
+  font-family: var(--naf-mono);
+  font-size: 0.78rem;
+  color: var(--naf-bronze);
+}
+
+/* ── Liste éditoriale des parcours ───────────────────────────────── */
+
+.naf-px-list {
+  margin: 1.4rem 0 0;
+  border-top: 1px solid var(--naf-line);
+}
+
+.naf-px-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 0.25rem 1.1rem;
+  padding: 1.05rem 0.4rem;
+  border-bottom: 1px solid var(--naf-line);
+  text-decoration: none;
+  transition: background 0.12s ease;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--naf-line-soft);
+    text-decoration: none;
+  }
+
+  &:hover .naf-px-item-arrow { transform: translateX(3px); }
+}
+
+.naf-px-item-num {
+  font-family: var(--naf-mono);
+  font-size: 1.55rem;
+  font-weight: 650;
+  line-height: 1;
+  color: var(--naf-steel-sub);
+}
+
+.naf-px-item-body { min-width: 0; display: grid; gap: 0.1rem; }
+
+.naf-px-item-title {
+  font-size: 1.05rem;
+  font-weight: 650;
+  color: var(--naf-ink);
+}
+
+.naf-px-item-sub {
+  font-size: 0.88rem;
+  color: var(--naf-steel);
+}
+
+.naf-px-item-meta {
+  display: grid;
+  gap: 0.15rem;
+  justify-items: end;
+  font-family: var(--naf-mono);
+  font-size: 0.74rem;
+}
+
+.naf-px-item-theme { color: var(--naf-slate-mid); }
+.naf-px-item-time { color: var(--naf-bronze); }
+
+.naf-px-item-arrow {
+  color: var(--naf-steel-sub);
+  transition: transform 0.15s ease;
+}
+
+@media (max-width: 860px) {
+  .naf-px-item { grid-template-columns: auto minmax(0, 1fr) auto; }
+  .naf-px-item-meta {
+    grid-column: 2;
+    grid-row: 2;
+    justify-items: start;
+    grid-auto-flow: column;
+    gap: 0.9rem;
+  }
+}
+
+/* ── Introduction d'un parcours ──────────────────────────────────── */
+
+.naf-px-introcard {
+  max-width: 34rem;
+  margin: 1.6rem 0 0;
+  padding: 1.4rem 1.5rem 1.5rem;
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-line);
+  border-top: 3px solid var(--naf-bronze);
+  border-radius: var(--naf-radius);
+}
+
+.naf-px-intro-title {
+  margin: 0.2rem 0 0.25rem;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--naf-ink);
+}
+
+.naf-px-intro-q {
+  margin: 0 0 0.6rem;
+  font-size: 0.98rem;
+  color: var(--naf-slate-mid);
+}
+
+/* Lien discret vers les parcours guidés depuis le hero. */
+.naf-home-new {
+  margin: 0.55rem 0 0;
+  font-size: 0.84rem;
+
+  a {
+    color: var(--naf-slate-mid);
+    text-decoration: none;
+    &:hover { color: var(--naf-ink); text-decoration: underline; }
+  }
+}
+
+.naf-home-new-tag {
+  margin-right: 0.4rem;
+  padding: 0.08rem 0.5rem;
+  font-family: var(--naf-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--naf-bronze);
+  border: 1px solid var(--naf-bronze);
+  border-radius: 999px;
+}
