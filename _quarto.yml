@@ -5,6 +5,15 @@ project:
   # détecter dans le HTML, il faut donc les déclarer explicitement en ressources.
   resources:
     - data/*.csv
+    # Référentiels des études (manifeste de provenance, contexte daté,
+    # passerelle produits) : publiés pour la traçabilité.
+    - data/etudes/*.csv
+    # Contenu des parcours guidés, chargé par assets/js/naf-parcours.js.
+    - data/parcours.json
+    # Dernier état de contrôle des sources (page Bonus « État des sources »).
+    - data/quality/*.json
+    # Règles méthodologiques de l'Atelier d'étude (Bonus 03).
+    - data/atelier_scenarios.json
     # La police d'annotation est référencée depuis fonts.css : Quarto ne suit
     # pas les url() des feuilles de style, il faut la déclarer explicitement.
     - assets/fonts/*.woff2
@@ -37,10 +46,36 @@ website:
         text: Comprendre
       - href: methode/index.qmd
         text: Méthode & sources
+      - text: Bonus
+        menu:
+          - href: bonus/parcours.qmd
+            text: Parcours guidés
+          - href: bonus/sources.qmd
+            text: État des sources
+          - href: bonus/atelier.qmd
+            text: Atelier d'étude
     right:
       - search
+  # Footer global : auteur, transparence (code source), amélioration continue
+  # (issues). Remplacer LINKEDIN_URL_A_REMPLACER par l'URL du profil LinkedIn :
+  # tant que le placeholder est en place, le nom s'affiche sans lien (voir
+  # includes/scripts.html), jamais comme un lien cassé.
   page-footer:
-    left: "Explorateur NAF"
+    left: >-
+      Conçu par <a class="naf-footer-author" href="LINKEDIN_URL_A_REMPLACER"
+      target="_blank" rel="noopener noreferrer"><i class="bi bi-linkedin"
+      aria-hidden="true"></i> Marylène Henry</a>
+    center: >-
+      <a class="naf-footer-link"
+      href="https://github.com/MaryleneH/explorateur-naf" target="_blank"
+      rel="noopener noreferrer" title="Voir le dépôt GitHub"><i
+      class="bi bi-github" aria-hidden="true"></i> Code source</a>
+      <span class="naf-footer-sep" aria-hidden="true">·</span>
+      <a class="naf-footer-link"
+      href="https://github.com/MaryleneH/explorateur-naf/issues/new?template=site-feedback.yml"
+      target="_blank" rel="noopener noreferrer"
+      title="Signaler un problème sur GitHub"><i class="bi bi-chat-right-dots"
+      aria-hidden="true"></i> Signaler un problème</a>
     right: "Données : Insee (NAF rév.2 et NAF 2025)"
 
 format:

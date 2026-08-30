@@ -1,1 +1,20 @@
-<!-- Reserved for future global includes. -->
+<script>
+  // Tant que l'URL LinkedIn n'est pas renseignée (placeholder
+  // LINKEDIN_URL_A_REMPLACER dans _quarto.yml et methode/index.qmd),
+  // le nom de l'auteure s'affiche en texte simple plutôt qu'en lien cassé.
+  // Dès que le placeholder est remplacé par une vraie URL, le lien vit.
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll('a[href$="LINKEDIN_URL_A_REMPLACER"]')
+      .forEach(function (a) {
+        if (a.classList.contains("naf-chg-cta")) {
+          // Un bouton qui ne mène nulle part serait trompeur : masqué.
+          a.hidden = true;
+          return;
+        }
+        var span = document.createElement("span");
+        span.className = a.className;
+        span.innerHTML = a.innerHTML;
+        a.replaceWith(span);
+      });
+  });
+</script>

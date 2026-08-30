@@ -48,6 +48,8 @@ include-after-body: "includes/home-scripts.html"
         </a>
       </div>
       <p class="naf-home-counts" id="naf-home-counts" role="status" aria-live="polite"></p>
+      <p class="naf-home-new"><span class="naf-home-new-tag">Nouveau</span>
+        <a href="bonus/parcours.html">Parcours guidés →</a></p>
     </div>
   </div>
 

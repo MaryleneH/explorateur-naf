@@ -1,67 +1,1400 @@
 ---
-title: "Comprendre la NAF"
+pagetitle: "Comprendre — Explorateur NAF"
+title: ""
+page-layout: full
+include-after-body: "../includes/comprendre-scripts.html"
 ---
 
-::: {.naf-compare}
+::: {.naf-page}
 
-La NAF, nomenclature d'activités française, classe les activités économiques.
-Elle sert à produire des statistiques comparables, pas à décrire une entreprise.
+```{=html}
+<div class="naf-comp">
 
-## Les cinq niveaux
+  <header class="naf-viz-intro">
+    <p class="naf-hand-heading naf-viz-title" role="heading" aria-level="1">
+      Comprendre ce que la NAF raconte… et ce qu'elle ne raconte pas
+    </p>
+    <p class="naf-viz-lede">
+      Un mini-cours pour apprendre à raisonner correctement sur une entreprise
+      à partir de la nomenclature d'activités et des sources statistiques :
+      de « qu'est-ce qu'un code NAF ? » jusqu'à « quelles sources croiser,
+      avec quelle fraîcheur, pour étudier une question industrielle ou de
+      Défense ? ».
+    </p>
+    <p class="naf-hand naf-viz-hand" aria-hidden="true">
+      « classer une entreprise n'est jamais tout à fait la décrire »
+    </p>
+  </header>
 
-La hiérarchie va du plus général au plus fin. Chaque niveau ajoute un caractère
-au code.
+  <nav class="naf-comp-nav" id="naf-comp-nav" aria-label="Sommaire de la page">
+    <a class="naf-comp-nav-link" href="#la-naf"><span class="naf-comp-nav-num">01</span> La NAF</a>
+    <a class="naf-comp-nav-link" href="#une-entreprise"><span class="naf-comp-nav-num">02</span> Une entreprise</a>
+    <a class="naf-comp-nav-link" href="#les-sources"><span class="naf-comp-nav-num">03</span> Les sources</a>
+    <a class="naf-comp-nav-link" href="#etudier-la-defense"><span class="naf-comp-nav-num">04</span> Étudier la Défense</a>
+    <a class="naf-comp-nav-link" href="#boite-a-outils"><span class="naf-comp-nav-num">05</span> Boîte à outils</a>
+  </nav>
 
-| Niveau | Exemple | Lecture |
-|---|---|---|
-| Section | `C` | Industrie manufacturière |
-| Division | `30` | Fabrication d'autres matériels de transport |
-| Groupe | `30.3` | Construction aéronautique et spatiale |
-| Classe | `30.32` | Construction aéronautique et spatiale militaire |
-| Sous-classe | `30.32Y` | Le niveau le plus fin, propre à la France |
+  <!-- ══════════════════════ 01 · LA NAF ══════════════════════ -->
+  <section class="naf-comp-section" id="la-naf" aria-labelledby="la-naf-h">
 
-Les quatre premiers niveaux sont européens (NACE). La sous-classe est une
-subdivision française : c'est elle qui porte la lettre finale.
+    <p class="naf-comp-kicker">01 · La nomenclature</p>
+    <p class="naf-hand-heading naf-comp-h2" id="la-naf-h" role="heading" aria-level="2">
+      À quoi sert la NAF ?
+    </p>
+    <p class="naf-comp-lede">
+      La NAF, nomenclature d'activités française, classe les
+      <strong>activités économiques productives</strong>. Elle sert à
+      classer, agréger, produire des statistiques comparables et organiser
+      l'information économique. Elle n'est pas conçue pour décrire toute la
+      réalité d'une entreprise.
+    </p>
 
-## NAF et code APE
+    <div class="naf-comp-flow" role="img"
+         aria-label="Schéma : l'activité réelle est classée dans la NAF, qui permet de produire des statistiques sectorielles.">
+      <div class="naf-comp-flow-step">
+        <strong>Activité réelle</strong>
+        <span class="naf-comp-flow-note">foisonnante, mêlée, changeante</span>
+      </div>
+      <span class="naf-comp-flow-arrow" aria-hidden="true">↓</span>
+      <span class="naf-comp-flow-arrowlbl">classification</span>
+      <div class="naf-comp-flow-step naf-comp-flow-step-accent">
+        <strong>NAF</strong>
+        <span class="naf-comp-flow-note">un code, une définition, une hiérarchie</span>
+      </div>
+      <span class="naf-comp-flow-arrow" aria-hidden="true">↓</span>
+      <div class="naf-comp-flow-step">
+        <strong>Statistiques sectorielles</strong>
+        <span class="naf-comp-flow-note">comparables dans le temps et l'espace</span>
+      </div>
+    </div>
 
-La NAF est la nomenclature. Le code APE, activité principale exercée, est le code
-que l'Insee attribue effectivement à une unité à partir de cette nomenclature.
+    <p>
+      La nomenclature <strong>simplifie volontairement</strong> la réalité pour
+      permettre de la mesurer. C'est sa force, et c'est la première chose à
+      garder en tête en la lisant.
+    </p>
+    <p class="naf-hand naf-comp-hand" aria-hidden="true">« une carte n'est pas le territoire »</p>
 
-Un code APE est donc un code NAF, mais choisi selon une règle précise : celui de
-l'activité principale, déterminée par la part de valeur ajoutée. Une entreprise
-qui exerce cinq activités n'a qu'un seul code APE.
+    <h3 class="naf-comp-h3">Un emboîtement mondial : CITI → NACE → NAF</h3>
+    <p>
+      La NAF n'est pas isolée : elle décline pour la France une architecture
+      internationale. Les statistiques restent ainsi comparables entre pays.
+    </p>
 
-## Entreprise et établissement
+    <div class="naf-comp-flow" role="img"
+         aria-label="Schéma : la CITI au niveau mondial, la NACE au niveau européen, la NAF au niveau français.">
+      <div class="naf-comp-flow-step">
+        <strong>CITI</strong>
+        <span class="naf-comp-flow-note">Monde — Nations unies</span>
+      </div>
+      <span class="naf-comp-flow-arrow" aria-hidden="true">↓</span>
+      <div class="naf-comp-flow-step">
+        <strong>NACE</strong>
+        <span class="naf-comp-flow-note">Europe — règlement européen</span>
+      </div>
+      <span class="naf-comp-flow-arrow" aria-hidden="true">↓</span>
+      <div class="naf-comp-flow-step naf-comp-flow-step-accent">
+        <strong>NAF</strong>
+        <span class="naf-comp-flow-note">France — ajoute la sous-classe (la lettre finale)</span>
+      </div>
+    </div>
 
-Le code est attribué à deux niveaux distincts, et les confondre fausse tout
-comptage.
+    <p>
+      Les quatre premiers niveaux de la NAF sont ceux de la NACE européenne.
+      La <strong>sous-classe</strong>, portée par la lettre finale, est la
+      subdivision française.
+    </p>
 
-L'entreprise reçoit un code APE correspondant à son activité principale globale.
-Chaque établissement reçoit son propre code, correspondant à son activité
-principale locale. Un groupe industriel peut ainsi porter un code de fabrication
-au siège et des codes de commerce ou de logistique dans ses entrepôts.
+    <h3 class="naf-comp-h3">Activité ≠ produit : la NAF et la CPF</h3>
 
-## Pourquoi la nomenclature change
+    <div class="naf-comp-vs">
+      <div class="naf-comp-vs-panel">
+        <p class="naf-comp-vs-title">NAF — activités</p>
+        <p class="naf-comp-vs-strong">Que fait principalement l'unité ?</p>
+        <p>Fabriquer des aéronefs, développer des logiciels, réparer des
+        machines… La NAF classe des façons de produire.</p>
+      </div>
+      <div class="naf-comp-vs-panel naf-comp-vs-panel-neg">
+        <p class="naf-comp-vs-title">CPF — produits</p>
+        <p class="naf-comp-vs-strong">Quels biens et services sont produits ?</p>
+        <p>La classification des produits (CPF, alignée sur la CPA
+        européenne) décrit ce qui sort des ateliers, pas qui les fait
+        tourner.</p>
+      </div>
+    </div>
 
-Une nomenclature vieillit. Des activités apparaissent, d'autres perdent leur
-poids économique, certaines se scindent.
+    <p>
+      La distinction compte beaucoup pour la Défense : une entreprise au code
+      NAF générique (mécanique, électronique…) peut produire des biens très
+      pertinents pour une chaîne de valeur militaire. C'est tout l'objet de la
+      lecture <a href="../defense/index.html">NAF &amp; Défense</a>, et la
+      raison pour laquelle l'étude des dépendances commerciales
+      (<a href="#etude-04">étude 04</a>) passe par les nomenclatures de
+      produits, jamais par la NAF directement.
+    </p>
 
-La NAF 2025 remplace la NAF rév.2 en vigueur depuis 2008. Elle suit la révision
-européenne NACE rév.2.1. Les recompositions les plus visibles concernent le
-numérique, l'énergie, la réparation et, précisément, la séparation entre
-aéronautique civile et aéronautique militaire.
+    <h3 class="naf-comp-h3">Cinq niveaux, du général au précis</h3>
 
-## Ce qu'un code NAF ne dit pas
+    <div class="naf-comp-ladder" role="img"
+         aria-label="Exemple de descente dans la hiérarchie : section C, division 30, groupe 30.3, classe 30.32, sous-classe 30.32Y — Construction aéronautique et spatiale militaire.">
+      <div class="naf-comp-rung">
+        <span class="naf-comp-rung-level">Section</span>
+        <span class="naf-comp-rung-code">C</span>
+        <span class="naf-comp-rung-main"><span class="naf-comp-rung-label">Industrie manufacturière</span></span>
+      </div>
+      <div class="naf-comp-rung">
+        <span class="naf-comp-rung-level">Division</span>
+        <span class="naf-comp-rung-code">30</span>
+        <span class="naf-comp-rung-main"><span class="naf-comp-rung-label">Fabrication d'autres matériels de transport</span></span>
+      </div>
+      <div class="naf-comp-rung">
+        <span class="naf-comp-rung-level">Groupe</span>
+        <span class="naf-comp-rung-code">30.3</span>
+        <span class="naf-comp-rung-main"><span class="naf-comp-rung-label">Construction aéronautique et spatiale</span></span>
+      </div>
+      <div class="naf-comp-rung">
+        <span class="naf-comp-rung-level">Classe</span>
+        <span class="naf-comp-rung-code">30.32</span>
+        <span class="naf-comp-rung-main"><span class="naf-comp-rung-label">Construction aéronautique et spatiale militaire</span></span>
+      </div>
+      <div class="naf-comp-rung">
+        <span class="naf-comp-rung-level">Sous-classe</span>
+        <span class="naf-comp-rung-code">30.32Y</span>
+        <span class="naf-comp-rung-main"><span class="naf-comp-rung-label">Construction aéronautique et spatiale militaire — le niveau le plus fin, propre à la France</span></span>
+      </div>
+    </div>
 
-::: {.callout-important}
-Un code NAF ne décrit ni les clients, ni les marchés, ni les contrats, ni la
-taille, ni la localisation réelle de l'activité. Deux entreprises portant le même
-code peuvent avoir des modèles économiques sans rapport.
+    <p>Chaque niveau ajoute de la précision.</p>
+    <p class="naf-comp-ctas">
+      <a class="naf-chg-cta" href="../explorer/visualisation.html?view=arbre&code=30.32Y">Voir cet exemple dans l'arbre →</a>
+      <a class="naf-chg-cta" href="../explorer/index.html?v=2025&code=30.32Y">Ouvrir la fiche 30.32Y →</a>
+    </p>
+
+    <h3 class="naf-comp-h3">NAF et code APE : le dictionnaire et le mot choisi</h3>
+
+    <div class="naf-comp-vs">
+      <div class="naf-comp-vs-panel">
+        <p class="naf-comp-vs-title">NAF</p>
+        <p class="naf-comp-vs-strong">= la nomenclature</p>
+        <p>La liste organisée de toutes les activités possibles : 22 sections,
+        747 sous-classes en NAF 2025.</p>
+      </div>
+      <div class="naf-comp-vs-panel">
+        <p class="naf-comp-vs-title">APE</p>
+        <p class="naf-comp-vs-strong">= le code retenu pour une unité</p>
+        <p>Le code que l'Insee attribue à une unité précise, choisi dans
+        cette nomenclature : son activité principale exercée.</p>
+      </div>
+    </div>
+
+    <p>
+      <strong>La NAF est le dictionnaire ; l'APE est le code attribué à une
+      unité.</strong> Tout code APE est un code NAF, mais parler du « code
+      NAF » d'une entreprise, c'est déjà confondre la langue et la phrase.
+    </p>
+    <p class="naf-hand naf-comp-hand" aria-hidden="true">« même langage, pas même objet »</p>
+
+    <h3 class="naf-comp-h3">Comment est choisie l'activité principale ?</h3>
+    <p>
+      Une unité exerce souvent plusieurs activités. Son activité principale
+      est déterminée à partir de critères statistiques, au premier rang
+      desquels la <strong>contribution à la valeur ajoutée</strong>, selon les
+      règles d'application de la nomenclature.
+    </p>
+
+    <div class="naf-comp-flow" role="img"
+         aria-label="Exemple fictif : une entreprise dont l'activité se répartit entre électronique (50 %), logiciel (30 %) et maintenance (20 %) reçoit une seule activité principale, donc un seul code APE.">
+      <div class="naf-comp-flow-step">
+        <strong>Entreprise Alpha</strong>
+        <span class="naf-comp-flow-note">50 % électronique · 30 % logiciel · 20 % maintenance</span>
+      </div>
+      <span class="naf-comp-flow-arrow" aria-hidden="true">↓</span>
+      <span class="naf-comp-flow-arrowlbl">règle de la valeur ajoutée</span>
+      <div class="naf-comp-flow-step naf-comp-flow-step-accent">
+        <strong>Une activité principale</strong>
+        <span class="naf-comp-flow-note">l'électronique l'emporte</span>
+      </div>
+      <span class="naf-comp-flow-arrow" aria-hidden="true">↓</span>
+      <div class="naf-comp-flow-step">
+        <strong>Un code APE</strong>
+        <span class="naf-comp-flow-note">les 50 % restants deviennent invisibles dans le code</span>
+      </div>
+    </div>
+
+    <p class="naf-comp-verifdate">Exemple pédagogique fictif, pas un cas réel.</p>
+
+    <h3 class="naf-comp-h3">2026, une année à deux codes</h3>
+    <p>
+      Une nomenclature vieillit : des activités apparaissent, d'autres se
+      recomposent. La NAF 2025 suit la révision européenne NACE rév. 2.1.
+      Et le calendrier de transition fait de 2026 un cas pédagogique
+      exceptionnel :
+    </p>
+
+    <div class="naf-comp-jalons">
+      <div class="naf-comp-jalon">
+        <span class="naf-comp-jalon-date">16 déc. 2025</span>
+        <p class="naf-comp-jalon-titre"><a href="https://www.insee.fr/fr/information/9019311" target="_blank" rel="noopener noreferrer">Le futur code entre dans Sirene ↗</a></p>
+        <p>Les fichiers stock diffusent par anticipation, à titre informatif,
+        le futur code NAF 2025 de chaque unité active
+        (variables <span class="naf-mono">activitePrincipaleNAF25UniteLegale</span>
+        et <span class="naf-mono">activitePrincipaleNAF25Etablissement</span>).</p>
+      </div>
+      <div class="naf-comp-jalon">
+        <span class="naf-comp-jalon-date">2026</span>
+        <p class="naf-comp-jalon-titre">L'APE officiel reste en NAF rév. 2 (2008)</p>
+        <p>Chaque unité porte donc <strong>deux codes à la fois</strong> :
+        l'APE officiel et son futur code NAF 2025. Les entreprises peuvent
+        vérifier et faire corriger ce futur code sur sirene.gouv.fr.</p>
+      </div>
+      <div class="naf-comp-jalon">
+        <span class="naf-comp-jalon-date">1er janv. 2027</span>
+        <p class="naf-comp-jalon-titre"><a href="https://www.insee.fr/fr/information/8181066" target="_blank" rel="noopener noreferrer">La NAF 2025 devient la référence APE ↗</a></p>
+        <p>Toutes les unités actives de Sirene basculent ; les variables de
+        préfiguration disparaissent des fichiers début janvier 2027.</p>
+      </div>
+      <div class="naf-comp-jalon">
+        <span class="naf-comp-jalon-date">Exemple</span>
+        <p class="naf-comp-jalon-titre"><span class="naf-mono">30.30Z</span> — Construction aéronautique et spatiale</p>
+        <p>La NAF 2025 sépare notamment ce que la NAF rév. 2 mêlait :
+        construction aéronautique civile et militaire deviennent des activités
+        distinctes. La table officielle de correspondance fait foi.</p>
+      </div>
+    </div>
+
+    <p class="naf-comp-ctas">
+      <a class="naf-chg-cta" href="../comparer/index.html?code=30.30Z">Explorer ce changement →</a>
+    </p>
+
+    <h3 class="naf-comp-h3">Une correspondance n'est pas une conversion</h3>
+    <p>
+      La table officielle relie les deux nomenclatures par quatre types de
+      relations :
+    </p>
+
+    <div class="naf-comp-grid2">
+      <div class="naf-comp-vs-panel">
+        <p class="naf-comp-vs-title">Relations simples</p>
+        <ul>
+          <li><span class="naf-mono">1 → 1</span> — l'activité est reprise à l'identique, seul le code change.</li>
+          <li><span class="naf-mono">1 → n</span> — une activité 2008 est éclatée en plusieurs activités 2025.</li>
+        </ul>
+      </div>
+      <div class="naf-comp-vs-panel naf-comp-vs-panel-neg">
+        <p class="naf-comp-vs-title">Relations non inversibles</p>
+        <ul>
+          <li><span class="naf-mono">n → 1</span> — plusieurs activités 2008 sont regroupées.</li>
+          <li><span class="naf-mono">n ↔ n</span> — le périmètre est redécoupé, sans correspondance simple.</li>
+        </ul>
+      </div>
+    </div>
+
+    <p>
+      Conséquence : on ne peut pas toujours « convertir un ancien code en
+      nouveau code ». Dès qu'une relation n'est pas 1 → 1, il faut revenir à
+      l'activité réelle de l'unité — c'est précisément ce que fait l'Insee
+      pour attribuer les futurs codes APE.
+    </p>
+    <p class="naf-comp-ctas">
+      <a class="naf-chg-cta" href="../comparer/index.html">Explorer les changements 2008 → 2025 →</a>
+    </p>
+
+    <h3 class="naf-comp-h3">Ce que la NAF dit — et ne dit pas</h3>
+
+    <div class="naf-comp-vs">
+      <div class="naf-comp-vs-panel">
+        <p class="naf-comp-vs-title">La NAF dit</p>
+        <ul>
+          <li>l'activité principale déclarée d'une unité ;</li>
+          <li>sa position dans une structure hiérarchique ;</li>
+          <li>son appartenance sectorielle, comparable dans le temps.</li>
+        </ul>
+      </div>
+      <div class="naf-comp-vs-panel naf-comp-vs-panel-neg">
+        <p class="naf-comp-vs-title">La NAF ne dit pas</p>
+        <ul>
+          <li>les clients ni les marchés finals ;</li>
+          <li>les programmes militaires ou les contrats ;</li>
+          <li>la part du chiffre d'affaires liée à la Défense ;</li>
+          <li>les technologies utilisées, les fournisseurs, les dépendances ;</li>
+          <li>la capacité de production.</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="naf-hand naf-comp-hand" aria-hidden="true">« le code voit l'activité, pas le marché final »</p>
+  </section>
+
+  <!-- ══════════════════════ 02 · UNE ENTREPRISE ══════════════════════ -->
+  <section class="naf-comp-section" id="une-entreprise" aria-labelledby="une-entreprise-h">
+
+    <p class="naf-comp-kicker">02 · L'objet observé</p>
+    <p class="naf-hand-heading naf-comp-h2" id="une-entreprise-h" role="heading" aria-level="2">
+      Qu'est-ce qu'on compte, au juste ?
+    </p>
+    <p class="naf-comp-lede">
+      « Entreprise » recouvre au moins quatre objets différents pour la
+      statistique. Les confondre est l'erreur la plus fréquente — et la plus
+      lourde de conséquences — de toute étude sectorielle.
+    </p>
+
+    <div class="naf-comp-tree" role="img"
+         aria-label="Schéma : un groupe industriel contient plusieurs unités légales identifiées par un SIREN ; chaque unité légale contient un ou plusieurs établissements identifiés par un SIRET.">
+      <ul>
+        <li class="naf-comp-tree-root">Groupe industriel</li>
+        <li>
+          <ul>
+            <li class="naf-comp-tree-root">Unité légale A <span class="naf-comp-tag naf-comp-tag-siren">SIREN</span>
+              <ul>
+                <li>Usine <span class="naf-comp-tag naf-comp-tag-siret">SIRET</span></li>
+                <li>Centre de R&amp;D <span class="naf-comp-tag naf-comp-tag-siret">SIRET</span></li>
+                <li>Siège <span class="naf-comp-tag naf-comp-tag-siret">SIRET</span></li>
+              </ul>
+            </li>
+            <li class="naf-comp-tree-root">Unité légale B <span class="naf-comp-tag naf-comp-tag-siren">SIREN</span>
+              <ul>
+                <li>Établissement <span class="naf-comp-tag naf-comp-tag-siret">SIRET</span></li>
+              </ul>
+            </li>
+            <li class="naf-comp-tree-root">Unité légale C <span class="naf-comp-tag naf-comp-tag-siren">SIREN</span></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <div class="naf-comp-grid2">
+      <div class="naf-comp-vs-panel">
+        <p class="naf-comp-vs-title">SIREN</p>
+        <p class="naf-comp-vs-strong">identifie une unité légale</p>
+        <p>Neuf chiffres, une personnalité juridique (société, association,
+        collectivité…). C'est la clé la plus courante entre sources.</p>
+      </div>
+      <div class="naf-comp-vs-panel">
+        <p class="naf-comp-vs-title">SIRET</p>
+        <p class="naf-comp-vs-strong">identifie un établissement</p>
+        <p>SIREN + 5 chiffres : un lieu d'exercice précis. C'est le bon objet
+        pour la géographie ; chaque établissement a son propre code
+        d'activité.</p>
+      </div>
+      <div class="naf-comp-vs-panel">
+        <p class="naf-comp-vs-title">Entreprise (sens statistique)</p>
+        <p class="naf-comp-vs-strong">ne se réduit pas à une unité légale</p>
+        <p>Depuis la définition économique de l'entreprise, une entreprise
+        peut regrouper plusieurs unités légales organisées ensemble (filiales
+        de production, de distribution, holding…).</p>
+      </div>
+      <div class="naf-comp-vs-panel">
+        <p class="naf-comp-vs-title">Groupe</p>
+        <p class="naf-comp-vs-strong">rassemble des unités légales</p>
+        <p>Un même groupe peut aligner des dizaines de SIREN et des centaines
+        de SIRET, aux activités très différentes.</p>
+      </div>
+    </div>
+
+    <h3 class="naf-comp-h3">Pourquoi c'est crucial pour la Défense</h3>
+    <p>Prenons un groupe fictif :</p>
+
+    <div class="naf-comp-tree" role="img"
+         aria-label="Exemple fictif : un groupe de Défense dont le siège porte un code de holding, l'usine un code d'électronique, le centre de R&D un code de recherche et le site de maintenance un code de réparation.">
+      <ul>
+        <li class="naf-comp-tree-root">Groupe Défense X <span class="naf-comp-tag">exemple fictif</span>
+          <ul>
+            <li>Siège — <em>code d'activité de siège / holding</em></li>
+            <li>Usine — <em>code d'électronique</em></li>
+            <li>Centre de R&amp;D — <em>code de recherche</em></li>
+            <li>Site de maintenance — <em>code de réparation</em></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <p>
+      Alors, quel est « le code NAF du groupe » ? <strong>La question
+      elle-même peut être mal posée.</strong> Selon l'unité observée — groupe,
+      unité légale, établissement — la réponse change, et aucune n'épuise la
+      réalité. La première décision d'une étude n'est pas « quel code ? »
+      mais « quelle unité ? ».
+    </p>
+
+    <h3 class="naf-comp-h3">Trois erreurs à éviter</h3>
+
+    <div class="naf-comp-erreurs">
+      <div class="naf-comp-erreur">
+        <span class="naf-comp-erreur-num">Erreur 1</span>
+        <p>Compter des SIRET et appeler cela « nombre d'entreprises ». On
+        compte alors des lieux, pas des acteurs économiques.</p>
+      </div>
+      <div class="naf-comp-erreur">
+        <span class="naf-comp-erreur-num">Erreur 2</span>
+        <p>Considérer toutes les entreprises d'un code dual comme des
+        entreprises de Défense. Un code dual signale un périmètre possible,
+        jamais une appartenance.</p>
+      </div>
+      <div class="naf-comp-erreur">
+        <span class="naf-comp-erreur-num">Erreur 3</span>
+        <p>Utiliser une donnée administrative très récente comme si elle
+        représentait le champ statistique des unités économiquement actives.</p>
+      </div>
+    </div>
+
+    <p class="naf-hand naf-comp-hand" aria-hidden="true">« bonne donnée + mauvaise unité = mauvaise statistique »</p>
+  </section>
+
+  <!-- ══════════════════════ 03 · LES SOURCES ══════════════════════ -->
+  <section class="naf-comp-section" id="les-sources" aria-labelledby="les-sources-h">
+
+    <p class="naf-comp-kicker">03 · Les données</p>
+    <p class="naf-hand-heading naf-comp-h2" id="les-sources-h" role="heading" aria-level="2">
+      Quelle source pour quelle question ?
+    </p>
+    <p class="naf-comp-lede">
+      Aucune source ne répond à tout. Chacune observe un objet, à un rythme,
+      avec des limites. Savoir les distinguer est aussi important que savoir
+      lire un code.
+    </p>
+
+    <h3 class="naf-comp-h3">Sirene et Sirus : le répertoire et le référentiel</h3>
+
+    <div class="naf-comp-vs">
+      <div class="naf-comp-vs-panel">
+        <p class="naf-comp-vs-title">Sirene — répertoire administratif</p>
+        <ul>
+          <li>toutes les unités légales (SIREN) et établissements (SIRET) ;</li>
+          <li>activité principale (APE), adresse, état administratif,
+              historique des variables ;</li>
+          <li>en 2026 : le futur code NAF 2025 diffusé par anticipation ;</li>
+          <li><strong>largement accessible en open data</strong> (fichiers
+              stock mensuels + API).</li>
+        </ul>
+      </div>
+      <div class="naf-comp-vs-panel naf-comp-vs-panel-neg">
+        <p class="naf-comp-vs-title">Sirus — répertoire statistique</p>
+        <ul>
+          <li>la référence du système statistique d'entreprises ;</li>
+          <li>enrichissements statistiques : effectifs, chiffre d'affaires,
+              classement sectoriel, notion d'unité statistique ;</li>
+          <li>documentation publique, mais <strong>microdonnées accessibles
+              selon droits</strong> (chercheurs, environnement
+              statistique) — pas de simple téléchargement.</li>
+        </ul>
+      </div>
+    </div>
+
+    <p>
+      Pour une analyse reproductible avec les seules sources ouvertes, on
+      s'appuie donc sur Sirene et sur les <strong>sorties publiques</strong>
+      du système statistique : les résultats SIDE, Flores quand le millésime
+      s'y prête, et les publications Insee disponibles.
+    </p>
+
+    <h3 class="naf-comp-h3">SIDE : qui est réellement actif ?</h3>
+    <p>
+      Le <a href="https://www.insee.fr/fr/metadonnees/source/serie/s2120"
+      target="_blank" rel="noopener noreferrer">Système d'information sur la
+      démographie d'entreprises ↗</a> mobilise Sirene enrichi de Sirus pour
+      mesurer créations, cessations et <strong>stocks d'unités légales et
+      d'établissements économiquement actifs</strong>. Il remplace l'ancien
+      REE depuis 2022.
+    </p>
+    <p>
+      Ses résultats structurels arrivent naturellement plus tard que les
+      mouvements du répertoire : une unité peut exister administrativement
+      sans activité économique réelle. C'est la leçon centrale :
+      <strong>donnée fraîche ≠ donnée statistiquement consolidée.</strong>
+    </p>
+    <p class="naf-hand naf-comp-hand" aria-hidden="true">« frais ne veut pas dire consolidé »</p>
+
+    <h3 class="naf-comp-h3">La frise fraîcheur ↔ consolidation</h3>
+
+    <div class="naf-comp-frise">
+      <div class="naf-comp-frise-axis" aria-hidden="true">
+        <span>Très frais</span>
+        <span>Consolidé</span>
+      </div>
+      <div class="naf-comp-frise-rows">
+        <div class="naf-comp-frise-row">
+          <span class="naf-comp-frise-src">BOAMP · BODACC</span>
+          <span class="naf-comp-frise-freq">annonces publiées quotidiennement ou plusieurs fois par semaine</span>
+        </div>
+        <div class="naf-comp-frise-row">
+          <span class="naf-comp-frise-src">API Sirene</span>
+          <span class="naf-comp-frise-freq">répertoire interrogeable en quasi temps réel</span>
+        </div>
+        <div class="naf-comp-frise-row">
+          <span class="naf-comp-frise-src">Sirene stock · DECP</span>
+          <span class="naf-comp-frise-freq">fichiers mensuels ; alimentation continue pour les DECP</span>
+        </div>
+        <div class="naf-comp-frise-row">
+          <span class="naf-comp-frise-src">Douanes · conjoncture</span>
+          <span class="naf-comp-frise-freq">statistiques mensuelles, avec délai de publication</span>
+        </div>
+        <div class="naf-comp-frise-row">
+          <span class="naf-comp-frise-src">SIDE · Flores · structurel</span>
+          <span class="naf-comp-frise-freq">millésimes annuels, consolidés avec un ou deux ans de recul</span>
+        </div>
+      </div>
+    </div>
+
+    <p>
+      Plus frais ne signifie pas plus complet ni plus stable : une annonce se
+      corrige, un stock se consolide, une statistique structurelle fait foi.
+      Le bon réflexe est de choisir la fraîcheur <em>adaptée à la
+      question</em>, et de toujours distinguer la date de collecte de la date
+      de référence des données.
+    </p>
+
+    <h3 class="naf-comp-h3">La matrice question → source</h3>
+
+    <div class="naf-comp-matrix">
+      <details class="naf-sheet-section">
+        <summary class="naf-sheet-summary">
+          <span class="naf-comp-matrix-q">Où sont les établissements ?</span>
+          <span class="naf-comp-matrix-src">Sirene + géoloc</span>
+        </summary>
+        <div class="naf-sheet-body">
+          <dl class="naf-deflist">
+            <dt>Contenu</dt><dd>SIRET, adresse, commune ; fichier de géolocalisation dédié (coordonnées, IRIS).</dd>
+            <dt>Fréquence</dt><dd>Stocks mensuels, API quasi temps réel.</dd>
+            <dt>Unité</dt><dd>Établissement.</dd>
+            <dt>Limites</dt><dd>Existence administrative ≠ activité économique ; qualité du géocodage variable.</dd>
+          </dl>
+        </div>
+      </details>
+      <details class="naf-sheet-section">
+        <summary class="naf-sheet-summary">
+          <span class="naf-comp-matrix-q">Quelle activité exerce l'unité ?</span>
+          <span class="naf-comp-matrix-src">NAF / Sirene</span>
+        </summary>
+        <div class="naf-sheet-body">
+          <dl class="naf-deflist">
+            <dt>Contenu</dt><dd>Code APE de l'unité légale et de chaque établissement ; en 2026, futur code NAF 2025 en plus.</dd>
+            <dt>Fréquence</dt><dd>Mise à jour continue du répertoire.</dd>
+            <dt>Unité</dt><dd>Unité légale et établissement (codes distincts).</dd>
+            <dt>Limites</dt><dd>Activité principale uniquement ; les activités secondaires sont invisibles.</dd>
+          </dl>
+        </div>
+      </details>
+      <details class="naf-sheet-section">
+        <summary class="naf-sheet-summary">
+          <span class="naf-comp-matrix-q">L'unité est-elle économiquement active ?</span>
+          <span class="naf-comp-matrix-src">Sirus / SIDE</span>
+        </summary>
+        <div class="naf-sheet-body">
+          <dl class="naf-deflist">
+            <dt>Contenu</dt><dd>Champ des unités économiquement actives, enrichissements statistiques.</dd>
+            <dt>Fréquence</dt><dd>SIDE : conjoncturel mensuel (créations) et structurel annuel.</dd>
+            <dt>Unité</dt><dd>Unité statistique.</dd>
+            <dt>Limites</dt><dd>Microdonnées Sirus selon droits d'accès ; résultats SIDE consolidés avec délai.</dd>
+          </dl>
+        </div>
+      </details>
+      <details class="naf-sheet-section">
+        <summary class="naf-sheet-summary">
+          <span class="naf-comp-matrix-q">Qui obtient des marchés publics ?</span>
+          <span class="naf-comp-matrix-src">DECP / BOAMP</span>
+        </summary>
+        <div class="naf-sheet-body">
+          <dl class="naf-deflist">
+            <dt>Contenu</dt><dd>BOAMP : annonces (appels d'offres, résultats). DECP : marchés attribués, acheteurs et titulaires (SIRET), montants, CPV, dates.</dd>
+            <dt>Fréquence</dt><dd>BOAMP quotidien ; DECP en alimentation continue.</dd>
+            <dt>Unité</dt><dd>Annonce / marché ; titulaires identifiés par SIRET.</dd>
+            <dt>Limites</dt><dd>Couverture publique seulement : un marché sensible ou sous seuil peut manquer. Qualité DECP hétérogène, contrôles indispensables.</dd>
+          </dl>
+        </div>
+      </details>
+      <details class="naf-sheet-section">
+        <summary class="naf-sheet-summary">
+          <span class="naf-comp-matrix-q">Que se passe-t-il juridiquement ?</span>
+          <span class="naf-comp-matrix-src">BODACC / RNE</span>
+        </summary>
+        <div class="naf-sheet-body">
+          <dl class="naf-deflist">
+            <dt>Contenu</dt><dd>Immatriculations, modifications, procédures collectives, radiations, comptes déposés.</dd>
+            <dt>Fréquence</dt><dd>Parutions plusieurs fois par semaine (API DILA).</dd>
+            <dt>Unité</dt><dd>Unité légale (SIREN au registre).</dd>
+            <dt>Limites</dt><dd>Événements publiés uniquement ; lecture descriptive, jamais prédictive.</dd>
+          </dl>
+        </div>
+      </details>
+      <details class="naf-sheet-section">
+        <summary class="naf-sheet-summary">
+          <span class="naf-comp-matrix-q">Quels produits sont importés / exportés ?</span>
+          <span class="naf-comp-matrix-src">Douanes</span>
+        </summary>
+        <div class="naf-sheet-body">
+          <dl class="naf-deflist">
+            <dt>Contenu</dt><dd>Flux mensuels produit (NC8) × pays, national et régional.</dd>
+            <dt>Fréquence</dt><dd>Mensuelle, avec délai de publication.</dd>
+            <dt>Unité</dt><dd>Flux de produits — pas des activités : passerelle NAF ↔ CPF ↔ produits à documenter.</dd>
+            <dt>Limites</dt><dd>Confidentialisation possible ; les produits ne disent pas qui les produit.</dd>
+          </dl>
+        </div>
+      </details>
+      <details class="naf-sheet-section">
+        <summary class="naf-sheet-summary">
+          <span class="naf-comp-matrix-q">Quelles innovations brevetées ?</span>
+          <span class="naf-comp-matrix-src">INPI</span>
+        </summary>
+        <div class="naf-sheet-body">
+          <dl class="naf-deflist">
+            <dt>Contenu</dt><dd>Déposants, titres, résumés, classifications CIB/CPC, événements de procédure.</dd>
+            <dt>Fréquence</dt><dd>Mises à jour régulières de l'open data.</dd>
+            <dt>Unité</dt><dd>Dépôt / titre ; rattachement au SIREN pas toujours direct.</dd>
+            <dt>Limites</dt><dd>Publication différée (18 mois en général) : signal retardé, pas une mesure temps réel de la R&amp;D.</dd>
+          </dl>
+        </div>
+      </details>
+      <details class="naf-sheet-section">
+        <summary class="naf-sheet-summary">
+          <span class="naf-comp-matrix-q">Est-elle observée parmi les fournisseurs Défense ?</span>
+          <span class="naf-comp-matrix-src">REFD / EDIS</span>
+        </summary>
+        <div class="naf-sheet-body">
+          <dl class="naf-deflist">
+            <dt>Contenu</dt><dd>REFD : répertoire des entreprises fournisseurs de la Défense. EDIS : enquête statistique du SSM/OED sur l'industrie de défense.</dd>
+            <dt>Fréquence</dt><dd>Millésimes / campagnes annuelles.</dd>
+            <dt>Unité</dt><dd>Fournisseur observé / entreprise enquêtée — reprendre leurs définitions exactes.</dd>
+            <dt>Limites</dt><dd>Périmètres empiriques : être absent ne signifie pas être étranger à la Défense. Voir <a href="../defense/index.html">NAF &amp; Défense</a>.</dd>
+          </dl>
+        </div>
+      </details>
+    </div>
+
+    <h3 class="naf-comp-h3">Apparier les sources</h3>
+    <p>
+      La clé la plus fréquente entre sources est le <strong>SIREN</strong>
+      (unité légale) ; la géographie et l'activité locale passent par le
+      <strong>SIRET</strong> (établissement). Mais toutes les sources ne
+      s'apparient pas à ce niveau : les Douanes classent des produits, une
+      annonce BOAMP identifie parfois mal son titulaire, un déposant de brevet
+      n'écrit pas son SIREN. Chaque appariement doit être documenté — taux de
+      réussite compris.
+    </p>
+
+    <div class="naf-comp-vs">
+      <div class="naf-comp-vs-panel">
+        <p class="naf-comp-vs-title">Une source, une question</p>
+        <ul>
+          <li><strong>Sirene</strong> — qui existe administrativement ?</li>
+          <li><strong>SIDE / Sirus</strong> — qui est actif statistiquement ?</li>
+          <li><strong>BOAMP / DECP</strong> — quels marchés sont publiquement observables ?</li>
+        </ul>
+      </div>
+      <div class="naf-comp-vs-panel">
+        <p class="naf-comp-vs-title">&nbsp;</p>
+        <ul>
+          <li><strong>Douanes</strong> — quels produits traversent la frontière ?</li>
+          <li><strong>BODACC</strong> — quels événements juridiques ?</li>
+          <li><strong>INPI</strong> — quels signaux de propriété industrielle ?</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ 04 · ÉTUDIER LA DÉFENSE ══════════════════ -->
+  <section class="naf-comp-section" id="etudier-la-defense" aria-labelledby="etudier-la-defense-h">
+
+    <p class="naf-comp-kicker">04 · Le laboratoire</p>
+    <p class="naf-hand-heading naf-comp-h2" id="etudier-la-defense-h" role="heading" aria-level="2">
+      Alors, comment étudier les entreprises de Défense ?
+    </p>
+    <p class="naf-comp-lede">
+      La NAF seule ne délimite pas la Défense — la page
+      <a href="../defense/index.html">NAF &amp; Défense</a> le démontre. Et
+      une étude ne commence pas nécessairement par la NAF : elle commence par
+      une <strong>question</strong>. C'est elle qui détermine le périmètre,
+      l'unité statistique, les sources, les appariements et la fraîcheur
+      nécessaire. Les sources n'ont pas d'ordre universel : elles apportent
+      des angles complémentaires.
+    </p>
+
+    <div class="naf-comp-hub" aria-label="Une question d'étude au centre, six familles de sources complémentaires autour, chacune dépliable.">
+      <div class="naf-comp-hub-center">
+        <p class="naf-comp-hub-kicker">Une question, plusieurs sources</p>
+        <p class="naf-comp-hub-title">Question d'étude</p>
+        <p class="naf-comp-hub-sub">le choix des sources dépend de ce que
+        l'on cherche à mesurer</p>
+        <p class="naf-hand" aria-hidden="true">« commencer par la question,<br>pas par la base »</p>
+      </div>
+
+      <div class="naf-comp-hub-branches">
+
+        <details class="naf-comp-hub-item">
+          <summary>
+            <span class="naf-comp-hub-role">Classer, décrire l'activité</span>
+            <span class="naf-comp-hub-srcs">NAF · CPF <em>— activités · produits</em></span>
+            <span class="naf-comp-hub-q">Quelle activité ? Quels produits ?</span>
+          </summary>
+          <div class="naf-comp-hub-body">
+            <dl class="naf-deflist">
+              <dt>Objet observé</dt><dd>Des activités (NAF) et des produits (CPF) — jamais des entreprises nommées.</dd>
+              <dt>Fraîcheur</dt><dd>Nomenclatures stables entre deux révisions (2008 → 2025).</dd>
+              <dt>Intérêt</dt><dd>Aide à construire ou décrire un périmètre d'activités, et à caractériser la composition sectorielle d'une population venue d'ailleurs (REFD, marchés…).</dd>
+              <dt>Attention</dt><dd>La NAF n'est pas la première étape obligatoire d'une étude : selon la question, elle intervient au départ… ou en bout de chaîne.</dd>
+            </dl>
+          </div>
+        </details>
+
+        <details class="naf-comp-hub-item">
+          <summary>
+            <span class="naf-comp-hub-role">Identifier, localiser, structurer</span>
+            <span class="naf-comp-hub-srcs">Sirene · Sirus · SIDE / Flores <em>— unités légales · établissements</em></span>
+            <span class="naf-comp-hub-q">Quelle unité ? Quel établissement ? Où ? Quelle population statistique ?</span>
+          </summary>
+          <div class="naf-comp-hub-body">
+            <dl class="naf-deflist">
+              <dt>Objet observé</dt><dd>Unités légales (SIREN) et établissements (SIRET) ; champ des unités économiquement actives côté Sirus / SIDE.</dd>
+              <dt>Fraîcheur</dt><dd>Répertoire quasi temps réel, stocks mensuels ; champ statistique consolidé avec délai.</dd>
+              <dt>Intérêt</dt><dd>Identifier, localiser, suivre l'état administratif, asseoir une population d'étude.</dd>
+              <dt>Attention</dt><dd>Existence administrative ≠ activité économique.</dd>
+            </dl>
+          </div>
+        </details>
+
+        <details class="naf-comp-hub-item">
+          <summary>
+            <span class="naf-comp-hub-role">Observer le lien avec la Défense</span>
+            <span class="naf-comp-hub-srcs">REFD / EDIS · BOAMP / DECP <em>— fournisseurs observés · marchés</em></span>
+            <span class="naf-comp-hub-q">Observée parmi les fournisseurs ? Quels marchés publics visibles ?</span>
+          </summary>
+          <div class="naf-comp-hub-body">
+            <dl class="naf-deflist">
+              <dt>Objet observé</dt><dd>Deux mesures différentes, à ne pas fusionner : des fournisseurs observés et entreprises enquêtées (REFD / EDIS) d'un côté ; des annonces et marchés attribués — acheteurs, titulaires SIRET (BOAMP / DECP) de l'autre.</dd>
+              <dt>Fraîcheur</dt><dd>Millésimes et campagnes annuels (REFD / EDIS) ; annonces quotidiennes et alimentation continue (BOAMP / DECP).</dd>
+              <dt>Intérêt</dt><dd>Construire un périmètre empirique ; observer la commande publique visible.</dd>
+              <dt>Attention</dt><dd>Absence ≠ absence de lien avec la Défense : périmètres partiels, marchés sensibles hors données ouvertes.</dd>
+            </dl>
+          </div>
+        </details>
+
+        <details class="naf-comp-hub-item">
+          <summary>
+            <span class="naf-comp-hub-role">Suivre les événements</span>
+            <span class="naf-comp-hub-srcs">BODACC · RNE <em>— événements juridiques</em></span>
+            <span class="naf-comp-hub-q">Création ? Modification ? Cession ? Procédure ?</span>
+          </summary>
+          <div class="naf-comp-hub-body">
+            <dl class="naf-deflist">
+              <dt>Objet observé</dt><dd>Des événements juridiques rattachés à une unité légale, pas un état permanent.</dd>
+              <dt>Fraîcheur</dt><dd>Plusieurs parutions par semaine.</dd>
+              <dt>Intérêt</dt><dd>Suivi infra-annuel de la vie des entreprises d'un périmètre.</dd>
+              <dt>Attention</dt><dd>Événements publiés seulement ; lecture descriptive, jamais prédictive.</dd>
+            </dl>
+          </div>
+        </details>
+
+        <details class="naf-comp-hub-item">
+          <summary>
+            <span class="naf-comp-hub-role">Étudier les dépendances et les flux</span>
+            <span class="naf-comp-hub-srcs">Douanes <em>— produits × pays</em></span>
+            <span class="naf-comp-hub-q">De quels produits, de quels pays une chaîne de valeur dépend-elle ?</span>
+          </summary>
+          <div class="naf-comp-hub-body">
+            <dl class="naf-deflist">
+              <dt>Objet observé</dt><dd>Des flux produit (NC8) × pays — contrairement à Sirene, les Douanes ne décrivent pas directement des entreprises.</dd>
+              <dt>Fraîcheur</dt><dd>Mensuelle, avec délai de publication.</dd>
+              <dt>Intérêt</dt><dd>Concentration des importations d'une famille de produits.</dd>
+              <dt>Attention</dt><dd>Pas d'identification directe de chaque entreprise ; passerelle produits ↔ activités à documenter.</dd>
+            </dl>
+          </div>
+        </details>
+
+        <details class="naf-comp-hub-item">
+          <summary>
+            <span class="naf-comp-hub-role">Observer l'innovation</span>
+            <span class="naf-comp-hub-srcs">INPI · AID / DGA <em>— brevets · déposants · projets</em></span>
+            <span class="naf-comp-hub-q">Brevets ? Technologies ? Projets d'innovation ?</span>
+          </summary>
+          <div class="naf-comp-hub-body">
+            <dl class="naf-deflist">
+              <dt>Objet observé</dt><dd>Des brevets et leurs déposants (INPI) ; des annonces de projets (AID / DGA selon le sujet).</dd>
+              <dt>Fraîcheur</dt><dd>Publication des brevets différée (18 mois en général) ; annonces quasi immédiates.</dd>
+              <dt>Intérêt</dt><dd>Signaux technologiques, familles duales.</dd>
+              <dt>Attention</dt><dd>Tout n'est pas breveté ; rattachement déposant → SIREN à documenter.</dd>
+            </dl>
+          </div>
+        </details>
+
+      </div>
+    </div>
+
+    <p>
+      <strong>Croiser des sources ne signifie pas les empiler.</strong> Il
+      faut d'abord vérifier qu'elles parlent du même objet, au bon niveau et
+      à la bonne date.
+    </p>
+    <p class="naf-hand naf-comp-hand" aria-hidden="true">« même entreprise ? même unité ? même période ? »</p>
+
+    <div class="naf-did">
+      <p class="naf-did-title" role="heading" aria-level="4">Il n'existe pas une chaîne de traitement universelle</p>
+      <p class="naf-did-step-text">
+        Une étude sur les entreprises de Défense peut partir d'un code NAF,
+        d'un répertoire de fournisseurs, de marchés publics, d'un territoire
+        ou d'une famille de produits. Le choix dépend de la question posée.
+        La difficulté consiste ensuite à rapprocher des sources qui
+        n'observent pas toujours les mêmes unités, les mêmes périodes ni les
+        mêmes concepts.
+      </p>
+      <div class="naf-comp-vs">
+        <div class="naf-comp-vs-panel">
+          <p class="naf-comp-vs-title">Construire le périmètre</p>
+          <ul>
+            <li>REFD, marchés publics, liste d'entreprises documentée ;</li>
+            <li>ou une activité NAF, selon la question.</li>
+          </ul>
+        </div>
+        <div class="naf-comp-vs-panel">
+          <p class="naf-comp-vs-title">Caractériser, enrichir</p>
+          <ul>
+            <li>Sirene, NAF, Sirus pour décrire la population ;</li>
+            <li>BODACC, INPI, marchés pour la suivre.</li>
+          </ul>
+        </div>
+      </div>
+      <p class="naf-did-step-text">
+        Une même source peut servir aux deux : la frontière est
+        fonctionnelle, pas rigide.
+      </p>
+    </div>
+
+    <h3 class="naf-comp-h3">Quatre points de départ, quatre chemins</h3>
+
+    <div class="naf-comp-departs">
+      <div class="naf-comp-depart">
+        <p class="naf-comp-depart-name">Géographie industrielle</p>
+        <p class="naf-comp-depart-chain"><strong>Sirene</strong> → NAF → géolocalisation → REFD</p>
+        <p class="naf-comp-depart-note">On part des établissements, l'activité et le lien Défense viennent ensuite.</p>
+      </div>
+      <div class="naf-comp-depart">
+        <p class="naf-comp-depart-name">Commande publique</p>
+        <p class="naf-comp-depart-chain"><strong>DECP / BOAMP</strong> → SIREN / SIRET → Sirene → NAF</p>
+        <p class="naf-comp-depart-note">On part des marchés ; la NAF sert en bout de chaîne à caractériser les titulaires.</p>
+      </div>
+      <div class="naf-comp-depart">
+        <p class="naf-comp-depart-name">Fragilité d'un périmètre</p>
+        <p class="naf-comp-depart-chain"><strong>BODACC</strong> → Sirene → REFD → marchés</p>
+        <p class="naf-comp-depart-note">On part des événements juridiques, puis on qualifie qui ils touchent.</p>
+      </div>
+      <div class="naf-comp-depart">
+        <p class="naf-comp-depart-name">Dépendance extérieure</p>
+        <p class="naf-comp-depart-chain"><strong>Douanes</strong> → nomenclatures produits / CPF → NAF si possible</p>
+        <p class="naf-comp-depart-note">On part des produits ; le rapprochement avec les activités reste à documenter.</p>
+      </div>
+    </div>
+
+    <p>Il n'existe pas de source de départ universelle.</p>
+
+    <h3 class="naf-comp-h3">Avant de croiser : quel est le grain de la donnée ?</h3>
+    <p>
+      Chaque base répond à sa façon à la question « que représente une
+      ligne ? » — et porte sa propre date de référence.
+    </p>
+
+    <div class="naf-comp-grainwrap">
+      <table class="naf-comp-grain">
+        <thead>
+          <tr><th scope="col">Source</th><th scope="col">Une ligne représente</th><th scope="col">Sa date de référence</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>NAF</td><td>une activité</td><td>la révision de la nomenclature</td></tr>
+          <tr><td>Sirene</td><td>une unité légale ou un établissement</td><td>état courant, historique des variables</td></tr>
+          <tr><td>REFD</td><td>une entreprise fournisseur observée</td><td>le millésime du répertoire</td></tr>
+          <tr><td>DECP</td><td>un marché (acheteur, titulaires)</td><td>la date de notification</td></tr>
+          <tr><td>BODACC</td><td>un événement juridique</td><td>la date de parution</td></tr>
+          <tr><td>Douanes</td><td>un flux produit × pays</td><td>le mois du flux</td></tr>
+          <tr><td>INPI</td><td>un brevet, un déposant</td><td>dépôt et publication (différée)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="naf-hand naf-comp-hand" aria-hidden="true">« une ligne ne représente pas toujours une entreprise »</p>
+    <p>
+      Apparier deux sources demande donc aussi de choisir une <strong>date
+      de référence cohérente</strong> : l'état Sirene « à quelle date » face
+      à des marchés « notifiés quand » n'est pas un détail d'implémentation,
+      c'est une décision d'étude.
+    </p>
+
+    <h3 class="naf-comp-h3">Le contexte, daté et sourcé</h3>
+    <p>
+      Les questions publiques qui suivent ne sortent pas de nulle part :
+      elles s'adossent à des documents institutionnels récents. Le site ne
+      commente pas la géopolitique ; il repère des problématiques que la
+      statistique peut éclairer.
+    </p>
+
+    <div class="naf-comp-jalons">
+      <div class="naf-comp-jalon">
+        <span class="naf-comp-jalon-date">2023-08-01</span>
+        <p class="naf-comp-jalon-titre"><a href="https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000047914986" target="_blank" rel="noopener noreferrer">Loi de programmation militaire 2024-2030 ↗</a></p>
+        <p>Loi n° 2023-703 : 413 Md€ de besoins programmés, montée en
+        puissance capacitaire et industrielle.</p>
+      </div>
+      <div class="naf-comp-jalon">
+        <span class="naf-comp-jalon-date">2025-03-04</span>
+        <p class="naf-comp-jalon-titre"><a href="https://www.europarl.europa.eu/RegData/etudes/BRIE/2025/769566/EPRS_BRI(2025)769566_EN.pdf" target="_blank" rel="noopener noreferrer">ReArm Europe / Readiness 2030 ↗</a></p>
+        <p>Plan présenté par la Commission européenne pour mobiliser des
+        financements de réarmement à l'horizon 2030.</p>
+      </div>
+      <div class="naf-comp-jalon">
+        <span class="naf-comp-jalon-date">2025-05-27</span>
+        <p class="naf-comp-jalon-titre"><a href="https://eur-lex.europa.eu/eli/reg/2025/1106/oj" target="_blank" rel="noopener noreferrer">Règlement SAFE ↗</a></p>
+        <p>Security Action for Europe : jusqu'à 150 Md€ de prêts aux États
+        membres pour des acquisitions de défense, incitations aux achats en
+        commun.</p>
+      </div>
+      <div class="naf-comp-jalon">
+        <span class="naf-comp-jalon-date">2025-07-14</span>
+        <p class="naf-comp-jalon-titre"><a href="https://www.sgdsn.gouv.fr/publications/revue-nationale-strategique-2025" target="_blank" rel="noopener noreferrer">Revue nationale stratégique 2025 ↗</a></p>
+        <p>Préparation à un engagement de haute intensité, économie capable
+        de soutenir l'effort de guerre, continuité des approvisionnements,
+        cyber, autonomie européenne, excellence technologique.</p>
+      </div>
+    </div>
+
+    <p class="naf-comp-verifdate">
+      Contexte documentaire vérifié le 28 août 2026 — jalons tenus dans
+      <span class="naf-mono">data/etudes/contexte_strategique.csv</span>,
+      chaque entrée datée et sourcée. Aucune mise à jour automatique : la
+      veille détecte, l'éditorial décide.
+    </p>
+
+    <h3 class="naf-comp-h3">Le carnet d'études</h3>
+    <p>
+      Sept pistes réelles, méthodologiquement détaillées et reproductibles.
+      Chacune précise sa question publique, ses données, sa méthode, sa
+      fraîcheur, ses limites et ses programmes. Trois statuts, à ne jamais
+      confondre :
+    </p>
+
+    <p class="naf-comp-ctas">
+      <a class="naf-chg-cta" href="../bonus/atelier.html">Construire votre propre protocole →</a>
+    </p>
+
+    <div class="naf-comp-statuts">
+      <div><span class="naf-statut naf-statut-mesure">Résultat mesuré</span>
+        <span>des chiffres réellement calculés sur les données citées.</span></div>
+      <div><span class="naf-statut naf-statut-protocole">Protocole proposé</span>
+        <span>méthode et scripts prêts, pas encore exécutés en campagne complète : aucun chiffre affiché.</span></div>
+      <div><span class="naf-statut naf-statut-piste">Piste à expertiser</span>
+        <span>direction crédible, faisabilité des sources à instruire.</span></div>
+    </div>
+
+    <div class="naf-carnet">
+
+      <details class="naf-carnet-item" id="etude-01">
+        <summary>
+          <span class="naf-carnet-num" aria-hidden="true">01</span>
+          <span class="naf-carnet-head">
+            <span class="naf-carnet-title">Mesurer le passage à la NAF 2025</span>
+            <span class="naf-carnet-q">La NAF 2025 repère-t-elle mieux certaines activités de Défense que la NAF 2008 ?</span>
+          </span>
+          <span class="naf-statut naf-statut-protocole">Protocole proposé</span>
+        </summary>
+        <div class="naf-carnet-body">
+          <dl class="naf-carnet-fiche">
+            <dt>Pourquoi maintenant ?</dt>
+            <dd>Fenêtre unique : en 2026, chaque unité active de Sirene porte
+            à la fois son APE officiel (NAF rév. 2) et son futur code
+            NAF 2025. On peut donc observer <strong>les deux classifications
+            sur les mêmes unités réelles</strong> — impossible avant le
+            16 décembre 2025, impossible après début janvier 2027.</dd>
+            <dt>Données</dt>
+            <dd>Fichiers stock Sirene (<span class="naf-mono">stockUniteLegale</span>,
+            <span class="naf-mono">stockEtablissement</span>) avec
+            <span class="naf-mono">activitePrincipale*</span> et
+            <span class="naf-mono">activitePrincipaleNAF25*</span> — noms
+            vérifiés dans le millésime réellement téléchargé.</dd>
+            <dt>Méthode</dt>
+            <dd>Panel d'unités actives des branches les plus transformées
+            (<span class="naf-mono">30.30Z</span>,
+            <span class="naf-mono">30.11Z</span>,
+            <span class="naf-mono">30.40Z</span>,
+            <span class="naf-mono">25.40Z</span>,
+            <span class="naf-mono">33.15Z</span>,
+            <span class="naf-mono">33.16Z</span> — liste à confirmer avec la
+            table officielle). Répartition des unités et établissements vers
+            leurs futurs codes, dont la séparation civil / militaire quand
+            elle devient explicite ; ventilations par territoire et
+            caractéristiques disponibles. Indicateur type : « parmi les
+            établissements classés 30.30Z, X % recevraient tel futur code » —
+            X étant calculé, jamais supposé.</dd>
+            <dt>Dataviz possible</dt>
+            <dd>« Le grand reclassement » : un Sankey ciblé APE 2008 → futur
+            APE 2025 construit sur les unités réellement observées — à la
+            différence du <a href="../comparer/flux.html">Voyage 2008 → 2025</a>,
+            qui suit la table de correspondance, ici les flux comptent des
+            unités réelles.</dd>
+            <dt>Fraîcheur</dt>
+            <dd>Stock mensuel ; API Sirene pour des actualisations plus
+            fréquentes.</dd>
+            <dt>Limites</dt>
+            <dd>Le futur code diffusé en 2026 est informatif et corrigeable
+            par les entreprises ; le répertoire compte des unités
+            administratives, pas l'activité économique.</dd>
+            <dt>Programmes</dt>
+            <dd class="naf-carnet-scripts">scripts/etudes/01_transition_naf2025.py ·
+            scripts/etudes/01_transition_naf2025.R →
+            data/etudes/transition_naf2025_summary.csv, _regions.csv</dd>
+          </dl>
+        </div>
+      </details>
+
+      <details class="naf-carnet-item" id="etude-02">
+        <summary>
+          <span class="naf-carnet-num" aria-hidden="true">02</span>
+          <span class="naf-carnet-head">
+            <span class="naf-carnet-title">Détecter les signaux de montée en cadence</span>
+            <span class="naf-carnet-q">Les données publiques montrent-elles des signes de renforcement des capacités industrielles liées à la Défense ?</span>
+          </span>
+          <span class="naf-statut naf-statut-protocole">Protocole proposé</span>
+        </summary>
+        <div class="naf-carnet-body">
+          <dl class="naf-carnet-fiche">
+            <dt>Pourquoi maintenant ?</dt>
+            <dd>« Économie de guerre », réactivité industrielle, résilience :
+            la RNS 2025 et la LPM en font des priorités. On cherche des
+            <strong>signaux observables</strong>, jamais une mesure de la
+            capacité militaire réelle.</dd>
+            <dt>Données</dt>
+            <dd>Sirene (créations, fermetures, changements d'activité,
+            implantations) ; BOAMP (annonces) ; DECP (marchés attribués,
+            titulaires, CPV, montants exploitables) ; BODACC (événements) ;
+            REFD / EDIS pour définir le périmètre fournisseur.</dd>
+            <dt>Méthode</dt>
+            <dd>Panel = codes explicitement Défense + activités duales
+            documentées + fournisseurs observés, puis série mensuelle :
+            nouveaux établissements, fermetures, marchés observés, titulaires,
+            nouveaux entrants. Millésime courant 2026, bien plus frais qu'une
+            statistique structurelle annuelle.</dd>
+            <dt>Fraîcheur</dt>
+            <dd>BOAMP interrogeable très fréquemment ; DECP alimenté en
+            continu ; BODACC plusieurs parutions par semaine ; Sirene
+            infra-mensuel via API.</dd>
+            <dt>Limites</dt>
+            <dd><strong>Absence dans BOAMP/DECP ≠ absence de commande
+            Défense</strong> : un marché sensible ou classifié peut manquer
+            des données ouvertes. Les signaux sont partiels par
+            construction.</dd>
+            <dt>Programmes</dt>
+            <dd class="naf-carnet-scripts">scripts/etudes/02_pulse_economie_guerre.py
+            (API BODACC/BOAMP/DECP vérifiées) → data/etudes/pulse_mensuel.csv</dd>
+          </dl>
+        </div>
+      </details>
+
+      <details class="naf-carnet-item" id="etude-03">
+        <summary>
+          <span class="naf-carnet-num" aria-hidden="true">03</span>
+          <span class="naf-carnet-head">
+            <span class="naf-carnet-title">Cartographier les concentrations industrielles</span>
+            <span class="naf-carnet-q">Certaines capacités pertinentes pour la Défense sont-elles géographiquement très concentrées ?</span>
+          </span>
+          <span class="naf-statut naf-statut-protocole">Protocole proposé</span>
+        </summary>
+        <div class="naf-carnet-body">
+          <dl class="naf-carnet-fiche">
+            <dt>Pourquoi maintenant ?</dt>
+            <dd>Résilience, continuité de production, vulnérabilité
+            territoriale : une capacité concentrée en un point est une
+            information de politique industrielle.</dd>
+            <dt>Données</dt>
+            <dd>Sirene établissements (SIRET, activité, état, commune, futur
+            code NAF 2025) ; fichier de géolocalisation Sirene (coordonnées,
+            IRIS) ; Sirus si accès autorisé, sinon compléments publics (SIDE,
+            Flores selon millésime, tranches d'effectifs Sirene).</dd>
+            <dt>Méthode</dt>
+            <dd>Par famille d'activités (armement, aéronautique, naval,
+            électronique, optique, moteurs, maintenance…) : nombre
+            d'établissements, départements et régions couverts, part des
+            trois premiers territoires, HHI territorial — en expliquant
+            précisément que le HHI mesure ici la concentration du
+            <em>nombre d'établissements</em>, rien d'autre.</dd>
+            <dt>Dataviz possible</dt>
+            <dd>Carte de France par activité choisie
+            (ex. <span class="naf-mono">26.51Y</span>) : implantations,
+            concentration, évolution récente.</dd>
+            <dt>Fraîcheur</dt>
+            <dd>Mensuelle (stocks) ; géolocalisation au même rythme.</dd>
+            <dt>Limites</dt>
+            <dd><strong>Nombre d'établissements ≠ capacité de
+            production.</strong> Un site unique peut concentrer l'essentiel
+            de la production réelle.</dd>
+            <dt>Programmes</dt>
+            <dd class="naf-carnet-scripts">scripts/etudes/03_geographie_capacites.py →
+            data/etudes/geographie_capacites.csv</dd>
+          </dl>
+        </div>
+      </details>
+
+      <details class="naf-carnet-item" id="etude-04">
+        <summary>
+          <span class="naf-carnet-num" aria-hidden="true">04</span>
+          <span class="naf-carnet-head">
+            <span class="naf-carnet-title">Mesurer les dépendances extérieures</span>
+            <span class="naf-carnet-q">Pour des familles de produits importantes pour les chaînes de valeur de Défense, de quels pays la France dépend-elle à l'importation ?</span>
+          </span>
+          <span class="naf-statut naf-statut-protocole">Protocole proposé</span>
+        </summary>
+        <div class="naf-carnet-body">
+          <dl class="naf-carnet-fiche">
+            <dt>Pourquoi maintenant ?</dt>
+            <dd>Autonomie stratégique et continuité des approvisionnements
+            sont au cœur de la RNS 2025 et des instruments européens (SAFE).</dd>
+            <dt>Données</dt>
+            <dd>Statistiques mensuelles du commerce extérieur (Douanes),
+            détail produit (NC8) × pays.</dd>
+            <dt>Méthode</dt>
+            <dd><strong>Jamais NAF → importations directement</strong> : la
+            NAF classe des activités, les Douanes des produits. La passerelle
+            est le dictionnaire versionné
+            <span class="naf-mono">data/etudes/mapping_produits_defense.csv</span>
+            (11 familles SH documentées : armement 93xx, blindés 87.10,
+            navires de guerre 8906.10, drones 88.06, aéronefs 88.02,
+            turbines 84.11, radars 85.26, circuits intégrés 85.42,
+            optronique 90.13, énergétiques 36xx — chacune justifiée, avec
+            niveau de confiance). Par famille : valeur importée, premier
+            pays, part des 3 premiers, HHI pays, évolution sur 13 mois. Le
+            script suit automatiquement le dernier millésime disponible.</dd>
+            <dt>Fraîcheur</dt>
+            <dd>Mensuelle, dernier mois publié au moment de l'exécution.</dd>
+            <dt>Limites</dt>
+            <dd>On décrit une <em>concentration des importations</em> de
+            produits associés à une chaîne de valeur potentiellement
+            pertinente pour la Défense — pas un « indice de dépendance
+            Défense », qui serait arbitraire. Réexportations et chaînes
+            intra-groupe brouillent la lecture pays.</dd>
+            <dt>Programmes</dt>
+            <dd class="naf-carnet-scripts">scripts/etudes/04_dependances_commerciales.py ·
+            scripts/etudes/04_dependances_commerciales.R →
+            data/etudes/dependances_commerciales.csv</dd>
+          </dl>
+        </div>
+      </details>
+
+      <details class="naf-carnet-item" id="etude-05">
+        <summary>
+          <span class="naf-carnet-num" aria-hidden="true">05</span>
+          <span class="naf-carnet-head">
+            <span class="naf-carnet-title">Suivre la fragilité et la consolidation des fournisseurs</span>
+            <span class="naf-carnet-q">Observe-t-on des signaux publics de fragilité ou de consolidation dans un périmètre de fournisseurs Défense ?</span>
+          </span>
+          <span class="naf-statut naf-statut-protocole">Protocole proposé</span>
+        </summary>
+        <div class="naf-carnet-body">
+          <dl class="naf-carnet-fiche">
+            <dt>Pourquoi maintenant ?</dt>
+            <dd>La sécurité des approvisionnements dépend de PME et d'ETI
+            dont la santé n'apparaît dans aucune statistique dédiée : les
+            signaux publics (BODACC, Sirene) offrent un suivi infra-annuel.</dd>
+            <dt>Données</dt>
+            <dd>BODACC via l'API DILA (procédures collectives, modifications,
+            radiations, cessions, comptes) ; Sirene (état administratif,
+            successions d'établissements) ; DECP/BOAMP pour contextualiser la
+            commande publique observable.</dd>
+            <dt>Méthode</dt>
+            <dd>Historique d'événements <span class="naf-mono">SIREN × date ×
+            type × source</span> pour un périmètre documenté, puis lecture
+            <strong>strictement descriptive</strong> : procédures,
+            fermetures, créations de sites, cessions, modifications. Pas de
+            « score de risque » : un score naîtrait avant la compréhension.</dd>
+            <dt>Fraîcheur</dt>
+            <dd>BODACC : plusieurs parutions par semaine — excellent
+            complément aux statistiques annuelles.</dd>
+            <dt>Limites</dt>
+            <dd>Événements publiés seulement ; l'interprétation d'un
+            événement isolé n'a aucune valeur prédictive.</dd>
+            <dt>Programmes</dt>
+            <dd class="naf-carnet-scripts">scripts/etudes/05_resilience_fournisseurs.py
+            (API, pas de scraping : l'open data existe) →
+            data/etudes/resilience_evenements.csv, _resume.csv</dd>
+          </dl>
+        </div>
+      </details>
+
+      <details class="naf-carnet-item" id="etude-06">
+        <summary>
+          <span class="naf-carnet-num" aria-hidden="true">06</span>
+          <span class="naf-carnet-head">
+            <span class="naf-carnet-title">Repérer l'innovation dans les technologies duales</span>
+            <span class="naf-carnet-q">Dans quelles technologies observe-t-on des signaux récents d'innovation parmi les entreprises liées à la Défense ?</span>
+          </span>
+          <span class="naf-statut naf-statut-protocole">Protocole proposé</span>
+        </summary>
+        <div class="naf-carnet-body">
+          <dl class="naf-carnet-fiche">
+            <dt>Pourquoi maintenant ?</dt>
+            <dd>Innovation souveraine, drones et antidrone, IA, cyber,
+            optronique, spatial, communications, capteurs — familles
+            proposées, l'analyse restant guidée par les données.</dd>
+            <dt>Données</dt>
+            <dd>INPI (déposants, titres, résumés, classifications CIB/CPC) ;
+            annonces publiques AID / DGA ; le cas échéant, programmes
+            européens.</dd>
+            <dt>Méthode</dt>
+            <dd>Deux volets à la fraîcheur opposée. Brevets : classification
+            des titres/résumés par un dictionnaire thématique explicite
+            (normalisation, familles technologiques) — TF-IDF ou embeddings
+            seulement si le lexique ne suffit plus ; texte source et lien
+            toujours conservés. Signaux frais : veille des annonces AID
+            (titre, date, url uniquement) — collecte respectueuse
+            (robots.txt vérifié, User-Agent explicite, temporisation, cache),
+            aucune interprétation automatique publiée.</dd>
+            <dt>Fraîcheur</dt>
+            <dd>Brevets : <strong>signal retardé</strong> (publication à
+            18 mois en général) — activité brevets récente ≠ innovation temps
+            réel 2026. Annonces : quasi immédiates.</dd>
+            <dt>Limites</dt>
+            <dd>Toute la propriété industrielle n'est pas brevetée (secret) ;
+            le rattachement déposant → SIREN demande un appariement
+            documenté.</dd>
+            <dt>Programmes</dt>
+            <dd class="naf-carnet-scripts">scripts/etudes/06_innovation_duale.py →
+            data/etudes/innovation_signaux.csv, veille_aid.csv</dd>
+          </dl>
+        </div>
+      </details>
+
+      <details class="naf-carnet-item" id="etude-07">
+        <summary>
+          <span class="naf-carnet-num" aria-hidden="true">07</span>
+          <span class="naf-carnet-head">
+            <span class="naf-carnet-title">Emploi et compétences : où sont les tensions ?</span>
+            <span class="naf-carnet-q">Les entreprises des activités pertinentes pour la Défense renforcent-elles leurs recrutements dans certains métiers ou territoires ?</span>
+          </span>
+          <span class="naf-statut naf-statut-piste">Piste à expertiser</span>
+        </summary>
+        <div class="naf-carnet-body">
+          <dl class="naf-carnet-fiche">
+            <dt>Pourquoi maintenant ?</dt>
+            <dd>La montée en cadence bute d'abord sur les compétences
+            (soudeurs, usineurs, ingénieurs systèmes). Les tensions de
+            recrutement sont un signal avancé de charge industrielle.</dd>
+            <dt>Données à instruire</dt>
+            <dd>Statistiques d'emploi publiques ; Sirene pour les
+            établissements ; offres d'emploi via API publique si disponible ;
+            pages carrières uniquement en complément, avec les mêmes règles
+            de collecte respectueuse.</dd>
+            <dt>Ce qui manque encore</dt>
+            <dd>Un schéma de collecte stable (entreprise, url_source,
+            date_collecte, id_offre, titre, localisation, famille_metier,
+            date_publication), la déduplication, et la vérification des
+            conditions d'utilisation de chaque source. Tant que ce socle
+            n'est pas expertisé, pas de script : une piste n'est pas un
+            protocole.</dd>
+          </dl>
+        </div>
+      </details>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════ 05 · BOÎTE À OUTILS ══════════════════════ -->
+  <section class="naf-comp-section" id="boite-a-outils" aria-labelledby="boite-a-outils-h">
+
+    <p class="naf-comp-kicker">05 · Reproduire</p>
+    <p class="naf-hand-heading naf-comp-h2" id="boite-a-outils-h" role="heading" aria-level="2">
+      Du projet à l'étude
+    </p>
+    <p class="naf-comp-lede">
+      Le chemin est toujours le même — et chaque étape saute rarement sans se
+      venger plus tard.
+    </p>
+
+    <div class="naf-comp-ladder" role="img"
+         aria-label="Pipeline d'une étude : question publique, périmètre, unité statistique, sources, appariement, contrôles, indicateurs, limites, publication.">
+      <div class="naf-comp-rung"><span class="naf-comp-rung-level">Étape 1</span><span class="naf-comp-rung-code">?</span>
+        <span class="naf-comp-rung-main"><span class="naf-comp-rung-label"><strong>Question publique</strong> — que cherche-t-on à éclairer, pour qui ?</span></span></div>
+      <div class="naf-comp-rung"><span class="naf-comp-rung-level">Étape 2</span><span class="naf-comp-rung-code">⊂</span>
+        <span class="naf-comp-rung-main"><span class="naf-comp-rung-label"><strong>Périmètre</strong> — quels codes, quelles familles, quelles années ?</span></span></div>
+      <div class="naf-comp-rung"><span class="naf-comp-rung-level">Étape 3</span><span class="naf-comp-rung-code">u</span>
+        <span class="naf-comp-rung-main"><span class="naf-comp-rung-label"><strong>Unité statistique</strong> — groupe, unité légale, établissement, flux ? La décision qui commande tout.</span></span></div>
+      <div class="naf-comp-rung"><span class="naf-comp-rung-level">Étape 4</span><span class="naf-comp-rung-code">db</span>
+        <span class="naf-comp-rung-main"><span class="naf-comp-rung-label"><strong>Sources</strong> — choisies pour leur objet et leur fraîcheur, tracées dans le manifeste.</span></span></div>
+      <div class="naf-comp-rung"><span class="naf-comp-rung-level">Étape 5</span><span class="naf-comp-rung-code">⋈</span>
+        <span class="naf-comp-rung-main"><span class="naf-comp-rung-label"><strong>Appariement</strong> — SIREN/SIRET quand c'est possible, passerelles documentées sinon, taux de réussite mesuré.</span></span></div>
+      <div class="naf-comp-rung"><span class="naf-comp-rung-level">Étape 6</span><span class="naf-comp-rung-code">✓</span>
+        <span class="naf-comp-rung-main"><span class="naf-comp-rung-label"><strong>Contrôles</strong> — schémas, doublons, valeurs impossibles, cohérence temporelle.</span></span></div>
+      <div class="naf-comp-rung"><span class="naf-comp-rung-level">Étape 7</span><span class="naf-comp-rung-code">Σ</span>
+        <span class="naf-comp-rung-main"><span class="naf-comp-rung-label"><strong>Indicateurs</strong> — définis avant d'être calculés, avec leur unité et leur période.</span></span></div>
+      <div class="naf-comp-rung"><span class="naf-comp-rung-level">Étape 8</span><span class="naf-comp-rung-code">≠</span>
+        <span class="naf-comp-rung-main"><span class="naf-comp-rung-label"><strong>Limites</strong> — écrites avec les résultats, jamais après.</span></span></div>
+      <div class="naf-comp-rung"><span class="naf-comp-rung-level">Étape 9</span><span class="naf-comp-rung-code">→</span>
+        <span class="naf-comp-rung-main"><span class="naf-comp-rung-label"><strong>Publication</strong> — après validation humaine : la collecte ne modifie jamais le site directement.</span></span></div>
+    </div>
+
+    <p>
+      La suite est un atelier à part entière : récupérer les données,
+      choisir le bon grain, travailler en R ou en Python et garder les
+      sources officielles sous surveillance automatique. Fiches par source,
+      recettes de code et scripts <span class="naf-mono">--dry-run</span>
+      vivent dans une page dédiée.
+    </p>
+    <p class="naf-comp-ctas">
+      <a class="naf-chg-cta" href="boite-outils.html">Ouvrir la boîte à outils →</a>
+    </p>
+  </section>
+</div>
+```
+
+::: {.naf-comp}
+
+::: {.callout-tip collapse="true"}
+## Vérifiez vos repères — dix questions, dix réponses courtes
+
+**Qu'est-ce que la NAF ?** La nomenclature française des activités
+économiques : 22 sections et 747 sous-classes (NAF 2025), emboîtée dans la
+NACE européenne et la CITI mondiale.
+
+**NAF et APE ?** La NAF est le dictionnaire ; l'APE est le code qu'une unité
+reçoit dans ce dictionnaire, celui de son activité principale.
+
+**SIREN et SIRET ?** Le SIREN identifie une unité légale ; le SIRET
+identifie chacun de ses établissements (SIREN + 5 chiffres).
+
+**Une entreprise est-elle toujours une unité légale ?** Non : au sens
+statistique, une entreprise peut regrouper plusieurs unités légales, et un
+groupe en rassemble parfois des dizaines.
+
+**Activité et produit ?** La NAF classe ce que l'unité *fait* ; la CPF
+classe ce qu'elle *produit*. Un code d'activité générique peut cacher des
+produits très spécifiques.
+
+**Pourquoi la NAF change-t-elle ?** Parce que l'économie change : la
+NAF 2025 suit la révision européenne NACE rév. 2.1 et recompose notamment le
+numérique, l'énergie et la séparation civil / militaire de l'aéronautique.
+
+**Quelle NAF est officielle en 2026 ?** La NAF rév. 2 (2008) reste la
+référence du code APE ; le futur code NAF 2025 est déjà diffusé dans Sirene
+à titre informatif.
+
+**Que se passe-t-il en 2027 ?** Au 1er janvier 2027, la NAF 2025 devient la
+référence APE pour toutes les unités actives.
+
+**Pourquoi la NAF ne suffit-elle pas pour la Défense ?** Le code voit
+l'activité, pas les clients, les contrats ni la part militaire du chiffre
+d'affaires ; l'essentiel de la BITD porte des codes duals ou génériques.
+
+**Quelle source selon la question ?** Sirene pour l'existence
+administrative, SIDE/Sirus pour l'activité économique, BOAMP/DECP pour les
+marchés observables, BODACC pour les événements juridiques, Douanes pour les
+produits, INPI pour les brevets, REFD/EDIS pour les fournisseurs observés.
 :::
 
-C'est la limite centrale de toute lecture sectorielle fondée sur la seule NAF,
-et en particulier de toute tentative de délimiter un secteur de la Défense. Voir
-[NAF & Défense](../defense/index.qmd).
+```{=html}
+<p>Vous préférez apprendre en explorant ?</p>
+<p class="naf-comp-ctas">
+  <a class="naf-chg-cta" href="../bonus/parcours.html">Suivre un parcours guidé →</a>
+</p>
+
+<nav class="naf-comp-ctas" aria-label="Continuer sur le site">
+  <a class="naf-chg-cta" href="../explorer/visualisation.html?view=arbre">Voir la NAF dans l'arbre →</a>
+  <a class="naf-chg-cta" href="../comparer/index.html">Comparer 2008 et 2025 →</a>
+  <a class="naf-chg-cta" href="../defense/index.html">Explorer NAF &amp; Défense →</a>
+  <a class="naf-chg-cta" href="../explorer/index.html">Chercher un code →</a>
+</nav>
+```
+
+:::
 
 :::

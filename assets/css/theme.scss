@@ -98,10 +98,65 @@ body {
   min-width: 44px;
 }
 
+/* Footer global : auteur · code source · signalement. Trois idées, une
+   ligne fine, un fond à peine distinct — jamais un bloc institutionnel. */
 .nav-footer {
+  margin-top: 2.5rem;
+  padding: 1.1rem 0 1.3rem;
   border-top: 1px solid var(--naf-line);
+  background: var(--naf-surface);
   color: var(--naf-steel);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
+
+  a {
+    color: var(--naf-slate-mid);
+    text-decoration: none;
+    transition: color 0.15s ease;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--naf-ink);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+  }
+
+  .bi {
+    font-size: 0.85em;
+    margin-right: 0.15rem;
+    color: var(--naf-steel);
+  }
+
+  a:hover .bi,
+  a:focus-visible .bi { color: inherit; }
+}
+
+.naf-footer-author { font-weight: 550; }
+
+.naf-footer-sep {
+  margin: 0 0.45rem;
+  color: var(--naf-steel-sub);
+}
+
+.nav-footer .nav-footer-right {
+  color: var(--naf-steel-sub);
+}
+
+/* Mobile : trois lignes centrées, aérées, pas trois colonnes minuscules. */
+@media (max-width: 860px) {
+  .nav-footer {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.45rem;
+    text-align: center;
+
+    .nav-footer-left,
+    .nav-footer-center,
+    .nav-footer-right {
+      flex: none;
+      text-align: center;
+    }
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -3746,3 +3801,2378 @@ body {
   font-size: 0.9rem;
   line-height: 1.5;
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   Comprendre — mini-cours NAF, sources et carnet d'études
+═══════════════════════════════════════════════════════════════════ */
+
+.naf-comp {
+  // Même sortie de colonne que .naf-viz : la page utilise la largeur de la
+  // fenêtre au lieu de rester dans la colonne Quarto (1135 px).
+  @media (min-width: 992px) {
+    --naf-comp-w: min(1380px, 100vw - 6rem);
+    width: var(--naf-comp-w);
+    margin-left: calc((100% - var(--naf-comp-w)) / 2);
+  }
+}
+
+/* ── Navigation interne collante ─────────────────────────────────── */
+
+.naf-comp-nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  gap: 0.35rem;
+  padding: 0.55rem 0.15rem;
+  margin: 0 -0.15rem 1.4rem;
+  background: var(--naf-paper);
+  border-bottom: 1px solid var(--naf-line);
+  overflow-x: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar { display: none; }
+}
+
+.naf-comp-nav-link {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 40px;
+  padding: 0 0.9rem;
+  border: 1px solid var(--naf-line);
+  border-radius: 999px;
+  background: var(--naf-surface);
+  color: var(--naf-slate-mid);
+  font-size: 0.88rem;
+  font-weight: 550;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: border-color 0.15s ease, color 0.15s ease,
+              background 0.15s ease;
+
+  &:hover { color: var(--naf-ink); border-color: var(--naf-steel); }
+
+  &[aria-current="true"] {
+    color: var(--naf-ink);
+    border-color: var(--naf-bronze);
+    background: #f7f4ee;
+  }
+}
+
+.naf-comp-nav-num {
+  font-family: var(--naf-mono);
+  font-size: 0.74rem;
+  color: var(--naf-bronze);
+}
+
+/* ── Sections ────────────────────────────────────────────────────── */
+
+.naf-comp-section {
+  margin: 0 0 2.6rem;
+  scroll-margin-top: 4.2rem; /* la nav collante ne masque pas les ancres */
+}
+
+.naf-comp-h2 {
+  margin: 0 0 0.3rem;
+  font-size: clamp(1.45rem, 3.4vw, 1.9rem);
+}
+
+.naf-comp-kicker {
+  margin: 0 0 0.2rem;
+  font-family: var(--naf-mono);
+  font-size: 0.76rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--naf-bronze);
+}
+
+.naf-comp-lede {
+  max-width: 46rem;
+  margin: 0 0 1.2rem;
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: var(--naf-slate-mid);
+}
+
+.naf-comp-h3 {
+  margin: 1.6rem 0 0.5rem;
+  font-size: 1.08rem;
+  font-weight: 650;
+  color: var(--naf-ink);
+}
+
+.naf-comp p { max-width: 46rem; }
+
+.naf-comp-hand {
+  margin: 0.4rem 0 1rem;
+}
+
+/* ── Grilles ─────────────────────────────────────────────────────── */
+
+.naf-comp-grid2 {
+  display: grid;
+  gap: 1.1rem;
+  margin: 1rem 0 1.4rem;
+}
+
+@media (min-width: 861px) {
+  .naf-comp-grid2 { grid-template-columns: 1fr 1fr; align-items: start; }
+  .naf-comp-grid2 > * { min-width: 0; }
+}
+
+/* ── Schéma : flux vertical (activité → NAF → statistiques…) ─────── */
+
+.naf-comp-flow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  margin: 1.1rem auto 1.3rem;
+  padding: 1.2rem 1rem;
+  max-width: 30rem;
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-line);
+  border-radius: var(--naf-radius);
+}
+
+.naf-comp-flow-step {
+  width: 100%;
+  padding: 0.55rem 0.9rem;
+  text-align: center;
+  border: 1px solid var(--naf-line);
+  border-radius: var(--naf-radius);
+  background: var(--naf-paper);
+
+  strong { display: block; font-size: 0.98rem; }
+}
+
+.naf-comp-flow-step-accent {
+  border-color: var(--naf-slate-mid);
+  background: #eef2f7;
+}
+
+.naf-comp-flow-note {
+  font-size: 0.82rem;
+  color: var(--naf-steel);
+}
+
+.naf-comp-flow-arrow {
+  color: var(--naf-bronze);
+  font-size: 1.05rem;
+  line-height: 1.4;
+}
+
+.naf-comp-flow-arrowlbl {
+  font-size: 0.78rem;
+  color: var(--naf-steel);
+  font-style: italic;
+}
+
+/* ── Schéma : les cinq niveaux (échelle) ─────────────────────────── */
+
+.naf-comp-ladder {
+  margin: 1.1rem 0 0.6rem;
+  padding: 0.4rem 0 0.4rem 0.35rem;
+}
+
+.naf-comp-rung {
+  position: relative;
+  display: grid;
+  grid-template-columns: 6.4rem minmax(0, 1fr);
+  gap: 0.15rem 0.9rem;
+  padding: 0.5rem 0 0.5rem 1.15rem;
+  border-left: 2px solid var(--naf-line);
+
+  &:last-child { border-left-color: var(--naf-bronze); }
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: -5px;
+    top: 1rem;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--naf-slate-mid);
+  }
+
+  &:last-child::before { background: var(--naf-bronze); }
+}
+
+.naf-comp-rung-level {
+  grid-column: 1;
+  font-size: 0.7rem;
+  font-weight: 650;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--naf-steel);
+}
+
+.naf-comp-rung-code {
+  grid-column: 1;
+  font-family: var(--naf-mono);
+  font-size: 1.05rem;
+  font-weight: 650;
+  color: var(--naf-ink);
+}
+
+.naf-comp-rung-main { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
+
+.naf-comp-rung-label {
+  display: block;
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+
+/* ── Schéma : arbre SIREN / SIRET ────────────────────────────────── */
+
+.naf-comp-tree {
+  margin: 1.1rem 0 0.9rem;
+  padding: 1.1rem 1.1rem 1.1rem 1.3rem;
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-line);
+  border-radius: var(--naf-radius);
+  overflow-x: auto;
+}
+
+.naf-comp-tree ul {
+  margin: 0;
+  padding-left: 1.15rem;
+  list-style: none;
+  border-left: 1px solid var(--naf-line);
+}
+
+.naf-comp-tree > ul { border-left: 0; padding-left: 0; }
+
+.naf-comp-tree li {
+  position: relative;
+  padding: 0.28rem 0 0.28rem 0.35rem;
+  font-size: 0.93rem;
+}
+
+.naf-comp-tree-root {
+  font-weight: 650;
+  font-size: 0.98rem;
+}
+
+.naf-comp-tag {
+  display: inline-block;
+  margin-left: 0.45rem;
+  padding: 0.05rem 0.5rem;
+  font-family: var(--naf-mono);
+  font-size: 0.72rem;
+  color: var(--naf-slate-mid);
+  background: var(--naf-line-soft);
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.naf-comp-tag-siren { color: #2a669f; background: #e9f0f7; }
+.naf-comp-tag-siret { color: var(--naf-sage); background: #eaf0ee; }
+
+/* ── Panneaux « dit / ne dit pas » et comparaisons ───────────────── */
+
+.naf-comp-vs {
+  display: grid;
+  gap: 1rem;
+  margin: 1.1rem 0 1.2rem;
+}
+
+@media (min-width: 861px) {
+  .naf-comp-vs { grid-template-columns: 1fr 1fr; }
+}
+
+.naf-comp-vs-panel {
+  padding: 1rem 1.15rem 1.05rem;
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-line);
+  border-top: 3px solid var(--naf-slate-mid);
+  border-radius: var(--naf-radius);
+  min-width: 0;
+
+  ul { margin: 0.4rem 0 0; padding-left: 1.1rem; }
+  li { margin: 0.18rem 0; font-size: 0.93rem; }
+  p { margin: 0.35rem 0 0; font-size: 0.93rem; }
+}
+
+.naf-comp-vs-panel-neg { border-top-color: var(--naf-bronze); }
+
+.naf-comp-vs-title {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 650;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--naf-steel);
+}
+
+.naf-comp-vs-strong {
+  margin: 0.25rem 0 0;
+  font-size: 1.02rem;
+  font-weight: 650;
+  color: var(--naf-ink);
+}
+
+/* ── Frise fraîcheur ↔ consolidation ─────────────────────────────── */
+
+.naf-comp-frise {
+  margin: 1.2rem 0 1.3rem;
+  padding: 1.1rem 1.15rem 1.2rem;
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-line);
+  border-radius: var(--naf-radius);
+}
+
+.naf-comp-frise-axis {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--naf-steel);
+  padding-bottom: 0.45rem;
+  margin-bottom: 0.7rem;
+  border-bottom: 2px solid;
+  border-image: linear-gradient(90deg, var(--naf-bronze), var(--naf-slate-mid)) 1;
+}
+
+.naf-comp-frise-rows { display: grid; gap: 0.4rem; }
+
+.naf-comp-frise-row {
+  display: grid;
+  grid-template-columns: minmax(8.5rem, 14rem) minmax(0, 1fr);
+  gap: 0.7rem;
+  align-items: baseline;
+  font-size: 0.9rem;
+}
+
+.naf-comp-frise-src { font-weight: 600; color: var(--naf-ink); }
+.naf-comp-frise-freq { color: var(--naf-steel); font-size: 0.85rem; }
+
+/* ── Matrice question → source ───────────────────────────────────── */
+
+.naf-comp-matrix { margin: 1rem 0 1.2rem; }
+
+.naf-comp-matrix .naf-sheet-summary { text-transform: none; letter-spacing: 0; }
+
+.naf-comp-matrix-q {
+  flex: 1 1 auto;
+  font-size: 0.95rem;
+  font-weight: 550;
+  color: var(--naf-ink);
+}
+
+.naf-comp-matrix-src {
+  flex: 0 0 auto;
+  margin-left: 0.8rem;
+  font-family: var(--naf-mono);
+  font-size: 0.78rem;
+  color: var(--naf-slate-mid);
+  background: var(--naf-line-soft);
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+  white-space: nowrap;
+}
+
+/* ── Statuts d'étude ─────────────────────────────────────────────── */
+
+.naf-statut {
+  display: inline-block;
+  padding: 0.14rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.naf-statut-mesure {
+  color: #fff;
+  background: var(--naf-sage);
+}
+
+.naf-statut-protocole {
+  color: var(--naf-slate-mid);
+  background: #eef2f7;
+  border: 1px solid var(--naf-slate-mid);
+}
+
+.naf-statut-piste {
+  color: var(--naf-steel);
+  background: transparent;
+  border: 1px dashed var(--naf-steel);
+}
+
+.naf-comp-statuts {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0.9rem 0 1.3rem;
+  font-size: 0.9rem;
+
+  > div { display: flex; align-items: baseline; gap: 0.6rem; }
+}
+
+/* ── Carnet d'études ─────────────────────────────────────────────── */
+
+.naf-carnet { margin: 1.2rem 0 1rem; }
+
+.naf-carnet-item {
+  border-top: 1px solid var(--naf-line);
+
+  &:last-child { border-bottom: 1px solid var(--naf-line); }
+
+  > summary {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    min-height: var(--naf-tap);
+    padding: 0.85rem 0.25rem;
+    cursor: pointer;
+    list-style: none;
+
+    &::-webkit-details-marker { display: none; }
+    &:hover .naf-carnet-title { color: var(--naf-bronze); }
+
+    &::after {
+      content: "+";
+      margin-left: auto;
+      font-size: 1.25rem;
+      color: var(--naf-steel-sub);
+    }
+  }
+
+  &[open] > summary::after { content: "–"; }
+}
+
+.naf-carnet-num {
+  flex: 0 0 auto;
+  font-family: var(--naf-mono);
+  font-size: 1.7rem;
+  font-weight: 650;
+  line-height: 1;
+  color: var(--naf-steel-sub);
+}
+
+.naf-carnet-head { flex: 1 1 auto; min-width: 0; }
+
+.naf-carnet-title {
+  display: block;
+  font-size: 1.02rem;
+  font-weight: 650;
+  color: var(--naf-ink);
+  transition: color 0.15s ease;
+}
+
+.naf-carnet-q {
+  display: block;
+  margin-top: 0.1rem;
+  font-size: 0.88rem;
+  color: var(--naf-steel);
+}
+
+.naf-carnet-body {
+  padding: 0.2rem 0.25rem 1.3rem;
+}
+
+@media (min-width: 861px) {
+  .naf-carnet-body { padding-left: 3.4rem; }
+}
+
+.naf-carnet-fiche {
+  display: grid;
+  gap: 0;
+  margin: 0.4rem 0 0.8rem;
+
+  dt {
+    margin-top: 0.75rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--naf-bronze);
+  }
+
+  dd {
+    margin: 0.15rem 0 0;
+    font-size: 0.94rem;
+    line-height: 1.55;
+    max-width: 46rem;
+
+    ul { margin: 0.2rem 0 0; padding-left: 1.1rem; }
+    li { margin: 0.12rem 0; }
+  }
+}
+
+.naf-carnet-scripts {
+  font-family: var(--naf-mono);
+  font-size: 0.84rem;
+  color: var(--naf-slate-mid);
+  overflow-wrap: anywhere;
+}
+
+/* ── Erreurs à éviter ────────────────────────────────────────────── */
+
+.naf-comp-erreurs {
+  display: grid;
+  gap: 1rem;
+  margin: 1.1rem 0 0.7rem;
+}
+
+@media (min-width: 861px) {
+  .naf-comp-erreurs { grid-template-columns: repeat(3, 1fr); }
+}
+
+.naf-comp-erreur {
+  padding: 0.95rem 1.05rem 1rem;
+  border: 1px solid var(--naf-line);
+  border-left: 3px solid var(--naf-bronze);
+  border-radius: var(--naf-radius);
+  background: var(--naf-surface);
+  min-width: 0;
+
+  p { margin: 0; font-size: 0.92rem; line-height: 1.5; }
+}
+
+.naf-comp-erreur-num {
+  display: block;
+  font-family: var(--naf-mono);
+  font-size: 0.76rem;
+  color: var(--naf-bronze);
+  margin-bottom: 0.3rem;
+}
+
+/* ── Contexte stratégique daté ───────────────────────────────────── */
+
+.naf-comp-jalons {
+  display: grid;
+  gap: 0.85rem;
+  margin: 1rem 0 0.8rem;
+}
+
+@media (min-width: 861px) {
+  .naf-comp-jalons { grid-template-columns: 1fr 1fr; }
+}
+
+.naf-comp-jalon {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.2rem 0.9rem;
+  padding: 0.85rem 1rem;
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-line);
+  border-radius: var(--naf-radius);
+
+  p { margin: 0; font-size: 0.9rem; line-height: 1.5; grid-column: 2; }
+}
+
+.naf-comp-jalon-date {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  font-family: var(--naf-mono);
+  font-size: 0.82rem;
+  font-weight: 650;
+  color: var(--naf-bronze);
+  align-self: start;
+  padding-top: 0.1rem;
+  white-space: nowrap;
+}
+
+.naf-comp-jalon-titre {
+  grid-column: 2;
+  font-weight: 650;
+  font-size: 0.96rem;
+
+  a { color: inherit; text-decoration: none; }
+  a:hover { color: var(--naf-bronze); }
+}
+
+.naf-comp-verifdate {
+  font-size: 0.82rem;
+  color: var(--naf-steel);
+  font-style: italic;
+}
+
+/* ── Divers ──────────────────────────────────────────────────────── */
+
+.naf-comp-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1rem 0 0.4rem;
+}
+
+.naf-comp .naf-sheet-section .naf-sheet-body pre {
+  overflow-x: auto;
+  border: 1px solid var(--naf-line);
+  border-radius: var(--naf-radius);
+}
+
+.naf-comp-quiz {
+  margin: 0.4rem 0 0.3rem;
+
+  dt { font-weight: 600; margin-top: 0.7rem; font-size: 0.95rem; }
+  dd { margin: 0.15rem 0 0; color: var(--naf-slate-mid); font-size: 0.92rem; }
+}
+
+@media (max-width: 860px) {
+  .naf-comp-frise-row { grid-template-columns: 1fr; gap: 0.05rem; }
+  .naf-comp-jalon { grid-template-columns: 1fr; }
+  .naf-comp-jalon-date { grid-row: auto; }
+  .naf-comp-jalon p,
+  .naf-comp-jalon-titre { grid-column: 1; }
+}
+
+/* ── Hub « question d'étude » : sources complémentaires, sans pipeline ── */
+
+.naf-comp-hub {
+  display: grid;
+  gap: 1.2rem;
+  margin: 1.2rem 0 1.4rem;
+}
+
+.naf-comp-hub-center {
+  position: relative;
+  align-self: center;
+  padding: 1.25rem 1.4rem 1.1rem;
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-slate-mid);
+  border-radius: var(--naf-radius);
+
+  .naf-hand { margin: 0.55rem 0 0; }
+}
+
+.naf-comp-hub-kicker {
+  margin: 0 0 0.25rem;
+  font-family: var(--naf-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--naf-bronze);
+}
+
+.naf-comp-hub-title {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--naf-ink);
+}
+
+.naf-comp-hub-sub {
+  margin: 0.2rem 0 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--naf-steel);
+}
+
+.naf-comp-hub-branches {
+  border-left: 1px solid var(--naf-line);
+  padding-left: 0.4rem;
+}
+
+.naf-comp-hub-item {
+  > summary {
+    display: grid;
+    grid-template-columns: 1.35rem minmax(0, 1fr) auto;
+    align-items: baseline;
+    row-gap: 0.1rem;
+    padding: 0.65rem 0.25rem 0.65rem 0;
+    cursor: pointer;
+    list-style: none;
+
+    &::-webkit-details-marker { display: none; }
+
+    /* Le tiret horizontal relie chaque famille au rail : complémentarité,
+       pas ordre d'utilisation. */
+    &::before {
+      content: "";
+      grid-column: 1;
+      grid-row: 1;
+      align-self: center;
+      width: 0.85rem;
+      height: 1px;
+      background: var(--naf-line);
+    }
+
+    &::after {
+      content: "+";
+      grid-column: 3;
+      grid-row: 1;
+      font-size: 1.15rem;
+      line-height: 1;
+      color: var(--naf-steel-sub);
+    }
+
+    &:hover .naf-comp-hub-role { color: var(--naf-bronze); }
+  }
+
+  &[open] > summary::after { content: "–"; }
+  &[open] > summary::before { background: var(--naf-bronze); }
+}
+
+.naf-comp-hub-role {
+  grid-column: 2;
+  grid-row: 1;
+  font-size: 0.98rem;
+  font-weight: 650;
+  color: var(--naf-ink);
+  transition: color 0.15s ease;
+}
+
+.naf-comp-hub-srcs {
+  grid-column: 2;
+  font-family: var(--naf-mono);
+  font-size: 0.82rem;
+  color: var(--naf-slate-mid);
+
+  em {
+    font-family: inherit;
+    font-style: normal;
+    color: var(--naf-steel-sub);
+  }
+}
+
+.naf-comp-hub-q {
+  grid-column: 2;
+  font-size: 0.85rem;
+  color: var(--naf-steel);
+}
+
+.naf-comp-hub-body {
+  padding: 0.1rem 0.25rem 1rem 1.35rem;
+}
+
+@media (min-width: 861px) {
+  .naf-comp-hub {
+    grid-template-columns: minmax(17rem, 23rem) minmax(0, 1fr);
+    column-gap: 2.4rem;
+  }
+
+  /* Trait fin du nœud central vers le rail des familles. */
+  .naf-comp-hub-center::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: -2.4rem;
+    width: 2.4rem;
+    height: 1px;
+    background: var(--naf-line);
+  }
+
+  .naf-comp-hub-branches { padding-left: 0.6rem; }
+}
+
+/* ── Points de départ ────────────────────────────────────────────── */
+
+.naf-comp-departs {
+  display: grid;
+  gap: 0.9rem;
+  margin: 1rem 0 1rem;
+}
+
+@media (min-width: 861px) {
+  .naf-comp-departs { grid-template-columns: 1fr 1fr; }
+}
+
+.naf-comp-depart {
+  padding: 0.9rem 1.05rem 0.95rem;
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-line);
+  border-radius: var(--naf-radius);
+  min-width: 0;
+
+  p { margin: 0; }
+}
+
+.naf-comp-depart-name {
+  font-size: 0.74rem;
+  font-weight: 650;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--naf-steel);
+}
+
+.naf-comp-depart-chain {
+  margin-top: 0.3rem !important;
+  font-family: var(--naf-mono);
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: var(--naf-slate-mid);
+  overflow-wrap: anywhere;
+
+  strong { color: var(--naf-ink); }
+}
+
+.naf-comp-depart-note {
+  margin-top: 0.35rem !important;
+  font-size: 0.86rem;
+  line-height: 1.45;
+  color: var(--naf-steel);
+}
+
+/* ── Table du grain ──────────────────────────────────────────────── */
+
+.naf-comp-grainwrap {
+  overflow-x: auto;
+  margin: 0.9rem 0 0.6rem;
+  border: 1px solid var(--naf-line);
+  border-radius: var(--naf-radius);
+  background: var(--naf-surface);
+}
+
+.naf-comp-grain {
+  width: 100%;
+  min-width: 34rem;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+
+  th {
+    padding: 0.6rem 1rem 0.5rem;
+    text-align: left;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--naf-steel);
+    border-bottom: 1px solid var(--naf-line);
+  }
+
+  td {
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid var(--naf-line-soft);
+    vertical-align: baseline;
+  }
+
+  tbody tr:last-child td { border-bottom: 0; }
+
+  td:first-child {
+    font-family: var(--naf-mono);
+    font-weight: 600;
+    color: var(--naf-slate-mid);
+    white-space: nowrap;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Boîte à outils — atelier R & Python
+═══════════════════════════════════════════════════════════════════ */
+
+/* Ligne de surveillance des liens */
+
+.naf-tb-watch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.4rem 0 0;
+  font-size: 0.82rem;
+  color: var(--naf-steel);
+
+  &::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--naf-sage);
+  }
+
+  a { color: var(--naf-slate-mid); }
+}
+
+/* ── Bascule Par besoin / Par source ─────────────────────────────── */
+
+.naf-tb-modes {
+  margin: 0.8rem 0 1.1rem;
+}
+
+.naf-tb[data-mode="besoin"] .naf-tb-fiches { display: none; }
+.naf-tb[data-mode="source"] .naf-tb-besoins { display: none; }
+
+/* ── « Je veux… » : rail de besoins ──────────────────────────────── */
+
+.naf-tb-besoins {
+  border-top: 1px solid var(--naf-line);
+}
+
+.naf-tb-need {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: baseline;
+  gap: 0.35rem 0.9rem;
+  width: 100%;
+  min-height: var(--naf-tap);
+  padding: 0.8rem 0.35rem;
+  border: 0;
+  border-bottom: 1px solid var(--naf-line);
+  background: none;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.12s ease;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--naf-line-soft);
+    text-decoration: none;
+  }
+
+  &:hover .naf-tb-need-arrow { transform: translateX(3px); }
+}
+
+.naf-tb-need-num {
+  font-family: var(--naf-mono);
+  font-size: 0.78rem;
+  color: var(--naf-bronze);
+}
+
+.naf-tb-need-text {
+  font-size: 0.98rem;
+  font-weight: 550;
+  color: var(--naf-ink);
+}
+
+.naf-tb-need-src {
+  font-family: var(--naf-mono);
+  font-size: 0.78rem;
+  color: var(--naf-slate-mid);
+  background: var(--naf-line-soft);
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+  white-space: nowrap;
+}
+
+.naf-tb-need-arrow {
+  color: var(--naf-steel-sub);
+  transition: transform 0.15s ease;
+}
+
+@media (max-width: 860px) {
+  .naf-tb-need { grid-template-columns: auto minmax(0, 1fr) auto; }
+  .naf-tb-need-src { grid-column: 2; justify-self: start; }
+}
+
+/* ── Fiches sources ──────────────────────────────────────────────── */
+
+.naf-tb-fiche {
+  border-bottom: 1px solid var(--naf-line);
+
+  &:first-of-type { border-top: 1px solid var(--naf-line); }
+
+  > summary {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: baseline;
+    row-gap: 0.15rem;
+    padding: 0.95rem 0.35rem;
+    cursor: pointer;
+    list-style: none;
+
+    &::-webkit-details-marker { display: none; }
+
+    &::after {
+      content: "+";
+      grid-column: 3;
+      grid-row: 1;
+      font-size: 1.3rem;
+      line-height: 1;
+      color: var(--naf-steel-sub);
+      margin-left: 0.7rem;
+    }
+
+    &:hover .naf-tb-fiche-name { color: var(--naf-bronze); }
+  }
+
+  &[open] > summary::after { content: "–"; }
+}
+
+.naf-tb-fiche-name {
+  grid-column: 1;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--naf-ink);
+  transition: color 0.15s ease;
+}
+
+.naf-tb-fiche-num {
+  grid-column: 2;
+  grid-row: 1;
+  font-family: var(--naf-mono);
+  font-size: 0.95rem;
+  color: var(--naf-steel-sub);
+}
+
+.naf-tb-fiche-tags {
+  grid-column: 1 / -1;
+  font-size: 0.86rem;
+  color: var(--naf-steel);
+}
+
+.naf-tb-fiche-body {
+  padding: 0.3rem 0.35rem 1.4rem;
+}
+
+/* Chips de grain : le premier regard sur ce que la source observe */
+
+.naf-tb-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin: 0.4rem 0 1rem;
+}
+
+.naf-tb-chip {
+  display: grid;
+  gap: 0.05rem;
+  padding: 0.45rem 0.8rem 0.5rem;
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-line);
+  border-radius: var(--naf-radius);
+  min-width: 7.5rem;
+}
+
+.naf-tb-chip-label {
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--naf-steel);
+}
+
+.naf-tb-chip-value {
+  font-size: 0.88rem;
+  font-weight: 550;
+  color: var(--naf-ink);
+}
+
+.naf-tb-chip-grain {
+  border-left: 3px solid var(--naf-bronze);
+}
+
+/* Points d'entrée injectés depuis le manifeste */
+
+.naf-tb-entries {
+  margin: 0.5rem 0 0.9rem;
+
+  p { margin: 0 0 0.2rem; }
+}
+
+.naf-tb-entry {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.2rem 0.7rem;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid var(--naf-line-soft);
+  font-size: 0.9rem;
+
+  &:last-child { border-bottom: 0; }
+}
+
+.naf-tb-entry-name {
+  font-weight: 600;
+  color: var(--naf-ink);
+}
+
+.naf-tb-entry-links a {
+  margin-right: 0.65rem;
+  color: var(--naf-slate-mid);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+
+  &:hover { color: var(--naf-ink); }
+}
+
+.naf-tb-entry-meta {
+  font-size: 0.8rem;
+  color: var(--naf-steel);
+}
+
+.naf-tb-recettes-link {
+  font-size: 0.88rem;
+  color: var(--naf-steel);
+
+  a {
+    font-family: var(--naf-mono);
+    margin-right: 0.4rem;
+    color: var(--naf-slate-mid);
+  }
+}
+
+/* ── Tabsets Python / R : pilules maison ─────────────────────────── */
+
+.naf-tb .panel-tabset {
+  margin: 0.6rem 0 0.4rem;
+
+  > .nav-tabs {
+    display: inline-flex;
+    gap: 0;
+    padding: 3px;
+    margin: 0 0 0.6rem;
+    background: var(--naf-line-soft);
+    border: 1px solid var(--naf-line);
+    border-radius: var(--naf-radius);
+
+    .nav-item { margin: 0; }
+
+    .nav-link {
+      min-height: 36px;
+      padding: 0.3rem 1.05rem;
+      border: 0;
+      border-radius: 3px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--naf-steel);
+
+      &:hover { color: var(--naf-ink); }
+
+      &.active {
+        color: var(--naf-ink);
+        background: var(--naf-surface);
+        box-shadow: 0 1px 2px rgba(20, 24, 29, 0.09);
+      }
+    }
+  }
+
+  > .tab-content {
+    border: 0;
+    padding: 0;
+  }
+}
+
+/* Code : lisible, clair, jamais un mur noir */
+
+.naf-tb div.sourceCode {
+  margin: 0.3rem 0 0.6rem;
+  border: 1px solid var(--naf-line);
+  border-radius: var(--naf-radius);
+  background: var(--naf-surface);
+
+  pre {
+    margin: 0;
+    padding: 0.85rem 1rem;
+    max-height: 24rem;
+    overflow: auto;
+  }
+}
+
+.naf-tb-attention {
+  margin: 0.4rem 0 0;
+  padding: 0.6rem 0.9rem;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--naf-ink);
+  background: #f7f4ee;
+  border-left: 3px solid var(--naf-bronze);
+  border-radius: 0 var(--naf-radius) var(--naf-radius) 0;
+}
+
+/* ── Scripts du dépôt ────────────────────────────────────────────── */
+
+.naf-tb-scripts {
+  margin: 0.8rem 0 0.4rem;
+  padding: 1rem 1.15rem;
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-line);
+  border-radius: var(--naf-radius);
+
+  p { margin: 0 0 0.35rem; font-size: 0.92rem; }
+
+  code { font-size: 0.84rem; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Bonus — parcours guidés
+═══════════════════════════════════════════════════════════════════ */
+
+/* ── Panneau narratif (couche au-dessus des pages existantes) ────── */
+
+.naf-px-panel {
+  position: fixed;
+  z-index: 60;
+  right: 1.1rem;
+  bottom: 1.1rem;
+  width: min(23.5rem, calc(100vw - 2.2rem));
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-line);
+  border-top: 3px solid var(--naf-bronze);
+  border-radius: var(--naf-radius);
+  box-shadow: 0 10px 30px rgba(20, 24, 29, 0.14);
+  font-size: 0.92rem;
+}
+
+.naf-px-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.7rem 0.5rem 1rem;
+  border-bottom: 1px solid var(--naf-line-soft);
+}
+
+.naf-px-kicker {
+  flex: 1 1 auto;
+  margin: 0;
+  font-family: var(--naf-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--naf-bronze);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.naf-px-quit,
+.naf-px-fold {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: 0;
+  border-radius: var(--naf-radius);
+  background: none;
+  color: var(--naf-steel);
+  font-size: 1.05rem;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--naf-line-soft);
+    color: var(--naf-ink);
+    text-decoration: none;
+  }
+}
+
+.naf-px-panel.is-folded .naf-px-body { display: none; }
+
+.naf-px-body {
+  padding: 0.8rem 1rem 1rem;
+  max-height: min(52vh, 26rem);
+  overflow-y: auto;
+}
+
+.naf-px-dots {
+  display: flex;
+  gap: 0.35rem;
+  margin: 0 0 0.6rem;
+}
+
+.naf-px-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--naf-line);
+
+  &.is-done { background: var(--naf-bronze); }
+}
+
+.naf-px-title {
+  margin: 0 0 0.35rem;
+  font-size: 1.05rem;
+  font-weight: 650;
+  line-height: 1.3;
+  color: var(--naf-ink);
+}
+
+.naf-px-text {
+  margin: 0 0 0.5rem;
+  line-height: 1.55;
+  color: var(--naf-ink);
+
+  em { color: var(--naf-slate-mid); font-style: italic; }
+}
+
+.naf-px-hand {
+  margin: 0.15rem 0 0.5rem;
+  font-size: 0.98rem;
+}
+
+.naf-px-action {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.3rem 0.7rem;
+  margin: 0 0 0.4rem;
+  font-size: 0.84rem;
+  color: var(--naf-steel);
+
+  &::before {
+    content: "›";
+    color: var(--naf-bronze);
+    font-weight: 700;
+  }
+}
+
+.naf-px-check {
+  color: var(--naf-sage);
+  font-weight: 650;
+}
+
+.naf-px-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.7rem;
+}
+
+.naf-px-btn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 1rem;
+  border: 1px solid var(--naf-bronze);
+  border-radius: 999px;
+  background: var(--naf-bronze);
+  color: #fff;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.15s ease, color 0.15s ease;
+
+  &:hover,
+  &:focus-visible {
+    background: #7e5c30;
+    border-color: #7e5c30;
+    color: #fff;
+    text-decoration: none;
+  }
+}
+
+.naf-px-btn-ghost {
+  background: none;
+  color: var(--naf-bronze);
+
+  &:hover,
+  &:focus-visible {
+    background: var(--naf-bronze);
+    color: #fff;
+  }
+}
+
+/* Mobile : bottom sheet pleine largeur, repliable, la page reste
+   manipulable au-dessus. */
+@media (max-width: 860px) {
+  .naf-px-panel {
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    border-radius: 10px 10px 0 0;
+    border-left: 0;
+    border-right: 0;
+  }
+
+  .naf-px-body { max-height: 42vh; }
+
+  /* Le contenu de page ne finit jamais caché sous la sheet. */
+  body.naf-px-active { padding-bottom: 30vh; }
+}
+
+/* ── Pages Bonus ─────────────────────────────────────────────────── */
+
+.naf-bx-module {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.3rem 1.2rem;
+  max-width: 40rem;
+  margin: 1.6rem 0 0;
+  padding: 1.4rem 0 1.5rem;
+  border-top: 1px solid var(--naf-line);
+  border-bottom: 1px solid var(--naf-line);
+}
+
+.naf-bx-module-num {
+  grid-row: 1 / span 3;
+  font-family: var(--naf-mono);
+  font-size: 2.1rem;
+  font-weight: 650;
+  line-height: 1;
+  color: var(--naf-steel-sub);
+}
+
+.naf-bx-module-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--naf-ink);
+}
+
+.naf-bx-module-desc {
+  margin: 0;
+  color: var(--naf-steel);
+  font-size: 0.95rem;
+}
+
+.naf-bx-module-meta {
+  margin: 0.1rem 0 0.6rem;
+  font-family: var(--naf-mono);
+  font-size: 0.78rem;
+  color: var(--naf-bronze);
+}
+
+/* ── Liste éditoriale des parcours ───────────────────────────────── */
+
+.naf-px-list {
+  margin: 1.4rem 0 0;
+  border-top: 1px solid var(--naf-line);
+}
+
+.naf-px-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 0.25rem 1.1rem;
+  padding: 1.05rem 0.4rem;
+  border-bottom: 1px solid var(--naf-line);
+  text-decoration: none;
+  transition: background 0.12s ease;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--naf-line-soft);
+    text-decoration: none;
+  }
+
+  &:hover .naf-px-item-arrow { transform: translateX(3px); }
+}
+
+.naf-px-item-num {
+  font-family: var(--naf-mono);
+  font-size: 1.55rem;
+  font-weight: 650;
+  line-height: 1;
+  color: var(--naf-steel-sub);
+}
+
+.naf-px-item-body { min-width: 0; display: grid; gap: 0.1rem; }
+
+.naf-px-item-title {
+  font-size: 1.05rem;
+  font-weight: 650;
+  color: var(--naf-ink);
+}
+
+.naf-px-item-sub {
+  font-size: 0.88rem;
+  color: var(--naf-steel);
+}
+
+.naf-px-item-meta {
+  display: grid;
+  gap: 0.15rem;
+  justify-items: end;
+  font-family: var(--naf-mono);
+  font-size: 0.74rem;
+}
+
+.naf-px-item-theme { color: var(--naf-slate-mid); }
+.naf-px-item-time { color: var(--naf-bronze); }
+
+.naf-px-item-arrow {
+  color: var(--naf-steel-sub);
+  transition: transform 0.15s ease;
+}
+
+@media (max-width: 860px) {
+  .naf-px-item { grid-template-columns: auto minmax(0, 1fr) auto; }
+  .naf-px-item-meta {
+    grid-column: 2;
+    grid-row: 2;
+    justify-items: start;
+    grid-auto-flow: column;
+    gap: 0.9rem;
+  }
+}
+
+/* ── Introduction d'un parcours ──────────────────────────────────── */
+
+.naf-px-introcard {
+  max-width: 34rem;
+  margin: 1.6rem 0 0;
+  padding: 1.4rem 1.5rem 1.5rem;
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-line);
+  border-top: 3px solid var(--naf-bronze);
+  border-radius: var(--naf-radius);
+}
+
+.naf-px-intro-title {
+  margin: 0.2rem 0 0.25rem;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--naf-ink);
+}
+
+.naf-px-intro-q {
+  margin: 0 0 0.6rem;
+  font-size: 0.98rem;
+  color: var(--naf-slate-mid);
+}
+
+/* Lien discret vers les parcours guidés depuis le hero. */
+.naf-home-new {
+  margin: 0.55rem 0 0;
+  font-size: 0.84rem;
+
+  a {
+    color: var(--naf-slate-mid);
+    text-decoration: none;
+    &:hover { color: var(--naf-ink); text-decoration: underline; }
+  }
+}
+
+.naf-home-new-tag {
+  margin-right: 0.4rem;
+  padding: 0.08rem 0.5rem;
+  font-family: var(--naf-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--naf-bronze);
+  border: 1px solid var(--naf-bronze);
+  border-radius: 999px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Bonus — état des sources
+═══════════════════════════════════════════════════════════════════ */
+
+/* ── Synthèse ────────────────────────────────────────────────────── */
+
+.naf-src-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  align-items: stretch;
+  margin: 0.4rem 0 1.4rem;
+}
+
+.naf-src-tile {
+  display: grid;
+  gap: 0.05rem;
+  min-width: 7.2rem;
+  padding: 0.75rem 1rem 0.8rem;
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-line);
+  border-top: 3px solid var(--naf-slate-mid);
+  border-radius: var(--naf-radius);
+}
+
+.naf-src-tile-ok { border-top-color: var(--naf-sage); }
+.naf-src-tile-warn { border-top-color: var(--naf-bronze); }
+.naf-src-tile-auth { border-top-color: var(--naf-steel); }
+.naf-src-tile-fail { border-top-color: #a04545; }
+.naf-src-tile-manual { border-top-color: var(--naf-line); }
+
+.naf-src-tile-num {
+  font-family: var(--naf-mono);
+  font-size: 1.7rem;
+  font-weight: 650;
+  line-height: 1.1;
+  color: var(--naf-ink);
+}
+
+.naf-src-tile-label {
+  font-size: 0.8rem;
+  color: var(--naf-steel);
+}
+
+.naf-src-lastcheck {
+  flex: 1 1 16rem;
+  align-self: center;
+  min-width: 0;
+
+  p { margin: 0 0 0.2rem; font-size: 0.9rem; }
+}
+
+.naf-src-lastcheck-note {
+  color: var(--naf-steel);
+  font-size: 0.84rem !important;
+}
+
+.naf-src-old { color: var(--naf-bronze); font-weight: 550; }
+
+.naf-src-disclaimer {
+  max-width: 52rem;
+  margin: 0 0 1.2rem;
+  padding: 0.7rem 1rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  background: var(--naf-line-soft);
+  border-radius: var(--naf-radius);
+}
+
+/* ── Filtres ─────────────────────────────────────────────────────── */
+
+.naf-src-filters {
+  display: flex;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+  margin-bottom: 0.9rem;
+
+  &::-webkit-scrollbar { display: none; }
+
+  .naf-version { flex: 0 0 auto; }
+}
+
+/* ── Liste éditoriale ────────────────────────────────────────────── */
+
+.naf-src-famille { margin: 0 0 1.4rem; }
+
+.naf-src-famille-title {
+  margin: 0 0 0.15rem;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--naf-steel);
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--naf-line);
+}
+
+.naf-src-fiche {
+  border-bottom: 1px solid var(--naf-line-soft);
+
+  > summary {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: baseline;
+    column-gap: 1rem;
+    row-gap: 0.15rem;
+    min-height: var(--naf-tap);
+    padding: 0.75rem 0.3rem;
+    cursor: pointer;
+    list-style: none;
+
+    &::-webkit-details-marker { display: none; }
+    &:hover .naf-src-name { color: var(--naf-bronze); }
+
+    &::after {
+      content: "+";
+      grid-column: 3;
+      grid-row: 1;
+      font-size: 1.2rem;
+      line-height: 1;
+      color: var(--naf-steel-sub);
+    }
+  }
+
+  &[open] > summary::after { content: "–"; }
+}
+
+.naf-src-name {
+  grid-column: 1;
+  font-size: 1.02rem;
+  font-weight: 650;
+  color: var(--naf-ink);
+  transition: color 0.15s ease;
+}
+
+.naf-src-tag {
+  grid-column: 1;
+  font-size: 0.84rem;
+  color: var(--naf-steel);
+}
+
+.naf-src-chip {
+  grid-column: 2;
+  grid-row: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.18rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 650;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+
+.naf-src-chip-symbol { font-size: 0.85em; }
+
+.naf-src-chip-ok { color: #3c5d50; background: #e9f0ec; border-color: #cfe0d7; }
+.naf-src-chip-warn { color: #7e5c30; background: #f7f0e4; border-color: #e6d5b8; }
+.naf-src-chip-auth { color: var(--naf-slate-mid); background: #edf1f5; border-color: #d5dde6; }
+.naf-src-chip-fail { color: #7a2e2e; background: #fdf3f3; border-color: #e9cccc; }
+.naf-src-chip-manual { color: var(--naf-steel); background: var(--naf-line-soft); border-color: var(--naf-line); }
+
+.naf-src-body {
+  padding: 0.2rem 0.3rem 1.2rem;
+  max-width: 52rem;
+}
+
+.naf-src-help {
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: var(--naf-steel);
+  max-width: 46rem;
+}
+
+.naf-src-famillenote {
+  margin: 0.4rem 0 0;
+  font-size: 0.85rem;
+  color: var(--naf-steel);
+  max-width: 46rem;
+}
+
+/* ── Rythme des sources ──────────────────────────────────────────── */
+
+.naf-src-rythme-wrap { margin-top: 2.2rem; }
+
+.naf-src-rythme {
+  border-left: 2px solid var(--naf-line);
+  padding-left: 1.2rem;
+  display: grid;
+  gap: 1.1rem;
+}
+
+.naf-src-rband { position: relative; }
+
+.naf-src-rband::before {
+  content: "";
+  position: absolute;
+  left: calc(-1.2rem - 5px);
+  top: 0.35rem;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--naf-slate-mid);
+}
+
+.naf-src-rband-label {
+  margin: 0 0 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--naf-steel);
+}
+
+.naf-src-rband > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.naf-src-rchip {
+  padding: 0.28rem 0.7rem;
+  font-size: 0.84rem;
+  font-weight: 550;
+  color: var(--naf-slate-mid);
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-line);
+  border-radius: 999px;
+  text-decoration: none;
+
+  &:hover,
+  &:focus-visible {
+    color: var(--naf-ink);
+    border-color: var(--naf-bronze);
+    text-decoration: none;
+  }
+}
+
+@media (max-width: 860px) {
+  .naf-src-fiche > summary {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .naf-src-chip { grid-column: 1; grid-row: 3; justify-self: start; }
+  .naf-src-fiche > summary::after { grid-column: 2; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Bonus — atelier d'étude
+═══════════════════════════════════════════════════════════════════ */
+
+.naf-at-layout {
+  display: grid;
+  gap: 1.4rem;
+  align-items: start;
+}
+
+@media (min-width: 992px) {
+  .naf-at-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 22rem);
+    gap: 2rem;
+  }
+}
+
+.naf-at-main { min-width: 0; }
+
+/* ── Choix de la question ────────────────────────────────────────── */
+
+.naf-at-q {
+  width: 100%;
+  background: none;
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+}
+
+.naf-at-q-verbe {
+  display: block;
+  font-family: var(--naf-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--naf-bronze);
+}
+
+.naf-at-autre {
+  margin: 1rem 0 0;
+  font-size: 0.88rem;
+  color: var(--naf-steel);
+  max-width: 46rem;
+}
+
+/* ── Question courante ───────────────────────────────────────────── */
+
+.naf-at-current {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding-bottom: 0.7rem;
+  border-bottom: 2px solid var(--naf-ink);
+  margin-bottom: 0.6rem;
+}
+
+.naf-at-current-title {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--naf-ink);
+}
+
+.naf-linklike {
+  border: 0;
+  background: none;
+  padding: 0;
+  font: inherit;
+  font-size: 0.86rem;
+  color: var(--naf-slate-mid);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible { color: var(--naf-ink); }
+}
+
+/* ── Sections de travail ─────────────────────────────────────────── */
+
+.naf-at-section {
+  margin: 0 0 1.8rem;
+}
+
+.naf-at-section-head { margin-bottom: 0.5rem; }
+
+.naf-at-section-title {
+  margin: 1rem 0 0.15rem;
+  font-size: 1.08rem;
+  font-weight: 650;
+  color: var(--naf-ink);
+}
+
+.naf-at-section-hint {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--naf-steel);
+  max-width: 46rem;
+}
+
+.naf-at-hand { margin: 0.15rem 0 0.6rem; font-size: 0.98rem; }
+
+.naf-at-text {
+  margin: 0.2rem 0 0.4rem;
+  max-width: 46rem;
+  line-height: 1.55;
+}
+
+/* ── Lignes de choix (radio / checkbox réels) ────────────────────── */
+
+.naf-at-choice {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.9rem;
+  align-items: start;
+  padding: 0.75rem 0.6rem;
+  margin: 0;
+  border-bottom: 1px solid var(--naf-line-soft);
+  cursor: pointer;
+  transition: background 0.12s ease;
+
+  &:hover { background: var(--naf-line-soft); }
+
+  &.is-checked {
+    background: rgba(31, 43, 58, 0.04);
+    border-left: 2px solid var(--naf-bronze);
+    padding-left: calc(0.6rem - 2px);
+  }
+
+  input {
+    margin-top: 0.3rem;
+    width: 1.05rem;
+    height: 1.05rem;
+    accent-color: var(--naf-bronze);
+    flex: none;
+  }
+}
+
+.naf-at-choice-body {
+  display: grid;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.naf-at-choice-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.3rem 0.7rem;
+}
+
+.naf-at-cle {
+  font-size: 0.78rem;
+  color: var(--naf-steel);
+}
+
+.naf-at-choice-desc {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--naf-slate-mid);
+  max-width: 46rem;
+
+  em { color: var(--naf-steel); font-style: normal; font-weight: 650; }
+}
+
+.naf-at-choice-warn {
+  font-size: 0.86rem;
+  color: #7e5c30;
+}
+
+.naf-at-src-meta {
+  font-size: 0.8rem;
+  color: var(--naf-steel);
+}
+
+.naf-at-src-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 0.8rem;
+  font-size: 0.8rem;
+  color: var(--naf-steel);
+}
+
+/* Niveaux et rôles : texte explicite, jamais la couleur seule */
+
+.naf-at-niveau,
+.naf-at-role {
+  padding: 0.08rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.naf-at-niveau-recommande,
+.naf-at-role-recommandee { color: #3c5d50; background: #e9f0ec; }
+
+.naf-at-niveau-possible,
+.naf-at-role-complementaire { color: var(--naf-slate-mid); background: #edf1f5; }
+
+.naf-at-niveau-prudence { color: #7e5c30; background: #f7f0e4; }
+
+.naf-at-role-optionnelle { color: var(--naf-steel); background: var(--naf-line-soft); }
+
+/* ── Sélecteur de code NAF ───────────────────────────────────────── */
+
+.naf-at-nafpick { margin: 0.6rem 0 0.2rem; max-width: 30rem; }
+
+.naf-at-nafpick-label {
+  display: block;
+  font-size: 0.82rem;
+  color: var(--naf-steel);
+  margin-bottom: 0.25rem;
+}
+
+.naf-at-nafresults { display: grid; }
+
+.naf-at-nafresult {
+  display: flex;
+  gap: 0.7rem;
+  align-items: baseline;
+  width: 100%;
+  padding: 0.5rem 0.6rem;
+  border: 0;
+  border-bottom: 1px solid var(--naf-line-soft);
+  background: none;
+  text-align: left;
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+
+  &:hover { background: var(--naf-line-soft); }
+}
+
+.naf-at-nafchip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: baseline;
+  margin: 0.3rem 0 0;
+  padding: 0.5rem 0.8rem;
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-line);
+  border-left: 3px solid var(--naf-bronze);
+  border-radius: var(--naf-radius);
+  font-size: 0.92rem;
+}
+
+/* ── Limites et alertes ──────────────────────────────────────────── */
+
+.naf-at-limites {
+  margin: 0.3rem 0 0.8rem;
+  padding-left: 1.2rem;
+  max-width: 46rem;
+
+  li { margin: 0.35rem 0; font-size: 0.92rem; line-height: 1.5; }
+}
+
+.naf-at-alerte {
+  margin: 0 0 1rem;
+  padding: 0.8rem 1rem;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  background: #f7f0e4;
+  border-left: 3px solid var(--naf-bronze);
+  border-radius: 0 var(--naf-radius) var(--naf-radius) 0;
+
+  .naf-linklike { margin-left: 0.4rem; }
+}
+
+/* ── Synthèse latérale ───────────────────────────────────────────── */
+
+.naf-at-synthpanel {
+  position: sticky;
+  top: 1rem;
+  padding: 1.1rem 1.2rem 1.2rem;
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-line);
+  border-top: 3px solid var(--naf-bronze);
+  border-radius: var(--naf-radius);
+}
+
+.naf-at-badge {
+  display: inline-block;
+  margin: 0 0 0.4rem;
+  padding: 0.14rem 0.6rem;
+  border: 1px solid var(--naf-slate-mid);
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--naf-slate-mid);
+}
+
+.naf-at-synth-title {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.naf-at-synth-list {
+  margin: 0;
+
+  dt {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--naf-bronze);
+    margin-top: 0.55rem;
+  }
+
+  dd {
+    margin: 0.1rem 0 0;
+    font-size: 0.88rem;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+  }
+}
+
+.naf-at-synth-alerte {
+  margin: 0.7rem 0 0;
+  font-size: 0.84rem;
+  font-weight: 650;
+  color: #7e5c30;
+}
+
+@media (max-width: 991px) {
+  .naf-at-synthpanel { position: static; }
+}
+
+/* ── Fiche méthode ───────────────────────────────────────────────── */
+
+.naf-at-fiche {
+  max-width: 52rem;
+}
+
+.naf-at-fiche-head { margin-bottom: 1.2rem; }
+
+.naf-at-fiche-title {
+  margin: 0.3rem 0 0.2rem;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.naf-at-fiche-sub {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--naf-steel);
+}
+
+.naf-at-fiche-section {
+  margin: 0 0 1.2rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--naf-line);
+
+  p, li { font-size: 0.95rem; line-height: 1.55; }
+  ul, ol { margin: 0.2rem 0 0; padding-left: 1.2rem; }
+  li { margin: 0.3rem 0; }
+}
+
+.naf-at-fiche-h {
+  margin: 0 0 0.3rem;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--naf-bronze);
+}
+
+.naf-at-mention {
+  margin: 1.4rem 0 0;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--naf-line);
+  font-size: 0.84rem;
+  color: var(--naf-steel);
+}
+
+/* ── Impression : la fiche seule, propre ─────────────────────────── */
+
+@media print {
+  .navbar,
+  .nav-footer,
+  .naf-at-noprint,
+  #naf-at-chooser,
+  #naf-at-work,
+  #quarto-search,
+  .naf-px-panel {
+    display: none !important;
+  }
+
+  .naf-at-fiche {
+    max-width: 100%;
+  }
+
+  body { background: #fff; }
+  a { color: inherit; text-decoration: none; }
+}
+
+/* Quarto (page-layout: full) propage ses classes page-columns/page-full sur
+   les div de l'atelier et sa grille nommée écraserait la nôtre : on reprend
+   la main avec une spécificité supérieure, uniquement dans #naf-at. */
+@media (min-width: 992px) {
+  main .naf-at-layout.page-columns {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 22rem);
+    gap: 2rem;
+  }
+
+  main #naf-at.page-columns,
+  main .naf-at-main.page-columns,
+  main .naf-at-work.page-columns,
+  main .naf-at-fiche.page-columns,
+  main .naf-at-synthpanel.page-columns {
+    display: block;
+  }
+}
+
+@media (max-width: 991px) {
+  main .naf-at-layout.page-columns,
+  main #naf-at.page-columns,
+  main .naf-at-main.page-columns,
+  main .naf-at-work.page-columns {
+    display: block;
+  }
+
+  main .naf-at-synthpanel.page-columns { display: block; }
+}
+
+/* Quarto route les <aside> vers sa colonne de marge (grid-column:
+   body-end/page-end), ce qui éjecte la synthèse et crée des pistes
+   implicites : ancrage explicite des deux enfants de la grille atelier. */
+@media (min-width: 992px) {
+  main .naf-at-layout > .naf-at-main { grid-column: 1; }
+  main .naf-at-layout > .naf-at-synthpanel { grid-column: 2; grid-row: 1; }
+}
+
+@media (max-width: 991px) {
+  main .naf-at-layout > .naf-at-main,
+  main .naf-at-layout > .naf-at-synthpanel { grid-column: auto; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Boîte à outils refondue — gestes d'abord
+═══════════════════════════════════════════════════════════════════ */
+
+.naf-tb-lang {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.7rem;
+  margin-top: 0.9rem;
+}
+
+.naf-tb-lang-label {
+  font-size: 0.9rem;
+  font-weight: 650;
+  color: var(--naf-ink);
+}
+
+.naf-tb-lang-note {
+  font-size: 0.8rem;
+  color: var(--naf-steel);
+}
+
+/* Carte « Je débute » : visible sans devenir une bannière marketing. */
+.naf-tb-start {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.15rem 1.2rem;
+  align-items: center;
+  max-width: 40rem;
+  margin: 1.2rem 0 1.1rem;
+  padding: 1rem 1.25rem 1.1rem;
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-line);
+  border-left: 4px solid var(--naf-bronze);
+  border-radius: var(--naf-radius);
+  text-decoration: none;
+  transition: border-color 0.15s ease, background 0.15s ease;
+
+  &:hover,
+  &:focus-visible {
+    background: #fbf9f5;
+    border-color: var(--naf-bronze);
+    text-decoration: none;
+  }
+}
+
+.naf-tb-start-kicker {
+  font-family: var(--naf-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--naf-bronze);
+}
+
+.naf-tb-start-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--naf-ink);
+}
+
+.naf-tb-start-meta {
+  font-size: 0.84rem;
+  color: var(--naf-steel);
+}
+
+.naf-tb-start-cta {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  align-self: center;
+  font-weight: 650;
+  color: var(--naf-bronze);
+  white-space: nowrap;
+}
+
+/* Catégories de l'index des gestes */
+.naf-tb-cat {
+  margin: 1.3rem 0 0;
+  padding-bottom: 0.3rem;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--naf-steel);
+
+  &:first-child { margin-top: 0.2rem; }
+}
+
+/* Bande entrée → action → sortie */
+.naf-tb-eas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.6rem;
+  margin: 0.5rem 0 0.7rem;
+  padding: 0.6rem 0.9rem;
+  background: var(--naf-line-soft);
+  border-radius: var(--naf-radius);
+  font-size: 0.88rem;
+
+  > span > em {
+    font-style: normal;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--naf-bronze);
+    margin-right: 0.35rem;
+  }
+}
+
+.naf-tb-ilfaut,
+.naf-tb-srcline,
+.naf-tb-result,
+.naf-tb-suite {
+  margin: 0.4rem 0 0.6rem;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  max-width: 46rem;
+}
+
+.naf-tb-suite { color: var(--naf-steel); }
+
+/* Bandeau Atelier */
+.naf-tb-atelier {
+  max-width: 46rem;
+  margin: 1.6rem 0 2rem;
+  padding: 1rem 1.2rem 0.9rem;
+  background: var(--naf-surface);
+  border: 1px solid var(--naf-line);
+  border-left: 4px solid var(--naf-slate-mid);
+  border-radius: var(--naf-radius);
+
+  p { margin: 0 0 0.5rem; }
+  .naf-hand { margin: 0.2rem 0 0; }
+}
+
+.naf-tb-fin { margin-top: 2.2rem; }
+
+.naf-tb-demsteps { margin-bottom: 1.2rem; }

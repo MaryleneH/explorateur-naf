@@ -1091,6 +1091,11 @@
     params.set("v", state.versionId);
     if (state.view === "arbre") params.set("view", "arbre");
     if (state.selected) params.set("code", state.selected.data.code);
+    // Préserver l'état d'un parcours guidé actif (naf-parcours.js).
+    var current = new URLSearchParams(window.location.search);
+    ["parcours", "etape"].forEach(function (key) {
+      if (current.has(key)) params.set(key, current.get(key));
+    });
     window.history.replaceState(null, "",
       window.location.pathname + "?" + params.toString());
   }

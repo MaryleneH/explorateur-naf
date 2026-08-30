@@ -267,10 +267,15 @@
      Qualification Défense
   ═══════════════════════════════════════════════════════════════════ */
 
+  // Libellés alignés sur la couche analytique de la page NAF & Défense
+  // (assets/js/naf-constellation.js) : mêmes niveaux, mêmes mots.
   var DEFENSE_LABELS = {
-    explicite_industriel: "Défense explicite (industrie)",
+    explicite_industriel: "Défense explicite",
+    dualite_demontree: "Dualité NAF démontrée",
+    relation_intermediaire: "Technologies dual-use / écosystème observé (preuve intermédiaire)",
+    piste_dualite: "Piste de dualité (à documenter)",
+    administration_defense: "Administration de la Défense",
     dual_officiel: "Activité duale (civile et militaire)",
-    administration_defense: "Administration de la défense",
   };
 
   function defenseFor(code) {
@@ -497,10 +502,18 @@
       list.appendChild(dd);
     }
     addDef("Qualification", DEFENSE_LABELS[entry.niveau_defense] || entry.niveau_defense);
-    addDef("Justification", entry.justification);
+    if (entry.justification) addDef("Justification", entry.justification);
+    // Colonnes de la couche « dualité documentée » (usages sourcés).
+    if (entry.usages_civils) addDef("Usages civils documentés", entry.usages_civils);
+    if (entry.usages_defense) addDef("Usages Défense documentés", entry.usages_defense);
     addDef("Nature de la preuve", entry.nature_preuve);
     addDef("Niveau de confiance", entry.niveau_confiance);
     fragment.appendChild(list);
+
+    if (entry.limite_interpretation) {
+      fragment.appendChild(el("p", "naf-sheet-text naf-sheet-muted",
+        "Limite d'interprétation : " + entry.limite_interpretation));
+    }
 
     if (entry.niveau_defense === "administration_defense") {
       var warning = el("p", "naf-callout");
@@ -645,6 +658,12 @@
     params.set("v", state.versionId);
     var node = deepest();
     if (node) params.set("code", node.code);
+    // Un parcours guidé (naf-parcours.js) peut être actif : ses paramètres
+    // d'état vivent aussi dans l'URL et ne doivent pas être effacés.
+    var current = new URLSearchParams(window.location.search);
+    ["parcours", "etape"].forEach(function (key) {
+      if (current.has(key)) params.set(key, current.get(key));
+    });
     var url = window.location.pathname + "?" + params.toString();
     window.history.replaceState(null, "", url);
   }

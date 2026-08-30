@@ -103,4 +103,24 @@ python scripts/validate_reference_data.py
 
 Les sources brutes sont mises en cache dans `data/raw/`, qui n'est pas versionné.
 
+## À propos du projet
+
+Explorateur NAF est conçu et maintenu par Marylène Henry. Le code source,
+les données utilisées et l'historique des évolutions sont accessibles sur
+GitHub ; les liens vers les sources officielles y sont contrôlés
+automatiquement chaque semaine.
+
+```{=html}
+<p class="naf-comp-ctas">
+  <a class="naf-chg-cta" href="LINKEDIN_URL_A_REMPLACER"
+     target="_blank" rel="noopener noreferrer">LinkedIn</a>
+  <a class="naf-chg-cta" href="https://github.com/MaryleneH/explorateur-naf"
+     target="_blank" rel="noopener noreferrer">Code source</a>
+  <a class="naf-chg-cta"
+     href="https://github.com/MaryleneH/explorateur-naf/issues/new?template=site-feedback.yml"
+     target="_blank" rel="noopener noreferrer"
+     title="Signaler un problème sur GitHub">Signaler un problème</a>
+</p>
+```
+
 :::

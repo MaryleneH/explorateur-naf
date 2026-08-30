@@ -1,0 +1,79 @@
+# Formulaire de retour utilisateur, lié depuis le footer du site
+# (« Signaler un problème »). Volontairement court : une issue doit
+# pouvoir être déposée en moins d'une minute.
+#
+# Aucun label n'est appliqué automatiquement : pour trier les retours,
+# créer le label « feedback-site » dans le dépôt puis ajouter ici
+#   labels: ["feedback-site"]
+
+name: Signaler un problème sur le site
+description: >-
+  Merci d'aider à améliorer Explorateur NAF. Utilisez ce formulaire pour
+  signaler une erreur de donnée, une source à vérifier, un problème
+  d'affichage ou proposer une amélioration.
+title: "[Site] "
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        Merci d'aider à améliorer **Explorateur NAF**. Trois champs
+        suffisent ; le reste est facultatif.
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Type de retour
+      options:
+        - Erreur de donnée
+        - Source / lien à vérifier
+        - Problème d'affichage
+        - Problème sur mobile
+        - Problème de navigation
+        - Suggestion d'amélioration
+        - Autre
+    validations:
+      required: true
+
+  - type: input
+    id: page
+    attributes:
+      label: Page concernée
+      description: URL ou nom de la page
+      placeholder: "Ex. NAF & Défense — Activités duales"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Que constatez-vous ?
+      description: >-
+        Décrivez ce qui semble incorrect, incomplet ou difficile à utiliser.
+    validations:
+      required: true
+
+  - type: textarea
+    id: attendu
+    attributes:
+      label: Que devrait-il se passer selon vous ?
+    validations:
+      required: false
+
+  - type: input
+    id: source
+    attributes:
+      label: Source éventuelle
+      description: >-
+        Si votre remarque concerne une donnée, vous pouvez indiquer ici une
+        source ou un lien.
+    validations:
+      required: false
+
+  - type: input
+    id: contexte
+    attributes:
+      label: Contexte technique
+      description: Navigateur / téléphone / ordinateur
+      placeholder: "Ex. Edge — Windows 11 / Safari — iPhone"
+    validations:
+      required: false

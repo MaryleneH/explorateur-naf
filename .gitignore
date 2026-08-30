@@ -7,6 +7,10 @@ _site/
 
 # Fichiers sources bruts téléchargés (non versionnés)
 data/raw/
+# Cache des scripts d'études : stocks Sirene, DECP, Douanes… jamais versionnés
+data/cache/
+# Rapports du contrôle de sources (générés par scripts/quality/)
+artifacts/
 __pycache__/
 *.pyc
 

@@ -1,0 +1,104 @@
+---
+pagetitle: "État des sources — Explorateur NAF"
+title: ""
+page-layout: full
+include-after-body: "../includes/sources-scripts.html"
+---
+
+::: {.naf-page}
+
+::: {.naf-comp}
+
+```{=html}
+<div id="naf-src">
+
+  <header class="naf-viz-intro">
+    <p class="naf-comp-kicker">Bonus · État des sources</p>
+    <p class="naf-hand-heading naf-viz-title" role="heading" aria-level="1">
+      Les sources sous surveillance
+    </p>
+    <p class="naf-viz-lede">
+      Les principales sources mobilisées par Explorateur NAF, leur
+      disponibilité et leur rythme de mise à jour — parce qu'une analyse
+      statistique dépend aussi de l'état de ses sources.
+    </p>
+    <p class="naf-hand naf-viz-hand" aria-hidden="true">
+      « une bonne analyse commence aussi par savoir<br>dans quel état sont ses sources »
+    </p>
+  </header>
+
+  <section class="naf-src-summary" id="naf-src-summary"
+           aria-label="Synthèse du dernier contrôle" aria-live="polite">
+    <p class="naf-counts">Chargement de l'état des sources…</p>
+  </section>
+
+  <div class="naf-comp-vs">
+    <div class="naf-comp-vs-panel">
+      <p class="naf-comp-vs-title">Disponible ≠ récent</p>
+      <p>Une page peut répondre parfaitement alors que les dernières
+      données disponibles portent sur l'année précédente. Et une source
+      très fraîche peut être administrative, donc moins consolidée qu'une
+      statistique annuelle.</p>
+      <p class="naf-hand" aria-hidden="true">« fraîcheur technique et fraîcheur statistique,<br>ce n'est pas la même chose »</p>
+    </div>
+    <div class="naf-comp-vs-panel">
+      <p class="naf-comp-vs-title">Consolidé ≠ meilleur dans tous les cas</p>
+      <p>Savoir ce qui change cette semaine → source très fraîche
+      (BOAMP, BODACC, API). Mesurer proprement une population économique →
+      source statistique consolidée (SIDE, millésimes). Le bon choix
+      dépend de la question, jamais d'un classement des sources.</p>
+    </div>
+  </div>
+
+  <p class="naf-src-disclaimer">
+    Le contrôle automatisé vérifie une seule chose : <strong>le point
+    d'entrée officiel répond-il ?</strong> Il ne prouve ni que le contenu
+    est complet, ni que les données sont récentes, ni que le schéma n'a pas
+    changé, ni que la source convient à une étude.
+  </p>
+
+  <div class="naf-versions naf-src-filters" id="naf-src-filters"
+       role="radiogroup" aria-label="Filtrer les sources">
+    <button type="button" class="naf-version is-current" role="radio"
+            aria-checked="true" data-filter="toutes">Toutes</button>
+    <button type="button" class="naf-version" role="radio"
+            aria-checked="false" data-filter="disponibles">Disponibles</button>
+    <button type="button" class="naf-version" role="radio"
+            aria-checked="false" data-filter="surveiller">À surveiller</button>
+    <button type="button" class="naf-version" role="radio"
+            aria-checked="false" data-filter="acces">Accès spécifique</button>
+    <button type="button" class="naf-version" role="radio"
+            aria-checked="false" data-filter="opendata">Open data</button>
+    <button type="button" class="naf-version" role="radio"
+            aria-checked="false" data-filter="defense">Défense</button>
+  </div>
+
+  <div class="naf-src-list" id="naf-src-list" aria-live="polite"></div>
+
+  <section class="naf-src-rythme-wrap" aria-labelledby="naf-src-rythme-title">
+    <p class="naf-comp-kicker">Rythmes</p>
+    <p class="naf-hand-heading naf-comp-h2" id="naf-src-rythme-title"
+       role="heading" aria-level="2">
+      Toutes les sources ne battent pas au même rythme
+    </p>
+    <p class="naf-comp-lede">
+      Le rythme de publication vient du manifeste de provenance, pas d'un
+      jugement : ce n'est pas un classement de qualité.
+    </p>
+    <div class="naf-src-rythme" id="naf-src-rythme"></div>
+    <p class="naf-hand naf-comp-hand" aria-hidden="true">« la bonne fraîcheur dépend de la question »</p>
+  </section>
+
+  <p>
+    Pour récupérer une source en R ou en Python, chaque fiche renvoie vers
+    la <a href="../comprendre/boite-outils.html">Boîte à outils</a> ; pour
+    les notions de grain et d'unité statistique, voir
+    <a href="../comprendre/index.html#les-sources">Comprendre</a>.
+  </p>
+
+</div>
+```
+
+:::
+
+:::

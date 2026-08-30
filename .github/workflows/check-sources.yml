@@ -1,0 +1,78 @@
+# Contrôle de disponibilité des sources officielles référencées par le site.
+#
+# Volontairement SÉPARÉ du workflow Pages : une panne temporaire chez un
+# producteur de données ne doit jamais empêcher le déploiement du site.
+# En revanche un lien 404/410 sur une source critique fait échouer CE
+# workflow, pour être vu et corrigé.
+#
+# Aucune donnée n'est téléchargée : HEAD puis GET partiel (2 Ko, 30 Ko au
+# plus pour un contrôle de mot-clé).
+#
+# État des sources (page Bonus) : le checker écrit
+# data/quality/source_status.json UNIQUEMENT quand un statut change
+# (zéro churn : pas de commit hebdomadaire pour une simple date). Quand le
+# fichier change lors d'un passage planifié ou manuel, il est commité, ce
+# qui redéploie le site avec l'état à jour. Les runs déclenchés par push
+# ne committent jamais (pas de course avec le travail en cours).
+
+name: Contrôle des sources
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Une fois par semaine, le lundi matin : inutile de solliciter les
+    # administrations plus souvent.
+    - cron: "17 6 * * 1"
+  push:
+    branches: [main]
+    paths:
+      - data/etudes/sources.csv
+      - scripts/quality/**
+      - tests/**
+      - comprendre/boite-outils.qmd
+      - bonus/sources.qmd
+      - .github/workflows/check-sources.yml
+
+permissions:
+  contents: write
+
+jobs:
+  check-sources:
+    name: Manifeste et liens
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Tests unitaires (sans réseau)
+        run: python -m unittest discover -s tests -v
+
+      - name: Contrôle des liens du manifeste
+        run: python scripts/quality/check_sources.py
+
+      - name: Publier le nouvel état si un statut a changé
+        if: github.event_name != 'push'
+        run: |
+          if git diff --quiet -- data/quality/source_status.json; then
+            echo "Statuts inchangés : rien à publier."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add data/quality/source_status.json
+            git commit -m "chore: état des sources — un statut a changé (contrôle automatisé)"
+            git push
+          fi
+
+      - name: Publier le rapport
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: source-link-report
+          path: artifacts/source-link-report.*
+          retention-days: 30

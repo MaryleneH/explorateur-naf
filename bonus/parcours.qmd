@@ -1,0 +1,39 @@
+---
+pagetitle: "Parcours guidés — Explorateur NAF"
+title: ""
+page-layout: full
+include-after-body: "../includes/bonus-scripts.html"
+---
+
+::: {.naf-page}
+
+::: {.naf-comp}
+
+```{=html}
+<header class="naf-viz-intro">
+  <p class="naf-comp-kicker">Bonus · Parcours guidés</p>
+  <p class="naf-hand-heading naf-viz-title" role="heading" aria-level="1">
+    Suivez une histoire dans la NAF
+  </p>
+  <p class="naf-viz-lede">
+    Quelques minutes pour comprendre une idée à partir des données, des
+    codes et des visualisations du site. Chaque parcours vous emmène sur
+    les vraies pages, avec un fil narratif que vous pouvez quitter à tout
+    moment.
+  </p>
+  <p class="naf-hand naf-viz-hand" aria-hidden="true">
+    « parfois, il suffit de suivre le bon chemin »
+  </p>
+</header>
+
+<section class="naf-px-introcard" id="naf-px-intro" hidden
+         aria-label="Introduction du parcours choisi"></section>
+
+<nav class="naf-px-list" id="naf-px-list" aria-label="Choisir un parcours">
+  Chargement des parcours…
+</nav>
+```
+
+:::
+
+:::
