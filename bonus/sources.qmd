@@ -13,7 +13,7 @@ include-after-body: "../includes/sources-scripts.html"
 <div id="naf-src">
 
   <header class="naf-viz-intro">
-    <p class="naf-comp-kicker">Bonus · État des sources</p>
+    <p class="naf-comp-kicker">Boîte à outils · État des sources</p>
     <p class="naf-hand-heading naf-viz-title" role="heading" aria-level="1">
       Les sources sous surveillance
     </p>
@@ -90,10 +90,10 @@ include-after-body: "../includes/sources-scripts.html"
   </section>
 
   <p>
-    Pour récupérer une source en R ou en Python, chaque fiche renvoie vers
-    la <a href="../comprendre/boite-outils.html">Boîte à outils</a> ; pour
-    les notions de grain et d'unité statistique, voir
-    <a href="../comprendre/index.html#les-sources">Comprendre</a>.
+    Vous voulez récupérer ces données ? Chaque fiche renvoie vers
+    <a href="../comprendre/boite-outils.html">Démarrage &amp; recettes</a>
+    (Boîte à outils) ; pour les notions de grain et d'unité statistique,
+    voir <a href="../comprendre/index.html#les-sources">Comprendre</a>.
   </p>
 
 </div>

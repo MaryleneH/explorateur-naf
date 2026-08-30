@@ -9,6 +9,7 @@ title: ""
 <div class="naf-prog" id="naf-prog">
 
   <header class="naf-viz-intro">
+    <p class="naf-comp-kicker">Boîte à outils · Programmes &amp; cas pratiques</p>
     <p class="naf-hand-heading naf-viz-title" role="heading" aria-level="1">Programmes &amp; cas pratiques</p>
     <p class="naf-viz-lede">
       Des scripts complets en R et Python, du fichier brut jusqu'à une
@@ -94,7 +95,16 @@ title: ""
     </p>
   </section>
 
-  <p class="naf-chg-fluxlink">
+  <div class="naf-bx-chaine" role="img"
+       aria-label="Progression du site : Comprendre pour les concepts, l'Atelier pour la méthode, la Boîte à outils pour les gestes, les Programmes pour les traitements complets.">
+    <span>Comprendre — concepts</span><span aria-hidden="true">→</span>
+    <span>Atelier — méthode</span><span aria-hidden="true">→</span>
+    <span>Boîte à outils — gestes</span><span aria-hidden="true">→</span>
+    <span>Programmes — traitements complets</span>
+  </div>
+
+  <p class="naf-chg-fluxlink">Besoin de choisir une source avant de coder ?
+    <a class="naf-chg-cta" href="../../bonus/atelier.html">Ouvrir l'Atelier d'étude →</a>
     <a class="naf-chg-cta" href="../boite-outils.html">← Retour à la Boîte à outils</a>
   </p>
 </div>

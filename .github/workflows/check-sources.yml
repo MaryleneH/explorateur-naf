@@ -8,7 +8,7 @@
 # Aucune donnée n'est téléchargée : HEAD puis GET partiel (2 Ko, 30 Ko au
 # plus pour un contrôle de mot-clé).
 #
-# État des sources (page Bonus) : le checker écrit
+# État des sources (rubrique Boîte à outils) : le checker écrit
 # data/quality/source_status.json UNIQUEMENT quand un statut change
 # (zéro churn : pas de commit hebdomadaire pour une simple date). Quand le
 # fichier change lors d'un passage planifié ou manuel, il est commité, ce

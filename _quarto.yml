@@ -10,9 +10,9 @@ project:
     - data/etudes/*.csv
     # Contenu des parcours guidés, chargé par assets/js/naf-parcours.js.
     - data/parcours.json
-    # Dernier état de contrôle des sources (page Bonus « État des sources »).
+    # Dernier état de contrôle des sources (page « État des sources »).
     - data/quality/*.json
-    # Règles méthodologiques de l'Atelier d'étude (Bonus 03).
+    # Règles méthodologiques de l'Atelier d'étude.
     - data/atelier_scenarios.json
     # Cas pratique BODACC (Programmes & cas pratiques) : les trois annonces
     # réelles, leurs réponses API archivées, la traçabilité et les sorties
@@ -34,6 +34,11 @@ website:
     title: "NAF 2008–2025"
     logo: assets/img/logo-naf.svg
     logo-alt: "Explorateur NAF — retour à l'accueil"
+    # Architecture de navigation : la navbar raconte la progression
+    # EXPLORER → COMPRENDRE → CADRER → AGIR → APPROFONDIR → VÉRIFIER,
+    # sans en faire un tunnel. Les pages historiques de bonus/ gardent
+    # leur chemin physique (deep links préservés) : seule la navigation
+    # visible les reclasse.
     left:
       - text: Explorer
         menu:
@@ -41,6 +46,8 @@ website:
             text: Naviguer dans la NAF
           - href: explorer/visualisation.qmd
             text: Voyage visuel
+          - href: bonus/parcours.qmd
+            text: Parcours guidés
       - text: NAF 2008 ↔ 2025
         menu:
           - href: comparer/index.qmd
@@ -49,18 +56,24 @@ website:
             text: Voyage 2008 → 2025
       - href: defense/index.qmd
         text: NAF & Défense
-      - href: comprendre/index.qmd
-        text: Comprendre
-      - href: methode/index.qmd
-        text: Méthode & sources
-      - text: Bonus
+      - text: Comprendre
         menu:
-          - href: bonus/parcours.qmd
-            text: Parcours guidés
-          - href: bonus/sources.qmd
-            text: État des sources
+          - href: comprendre/index.qmd
+            text: Comprendre la NAF
           - href: bonus/atelier.qmd
             text: Atelier d'étude
+      - text: Boîte à outils
+        menu:
+          - href: comprendre/boite-outils.qmd
+            text: Démarrage & recettes
+          - href: comprendre/programmes/index.qmd
+            text: Programmes & cas pratiques
+          - href: comprendre/programmes/bodacc-json.qmd
+            text: JSON BODACC · cas complet
+          - href: bonus/sources.qmd
+            text: État des sources
+      - href: methode/index.qmd
+        text: Méthode & provenance
     right:
       - search
   # Footer global : auteur, transparence (code source), amélioration continue

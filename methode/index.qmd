@@ -1,11 +1,12 @@
 ---
-title: "Méthode & sources"
+title: "Méthode & provenance"
 ---
 
 ::: {.naf-compare}
 
-Cette page documente l'origine des données affichées, les contrôles qui les
-protègent et les limites connues.
+Cette page documente le site lui-même : l'origine de ses données, les
+traitements qui les produisent, les contrôles qui les protègent et les
+limites connues.
 
 ## Données publiées
 

@@ -1,6 +1,6 @@
 /**
  * naf-sources.js
- * Bonus — État des sources : l'observatoire pédagogique des sources.
+ * État des sources (rubrique Boîte à outils) : l'observatoire pédagogique des sources.
  *
  * Deux fichiers, deux rôles, assemblés ici :
  *   data/etudes/sources.csv         identité, grain, fréquence, accès,

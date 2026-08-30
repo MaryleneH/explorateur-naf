@@ -1,6 +1,6 @@
 /**
  * naf-parcours.js
- * Parcours guidés (rubrique Bonus) : une couche narrative AU-DESSUS des
+ * Parcours guidés (rubrique Explorer) : une couche narrative AU-DESSUS des
  * pages existantes, jamais à leur place.
  *
  * Principe : l'URL est l'état. `?parcours=<id>&etape=<n>` sur n'importe

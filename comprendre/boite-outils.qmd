@@ -11,6 +11,7 @@ include-after-body: "../includes/toolbox-scripts.html"
 
 ```{=html}
 <header class="naf-viz-intro">
+  <p class="naf-comp-kicker">Boîte à outils · Démarrage &amp; recettes</p>
   <p class="naf-hand-heading naf-viz-title" role="heading" aria-level="1">
     La boîte à outils du statisticien
   </p>

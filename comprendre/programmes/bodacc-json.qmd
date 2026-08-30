@@ -10,6 +10,7 @@ include-after-body: "../../includes/programmes-scripts.html"
 <div class="naf-prog naf-bx" id="naf-bx">
 
   <header class="naf-viz-intro">
+    <p class="naf-comp-kicker">Boîte à outils · Programmes &amp; cas pratiques</p>
     <p class="naf-prog-retour"><a class="naf-link" href="index.html">← Retour à la bibliothèque</a></p>
     <p class="naf-hand-heading naf-viz-title" role="heading" aria-level="1">Du JSON BODACC à une table statistique</p>
     <p class="naf-viz-lede">

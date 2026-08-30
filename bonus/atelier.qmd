@@ -13,7 +13,7 @@ include-after-body: "../includes/atelier-scripts.html"
 <div id="naf-at">
 
   <header class="naf-viz-intro naf-at-noprint">
-    <p class="naf-comp-kicker">Bonus · Atelier d'étude</p>
+    <p class="naf-comp-kicker">Comprendre · Atelier d'étude</p>
     <p class="naf-hand-heading naf-viz-title" role="heading" aria-level="1">
       Construire une étude
     </p>
@@ -44,6 +44,10 @@ include-after-body: "../includes/atelier-scripts.html"
          role="complementary" aria-label="Synthèse du protocole"
          aria-live="polite"></div>
   </div>
+
+  <p class="naf-chg-fluxlink">Votre protocole est prêt ?
+    <a class="naf-chg-cta" href="../comprendre/boite-outils.html">Passer à la Boîte à outils →</a>
+  </p>
 
 </div>
 ```

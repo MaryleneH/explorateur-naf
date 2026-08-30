@@ -23,10 +23,20 @@ Architecture V1 d'un site **Quarto Website** pour :
 
 ## Structure
 
+La navigation raconte la progression *explorer → comprendre → cadrer →
+agir → approfondir → vérifier* : **Explorer** (navigation, voyage visuel,
+parcours guidés), **NAF 2008 ↔ 2025**, **NAF & Défense**, **Comprendre**
+(concepts + Atelier d'étude), **Boîte à outils** (démarrage & recettes,
+programmes & cas pratiques, JSON BODACC, état des sources), **Méthode &
+provenance**.
+
 - `_quarto.yml` : configuration du site et navigation.
 - `index.qmd` : accueil court avec trois portes d'entrée.
 - `explorer/index.qmd` : composant principal d'exploration hiérarchique.
 - `comparer/`, `defense/`, `comprendre/`, `methode/` : pages métier structurantes.
+- `bonus/` : chemins historiques des Parcours guidés, de l'Atelier d'étude
+  et de l'État des sources — conservés pour la stabilité des liens, mais
+  présentés dans la navigation sous leurs rubriques actuelles.
 - `assets/css/theme.scss` : design system (couleurs, layout, états interactifs).
 - `assets/js/naf-core.js` : chargement des CSV, arbre hiérarchique, index de recherche.
 - `assets/js/naf-explorer.js` : navigation en colonnes (desktop) et drill-down (mobile).

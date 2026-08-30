@@ -11,7 +11,7 @@ include-after-body: "../includes/bonus-scripts.html"
 
 ```{=html}
 <header class="naf-viz-intro">
-  <p class="naf-comp-kicker">Bonus · Parcours guidés</p>
+  <p class="naf-comp-kicker">Explorer · Parcours guidés</p>
   <p class="naf-hand-heading naf-viz-title" role="heading" aria-level="1">
     Suivez une histoire dans la NAF
   </p>

@@ -1,5 +1,5 @@
 ---
-pagetitle: "Bonus — Explorateur NAF"
+pagetitle: "Explorer autrement — Explorateur NAF"
 title: ""
 page-layout: full
 ---
@@ -10,14 +10,15 @@ page-layout: full
 
 ```{=html}
 <header class="naf-viz-intro">
-  <p class="naf-comp-kicker">Bonus</p>
+  <p class="naf-comp-kicker">Ancienne rubrique Bonus</p>
   <p class="naf-hand-heading naf-viz-title" role="heading" aria-level="1">Explorer autrement</p>
   <p class="naf-viz-lede">
-    Quelques expériences pour parcourir la NAF, ses transformations et ses
-    usages statistiques autrement. Rien de nouveau à apprendre par cœur :
-    des chemins pour mieux comprendre ce qui est déjà là.
+    Les expériences initialement réunies ici ont grandi : elles ont
+    désormais rejoint les rubriques auxquelles elles appartiennent. Cette
+    page reste en place pour que les anciens liens continuent de
+    fonctionner.
   </p>
-  <p class="naf-hand naf-viz-hand" aria-hidden="true">« explorer autrement »</p>
+  <p class="naf-hand naf-viz-hand" aria-hidden="true">« chaque chose à sa place »</p>
 </header>
 
 <section class="naf-bx-module" aria-labelledby="naf-bx-parcours">
@@ -25,7 +26,7 @@ page-layout: full
   <h2 class="naf-bx-module-title" id="naf-bx-parcours">Parcours guidés</h2>
   <p class="naf-bx-module-desc">Suivre une histoire à travers les données,
   les codes et les visualisations du site.</p>
-  <p class="naf-bx-module-meta">4 parcours · 3 à 5 min</p>
+  <p class="naf-bx-module-meta">désormais dans <strong>Explorer</strong> · 4 parcours · 3 à 5 min</p>
   <p class="naf-comp-ctas" style="grid-column: 2;">
     <a class="naf-chg-cta" href="parcours.html">Choisir un parcours →</a>
   </p>
@@ -36,7 +37,7 @@ page-layout: full
   <h2 class="naf-bx-module-title" id="naf-bx-sources">État des sources</h2>
   <p class="naf-bx-module-desc">Voir les sources du site, leur rythme et
   leur disponibilité — contrôlées automatiquement chaque semaine.</p>
-  <p class="naf-bx-module-meta">observatoire · contrôle hebdomadaire automatisé</p>
+  <p class="naf-bx-module-meta">désormais dans <strong>Boîte à outils</strong> · contrôle hebdomadaire automatisé</p>
   <p class="naf-comp-ctas" style="grid-column: 2;">
     <a class="naf-chg-cta" href="sources.html">Ouvrir l'observatoire →</a>
   </p>
@@ -47,7 +48,7 @@ page-layout: full
   <h2 class="naf-bx-module-title" id="naf-bx-atelier">Atelier d'étude</h2>
   <p class="naf-bx-module-desc">Partir d'une question et construire un
   protocole statistique adapté.</p>
-  <p class="naf-bx-module-meta">question · unité · sources · limites</p>
+  <p class="naf-bx-module-meta">désormais dans <strong>Comprendre</strong> · question · unité · sources · limites</p>
   <p class="naf-comp-ctas" style="grid-column: 2;">
     <a class="naf-chg-cta" href="atelier.html">Construire une étude →</a>
   </p>

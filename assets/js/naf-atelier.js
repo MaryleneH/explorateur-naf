@@ -1,6 +1,6 @@
 /**
  * naf-atelier.js
- * Bonus — Atelier d'étude : une interface de raisonnement méthodologique.
+ * Atelier d'étude (rubrique Comprendre) : une interface de raisonnement méthodologique.
  *
  * L'atelier n'est ni un chatbot ni un tunnel : l'utilisateur choisit une
  * question, puis compose librement objet observé, périmètre, sources,

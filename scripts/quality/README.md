@@ -15,7 +15,8 @@ scripts/quality/check_sources.py
         │                                           non versionné)
         └── data/quality/source_status.json         état agrégé PAR SOURCE,
                                                     versionné, consommé par
-                                                    la page Bonus
+                                                    la page « État
+                                                    des sources »
         ↓
 bonus/sources.qmd + assets/js/naf-sources.js
                                  assemblent manifeste + snapshot
