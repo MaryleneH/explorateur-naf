@@ -11,7 +11,7 @@ include-after-body: "includes/home-scripts.html"
 
   <div class="naf-hero-main">
     <p class="naf-hero-kicker">NAF 2008–2025 · Nomenclature d'activités française</p>
-    <p class="naf-hand-heading naf-hero-title" role="heading" aria-level="1">Du secteur à l'activité</p>
+    <p class="naf-hand-heading naf-hero-title" role="heading" aria-level="1">Explorer les activités, niveau par niveau</p>
     <p class="naf-hero-sub">
       Explorer les activités <strong>du général au très précis</strong> —
       des 22 sections jusqu'aux 747 sous-classes, dans les deux nomenclatures.
