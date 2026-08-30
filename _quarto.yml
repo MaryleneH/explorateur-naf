@@ -14,6 +14,13 @@ project:
     - data/quality/*.json
     # Règles méthodologiques de l'Atelier d'étude (Bonus 03).
     - data/atelier_scenarios.json
+    # Cas pratique BODACC (Programmes & cas pratiques) : les trois annonces
+    # réelles, leurs réponses API archivées, la traçabilité et les sorties
+    # du programme — chargées en fetch() par assets/js/naf-bodacc.js.
+    - data/exemples/bodacc/raw/*.json
+    - data/exemples/bodacc/reponses_api/*.json
+    - data/exemples/bodacc/processed/*.csv
+    - data/exemples/bodacc/provenance.csv
     # La police d'annotation est référencée depuis fonts.css : Quarto ne suit
     # pas les url() des feuilles de style, il faut la déclarer explicitement.
     - assets/fonts/*.woff2

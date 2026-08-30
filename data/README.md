@@ -85,11 +85,37 @@ Règles contrôlées par `scripts/validate_reference_data.py` :
 
 - une dualité NAF démontrée exige une preuve de nomenclature
   (`libelle_officiel`, `note_officielle_insee`, `nomenclature_produits_cpf`,
-  `structure_naf_2025`) **et** un `source_repere` (la phrase à chercher dans
-  la source) — EDIS ou le règlement européen seuls ne suffisent jamais ;
+  `structure_naf_2025`, `table_correspondance_officielle`) **et** un
+  `source_repere` (la phrase à chercher dans la source) — EDIS ou le
+  règlement européen seuls ne suffisent jamais ;
 - toute preuve intermédiaire porte une `limite_interpretation` affichée
   (« ce qu'il ne faut pas en déduire ») ;
 - les catégories annoncées ne sont jamais vides ; les pistes sont marquées et
   exclues des compteurs ;
 - fournisseur n'est pas dual : observer des fournisseurs de la Défense dans
   un code ne suffit jamais à qualifier la sous-classe.
+
+## `exemples/bodacc/`
+
+Fixtures pédagogiques du cas pratique « Du JSON BODACC à une table
+statistique » (rubrique Programmes & cas pratiques) :
+
+- `reponses_api/` — les réponses **complètes et verbatim** de l'API
+  officielle Opendatasoft de la DILA (dataset `annonces-commerciales`),
+  collectées le 2026-08-30 : facettes des familles d'avis + trois requêtes
+  de 3 annonces (créations, procédures collectives, radiations) ;
+- `raw/` — les **trois annonces retenues** (une par famille, toutes des
+  personnes morales), extraites des réponses sans modification de contenu
+  (réindentation JSON uniquement — l'identité champ à champ avec la
+  réponse API est vérifiée par `tests/test_bodacc_examples.py`) ;
+- `provenance.csv` — traçabilité complète : id, famille, URL d'API, URL de
+  l'annonce, date de collecte, producteur (DILA), licence (Licence
+  Ouverte 2.0), critères de sélection ;
+- `processed/` — les sorties **réellement produites** par
+  `scripts/programmes/python/bodacc_json.py` (tables annonces et
+  événements harmonisés + rapport de qualité `bodacc_controles.csv`).
+
+Exception pédagogique assumée : ces trois annonces minuscules sont
+versionnées ; le dépôt ne doit jamais contenir d'extraction massive
+BODACC. Ce ne sont pas des données d'étude : trois exemples techniques,
+en aucun cas un échantillon statistique.

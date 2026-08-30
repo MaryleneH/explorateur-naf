@@ -1,0 +1,10 @@
+controle,valeur,statut
+fichiers_lus,3,OK
+annonces_produites,3,OK
+id_annonce_renseigne,3,OK
+id_annonce_unique,3,OK
+siren_9_chiffres,3,OK
+date_parution_valide,3,OK
+famille_avis_renseignee,3,OK
+evenements_produits,3,OK
+anomalies_signalees,1,A_LIRE

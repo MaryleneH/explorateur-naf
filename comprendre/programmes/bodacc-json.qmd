@@ -1,0 +1,667 @@
+---
+pagetitle: "Du JSON BODACC à une table statistique — Explorateur NAF"
+title: ""
+include-after-body: "../../includes/programmes-scripts.html"
+---
+
+::: {.naf-page}
+
+```{=html}
+<div class="naf-prog naf-bx" id="naf-bx">
+
+  <header class="naf-viz-intro">
+    <p class="naf-prog-retour"><a class="naf-link" href="index.html">← Retour à la bibliothèque</a></p>
+    <p class="naf-hand-heading naf-viz-title" role="heading" aria-level="1">Du JSON BODACC à une table statistique</p>
+    <p class="naf-viz-lede">
+      Comprendre un fichier semi-structuré, explorer sa structure, puis
+      construire une donnée exploitable en R ou Python — sur trois vraies
+      annonces publiées au Bulletin officiel des annonces civiles et
+      commerciales.
+    </p>
+    <p class="naf-hand naf-viz-hand" aria-hidden="true">« le JSON n'est pas un tableau qui s'ignore »</p>
+    <p class="naf-tb-srcline"><strong>Source :</strong> BODACC (DILA) ·
+    <a class="naf-link" data-src-doc="bodacc" target="_blank"
+       rel="noopener noreferrer">Portail officiel ↗</a> ·
+    <a class="naf-link" href="../../bonus/sources.html#source-bodacc">Fiche de la source →</a> ·
+    exemples récupérés le 30&nbsp;août&nbsp;2026 · Licence Ouverte 2.0 ·
+    traçabilité&nbsp;: <span class="naf-mono">data/exemples/bodacc/provenance.csv</span></p>
+  </header>
+
+  <!-- Progression -->
+  <div class="naf-bx-chaine" role="img"
+       aria-label="Progression du cas pratique : comprendre, explorer, extraire, normaliser, contrôler, analyser.">
+    <span>comprendre</span><span aria-hidden="true">→</span>
+    <span>explorer</span><span aria-hidden="true">→</span>
+    <span>extraire</span><span aria-hidden="true">→</span>
+    <span>normaliser</span><span aria-hidden="true">→</span>
+    <span>contrôler</span><span aria-hidden="true">→</span>
+    <span>analyser</span>
+  </div>
+
+  <nav class="naf-comp-nav" aria-label="Sommaire du cas pratique">
+    <a class="naf-comp-nav-link" href="#bx-json"><span class="naf-comp-nav-num">01</span> Qu'est-ce qu'un JSON ?</a>
+    <a class="naf-comp-nav-link" href="#bx-semi"><span class="naf-comp-nav-num">02</span> Pourquoi « semi-structuré » ?</a>
+    <a class="naf-comp-nav-link" href="#bx-fichiers"><span class="naf-comp-nav-num">03</span> Trois vrais fichiers</a>
+    <a class="naf-comp-nav-link" href="#bx-grain"><span class="naf-comp-nav-num">04</span> Qu'est-ce qu'une ligne ?</a>
+    <a class="naf-comp-nav-link" href="#bx-explorer"><span class="naf-comp-nav-num">05</span> Explorer la structure</a>
+    <a class="naf-comp-nav-link" href="#bx-tables"><span class="naf-comp-nav-num">06</span> Construire les tables</a>
+    <a class="naf-comp-nav-link" href="#bx-controles"><span class="naf-comp-nav-num">07</span> Contrôler le résultat</a>
+    <a class="naf-comp-nav-link" href="#bx-exploiter"><span class="naf-comp-nav-num">08</span> Exploiter la donnée</a>
+    <a class="naf-comp-nav-link" href="#bx-echelle"><span class="naf-comp-nav-num">09</span> Et 10 000 fichiers ?</a>
+    <a class="naf-comp-nav-link" href="#bx-programme"><span class="naf-comp-nav-num">10</span> Programme complet</a>
+  </nav>
+
+  <!-- ══════════════ 01 · QU'EST-CE QU'UN JSON ? ══════════════ -->
+  <section class="naf-comp-section" id="bx-json">
+    <p class="naf-comp-kicker">01 · Comprendre</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Qu'est-ce qu'un JSON&nbsp;?</p>
+    <p class="naf-bx-texte">
+      JSON — <em>JavaScript Object Notation</em> — est un format d'échange
+      en texte brut. Tout fichier JSON se construit avec très peu de
+      briques&nbsp;:
+    </p>
+    <div class="naf-bx-briques" role="list">
+      <div role="listitem"><span class="naf-mono">"texte"&nbsp;· 12&nbsp;· true</span><em>des valeurs</em></div>
+      <div role="listitem"><span class="naf-mono">"cle": valeur</span><em>des paires clé&nbsp;:&nbsp;valeur</em></div>
+      <div role="listitem"><span class="naf-mono">{ … }</span><em>un objet — des paires regroupées</em></div>
+      <div role="listitem"><span class="naf-mono">[ … ]</span><em>une liste — des valeurs ordonnées</em></div>
+      <div role="listitem"><span class="naf-mono">{ "a": { "b": … } }</span><em>un objet dans un objet</em></div>
+      <div role="listitem"><span class="naf-mono">[ { … }, { … } ]</span><em>une liste d'objets</em></div>
+      <div role="listitem"><span class="naf-mono">null</span><em>l'absence explicite de valeur</em></div>
+    </div>
+    <p class="naf-bx-texte">Chaque brique a un équivalent naturel dans
+    votre langage&nbsp;:</p>
+    <div class="naf-comp-grainwrap">
+      <table class="naf-comp-grain">
+        <thead>
+          <tr><th scope="col">JSON</th><th scope="col">Python</th><th scope="col">R</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>objet <span class="naf-mono">{ }</span></td><td><span class="naf-mono">dict</span></td><td><span class="naf-mono">list</span> nommée</td></tr>
+          <tr><td>tableau <span class="naf-mono">[ ]</span></td><td><span class="naf-mono">list</span></td><td><span class="naf-mono">list</span></td></tr>
+          <tr><td>chaîne</td><td><span class="naf-mono">str</span></td><td><span class="naf-mono">character</span></td></tr>
+          <tr><td>nombre</td><td><span class="naf-mono">int / float</span></td><td><span class="naf-mono">numeric</span></td></tr>
+          <tr><td><span class="naf-mono">true / false</span></td><td><span class="naf-mono">True / False</span></td><td><span class="naf-mono">TRUE / FALSE</span></td></tr>
+          <tr><td><span class="naf-mono">null</span></td><td><span class="naf-mono">None</span></td><td><span class="naf-mono">NULL</span> (souvent lu <span class="naf-mono">NA</span>)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="naf-callout"><strong>Nuance.</strong> Ce tableau décrit la
+    correspondance de principe. En R, <span class="naf-mono">jsonlite</span>
+    <em>simplifie</em> par défaut&nbsp;: une liste de nombres devient un
+    vecteur, une liste d'objets homogènes devient un data.frame. Pratique,
+    mais trompeur quand on veut <em>voir</em> la structure — d'où le
+    <span class="naf-mono">simplifyVector = FALSE</span> utilisé plus bas.</p>
+  </section>
+
+  <!-- ══════════════ 02 · SEMI-STRUCTURÉ ══════════════ -->
+  <section class="naf-comp-section" id="bx-semi">
+    <p class="naf-comp-kicker">02 · Comprendre</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Pourquoi dit-on «&nbsp;semi-structuré&nbsp;»&nbsp;?</p>
+    <p class="naf-bx-texte">
+      Le BODACC publie les événements juridiques de la vie des
+      entreprises&nbsp;: immatriculations et créations, ventes et cessions,
+      modifications, radiations, procédures collectives, dépôts des
+      comptes. Toutes ces annonces partagent un socle commun (identifiant,
+      date de parution, tribunal, famille d'avis…) — mais chaque famille
+      remplit des <strong>branches différentes</strong>. Voici la structure
+      réelle de notre première annonce (une création)&nbsp;:
+    </p>
+<pre class="naf-bx-arbre" aria-label="Arborescence de l'annonce de création : un socle commun de champs simples, puis des branches imbriquées — listepersonnes, listeetablissements, acte — et des branches à null comme jugement ou radiationaurcs.">
+annonce (racine)
+│
+├── id                     "A20260165166"
+├── dateparution           "2026-08-30"
+├── familleavis            "creation"
+├── tribunal, registre, ville, cp, …
+│
+├── listepersonnes         ⚠ une chaîne qui contient du JSON
+│   └── personne
+│       ├── typePersonne           "pm"  (personne morale)
+│       ├── numeroImmatriculation  { numeroIdentification, codeRCS, nomGreffeImmat }
+│       ├── denomination · formeJuridique · administration
+│       ├── capital                { montantCapital, devise }
+│       └── adresseSiegeSocial     { nomVoie, localite, codePostal, ville }
+│
+├── listeetablissements    ⚠ une chaîne qui contient du JSON
+│   └── etablissement      { origineFonds, qualiteEtablissement, activite, adresse }
+│
+├── acte                   ⚠ une chaîne qui contient du JSON
+│   └── { dateImmatriculation, dateCommencementActivite,
+│         creation: { categorieCreation } }
+│
+└── jugement · radiationaurcs · depot · …     null dans CETTE annonce
+</pre>
+    <p class="naf-bx-fort"><strong>Absence d'un champ ≠ erreur de
+    fichier.</strong> Une création n'a pas de <span class="naf-mono">jugement</span>&nbsp;;
+    une procédure collective n'a pas d'<span class="naf-mono">acte</span> de
+    création. Selon le type d'annonce, certaines branches ne sont tout
+    simplement pas pertinentes — c'est cela, une donnée semi-structurée.</p>
+    <p class="naf-hand naf-bx-hand" aria-hidden="true">« avant d'aplatir, regarder la structure »</p>
+  </section>
+
+  <!-- ══════════════ 03 · TROIS VRAIS FICHIERS ══════════════ -->
+  <section class="naf-comp-section" id="bx-fichiers">
+    <p class="naf-comp-kicker">03 · Explorer</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Même source, structures différentes</p>
+    <p class="naf-bx-texte">
+      Trois annonces réelles, récupérées via
+      <a class="naf-link" href="https://bodacc-datadila.opendatasoft.com/explore/dataset/annonces-commerciales/"
+         target="_blank" rel="noopener noreferrer">l'API officielle Opendatasoft de la DILA ↗</a>
+      (dataset <span class="naf-mono">annonces-commerciales</span>) et
+      versionnées dans
+      <span class="naf-mono">data/exemples/bodacc/raw/</span> — une
+      création, une procédure collective, une radiation, toutes trois des
+      <strong>personnes morales</strong>. La matrice ci-dessous est
+      calculée à partir des fichiers eux-mêmes&nbsp;:
+    </p>
+    <div id="naf-bx-matrix">
+      <p class="naf-bx-repli">Matrice calculée au chargement de la page —
+      à défaut, ouvrir les trois fichiers de
+      <span class="naf-mono">data/exemples/bodacc/raw/</span>.</p>
+    </div>
+    <p class="naf-hand naf-bx-hand" aria-hidden="true">« voilà pourquoi le JSON est semi-structuré »</p>
+
+    <details class="naf-sheet-section">
+      <summary class="naf-sheet-summary"><span class="naf-sheet-summary-text">Lire l'annonce 1 — création (BHRC, Gardanne)</span></summary>
+      <div class="naf-sheet-body">
+        <pre class="naf-bx-json" id="naf-bx-json-1">Extrait chargé depuis data/exemples/bodacc/raw/01_creation.json</pre>
+      </div>
+    </details>
+    <details class="naf-sheet-section">
+      <summary class="naf-sheet-summary"><span class="naf-sheet-summary-text">Lire l'annonce 2 — procédure collective (redressement judiciaire)</span></summary>
+      <div class="naf-sheet-body">
+        <pre class="naf-bx-json" id="naf-bx-json-2">Extrait chargé depuis data/exemples/bodacc/raw/02_procedure_collective.json</pre>
+      </div>
+    </details>
+    <details class="naf-sheet-section">
+      <summary class="naf-sheet-summary"><span class="naf-sheet-summary-text">Lire l'annonce 3 — radiation (l'annonce minimale)</span></summary>
+      <div class="naf-sheet-body">
+        <pre class="naf-bx-json" id="naf-bx-json-3">Extrait chargé depuis data/exemples/bodacc/raw/03_radiation.json</pre>
+        <p class="naf-bx-texte">Dans cet avis initial de radiation, la
+        branche <span class="naf-mono">radiationaurcs</span> vaut
+        <span class="naf-mono">null</span>&nbsp;: l'annonce ne publie que
+        l'identité de la société radiée. Un programme qui suppose la
+        branche présente plantera — le nôtre la traite comme un cas normal
+        et le consigne.</p>
+      </div>
+    </details>
+
+    <p class="naf-callout"><strong>Piège réel&nbsp;: du JSON dans le
+    JSON.</strong> Dans ce dataset, les branches imbriquées
+    (<span class="naf-mono">listepersonnes</span>,
+    <span class="naf-mono">jugement</span>, <span class="naf-mono">acte</span>…)
+    ne sont pas des objets mais des <em>chaînes de caractères</em> qui
+    contiennent elles-mêmes du JSON&nbsp;:
+    <span class="naf-mono" id="naf-bx-imbrique-brut">"{\"personne\": …}"</span>.
+    Il faut donc les re-parser — un <span class="naf-mono">json.loads()</span>
+    (Python) ou <span class="naf-mono">fromJSON()</span> (R) de plus.</p>
+
+    <p class="naf-bx-note">Les trois annonces sont des <strong>exemples
+    techniques</strong>, choisis pour illustrer des structures JSON
+    différentes (et des personnes morales, pour ne pas exposer de données
+    personnelles inutiles). Elles ne constituent en aucun cas un
+    échantillon statistique. La réutilisation de données publiques
+    contenant des données personnelles reste soumise aux règles
+    applicables en matière de protection des données — voir
+    <a class="naf-link" data-src-doc="bodacc" target="_blank"
+       rel="noopener noreferrer">l'avertissement du portail officiel ↗</a>.</p>
+  </section>
+
+  <!-- ══════════════ 04 · LE GRAIN ══════════════ -->
+  <section class="naf-comp-section" id="bx-grain">
+    <p class="naf-comp-kicker">04 · Extraire</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Qu'est-ce qu'une ligne&nbsp;?</p>
+    <p class="naf-bx-texte">
+      Un CSV impose sa réponse&nbsp;: une ligne, c'est une ligne. Un JSON,
+      lui, n'a <strong>pas de grain statistique</strong> — c'est à vous de
+      le décider, table par table&nbsp;:
+    </p>
+    <div class="naf-bx-grains">
+      <div class="naf-bx-grainbox">
+        <p class="naf-bx-graintitre">TABLE ANNONCES</p>
+        <p>grain = <strong>une annonce</strong><br>clé = <span class="naf-mono">id</span></p>
+      </div>
+      <div class="naf-bx-grainbox naf-bx-grainbox-alt">
+        <p class="naf-bx-graintitre">TABLE PERSONNES</p>
+        <p>grain = personne × annonce</p>
+      </div>
+      <div class="naf-bx-grainbox naf-bx-grainbox-alt">
+        <p class="naf-bx-graintitre">TABLE ÉTABLISSEMENTS</p>
+        <p>grain = établissement × annonce</p>
+      </div>
+    </div>
+    <p class="naf-bx-texte">
+      C'est le point où l'aplatissement aveugle
+      (<span class="naf-mono">json_normalize()</span> et 150 colonnes)
+      échoue&nbsp;: il peut <strong>dupliquer des annonces</strong>,
+      mélanger plusieurs grains, créer des colonnes presque toujours vides
+      et masquer la structure métier. La branche
+      <span class="naf-mono">listepersonnes.personne</span> peut contenir
+      <em>un objet ou une liste d'objets</em>&nbsp;: une annonce, plusieurs
+      personnes. Déplier cette liste change le nombre de lignes&nbsp;:
+    </p>
+<pre class="naf-bx-arbre" aria-label="Avant dépliage : une ligne, l'annonce A123 avec deux personnes. Après dépliage : deux lignes, une par personne — mais toujours une seule annonce.">
+avant explode / unnest          après explode / unnest
+
+id_annonce   personnes          id_annonce   personne
+A123         [P1, P2]           A123         P1
+                                A123         P2
+</pre>
+    <p class="naf-bx-fort">Le nombre de lignes a doublé, mais il n'y a
+    toujours qu'une annonce. Compter les lignes sans connaître le grain,
+    c'est compter autre chose que ce que l'on croit.</p>
+    <p class="naf-hand naf-bx-hand" aria-hidden="true">« un JSON n'a pas de grain statistique à votre place »</p>
+    <p class="naf-bx-texte">Ce cas pratique produit deux tables&nbsp;:
+    <strong>annonces</strong> (une ligne par annonce) et
+    <strong>événements</strong> (un événement harmonisé par annonce, quelle
+    que soit la branche qui le décrit). Les personnes et établissements
+    resteraient des tables séparées — inutile ici avec une personne par
+    annonce.</p>
+  </section>
+
+  <!-- ══════════════ 05 · EXPLORER EN PYTHON / R ══════════════ -->
+  <section class="naf-comp-section" id="bx-explorer">
+    <p class="naf-comp-kicker">05 · Explorer</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Inspecter avant de transformer</p>
+    <p class="naf-hand naf-bx-hand" aria-hidden="true">« ouvrir le fichier n'est que le début »</p>
+  </section>
+</div>
+```
+
+::: {.panel-tabset group="langage"}
+### Python
+
+Ne commencez pas par `pandas` : commencez par regarder l'objet Python que
+donne le fichier.
+
+```python
+import json
+from pathlib import Path
+
+with Path("data/exemples/bodacc/raw/01_creation.json").open(
+        encoding="utf-8") as f:
+    annonce = json.load(f)
+
+type(annonce)          # dict — un objet JSON devient un dictionnaire
+list(annonce.keys())   # id, dateparution, familleavis, listepersonnes…
+```
+
+Le piège du dataset : les branches imbriquées sont des **chaînes**. Un
+`json.loads()` de plus les transforme en vrais objets :
+
+```python
+type(annonce["listepersonnes"])          # str — du JSON dans le JSON !
+personnes = json.loads(annonce["listepersonnes"])
+personnes["personne"]["denomination"]    # 'BHRC'
+```
+
+Et l'accès **sûr** aux branches variables — car ceci plante sur une
+création (`jugement` vaut `None`) :
+
+```python
+annonce["jugement"]["nature"]            # TypeError !
+
+jugement = json.loads(annonce["jugement"] or "{}")
+nature = jugement.get("nature")          # None, sans planter
+```
+
+`pandas.json_normalize` sait aplatir des objets imbriqués simples — mais
+elle ne décide à votre place ni le grain, ni la gestion des listes, ni
+les variables à garder, ni l'harmonisation des familles d'avis :
+
+```python
+import pandas as pd
+pd.json_normalize(personnes["personne"])
+# 1 ligne × 12 colonnes préfixées (numeroImmatriculation.codeRCS, …)
+# Utile pour UNE branche déjà comprise ; pas pour l'annonce entière.
+```
+
+### R
+
+Ne commencez pas par un aplatissement magique : regardez la structure
+telle qu'elle est, avec `simplifyVector = FALSE`.
+
+```r
+library(jsonlite)
+
+annonce <- fromJSON(
+  "data/exemples/bodacc/raw/01_creation.json",
+  simplifyVector = FALSE
+)
+
+class(annonce)             # "list"
+names(annonce)             # id, dateparution, familleavis, listepersonnes…
+str(annonce, max.level = 1)
+```
+
+Le piège du dataset : les branches imbriquées sont des **chaînes**. Un
+`fromJSON()` de plus les transforme en vraies listes :
+
+```r
+class(annonce$listepersonnes)      # "character" — du JSON dans le JSON !
+personnes <- fromJSON(annonce$listepersonnes, simplifyVector = FALSE)
+personnes$personne$denomination    # "BHRC"
+```
+
+Et la branche absente : en R, `annonce$jugement` vaut `NULL` sur une
+création — tout accès en aval doit le prévoir :
+
+```r
+annonce$jugement                   # NULL : pas d'erreur, mais rien
+
+`%||%` <- function(x, y) if (is.null(x)) y else x
+jugement <- if (!is.null(annonce$jugement)) {
+  fromJSON(annonce$jugement, simplifyVector = FALSE)
+} else list()
+nature <- jugement$nature %||% NA_character_
+```
+
+La progression saine : `list` → `str()` → chemin → extraction → `tibble`
+ou `data.frame` — la mise en table vient en dernier, quand la structure
+est comprise.
+:::
+
+```{=html}
+<div class="naf-prog naf-bx-suite2">
+  <!-- ══════════════ 06 · CONSTRUIRE LES TABLES ══════════════ -->
+  <section class="naf-comp-section" id="bx-tables">
+    <p class="naf-comp-kicker">06 · Normaliser</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Construire les tables annonces et événements</p>
+    <p class="naf-bx-texte">Le passage du fichier brut à la donnée
+    d'analyse suit toujours la même séquence&nbsp;:</p>
+    <div class="naf-bx-etapes">
+      <div><em>JSON brut</em><span>ce que publie la source</span></div>
+      <div><em>objet R / Python</em><span>ce que le programme lit</span></div>
+      <div><em>structure</em><span>où sont les informations&nbsp;?</span></div>
+      <div><em>tables normalisées</em><span>quel grain voulons-nous&nbsp;?</span></div>
+      <div><em>contrôles</em><span>qu'avons-nous perdu&nbsp;?</span></div>
+      <div><em>donnée d'analyse</em><span>ce que le statisticien peut compter</span></div>
+    </div>
+    <p class="naf-bx-texte">
+      La table <strong>événements</strong> est le cœur du travail
+      d'harmonisation&nbsp;: une création se lit dans
+      <span class="naf-mono">acte</span>, une procédure collective dans
+      <span class="naf-mono">jugement</span>, une radiation dans
+      <span class="naf-mono">radiationaurcs</span> — trois branches
+      différentes, un seul schéma de sortie
+      (<span class="naf-mono">id_annonce, siren, type_evenement,
+      date_evenement, nature_evenement, detail_evenement</span>).
+    </p>
+  </section>
+</div>
+```
+
+::: {.panel-tabset group="langage"}
+### Python
+
+Les blocs clés du programme (extraits fidèles de
+`scripts/programmes/python/bodacc_json.py`) :
+
+```python
+def parser_branche(annonce, nom, warnings):
+    """Branche imbriquée → objet Python. Absente ou null n'est PAS
+    une erreur : toutes les familles ne remplissent pas les mêmes
+    branches."""
+    brut = annonce.get(nom)
+    if brut is None:
+        return None
+    try:
+        return json.loads(brut)
+    except (TypeError, ValueError):
+        warnings.append(f"{annonce.get('id', '?')} : branche {nom} illisible")
+        return None
+
+
+def normaliser_siren(valeur):
+    """« 879 178 804 » → « 879178804 ». Toujours une chaîne, jamais
+    un entier : un identifiant est un code, pas une quantité."""
+    chiffres = re.sub(r"\D", "", str(valeur))
+    return chiffres if len(chiffres) == 9 else None
+```
+
+L'harmonisation des trois familles vers un seul schéma d'événement :
+
+```python
+if famille == "collective":
+    jugement = branche or {}
+    evenement["date_evenement"] = jugement.get("date")
+    evenement["nature_evenement"] = jugement.get("nature")
+elif famille == "radiation":
+    radiation = branche or {}
+    evenement["date_evenement"] = radiation.get("dateCessationActivitePM")
+    evenement["nature_evenement"] = "Radiation au RCS"
+
+if nom_branche and branche is None:
+    # Cas réel : l'avis de radiation sans détail. On garde
+    # l'événement, daté par la parution — et on le signale.
+    warnings.append(f"… : branche {nom_branche} absente")
+    evenement["date_evenement"] = annonce.get("dateparution")
+```
+
+### R
+
+Les blocs clés du programme (extraits fidèles de
+`scripts/programmes/R/bodacc_json.R`) :
+
+```r
+parser_branche <- function(annonce, nom) {
+  brut <- annonce[[nom]]
+  if (is.null(brut)) return(NULL)   # absente ≠ erreur
+  tryCatch(fromJSON(brut, simplifyVector = FALSE),
+           error = function(e) { signaler(...); NULL })
+}
+
+normaliser_siren <- function(valeur) {
+  # « 879 178 804 » → « 879178804 ». Toujours une chaîne, jamais un
+  # entier : un identifiant est un code, pas une quantité.
+  chiffres <- gsub("\\D", "", as.character(valeur))
+  if (nchar(chiffres) == 9) chiffres else NA_character_
+}
+```
+
+L'harmonisation des trois familles vers un seul schéma d'événement :
+
+```r
+if (famille == "collective") {
+  jugement <- branche %||% list()
+  ligne$date_evenement <- jugement$date %||% NA_character_
+  ligne$nature_evenement <- jugement$nature %||% NA_character_
+} else if (famille == "radiation") {
+  radiation <- branche %||% list()
+  ligne$date_evenement <- radiation$dateCessationActivitePM %||% NA_character_
+  ligne$nature_evenement <- "Radiation au RCS"
+}
+
+if (!is.na(nom_branche) && is.null(branche)) {
+  # Cas réel : l'avis de radiation sans détail. On garde
+  # l'événement, daté par la parution — et on le signale.
+  signaler(...)
+  ligne$date_evenement <- annonce$dateparution %||% NA_character_
+}
+```
+:::
+
+```{=html}
+<div class="naf-prog naf-bx-suite3">
+  <div class="naf-bx-chaine naf-bx-chaine-resultat" role="img"
+       aria-label="Résultat réel : les JSON bruts deviennent des annonces et des événements harmonisés.">
+    <span><strong id="naf-bx-n-json">3</strong> JSON bruts</span>
+    <span aria-hidden="true">→</span>
+    <span>lecture · inspection · extraction</span>
+    <span aria-hidden="true">→</span>
+    <span><strong id="naf-bx-n-annonces">…</strong> annonces + <strong id="naf-bx-n-evenements">…</strong> événements harmonisés</span>
+  </div>
+  <div id="naf-bx-resultat">
+    <p class="naf-bx-repli">Table construite au chargement de la page à
+    partir de <span class="naf-mono">data/exemples/bodacc/processed/</span> —
+    les CSV réellement produits par le programme.</p>
+  </div>
+
+  <!-- ══════════════ 07 · CONTRÔLER ══════════════ -->
+  <section class="naf-comp-section" id="bx-controles">
+    <p class="naf-comp-kicker">07 · Contrôler</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Qu'avons-nous perdu en route&nbsp;?</p>
+    <p class="naf-bx-texte">
+      Le programme exporte son propre rapport de qualité
+      (<span class="naf-mono">bodacc_controles.csv</span>)&nbsp;: nombre de
+      fichiers lus, unicité des identifiants, SIREN à 9 chiffres, dates
+      convertibles, familles connues… et le nombre d'anomalies consignées.
+      En cas de problème (SIREN absent, famille inconnue, branche
+      attendue manquante), il <strong>conserve l'annonce et signale</strong> —
+      jamais de suppression silencieuse.
+    </p>
+    <div id="naf-bx-controles">
+      <p class="naf-bx-repli">Rapport chargé depuis
+      <span class="naf-mono">data/exemples/bodacc/processed/bodacc_controles.csv</span>.</p>
+    </div>
+    <p class="naf-bx-texte">Sur nos trois annonces, l'anomalie consignée
+    est réelle et instructive&nbsp;: l'avis de radiation ne publie pas sa
+    branche <span class="naf-mono">radiationaurcs</span> — l'événement est
+    daté par la parution, et le rapport le dit.</p>
+    <dl class="naf-deflist">
+      <dt>champ absent</dt>
+      <dd>la clé n'existe pas (ou vaut <span class="naf-mono">null</span>)
+      parce que la branche ne concerne pas cette famille d'avis — normal ;</dd>
+      <dt>champ présent mais null</dt>
+      <dd>la source connaît le champ mais n'a rien publié pour cette
+      annonce — à consigner si la valeur était attendue ;</dd>
+      <dt>information réellement inconnue</dt>
+      <dd>le <span class="naf-mono">NA</span> de votre table finale — il
+      doit rester distinguable d'un «&nbsp;zéro&nbsp;» ou d'un
+      «&nbsp;non concerné&nbsp;».</dd>
+    </dl>
+    <p class="naf-callout"><strong>Un identifiant n'est pas une quantité
+    numérique.</strong> Le SIREN «&nbsp;053 800 257&nbsp;» converti en
+    entier devient 53800257 — huit chiffres, identifiant détruit. SIREN,
+    SIRET, codes postaux, codes géographiques&nbsp;: toujours des
+    chaînes.</p>
+  </section>
+
+  <!-- ══════════════ 08 · EXPLOITER ══════════════ -->
+  <section class="naf-comp-section" id="bx-exploiter">
+    <p class="naf-comp-kicker">08 · Analyser</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Exploiter la donnée</p>
+    <p class="naf-bx-texte">Une fois les tables construites, la question
+    statistique devient triviale à poser — c'était tout l'enjeu&nbsp;:
+    <em>combien d'événements de chaque nature avons-nous
+    observés&nbsp;?</em></p>
+    <div id="naf-bx-stats">
+      <p class="naf-bx-repli">Comptages calculés au chargement de la page
+      depuis les CSV produits.</p>
+    </div>
+    <p class="naf-bx-fort">Avec trois annonces, le résultat est trivial —
+    le raisonnement ne l'est pas. Le but n'est pas le chiffre sur trois
+    annonces&nbsp;: c'est la chaîne, applicable telle quelle à plusieurs
+    milliers.</p>
+    <p class="naf-hand naf-bx-hand" aria-hidden="true">« passer du fichier à la donnée d'analyse »</p>
+  </section>
+
+  <!-- ══════════════ 09 · PASSER À L'ÉCHELLE ══════════════ -->
+  <section class="naf-comp-section" id="bx-echelle">
+    <p class="naf-comp-kicker">09 · Passer à l'échelle</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Et avec plusieurs milliers de fichiers&nbsp;?</p>
+    <div class="naf-comp-vs">
+      <div class="naf-comp-vs-panel">
+        <p class="naf-comp-vs-title">3 fichiers</p>
+        <ul>
+          <li>une boucle classique ;</li>
+          <li>tout tient en mémoire sans y penser ;</li>
+          <li>CSV en sortie, lisible partout.</li>
+        </ul>
+      </div>
+      <div class="naf-comp-vs-panel naf-comp-vs-panel-neg">
+        <p class="naf-comp-vs-title">10 000 fichiers</p>
+        <ul>
+          <li>lecture <strong>fichier par fichier</strong> — jamais
+              «&nbsp;tout charger puis voir&nbsp;» ;</li>
+          <li>extraction des seuls champs utiles, accumulation
+              contrôlée, écriture par lots ;</li>
+          <li>export <strong>Parquet</strong> pour l'analyse.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>
+```
+
+::: {.panel-tabset group="langage"}
+### Python
+
+```python
+lignes = []
+for path in Path("data/bodacc/").glob("*.json"):
+    with path.open(encoding="utf-8") as f:
+        annonce = json.load(f)
+    lignes.append(normaliser_annonce(annonce, warnings))
+    # sur de très gros volumes : écrire par lots (Parquet) au fil de
+    # l'eau plutôt que d'accumuler des millions de dict en mémoire.
+
+# À NE PAS FAIRE si le volume peut grossir :
+# tout = [json.load(open(p)) for p in chemins]   # tout en mémoire d'un coup
+```
+
+### R
+
+```r
+fichiers <- list.files("data/bodacc/", pattern = "\\.json$",
+                       full.names = TRUE)
+lignes <- vector("list", length(fichiers))
+for (i in seq_along(fichiers)) {
+  annonce <- fromJSON(fichiers[[i]], simplifyVector = FALSE)
+  lignes[[i]] <- normaliser_annonce(annonce)
+  # sur de très gros volumes : traiter et écrire par lots plutôt que
+  # de garder des milliers d'objets complexes en mémoire.
+}
+annonces <- do.call(rbind, lignes)
+```
+:::
+
+```{=html}
+<div class="naf-prog naf-bx-suite4">
+  <p class="naf-callout"><strong>JSON et Parquet ne jouent pas le même
+  rôle.</strong> Le JSON est le format d'échange de la source&nbsp;: il
+  conserve l'information hiérarchique. Le Parquet est un format
+  analytique tabulaire&nbsp;: une fois le modèle stabilisé
+  (<span class="naf-mono">JSON → normalisation → Parquet</span>), il rend
+  les lectures en colonnes projetées très rapides — voir
+  «&nbsp;Performance &amp; gros volumes&nbsp;» dans la
+  <a class="naf-link" href="../boite-outils.html#avance">Boîte à outils</a>.
+  L'un ne remplace pas l'autre.</p>
+
+  <!-- ══════════════ 10 · PROGRAMME COMPLET ══════════════ -->
+  <section class="naf-comp-section" id="bx-programme">
+    <p class="naf-comp-kicker">10 · Programme complet</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Le programme, en entier</p>
+    <p class="naf-bx-texte">
+      Les blocs montrés dans ce cours sont extraits de deux programmes
+      complets et structurés (objectif, entrées, sorties, dépendances,
+      fonctions, contrôles, limites), versionnés dans le dépôt&nbsp;:
+    </p>
+    <p class="naf-prog-actions">
+      <a class="naf-chg-cta" target="_blank" rel="noopener noreferrer"
+         href="https://github.com/MaryleneH/explorateur-naf/blob/main/scripts/programmes/python/bodacc_json.py">Voir le programme complet Python ↗</a>
+      <a class="naf-chg-cta" target="_blank" rel="noopener noreferrer"
+         href="https://github.com/MaryleneH/explorateur-naf/blob/main/scripts/programmes/R/bodacc_json.R">Voir le programme complet R ↗</a>
+    </p>
+    <div class="naf-bx-run">
+      <p class="naf-mono">python scripts/programmes/python/bodacc_json.py</p>
+      <p class="naf-mono">Rscript scripts/programmes/R/bodacc_json.R</p>
+    </div>
+    <p class="naf-bx-note">Les deux versions suivent la même logique
+    fonctionnelle et visent les mêmes sorties. Les tables affichées sur
+    cette page sont celles produites par la version Python, exécutée et
+    testée sur les trois annonces (<span class="naf-mono">tests/test_bodacc_programme.py</span>)&nbsp;;
+    la version R est fournie et relue, mais n'a pas été exécutée dans
+    l'environnement de construction du site (R n'y est pas disponible).</p>
+    <p class="naf-tb-suite">Suite&nbsp;:
+      <a class="naf-link" href="../boite-outils.html#bodacc">La recette rapide BODACC (suivre des SIREN) →</a> ·
+      <a class="naf-link" href="index.html">← Retour à la bibliothèque</a>
+    </p>
+  </section>
+
+  <p class="naf-error" id="naf-bx-error" role="alert" hidden></p>
+</div>
+```
+
+:::

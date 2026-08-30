@@ -1,0 +1,103 @@
+---
+pagetitle: "Programmes & cas pratiques — Explorateur NAF"
+title: ""
+---
+
+::: {.naf-page}
+
+```{=html}
+<div class="naf-prog" id="naf-prog">
+
+  <header class="naf-viz-intro">
+    <p class="naf-hand-heading naf-viz-title" role="heading" aria-level="1">Programmes &amp; cas pratiques</p>
+    <p class="naf-viz-lede">
+      Des scripts complets en R et Python, du fichier brut jusqu'à une
+      donnée statistique exploitable — commentés, contrôlés, réutilisables.
+    </p>
+    <p class="naf-hand naf-viz-hand" aria-hidden="true">« cette fois, on va jusqu'au bout »</p>
+  </header>
+
+  <!-- Recette vs programme : le contrat de la rubrique -->
+  <section class="naf-comp-section" aria-labelledby="naf-prog-contrat">
+    <div class="naf-comp-vs">
+      <div class="naf-comp-vs-panel">
+        <p class="naf-comp-vs-title" id="naf-prog-contrat">La Boîte à outils</p>
+        <ul>
+          <li>un <strong>geste</strong> concret : interroger une API,
+              retrouver la bonne ressource, télécharger proprement ;</li>
+          <li>une recette courte, à copier telle quelle ;</li>
+          <li>cinq minutes, un résultat.</li>
+        </ul>
+      </div>
+      <div class="naf-comp-vs-panel">
+        <p class="naf-comp-vs-title">Cette bibliothèque</p>
+        <ul>
+          <li>une <strong>chaîne complète</strong> d'exploitation :
+              lecture, extraction, normalisation, contrôles, export ;</li>
+          <li>un programme structuré, qui consigne ses anomalies au lieu
+              de supprimer des lignes en silence ;</li>
+          <li>un cas réellement exécuté, de bout en bout.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Index éditorial -->
+  <section class="naf-comp-section" aria-labelledby="naf-prog-index-titre">
+    <p class="naf-comp-kicker">Le carnet de programmes</p>
+    <p class="naf-hand-heading naf-comp-h2" id="naf-prog-index-titre" role="heading" aria-level="2">Cas pratiques disponibles</p>
+
+    <article class="naf-prog-item">
+      <p class="naf-prog-num" aria-hidden="true">01 · JSON / données semi-structurées</p>
+      <h3 class="naf-prog-titre">BODACC — passer de JSON imbriqués à une table statistique</h3>
+      <p class="naf-prog-texte">
+        Trois vraies annonces (une création, une procédure collective, une
+        radiation), trois structures différentes, et la question qui compte
+        vraiment&nbsp;: <em>que doit représenter une ligne&nbsp;?</em>
+        Le cas construit deux tables — annonces et événements harmonisés —
+        avec un rapport de qualité.
+      </p>
+      <dl class="naf-prog-fiche">
+        <div><dt>niveau</dt><dd>intermédiaire</dd></div>
+        <div><dt>entrée</dt><dd>JSON</dd></div>
+        <div><dt>sortie</dt><dd>CSV (cible Parquet)</dd></div>
+        <div><dt>langages</dt><dd>Python · R</dd></div>
+        <div><dt>notions</dt><dd>structures imbriquées · listes · grain · normalisation · contrôles</dd></div>
+        <div><dt>cas exécuté</dt><dd>3 annonces réelles (API DILA)</dd></div>
+      </dl>
+      <p class="naf-prog-actions">
+        <a class="naf-chg-cta" href="bodacc-json.html">Ouvrir le cas pratique</a>
+      </p>
+    </article>
+  </section>
+
+  <!-- Déjà dans le dépôt, à un autre niveau -->
+  <section class="naf-comp-section" aria-labelledby="naf-prog-toolbox-titre">
+    <p class="naf-comp-kicker">Déjà dans le dépôt</p>
+    <p class="naf-hand-heading naf-comp-h2" id="naf-prog-toolbox-titre" role="heading" aria-level="2">Les gestes ciblés restent dans la Boîte à outils</p>
+    <p class="naf-prog-texte">
+      <span class="naf-mono">scripts/toolbox/</span> contient les compagnons
+      des recettes — <span class="naf-mono">sirene.py</span> /
+      <span class="naf-mono">sirene.R</span> (ressource stock la plus
+      récente, API 3.11, géolocalisation) et
+      <span class="naf-mono">opendatasoft.py</span> /
+      <span class="naf-mono">opendatasoft.R</span> (client générique BOAMP,
+      BODACC, DECP). Ce sont des gestes, pas des chaînes complètes&nbsp;:
+      ils sont présentés
+      <a class="naf-link" href="../boite-outils.html#avance">dans la Boîte à outils&nbsp;→</a>
+    </p>
+    <p class="naf-prog-texte naf-prog-avenir">
+      La bibliothèque accueillera progressivement d'autres chaînes complètes
+      (extraction Sirene paginée, stock filtré avec DuckDB, appariement par
+      SIREN avec contrôles de qualité) — chacune n'apparaîtra ici qu'une
+      fois son programme réellement écrit et exécuté.
+    </p>
+  </section>
+
+  <p class="naf-chg-fluxlink">
+    <a class="naf-chg-cta" href="../boite-outils.html">← Retour à la Boîte à outils</a>
+  </p>
+</div>
+```
+
+:::

@@ -6176,3 +6176,304 @@ body {
 .naf-tb-fin { margin-top: 2.2rem; }
 
 .naf-tb-demsteps { margin-bottom: 1.2rem; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   PROGRAMMES & CAS PRATIQUES (comprendre/programmes/)
+   Le « carnet de programmes » et le cas BODACC. Réutilise au maximum les
+   classes du site (naf-comp-*, naf-sheet-*, naf-callout…) ; ci-dessous,
+   uniquement ce qui leur manque.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.naf-prog-retour { margin: 0 0 0.6rem; font-size: 0.9rem; }
+
+/* — Index éditorial de la bibliothèque — */
+
+.naf-prog-item {
+  margin: 1.4rem 0 0;
+  padding: 1.2rem 1.4rem 1.3rem;
+  border: 1px solid var(--naf-line-soft);
+  border-left: 3px solid var(--naf-bronze);
+  border-radius: var(--naf-radius);
+  background: var(--naf-surface);
+}
+
+.naf-prog-num {
+  margin: 0 0 0.3rem;
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--naf-steel);
+}
+
+.naf-prog-titre {
+  margin: 0 0 0.5rem;
+  font-size: 1.15rem;
+  line-height: 1.35;
+}
+
+.naf-prog-texte {
+  margin: 0.5rem 0 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  max-width: 46rem;
+}
+
+.naf-prog-avenir { color: var(--naf-slate-mid); font-size: 0.88rem; }
+
+.naf-prog-fiche {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.5rem 1.2rem;
+  margin: 0.9rem 0 0;
+  padding: 0.8rem 0 0;
+  border-top: 1px dashed var(--naf-line-soft);
+
+  div { display: flex; flex-direction: column; gap: 0.1rem; }
+
+  dt {
+    font-size: 0.72rem;
+    font-weight: 650;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--naf-steel);
+  }
+
+  dd { margin: 0; font-size: 0.88rem; line-height: 1.45; }
+}
+
+.naf-prog-actions {
+  margin: 1rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+/* — Cas BODACC — */
+
+.naf-bx-texte {
+  margin: 0.7rem 0 0;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  max-width: 46rem;
+}
+
+.naf-bx-hand { margin: 0.8rem 0 0.2rem; }
+
+.naf-bx-fort {
+  margin: 1rem 0 0;
+  padding: 0.75rem 1rem;
+  max-width: 46rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  border-left: 3px solid var(--naf-bronze);
+  background: var(--naf-surface);
+  border-radius: 0 var(--naf-radius) var(--naf-radius) 0;
+}
+
+.naf-bx-note {
+  margin: 1rem 0 0;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--naf-slate-mid);
+  max-width: 46rem;
+}
+
+.naf-bx-repli { font-size: 0.85rem; color: var(--naf-slate-mid); }
+
+/* Progression et chaîne de résultat */
+.naf-bx-chaine {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.55rem;
+  margin: 1.2rem 0 0;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--naf-line-soft);
+  border-radius: var(--naf-radius);
+  background: var(--naf-surface);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--naf-steel);
+
+  strong { color: var(--naf-ink); font-size: 1rem; }
+}
+
+.naf-bx-chaine-resultat {
+  text-transform: none;
+  letter-spacing: normal;
+  font-size: 0.92rem;
+}
+
+/* Briques JSON */
+.naf-bx-briques {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 0.6rem;
+  margin: 0.9rem 0 0;
+
+  > div {
+    padding: 0.55rem 0.8rem;
+    border: 1px solid var(--naf-line-soft);
+    border-radius: var(--naf-radius);
+    background: var(--naf-surface);
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .naf-mono { font-size: 0.85rem; }
+
+  em {
+    font-style: normal;
+    font-size: 0.8rem;
+    color: var(--naf-slate-mid);
+  }
+}
+
+/* Arbres et schémas en texte préformaté */
+.naf-bx-arbre {
+  margin: 1rem 0 0;
+  padding: 0.9rem 1.1rem;
+  font-family: var(--naf-mono);
+  font-size: 0.78rem;
+  line-height: 1.55;
+  border: 1px solid var(--naf-line-soft);
+  border-radius: var(--naf-radius);
+  background: var(--naf-surface);
+  overflow-x: auto;
+}
+
+/* JSON réel, dans un details replié : lisible, borné, défilable */
+.naf-bx-json {
+  margin: 0;
+  padding: 0.8rem 1rem;
+  max-height: 24rem;
+  overflow: auto;
+  font-family: var(--naf-mono);
+  font-size: 0.76rem;
+  line-height: 1.5;
+  border: 1px solid var(--naf-line-soft);
+  border-radius: var(--naf-radius);
+  background: var(--naf-surface);
+  white-space: pre;
+}
+
+/* Radiographie des branches */
+.naf-bx-matrix {
+  td { text-align: center; }
+  td:first-child { text-align: left; }
+  caption {
+    caption-side: bottom;
+    padding-top: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--naf-slate-mid);
+    text-align: left;
+  }
+}
+
+.naf-bx-oui { color: var(--naf-bronze); font-weight: 700; }
+.naf-bx-non { color: var(--naf-slate-mid); }
+
+/* Les jetons mono longs (extrait « JSON dans le JSON », chemins de
+   fichiers) se coupent plutôt que d'élargir la page. */
+.naf-bx .naf-callout .naf-mono,
+.naf-bx .naf-tb-srcline .naf-mono { overflow-wrap: anywhere; }
+
+/* Les trois grains possibles */
+.naf-bx-grains {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 0.7rem;
+  margin: 0.9rem 0 0;
+}
+
+.naf-bx-grainbox {
+  padding: 0.75rem 0.95rem;
+  border: 1px solid var(--naf-line-soft);
+  border-top: 3px solid var(--naf-bronze);
+  border-radius: var(--naf-radius);
+  background: var(--naf-surface);
+
+  p { margin: 0; font-size: 0.88rem; line-height: 1.5; }
+}
+
+.naf-bx-grainbox-alt { border-top-color: var(--naf-line); opacity: 0.85; }
+
+.naf-bx-graintitre {
+  font-size: 0.74rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  color: var(--naf-steel);
+  margin-bottom: 0.25rem !important;
+}
+
+/* Séquence brut → analytique */
+.naf-bx-etapes {
+  margin: 1rem 0 0;
+  display: grid;
+  gap: 0;
+  max-width: 34rem;
+
+  > div {
+    position: relative;
+    padding: 0.55rem 0.9rem 0.55rem 1.6rem;
+    border-left: 2px solid var(--naf-line);
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: -5px;
+      top: 1.05rem;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--naf-bronze);
+    }
+
+    em {
+      display: block;
+      font-style: normal;
+      font-weight: 650;
+      font-size: 0.9rem;
+    }
+
+    span {
+      font-size: 0.83rem;
+      color: var(--naf-slate-mid);
+    }
+  }
+}
+
+/* Mini-exploitation */
+.naf-bx-stat-line { margin: 0.7rem 0 0.2rem; font-size: 0.95rem; }
+
+.naf-bx-stat-list {
+  margin: 0.2rem 0 0;
+  padding-left: 1.2rem;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.naf-bx-run {
+  margin: 1rem 0 0;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--naf-line-soft);
+  border-radius: var(--naf-radius);
+  background: var(--naf-surface);
+
+  p { margin: 0.15rem 0; font-size: 0.85rem; overflow-x: auto; }
+}
+
+/* Entrée vers la bibliothèque de programmes, dans « Pour aller plus loin » */
+.naf-tb-programmes {
+  margin: 1.2rem 0 1.4rem;
+  padding: 1rem 1.2rem 1.1rem;
+  border: 1px solid var(--naf-line-soft);
+  border-left: 3px solid var(--naf-bronze);
+  border-radius: var(--naf-radius);
+  background: var(--naf-surface);
+
+  .naf-sheet-text { max-width: 46rem; }
+}

@@ -815,6 +815,10 @@ périmètre, interroger par paquets de quelques dizaines de SIREN — et un
 événement isolé n'a aucune valeur prédictive.</p>
 <p class="naf-tb-suite">Suite :
   <a class="naf-link" href="#appariement">Croiser avec Sirene →</a></p>
+<p class="naf-tb-suite">Vous travaillez avec des <strong>fichiers JSON</strong>
+  BODACC ?
+  <a class="naf-link" href="programmes/bodacc-json.html">Voir le cas pratique
+  complet — du JSON à une table statistique →</a></p>
 ```
 
 </div>
@@ -1086,6 +1090,18 @@ demande un appariement documenté.</p>
   <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Quand les volumes grossissent</p>
   <p class="naf-hand naf-comp-hand" aria-hidden="true">« voir le résultat avant de passer à l'échelle »</p>
 
+  <div class="naf-tb-programmes">
+    <p class="naf-comp-kicker">Programmes complets</p>
+    <p class="naf-sheet-text">Vous voulez aller au-delà d'une recette ?
+    La bibliothèque rassemble des chaînes complètes d'exploitation —
+    scripts R et Python structurés, contrôlés, avec un premier cas
+    pratique réellement exécuté : du JSON BODACC à une table
+    statistique.</p>
+    <p class="naf-prog-actions">
+      <a class="naf-chg-cta" href="programmes/index.html">Bibliothèque de programmes →</a>
+    </p>
+  </div>
+
   <details class="naf-sheet-section">
     <summary class="naf-sheet-summary"><span class="naf-sheet-summary-text">Avant une extraction plus importante — trois réflexes</span></summary>
     <div class="naf-sheet-body">
@@ -1166,6 +1182,11 @@ demande un appariement documenté.</p>
       <p class="naf-sheet-text"><span class="naf-mono">scripts/toolbox/python/opendatasoft.py</span> ·
       <span class="naf-mono">scripts/toolbox/R/opendatasoft.R</span> —
       client générique BOAMP / BODACC / DECP.</p>
+      <p class="naf-sheet-text"><span class="naf-mono">scripts/programmes/</span> —
+      les chaînes complètes d'exploitation (lecture → extraction →
+      normalisation → contrôles → export), présentées dans la
+      <a class="naf-link" href="programmes/index.html">bibliothèque de
+      programmes →</a></p>
       <p class="naf-sheet-text">Tous acceptent
       <span class="naf-mono">--dry-run</span> : l'URL, les paramètres et la
       destination s'affichent, rien n'est téléchargé. Exemple :
@@ -1192,6 +1213,11 @@ demande un appariement documenté.</p>
     <a class="naf-tb-need" href="index.html">
       <span class="naf-tb-need-text">Comprendre SIREN, SIRET, NAF, Sirus, SIDE…</span>
       <span class="naf-tb-need-src">Comprendre</span>
+      <span class="naf-tb-need-arrow" aria-hidden="true">→</span>
+    </a>
+    <a class="naf-tb-need" href="programmes/index.html">
+      <span class="naf-tb-need-text">Construire un traitement complet, de bout en bout</span>
+      <span class="naf-tb-need-src">Programmes &amp; cas pratiques</span>
       <span class="naf-tb-need-arrow" aria-hidden="true">→</span>
     </a>
     <a class="naf-tb-need" href="https://github.com/MaryleneH/explorateur-naf"
