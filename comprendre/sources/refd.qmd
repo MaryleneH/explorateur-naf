@@ -1,0 +1,196 @@
+---
+pagetitle: "Comprendre le REFD — Explorateur NAF"
+title: ""
+include-after-body: "../../includes/sources-hub-scripts.html"
+---
+
+::: {.naf-page}
+
+```{=html}
+<div class="naf-prog naf-src" id="naf-src">
+
+  <header class="naf-viz-intro">
+    <p class="naf-comp-kicker">Comprendre · Comprendre les sources · REFD</p>
+    <p class="naf-hand-heading naf-viz-title" role="heading" aria-level="1">REFD</p>
+    <p class="naf-viz-lede">
+      Le Répertoire des entreprises fournisseurs de la Défense recense,
+      millésime par millésime, les <strong>paiements directs</strong> du
+      ministère des Armées à ses entreprises fournisseurs. C'est un
+      répertoire statistique de fournisseurs <em>observés</em> — pas la
+      liste de la BITD.
+    </p>
+    <p class="naf-tb-srcline"><strong>Source :</strong> Ministère des Armées — SSM Défense / OED ·
+      <a class="naf-link" data-src-portal="refd" target="_blank" rel="noopener noreferrer">Page officielle du REFD ↗</a> ·
+      <a class="naf-link" href="../../bonus/sources.html#source-refd">État actuel de la source →</a></p>
+  </header>
+
+  <nav id="naf-src-nav" data-current="refd" aria-label="Changer de source">
+    <p class="naf-bx-repli"><a class="naf-link" href="index.html">← Toutes les sources</a></p>
+  </nav>
+
+  <!-- ══════════════ 01 · DÉCOUVRIR ══════════════ -->
+  <section class="naf-comp-section" id="src-decouvrir">
+    <p class="naf-comp-kicker">01 · Découvrir <span aria-hidden="true">·</span> 10–15 min</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Ce qu'est le REFD</p>
+    <dl class="naf-src-fiche">
+      <div><dt>Producteur</dt><dd>Service statistique ministériel de la Défense — Observatoire économique de la Défense (SSM/OED), ministère des Armées</dd></div>
+      <div><dt>Pourquoi il existe</dt><dd>observer statistiquement, chaque année, les achats du ministère à ses fournisseurs</dd></div>
+      <div><dt>Comment il est construit</dt><dd>exploitation des demandes de paiement de Chorus (le système de dépenses de l'État)&nbsp;: paiements directs, TTC, croisés avec les bases statistiques d'entreprises</dd></div>
+      <div><dt>Fréquence</dt><dd>millésimes annuels</dd></div>
+      <div><dt>Point fort</dt><dd>un périmètre <em>empirique</em> de fournisseurs, fondé sur des paiements réellement observés</dd></div>
+      <div><dt>Limite majeure</dt><dd>fournisseurs <strong>directs</strong> uniquement — ni exhaustif, ni équivalent à la BITD</dd></div>
+    </dl>
+    <div class="naf-src-grain">
+      <p class="naf-src-grainq">Que représente une observation&nbsp;?</p>
+      <p class="naf-src-grainv">Une entreprise fournisseur, observée par les paiements directs qu'elle a reçus du ministère sur un millésime.</p>
+      <p class="naf-src-grainnote">Les résultats diffusés sont des
+      publications statistiques (bulletins EcoDef), pas un fichier
+      nominatif en open data&nbsp;: le REFD s'utilise d'abord à travers ses
+      publications et sa documentation méthodologique.</p>
+    </div>
+    <p class="naf-bx-fort"><strong>Ce que le REFD n'est pas.</strong> Ni la
+    «&nbsp;liste de la BITD&nbsp;», ni l'ensemble des entreprises liées à
+    la Défense&nbsp;: un sous-traitant de rang 2 payé par un maître
+    d'œuvre n'y apparaît pas (il n'est pas payé <em>directement</em> par
+    le ministère), et être payé une fois par le ministère ne fait pas
+    d'une entreprise un acteur de la Défense.</p>
+    <details class="naf-src-exo">
+      <summary>Un équipementier travaille exclusivement pour un grand maître d'œuvre de Défense, jamais pour le ministère en direct. Est-il dans le REFD&nbsp;?</summary>
+      <p class="naf-src-exorep">Non&nbsp;: le REFD observe les paiements
+      <strong>directs</strong> du ministère. Toute la chaîne de
+      sous-traitance en aval des maîtres d'œuvre lui échappe — c'est la
+      raison pour laquelle il ne faut jamais le présenter comme la
+      BITD.</p>
+    </details>
+  </section>
+
+  <!-- ══════════════ 02 · PRENDRE EN MAIN ══════════════ -->
+  <section class="naf-comp-section" id="src-prendre">
+    <p class="naf-comp-kicker">02 · Prendre en main <span aria-hidden="true">·</span> 20–30 min</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Où et comment y accéder</p>
+    <div class="naf-bx-chaine" role="img"
+         aria-label="Chemin d'accès : la page du SSM Défense sur defense.gouv.fr, puis les bulletins EcoDef et le document méthodologique du REFD, en PDF.">
+      <span>defense.gouv.fr — SSM Défense</span><span aria-hidden="true">→</span>
+      <span>bulletins EcoDef + document méthodologique</span><span aria-hidden="true">→</span>
+      <span>publications (PDF, tableaux)</span>
+    </div>
+    <div class="naf-src-niveaux">
+      <div><p class="naf-src-nivtitre">Facilité d'accès</p>
+        <p><strong>Accessible à un débutant</strong>&nbsp;: publications
+        ministérielles librement consultables.</p></div>
+      <div><p class="naf-src-nivtitre">Facilité d'exploitation</p>
+        <p><strong>Interprétation exigeante</strong>&nbsp;: pas de
+        microdonnées à télécharger — le travail consiste à lire
+        correctement le périmètre, le millésime et les définitions.</p></div>
+      <div><p class="naf-src-nivtitre">R / Python</p>
+        <p>Sans objet pour l'essentiel&nbsp;: les résultats sont publiés
+        agrégés. Le niveau technique se reporte sur les sources croisées
+        (Sirene, DECP) qu'un périmètre REFD vient qualifier.</p></div>
+    </div>
+    <details class="naf-src-exo">
+      <summary>Où télécharger «&nbsp;le fichier REFD des fournisseurs&nbsp;» en open data&nbsp;?</summary>
+      <p class="naf-src-exorep">Nulle part&nbsp;: le REFD est diffusé via
+      des publications statistiques et une documentation méthodologique,
+      pas comme un fichier nominatif ouvert. Une «&nbsp;liste REFD&nbsp;»
+      qui circulerait n'est pas la source officielle.</p>
+    </details>
+  </section>
+
+  <!-- ══════════════ 03 · EXPLOITER ══════════════ -->
+  <section class="naf-comp-section" id="src-exploiter">
+    <p class="naf-comp-kicker">03 · Exploiter en statisticien <span aria-hidden="true">·</span> 45–60 min</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Lire le REFD sans sur-interpréter</p>
+    <dl class="naf-deflist">
+      <dt>☐ Mon périmètre</dt><dd>paiements <em>directs</em> du ministère —
+      la sous-traitance n'y est pas.</dd>
+      <dt>☐ Mon millésime</dt><dd>chaque édition décrit une année de
+      paiements&nbsp;: ne pas mélanger les millésimes.</dd>
+      <dt>☐ Mes montants</dt><dd>des paiements TTC issus de Chorus — ni un
+      chiffre d'affaires Défense, ni la valeur des contrats signés.</dd>
+      <dt>☐ Mon unité</dt><dd>l'entreprise fournisseur, telle que définie
+      par la méthodologie du répertoire — lire le document méthodologique
+      avant de croiser.</dd>
+      <dt>☐ Mes conclusions</dt><dd>«&nbsp;fournisseur observé&nbsp;»
+      n'implique ni dépendance à la Défense, ni appartenance à la BITD —
+      et l'absence n'implique pas l'absence de lien.</dd>
+    </dl>
+    <p class="naf-hand naf-bx-hand" aria-hidden="true">« fournisseur n'est pas dual »</p>
+  </section>
+
+  <!-- ══════════════ 04 · APPROFONDIR ══════════════ -->
+  <section class="naf-comp-section" id="src-approfondir">
+    <p class="naf-comp-kicker">04 · Approfondir <span aria-hidden="true">·</span> 1 h et +</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Le REFD dans une vraie étude</p>
+    <div class="naf-comp-vs">
+      <div class="naf-comp-vs-panel">
+        <p class="naf-comp-vs-title">Économie de la Défense</p>
+        <ul>
+          <li>Constituer le <strong>périmètre empirique</strong> de
+              référence des fournisseurs directs — le point de départ
+              recommandé par l'Atelier pour les études Défense.</li>
+          <li>Suivre les montants d'achats du ministère et leur
+              répartition (les bulletins EcoDef publient par exemple les
+              paiements annuels aux fournisseurs).</li>
+          <li>Qualifier ensuite ce périmètre via Sirene (activités,
+              territoires) — le REFD fournit le «&nbsp;qui&nbsp;»,
+              Sirene le «&nbsp;quoi&nbsp;» et le «&nbsp;où&nbsp;».</li>
+        </ul>
+      </div>
+      <div class="naf-comp-vs-panel naf-comp-vs-panel-neg">
+        <p class="naf-comp-vs-title">Ce qu'il ne peut pas apporter</p>
+        <ul>
+          <li>La BITD&nbsp;: la caractérisation statistique du tissu de
+              défense relève de l'<a class="naf-link" href="edis.html">enquête EDIS&nbsp;→</a></li>
+          <li>Les chaînes de sous-traitance&nbsp;: invisibles par
+              construction.</li>
+          <li>Une mesure de dualité&nbsp;: être fournisseur ne dit rien du
+              caractère civil ou militaire de l'activité —
+              voir <a class="naf-link" href="../../defense/index.html">NAF &amp; Défense →</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="naf-tb-suite">Construire l'étude&nbsp;:
+      <a class="naf-link" href="../../bonus/atelier.html?question=fournisseurs_defense">Atelier — étude fournisseurs Défense →</a></p>
+  </section>
+
+  <!-- ══════════════ MÉMO ══════════════ -->
+  <section class="naf-comp-section" id="src-memo">
+    <p class="naf-comp-kicker">Ce qu'il faut retenir</p>
+    <dl class="naf-src-memo">
+      <div><dt>Producteur</dt><dd>ministère des Armées — SSM Défense / OED</dd></div>
+      <div><dt>Grain</dt><dd>entreprise fournisseur observée (paiements directs, par millésime)</dd></div>
+      <div><dt>Construction</dt><dd>demandes de paiement Chorus, TTC, croisées aux bases d'entreprises</dd></div>
+      <div><dt>Fraîcheur</dt><dd>millésimes annuels</dd></div>
+      <div><dt>Accès</dt><dd>publications ministérielles (EcoDef) + document méthodologique</dd></div>
+      <div><dt>Difficulté</dt><dd>accès facile · interprétation exigeante</dd></div>
+      <div><dt>Point fort</dt><dd>un périmètre fondé sur des paiements observés</dd></div>
+      <div><dt>Limite majeure</dt><dd>fournisseurs directs seulement — ni exhaustif, ni la BITD</dd></div>
+    </dl>
+    <div class="naf-src-avant">
+      <div><em>Avant ce parcours</em><p>«&nbsp;Le REFD, c'est la liste des entreprises de la BITD.&nbsp;»</p></div>
+      <div><em>Après ce parcours</em><p>Je sais ce que le répertoire
+      observe (des paiements directs), ce qu'il ignore (la
+      sous-traitance), comment lire ses millésimes, et pourquoi il fonde
+      un périmètre d'étude sans jamais définir la BITD.</p></div>
+    </div>
+  </section>
+
+  <!-- ══════════════ SOURCES ══════════════ -->
+  <section class="naf-comp-section naf-src-refs" id="src-sources">
+    <p class="naf-comp-kicker">Sources officielles</p>
+    <ul>
+      <li>Ministère des Armées — SSM/OED,
+        <a class="naf-link" data-src-portal="refd" target="_blank" rel="noopener noreferrer">page officielle du REFD ↗</a> et
+        <a class="naf-link" href="https://www.defense.gouv.fr/sites/default/files/ssm/Document%20m%C3%A9thodologique%20REFD%202024_OED_Juillet%202025.pdf" target="_blank" rel="noopener noreferrer">document méthodologique REFD 2024 (juillet 2025) ↗</a> — consultés le 31 août 2026.</li>
+      <li>Insee — <a class="naf-link" href="https://www.insee.fr/fr/metadonnees/source/serie/s1043" target="_blank" rel="noopener noreferrer">fiche source « Répertoire des Entreprises Fournisseurs de la Défense » (s1043) ↗</a> — consultée le 31 août 2026.</li>
+      <li>Ministère des Armées — bulletins EcoDef consacrés au REFD (dont
+        <a class="naf-link" href="https://www.defense.gouv.fr/ssm/ecodef-statistiques-ndeg228-ministere-armees-verse-24-milliards-deuros-ses-fournisseurs-2021-juillet-2023" target="_blank" rel="noopener noreferrer">n°228, juillet 2023 ↗</a>) — consultés le 31 août 2026.</li>
+      <li>Caractéristiques factuelles issues du manifeste
+        <span class="naf-mono">data/etudes/sources.csv</span> —
+        voir <a class="naf-link" href="../../methode/index.html">Méthode &amp; provenance →</a></li>
+    </ul>
+  </section>
+</div>
+```
+
+:::
