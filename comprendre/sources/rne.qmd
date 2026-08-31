@@ -1,0 +1,211 @@
+---
+pagetitle: "Comprendre le RNE — Explorateur NAF"
+title: ""
+include-after-body: "../../includes/sources-hub-scripts.html"
+---
+
+::: {.naf-page}
+
+```{=html}
+<div class="naf-prog naf-src" id="naf-src">
+
+  <header class="naf-viz-intro">
+    <p class="naf-comp-kicker">Comprendre · Comprendre les sources · RNE</p>
+    <p class="naf-hand-heading naf-viz-title" role="heading" aria-level="1">RNE</p>
+    <p class="naf-viz-lede">
+      Le Registre national des entreprises est, depuis le 1ᵉʳ janvier
+      2023, <strong>le registre légal unique</strong> des entreprises
+      françaises, tenu par l'INPI. Là où le BODACC publie des annonces, le
+      RNE est le registre lui-même.
+    </p>
+    <p class="naf-tb-srcline"><strong>Source :</strong> INPI ·
+      <a class="naf-link" data-src-portal="rne" target="_blank" rel="noopener noreferrer">Portail RNE ↗</a> ·
+      <a class="naf-link" href="../../bonus/sources.html#source-rne">État actuel de la source →</a></p>
+  </header>
+
+  <nav id="naf-src-nav" data-current="rne" aria-label="Changer de source">
+    <p class="naf-bx-repli"><a class="naf-link" href="index.html">← Toutes les sources</a></p>
+  </nav>
+
+  <!-- ══════════════ 01 · DÉCOUVRIR ══════════════ -->
+  <section class="naf-comp-section" id="src-decouvrir">
+    <p class="naf-comp-kicker">01 · Découvrir <span aria-hidden="true">·</span> 10–15 min</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Ce qu'est le RNE</p>
+    <dl class="naf-src-fiche">
+      <div><dt>Producteur</dt><dd>INPI (registre créé par la loi PACTE de 2019, effectif au 1ᵉʳ janvier 2023)</dd></div>
+      <div><dt>Pourquoi il existe</dt><dd>unifier en un registre dématérialisé unique ce qui relevait du RCS, du répertoire des métiers, du registre des actifs agricoles et du registre des agents commerciaux</dd></div>
+      <div><dt>Ce qu'on y lit</dt><dd>les données et actes du registre&nbsp;: immatriculations, dirigeants, statuts, comptes déposés, radiations</dd></div>
+      <div><dt>Fréquence</dt><dd>tenue en continu</dd></div>
+      <div><dt>Point fort</dt><dd>la donnée <em>de registre</em>, juridiquement structurante, par SIREN</dd></div>
+      <div><dt>Limite majeure</dt><dd>registre juridique&nbsp;: il complète le BODACC pour les événements, il ne mesure pas l'activité économique</dd></div>
+    </dl>
+    <div class="naf-src-grain">
+      <p class="naf-src-grainq">Que représente une ligne&nbsp;?</p>
+      <p class="naf-src-grainv">Une unité légale, avec les données et actes inscrits à son dossier de registre.</p>
+      <p class="naf-src-grainnote">Le dossier d'une entreprise agrège des
+      informations de nature différente (identité, dirigeants, actes,
+      comptes)&nbsp;: selon l'extraction, le grain effectif peut devenir
+      «&nbsp;acte × entreprise&nbsp;» ou «&nbsp;dépôt × exercice&nbsp;».</p>
+    </div>
+    <div class="naf-comp-grainwrap">
+      <table class="naf-comp-grain">
+        <caption class="naf-bx-caption">Trois sources qui « parlent d'entreprises » — mais pas du même objet.</caption>
+        <thead>
+          <tr><th scope="col"></th><th scope="col">Sirene (Insee)</th><th scope="col">RNE (INPI)</th><th scope="col">BODACC (DILA)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Objet</td><td>répertoire d'<strong>identification</strong></td><td>le <strong>registre légal</strong> lui-même</td><td>la <strong>publicité</strong> des événements</td></tr>
+          <tr><td>Finalité</td><td>immatriculer (SIREN/SIRET)</td><td>tenir le dossier juridique</td><td>publier les annonces</td></tr>
+          <tr><td>Grain</td><td>unité légale · établissement</td><td>dossier d'unité légale (actes, dépôts)</td><td>annonce (événement)</td></tr>
+          <tr><td>Accès</td><td>open data complet</td><td>consultation publique · API sur compte</td><td>open data, API sans compte</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <details class="naf-src-exo">
+      <summary>Vous cherchez la liste officielle des dirigeants d'une société. Sirene, BODACC ou RNE&nbsp;?</summary>
+      <p class="naf-src-exorep">Le <strong>RNE</strong>&nbsp;: c'est le
+      registre qui tient le dossier (les nominations y sont inscrites).
+      Le BODACC en publie les <em>annonces</em> au fil de l'eau&nbsp;;
+      Sirene identifie l'unité mais ne tient pas la liste des
+      dirigeants.</p>
+    </details>
+  </section>
+
+  <!-- ══════════════ 02 · PRENDRE EN MAIN ══════════════ -->
+  <section class="naf-comp-section" id="src-prendre">
+    <p class="naf-comp-kicker">02 · Prendre en main <span aria-hidden="true">·</span> 20–30 min</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Où et comment y accéder</p>
+    <div class="naf-bx-chaine" role="img"
+         aria-label="Chemin d'accès : consultation unitaire publique sur le portail RNE, puis compte INPI pour l'accès API et les données par lot, réponses JSON.">
+      <span>consultation unitaire (portail RNE)</span><span aria-hidden="true">→</span>
+      <span>compte INPI</span><span aria-hidden="true">→</span>
+      <span>API / données par lot</span><span aria-hidden="true">→</span>
+      <span>JSON</span>
+    </div>
+    <div class="naf-src-niveaux">
+      <div><p class="naf-src-nivtitre">Facilité d'accès</p>
+        <p>Consultation unitaire&nbsp;: <strong>accessible à un
+        débutant</strong>. Accès programmatique&nbsp;: <strong>compte INPI
+        requis</strong> (authentification) — une caractéristique, pas une
+        panne.</p></div>
+      <div><p class="naf-src-nivtitre">Facilité d'exploitation</p>
+        <p><strong>Niveau intermédiaire recommandé</strong>&nbsp;: réponses
+        JSON riches, dossiers hétérogènes selon la forme juridique et
+        l'historique de l'entreprise.</p></div>
+      <div><p class="naf-src-nivtitre">R / Python, par tâche</p>
+        <p>Consulter quelques dossiers via l'API&nbsp;: intermédiaire léger
+        (authentification + JSON). Exploiter des lots de dossiers ou de
+        comptes&nbsp;: intermédiaire à avancé.</p></div>
+    </div>
+    <p class="naf-tb-suite">Le client INPI (authentification, requêtes) est
+      dans la <a class="naf-link" href="../boite-outils.html#inpi">Boîte à outils →</a></p>
+    <details class="naf-src-exo">
+      <summary>Votre requête API RNE renvoie 401. Que vérifier d'abord&nbsp;?</summary>
+      <p class="naf-src-exorep">Votre <strong>authentification</strong>&nbsp;:
+      l'API RNE exige un compte INPI et un jeton valide — 401 signale une
+      absence ou une expiration de jeton, pas une indisponibilité de la
+      source. C'est le statut «&nbsp;accès spécifique&nbsp;» documenté dans
+      l'<a class="naf-link" href="../../bonus/sources.html#source-rne">État des sources</a>.</p>
+    </details>
+  </section>
+
+  <!-- ══════════════ 03 · EXPLOITER ══════════════ -->
+  <section class="naf-comp-section" id="src-exploiter">
+    <p class="naf-comp-kicker">03 · Exploiter en statisticien <span aria-hidden="true">·</span> 45–60 min</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Les contrôles avant de compter</p>
+    <dl class="naf-deflist">
+      <dt>☐ Mon grain</dt><dd>dossier d'entreprise, acte, ou dépôt de
+      comptes&nbsp;? Une extraction «&nbsp;à plat&nbsp;» mélange
+      facilement les trois.</dd>
+      <dt>☐ Mon identifiant</dt><dd>le SIREN, en chaîne — la clé de tout
+      croisement avec Sirene ou le BODACC.</dd>
+      <dt>☐ Mes dates</dt><dd>date de l'acte, date d'inscription, date de
+      publication BODACC&nbsp;: trois moments différents d'un même
+      événement.</dd>
+      <dt>☐ Mon historique</dt><dd>le RNE démarre au 1ᵉʳ janvier 2023
+      comme registre unique&nbsp;: la profondeur historique dépend des
+      registres antérieurs repris.</dd>
+      <dt>☐ Mes champs manquants</dt><dd>tous les dossiers n'ont pas la
+      même complétude selon la forme juridique et les obligations de
+      dépôt.</dd>
+    </dl>
+    <details class="naf-src-exo">
+      <summary>Le BODACC annonce une radiation, le RNE montre le dossier radié. Est-ce redondant&nbsp;?</summary>
+      <p class="naf-src-exorep">Non&nbsp;: complémentaire. Le RNE donne
+      l'<em>état du registre</em> (le dossier et sa radiation
+      inscrite)&nbsp;; le BODACC donne le <em>flux daté des
+      publications</em>, précieux pour une chronologie. L'un fait l'état,
+      l'autre fait l'histoire.</p>
+    </details>
+  </section>
+
+  <!-- ══════════════ 04 · APPROFONDIR ══════════════ -->
+  <section class="naf-comp-section" id="src-approfondir">
+    <p class="naf-comp-kicker">04 · Approfondir <span aria-hidden="true">·</span> 1 h et +</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Le RNE dans une vraie étude</p>
+    <div class="naf-comp-vs">
+      <div class="naf-comp-vs-panel">
+        <p class="naf-comp-vs-title">Économie des entreprises</p>
+        <ul>
+          <li>Vérifier l'état de registre d'un périmètre (immatriculée,
+              radiée, actes récents).</li>
+          <li>Compléter une chronologie BODACC par l'état du dossier.</li>
+          <li>Selon les dépôts disponibles, approcher des éléments
+              financiers via les comptes déposés.</li>
+        </ul>
+      </div>
+      <div class="naf-comp-vs-panel naf-comp-vs-panel-neg">
+        <p class="naf-comp-vs-title">Économie de la Défense</p>
+        <ul>
+          <li><strong>Possible</strong>&nbsp;: documenter juridiquement un
+              périmètre de fournisseurs déjà constitué (existence,
+              dirigeants, radiations).</li>
+          <li><strong>Impossible</strong>&nbsp;: identifier un lien avec la
+              Défense — le registre ne connaît pas les clients d'une
+              entreprise.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ MÉMO ══════════════ -->
+  <section class="naf-comp-section" id="src-memo">
+    <p class="naf-comp-kicker">Ce qu'il faut retenir</p>
+    <dl class="naf-src-memo">
+      <div><dt>Producteur</dt><dd>INPI</dd></div>
+      <div><dt>Grain</dt><dd>dossier d'unité légale (actes, dépôts)</dd></div>
+      <div><dt>Identifiant</dt><dd>SIREN</dd></div>
+      <div><dt>Fraîcheur</dt><dd>tenue en continu (registre unique depuis le 01/01/2023)</dd></div>
+      <div><dt>Accès</dt><dd>consultation publique · API sur compte INPI</dd></div>
+      <div><dt>Difficulté</dt><dd>accès avec authentification · exploitation intermédiaire</dd></div>
+      <div><dt>Point fort</dt><dd>le registre légal unique, par SIREN</dd></div>
+      <div><dt>Limite majeure</dt><dd>juridique, pas économique ; historique unifié récent</dd></div>
+    </dl>
+    <div class="naf-src-avant">
+      <div><em>Avant ce parcours</em><p>RNE, BODACC, Sirene&nbsp;: trois noms pour «&nbsp;la base des entreprises&nbsp;».</p></div>
+      <div><em>Après ce parcours</em><p>Je distingue le registre (RNE), sa
+      publicité (BODACC) et le répertoire d'identification (Sirene), je
+      sais ce qu'exige l'accès API, et quel grain choisir dans un dossier
+      de registre.</p></div>
+    </div>
+  </section>
+
+  <!-- ══════════════ SOURCES ══════════════ -->
+  <section class="naf-comp-section naf-src-refs" id="src-sources">
+    <p class="naf-comp-kicker">Sources officielles</p>
+    <ul>
+      <li>INPI — <a class="naf-link" data-src-portal="rne" target="_blank" rel="noopener noreferrer">portail du Registre national des entreprises ↗</a> et
+        <a class="naf-link" href="https://www.inpi.fr/ressources/formalites-dentreprises/registre-national-entreprises" target="_blank" rel="noopener noreferrer">présentation du RNE ↗</a> — consultés le 31 août 2026.</li>
+      <li>Cadre juridique&nbsp;: loi n°2019-486 du 22 mai 2019 (PACTE)&nbsp;;
+        registre unique effectif au 1ᵉʳ janvier 2023, regroupant RCS,
+        répertoire des métiers, registre des actifs agricoles et registre
+        des agents commerciaux.</li>
+      <li>Caractéristiques factuelles issues du manifeste
+        <span class="naf-mono">data/etudes/sources.csv</span> —
+        voir <a class="naf-link" href="../../methode/index.html">Méthode &amp; provenance →</a></li>
+    </ul>
+  </section>
+</div>
+```
+
+:::

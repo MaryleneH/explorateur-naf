@@ -1,0 +1,203 @@
+---
+pagetitle: "Comprendre les données des Douanes — Explorateur NAF"
+title: ""
+include-after-body: "../../includes/sources-hub-scripts.html"
+---
+
+::: {.naf-page}
+
+```{=html}
+<div class="naf-prog naf-src" id="naf-src">
+
+  <header class="naf-viz-intro">
+    <p class="naf-comp-kicker">Comprendre · Comprendre les sources · Douanes</p>
+    <p class="naf-hand-heading naf-viz-title" role="heading" aria-level="1">Douanes</p>
+    <p class="naf-viz-lede">
+      Les statistiques du commerce extérieur de la DGDDI décrivent les
+      échanges de la France&nbsp;: quel produit, avec quel pays, pour quelle
+      valeur. Une source précieuse — qui n'observe <strong>ni des
+      entreprises, ni des codes NAF</strong>.
+    </p>
+    <p class="naf-tb-srcline"><strong>Source :</strong> DGDDI ·
+      <a class="naf-link" data-src-portal="douanes" target="_blank" rel="noopener noreferrer">Open data Douane ↗</a> ·
+      <a class="naf-link" href="../../bonus/sources.html#source-douanes">État actuel de la source →</a></p>
+  </header>
+
+  <nav id="naf-src-nav" data-current="douanes" aria-label="Changer de source">
+    <p class="naf-bx-repli"><a class="naf-link" href="index.html">← Toutes les sources</a></p>
+  </nav>
+
+  <!-- ══════════════ 01 · DÉCOUVRIR ══════════════ -->
+  <section class="naf-comp-section" id="src-decouvrir">
+    <p class="naf-comp-kicker">01 · Découvrir <span aria-hidden="true">·</span> 10–15 min</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Ce que sont les données des Douanes</p>
+    <dl class="naf-src-fiche">
+      <div><dt>Producteur</dt><dd>Direction générale des douanes et droits indirects (DGDDI)</dd></div>
+      <div><dt>Pourquoi elles existent</dt><dd>produire la statistique officielle du commerce extérieur de la France</dd></div>
+      <div><dt>Ce qu'on y lit</dt><dd>importations et exportations, par produit (nomenclature NC8, adossée au Système harmonisé) et pays partenaire, en valeur — mensuellement</dd></div>
+      <div><dt>Fréquence</dt><dd>mensuelle</dd></div>
+      <div><dt>Point fort</dt><dd>le seul regard fin et régulier sur les dépendances d'approvisionnement par produit</dd></div>
+      <div><dt>Limite majeure</dt><dd>grain produit × pays&nbsp;: pas d'entreprises dans le détail ouvert, et une nomenclature qui n'est pas la NAF</dd></div>
+    </dl>
+    <div class="naf-src-grain">
+      <p class="naf-src-grainq">Que représente une ligne&nbsp;?</p>
+      <p class="naf-src-grainv">Un flux&nbsp;: produit (NC8) × pays partenaire × période × sens (import/export).</p>
+      <p class="naf-src-grainnote">Une ligne n'est <strong>pas une
+      entreprise</strong>&nbsp;: c'est l'agrégat des échanges d'un produit
+      avec un pays sur un mois. Personne n'y est nommé — et des flux
+      peuvent être confidentialisés ou sous des seuils de diffusion.</p>
+    </div>
+    <p class="naf-hand naf-bx-hand" aria-hidden="true">« une ligne représente quoi ? »</p>
+    <details class="naf-src-exo">
+      <summary>«&nbsp;La France a importé pour X millions d'euros de ce produit depuis tel pays.&nbsp;» Combien d'entreprises importatrices derrière ce chiffre&nbsp;?</summary>
+      <p class="naf-src-exorep">Impossible à dire avec cette source&nbsp;:
+      le détail ouvert agrège tous les opérateurs. Une ligne peut
+      recouvrir un importateur unique (cas où la confidentialisation peut
+      d'ailleurs s'appliquer) ou des centaines. Produit × pays ≠
+      entreprise.</p>
+    </details>
+  </section>
+
+  <!-- ══════════════ 02 · PRENDRE EN MAIN ══════════════ -->
+  <section class="naf-comp-section" id="src-prendre">
+    <p class="naf-comp-kicker">02 · Prendre en main <span aria-hidden="true">·</span> 20–30 min</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Où et comment y accéder</p>
+    <div class="naf-bx-chaine" role="img"
+         aria-label="Chemin d'accès : l'espace open data de la douane, puis le jeu de données du commerce extérieur détaillé, puis le téléchargement des fichiers par période.">
+      <span>douane.gouv.fr — espace open data</span><span aria-hidden="true">→</span>
+      <span>données détaillées du commerce extérieur</span><span aria-hidden="true">→</span>
+      <span>fichiers par période (produit × pays)</span>
+    </div>
+    <div class="naf-src-niveaux">
+      <div><p class="naf-src-nivtitre">Facilité d'accès</p>
+        <p><strong>Accessible à un débutant</strong>&nbsp;: open data sans
+        compte.</p></div>
+      <div><p class="naf-src-nivtitre">Facilité d'exploitation</p>
+        <p><strong>Niveau intermédiaire recommandé</strong>&nbsp;: les
+        fichiers sont volumineux (des milliers de codes NC8 × pays ×
+        mois) et la nomenclature produits demande un apprentissage.</p></div>
+      <div><p class="naf-src-nivtitre">R / Python, par tâche</p>
+        <p>Suivre quelques codes produits&nbsp;: notions de base +
+        filtrage. Analyser des dépendances sur l'historique complet&nbsp;:
+        intermédiaire à avancé (volumes, agrégations).</p></div>
+    </div>
+    <p class="naf-tb-suite">Mettre en pratique&nbsp;:
+      <a class="naf-link" href="../boite-outils.html#douanes">Boîte à outils — lire un fichier produit × pays →</a></p>
+    <details class="naf-src-exo">
+      <summary>Vous cherchez les échanges du «&nbsp;secteur aéronautique&nbsp;». Quel filtre appliquez-vous&nbsp;?</summary>
+      <p class="naf-src-exorep">Aucun filtre «&nbsp;secteur&nbsp;»
+      n'existe&nbsp;: il faut choisir des <strong>codes produits</strong>
+      (chapitres et positions NC8/SH pertinents) et documenter cette
+      liste. Le «&nbsp;secteur&nbsp;» est une construction de l'analyste,
+      pas une colonne du fichier.</p>
+    </details>
+  </section>
+
+  <!-- ══════════════ 03 · EXPLOITER ══════════════ -->
+  <section class="naf-comp-section" id="src-exploiter">
+    <p class="naf-comp-kicker">03 · Exploiter en statisticien <span aria-hidden="true">·</span> 45–60 min</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Le grain, les variables, les pièges</p>
+    <p class="naf-bx-texte">Ce qu'il faut regarder en premier&nbsp;:</p>
+    <dl class="naf-deflist">
+      <dt>le code produit (NC8)</dt><dd>huit chiffres, hiérarchiques
+      (chapitre SH → position → NC8)&nbsp;: toujours en chaîne, et daté —
+      la nomenclature évolue chaque année&nbsp;;</dd>
+      <dt>le pays partenaire</dt><dd>déclaré selon les règles douanières
+      (provenance / destination)&nbsp;: pas toujours le pays d'origine
+      économique ultime&nbsp;;</dd>
+      <dt>le sens du flux</dt><dd>import ou export — les mélanger produit
+      des «&nbsp;échanges&nbsp;» ininterprétables&nbsp;;</dd>
+      <dt>la valeur</dt><dd>en euros&nbsp;; les quantités, quand elles sont
+      présentes, ont des unités propres par produit&nbsp;;</dd>
+      <dt>la période</dt><dd>mensuelle, avec des révisions possibles des
+      mois récents.</dd>
+    </dl>
+    <p class="naf-bx-texte">Les cinq contrôles avant de compter&nbsp;:</p>
+    <dl class="naf-deflist">
+      <dt>☐ Mon grain</dt><dd>produit × pays × mois — jamais des entreprises.</dd>
+      <dt>☐ Ma liste de produits</dt><dd>documentée, avec sa justification — c'est elle qui définit l'étude.</dd>
+      <dt>☐ Mes années de nomenclature</dt><dd>un code NC8 peut changer de contour d'une année à l'autre.</dd>
+      <dt>☐ Mes trous</dt><dd>confidentialisation et seuils&nbsp;: une absence n'est pas un zéro.</dd>
+      <dt>☐ Ma passerelle NAF</dt><dd>il n'y en a pas de naturelle — tout croisement produits ↔ activités doit être construit et documenté.</dd>
+    </dl>
+    <p class="naf-callout"><strong>Douanes ≠ NAF.</strong> La NC8/SH
+    classe des <em>produits échangés</em>&nbsp;; la NAF classe des
+    <em>activités d'unités</em>. Passer de l'un à l'autre est une
+    construction analytique (le site en documente une, avec ses limites,
+    dans <span class="naf-mono">data/etudes/mapping_produits_defense.csv</span>) —
+    jamais une jointure automatique.</p>
+  </section>
+
+  <!-- ══════════════ 04 · APPROFONDIR ══════════════ -->
+  <section class="naf-comp-section" id="src-approfondir">
+    <p class="naf-comp-kicker">04 · Approfondir <span aria-hidden="true">·</span> 1 h et +</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Les Douanes dans une vraie étude</p>
+    <div class="naf-comp-vs">
+      <div class="naf-comp-vs-panel">
+        <p class="naf-comp-vs-title">Économie des entreprises</p>
+        <ul>
+          <li>Comment évoluent les échanges d'un produit avec certains
+              pays&nbsp;?</li>
+          <li>Quelles dépendances <em>apparentes</em> d'approvisionnement
+              (part d'un pays dans les importations d'un produit)&nbsp;?</li>
+          <li>Quels retournements de flux après un choc (sanctions,
+              crise logistique)&nbsp;?</li>
+        </ul>
+      </div>
+      <div class="naf-comp-vs-panel naf-comp-vs-panel-neg">
+        <p class="naf-comp-vs-title">Économie de la Défense</p>
+        <ul>
+          <li><strong>Possible</strong>&nbsp;: suivre des produits
+              potentiellement stratégiques (liste construite et justifiée)
+              et leurs pays partenaires.</li>
+          <li><strong>Impossible</strong>&nbsp;: identifier les entreprises
+              concernées, ou lire un «&nbsp;flux Défense&nbsp;» — le grain
+              produit × pays ne porte ni client, ni usage final&nbsp;; un
+              même produit sert des marchés civils et militaires.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="naf-tb-suite">Construire l'étude&nbsp;:
+      <a class="naf-link" href="../../bonus/atelier.html?question=dependances">Atelier — étude de dépendances →</a></p>
+  </section>
+
+  <!-- ══════════════ MÉMO ══════════════ -->
+  <section class="naf-comp-section" id="src-memo">
+    <p class="naf-comp-kicker">Ce qu'il faut retenir</p>
+    <dl class="naf-src-memo">
+      <div><dt>Producteur</dt><dd>DGDDI</dd></div>
+      <div><dt>Grain</dt><dd>flux produit (NC8) × pays × mois × sens</dd></div>
+      <div><dt>Identifiant</dt><dd>code produit NC8 (chaîne, millésimé) — pas de SIREN</dd></div>
+      <div><dt>Fraîcheur</dt><dd>mensuelle, avec révisions</dd></div>
+      <div><dt>Accès</dt><dd>open data sans compte</dd></div>
+      <div><dt>Difficulté</dt><dd>accès facile · exploitation intermédiaire (nomenclature, volumes)</dd></div>
+      <div><dt>Point fort</dt><dd>la vision produit × pays des échanges</dd></div>
+      <div><dt>Limite majeure</dt><dd>ni entreprises, ni NAF ; confidentialisation possible</dd></div>
+    </dl>
+    <div class="naf-src-avant">
+      <div><em>Avant ce parcours</em><p>«&nbsp;Les Douanes, c'est la base des entreprises importatrices.&nbsp;»</p></div>
+      <div><em>Après ce parcours</em><p>Je sais que le grain est produit ×
+      pays, comment choisir et documenter ma liste de codes NC8, pourquoi
+      les absences ne sont pas des zéros, et ce qu'aucune jointure
+      automatique avec la NAF ne peut donner.</p></div>
+    </div>
+  </section>
+
+  <!-- ══════════════ SOURCES ══════════════ -->
+  <section class="naf-comp-section naf-src-refs" id="src-sources">
+    <p class="naf-comp-kicker">Sources officielles</p>
+    <ul>
+      <li>DGDDI — <a class="naf-link" data-src-portal="douanes" target="_blank" rel="noopener noreferrer">espace open data de la douane ↗</a> — consulté le 31 août 2026.</li>
+      <li>La passerelle produits ↔ Défense utilisée par le site est
+        documentée, famille par famille, dans
+        <span class="naf-mono">data/etudes/mapping_produits_defense.csv</span> —
+        une construction analytique du site, pas une nomenclature officielle.</li>
+      <li>Caractéristiques factuelles issues du manifeste
+        <span class="naf-mono">data/etudes/sources.csv</span> —
+        voir <a class="naf-link" href="../../methode/index.html">Méthode &amp; provenance →</a></li>
+    </ul>
+  </section>
+</div>
+```
+
+:::

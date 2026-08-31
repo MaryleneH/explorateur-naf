@@ -1,0 +1,199 @@
+---
+pagetitle: "Comprendre les brevets INPI — Explorateur NAF"
+title: ""
+include-after-body: "../../includes/sources-hub-scripts.html"
+---
+
+::: {.naf-page}
+
+```{=html}
+<div class="naf-prog naf-src" id="naf-src">
+
+  <header class="naf-viz-intro">
+    <p class="naf-comp-kicker">Comprendre · Comprendre les sources · INPI — brevets</p>
+    <p class="naf-hand-heading naf-viz-title" role="heading" aria-level="1">INPI — brevets</p>
+    <p class="naf-viz-lede">
+      L'INPI diffuse les données de la propriété industrielle française —
+      dont les brevets. Un signal technologique riche, daté… et
+      structurellement <strong>retardé</strong>&nbsp;: un dépôt reste
+      secret jusqu'à sa publication.
+    </p>
+    <p class="naf-tb-srcline"><strong>Source :</strong> INPI ·
+      <a class="naf-link" data-src-portal="inpi_brevets" target="_blank" rel="noopener noreferrer">data.inpi.fr ↗</a> ·
+      <a class="naf-link" href="../../bonus/sources.html#source-inpi_brevets">État actuel de la source →</a></p>
+  </header>
+
+  <nav id="naf-src-nav" data-current="inpi-brevets" aria-label="Changer de source">
+    <p class="naf-bx-repli"><a class="naf-link" href="index.html">← Toutes les sources</a></p>
+  </nav>
+
+  <!-- ══════════════ 01 · DÉCOUVRIR ══════════════ -->
+  <section class="naf-comp-section" id="src-decouvrir">
+    <p class="naf-comp-kicker">01 · Découvrir <span aria-hidden="true">·</span> 10–15 min</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Ce que sont les données de brevets</p>
+    <dl class="naf-src-fiche">
+      <div><dt>Producteur</dt><dd>Institut national de la propriété industrielle (INPI)</dd></div>
+      <div><dt>Pourquoi elles existent</dt><dd>la mission de l'INPI&nbsp;: enregistrer et publier les titres de propriété industrielle (brevets, marques, dessins et modèles)</dd></div>
+      <div><dt>Ce qu'on y lit</dt><dd>dépôts et titres&nbsp;: déposants, dates (dépôt, publication), classifications techniques (CIB/CPC), textes</dd></div>
+      <div><dt>Fréquence</dt><dd>diffusion hebdomadaire à mensuelle</dd></div>
+      <div><dt>Point fort</dt><dd>un signal technologique daté et classé finement</dd></div>
+      <div><dt>Limite majeure</dt><dd>publication en général 18 mois après le dépôt&nbsp;: le présent technologique est invisible</dd></div>
+    </dl>
+    <div class="naf-src-grain">
+      <p class="naf-src-grainq">Que représente une ligne&nbsp;?</p>
+      <p class="naf-src-grainv">Selon l'extraction&nbsp;: un dépôt, une publication, ou un couple titre × déposant.</p>
+      <p class="naf-src-grainnote">Un brevet peut avoir plusieurs
+      déposants&nbsp;; un déposant, des dizaines de brevets&nbsp;; une même
+      invention, des publications successives (demande, délivrance).
+      Décider du grain <em>avant</em> de compter est encore plus critique
+      ici qu'ailleurs.</p>
+    </div>
+    <details class="naf-src-exo">
+      <summary>Aucun brevet publié par une PME en 2026. Peut-on en conclure qu'elle n'innove pas&nbsp;?</summary>
+      <p class="naf-src-exorep">Non, deux fois&nbsp;: ses dépôts de 2025-2026
+      ne sont probablement <em>pas encore publiés</em> (délai de 18 mois
+      en général)&nbsp;; et toutes les innovations ne sont pas brevetées —
+      secret industriel, logiciel, savoir-faire. Brevet ≠ innovation.</p>
+    </details>
+  </section>
+
+  <!-- ══════════════ 02 · PRENDRE EN MAIN ══════════════ -->
+  <section class="naf-comp-section" id="src-prendre">
+    <p class="naf-comp-kicker">02 · Prendre en main <span aria-hidden="true">·</span> 20–30 min</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Où et comment y accéder</p>
+    <div class="naf-bx-chaine" role="img"
+         aria-label="Chemin d'accès : le portail data.inpi.fr, création d'un compte, puis API ou téléchargements, réponses structurées.">
+      <span>data.inpi.fr</span><span aria-hidden="true">→</span>
+      <span>compte INPI (gratuit)</span><span aria-hidden="true">→</span>
+      <span>API / téléchargements</span><span aria-hidden="true">→</span>
+      <span>données structurées (XML/JSON)</span>
+    </div>
+    <div class="naf-src-niveaux">
+      <div><p class="naf-src-nivtitre">Facilité d'accès</p>
+        <p><strong>Compte requis</strong> (gratuit)&nbsp;: open data avec
+        authentification — une caractéristique de la source, pas une
+        panne.</p></div>
+      <div><p class="naf-src-nivtitre">Facilité d'exploitation</p>
+        <p><strong>Niveau intermédiaire recommandé</strong>&nbsp;: données
+        riches et imbriquées, noms de déposants à normaliser,
+        classifications techniques à apprivoiser.</p></div>
+      <div><p class="naf-src-nivtitre">R / Python, par tâche</p>
+        <p>Interroger quelques titres&nbsp;: intermédiaire léger
+        (authentification + parsing). Constituer un portefeuille par
+        déposant sur des années&nbsp;: intermédiaire à avancé
+        (normalisation des noms, volumes).</p></div>
+    </div>
+    <p class="naf-tb-suite">Mettre en pratique&nbsp;:
+      <a class="naf-link" href="../boite-outils.html#inpi">Boîte à outils — client INPI →</a></p>
+    <details class="naf-src-exo">
+      <summary>Le même déposant apparaît comme «&nbsp;SAFRAN SA&nbsp;», «&nbsp;Safran&nbsp;» et «&nbsp;SAFRAN S.A.&nbsp;». Que faire avant de compter ses brevets&nbsp;?</summary>
+      <p class="naf-src-exorep"><strong>Normaliser</strong>&nbsp;: les noms
+      de déposants sont des chaînes libres. La bonne pratique est de
+      rattacher les variantes à une entité (idéalement via un SIREN quand
+      il est disponible) et de documenter les règles de rapprochement —
+      sinon, chaque variante compte pour un déposant différent.</p>
+    </details>
+  </section>
+
+  <!-- ══════════════ 03 · EXPLOITER ══════════════ -->
+  <section class="naf-comp-section" id="src-exploiter">
+    <p class="naf-comp-kicker">03 · Exploiter en statisticien <span aria-hidden="true">·</span> 45–60 min</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Le grain, les variables, les pièges</p>
+    <p class="naf-bx-texte">Ce qu'il faut regarder en premier&nbsp;:</p>
+    <dl class="naf-deflist">
+      <dt>le numéro de dépôt / de publication</dt><dd>les clés d'unicité —
+      distinguer la demande du titre délivré&nbsp;;</dd>
+      <dt>la date de dépôt <em>et</em> la date de publication</dt><dd>18
+      mois d'écart en général&nbsp;: la chronologie technologique se lit à
+      la date de dépôt, la disponibilité de l'information à la date de
+      publication&nbsp;;</dd>
+      <dt>les déposants</dt><dd>plusieurs par titre, noms à normaliser,
+      personnes morales et physiques mêlées&nbsp;;</dd>
+      <dt>la classification (CIB/CPC)</dt><dd>le domaine technique — qui
+      n'est pas la NAF&nbsp;: un croisement technologie ↔ activité se
+      construit et se documente&nbsp;;</dd>
+      <dt>le statut du titre</dt><dd>demande, délivré, déchu — compter des
+      «&nbsp;brevets&nbsp;» sans préciser le statut mélange des objets
+      différents.</dd>
+    </dl>
+    <p class="naf-bx-texte">Les cinq contrôles avant de compter&nbsp;:</p>
+    <dl class="naf-deflist">
+      <dt>☐ Mon grain</dt><dd>dépôt, titre, ou titre × déposant&nbsp;?</dd>
+      <dt>☐ Ma date</dt><dd>dépôt ou publication — et le trou des 18 derniers mois assumé.</dd>
+      <dt>☐ Mes déposants</dt><dd>normalisés, rapprochés, documentés.</dd>
+      <dt>☐ Mon champ</dt><dd>dépôts INPI = voie nationale française&nbsp;: les voies européenne (OEB) et internationale (PCT) existent aussi.</dd>
+      <dt>☐ Mes doublons</dt><dd>demande + délivrance du même titre comptées une seule fois.</dd>
+    </dl>
+  </section>
+
+  <!-- ══════════════ 04 · APPROFONDIR ══════════════ -->
+  <section class="naf-comp-section" id="src-approfondir">
+    <p class="naf-comp-kicker">04 · Approfondir <span aria-hidden="true">·</span> 1 h et +</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Les brevets dans une vraie étude</p>
+    <div class="naf-comp-vs">
+      <div class="naf-comp-vs-panel">
+        <p class="naf-comp-vs-title">Économie des entreprises</p>
+        <ul>
+          <li>Quels signaux technologiques chez une population
+              d'entreprises (portefeuilles, domaines CIB/CPC)&nbsp;?</li>
+          <li>Quelles trajectoires de spécialisation technique d'un
+              territoire ou d'une filière&nbsp;?</li>
+          <li>Quels rapprochements entre déposants (co-dépôts)&nbsp;?</li>
+        </ul>
+      </div>
+      <div class="naf-comp-vs-panel naf-comp-vs-panel-neg">
+        <p class="naf-comp-vs-title">Économie de la Défense</p>
+        <ul>
+          <li><strong>Possible</strong>&nbsp;: suivre les technologies d'un
+              périmètre documenté de fournisseurs, ou des domaines
+              techniques duals — en assumant le retard de 18 mois.</li>
+          <li><strong>Impossible</strong>&nbsp;: lire l'innovation de
+              Défense en direct — les inventions sensibles peuvent ne
+              jamais être publiées, et brevet ≠ innovation&nbsp;: le
+              signal est partiel <em>et</em> retardé.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="naf-tb-suite">Construire l'étude&nbsp;:
+      <a class="naf-link" href="../../bonus/atelier.html?question=innovation">Atelier — étude d'innovation →</a></p>
+  </section>
+
+  <!-- ══════════════ MÉMO ══════════════ -->
+  <section class="naf-comp-section" id="src-memo">
+    <p class="naf-comp-kicker">Ce qu'il faut retenir</p>
+    <dl class="naf-src-memo">
+      <div><dt>Producteur</dt><dd>INPI</dd></div>
+      <div><dt>Grain</dt><dd>dépôt / titre / titre × déposant, selon l'extraction</dd></div>
+      <div><dt>Identifiants</dt><dd>numéros de dépôt et de publication ; déposants à normaliser</dd></div>
+      <div><dt>Fraîcheur</dt><dd>diffusion régulière — mais publication ~18 mois après dépôt</dd></div>
+      <div><dt>Accès</dt><dd>open data avec compte INPI</dd></div>
+      <div><dt>Difficulté</dt><dd>accès avec authentification · exploitation intermédiaire à avancée</dd></div>
+      <div><dt>Point fort</dt><dd>le signal technologique classé et daté</dd></div>
+      <div><dt>Limite majeure</dt><dd>signal retardé et partiel — brevet ≠ innovation</dd></div>
+    </dl>
+    <div class="naf-src-avant">
+      <div><em>Avant ce parcours</em><p>«&nbsp;Compter les brevets, c'est mesurer l'innovation.&nbsp;»</p></div>
+      <div><em>Après ce parcours</em><p>Je choisis un grain, une date et un
+      statut avant de compter, je normalise les déposants, et je présente
+      les brevets pour ce qu'ils sont&nbsp;: un signal technologique
+      partiel et retardé.</p></div>
+    </div>
+  </section>
+
+  <!-- ══════════════ SOURCES ══════════════ -->
+  <section class="naf-comp-section naf-src-refs" id="src-sources">
+    <p class="naf-comp-kicker">Sources officielles</p>
+    <ul>
+      <li>INPI — <a class="naf-link" data-src-portal="inpi_brevets" target="_blank" rel="noopener noreferrer">data.inpi.fr, données de propriété industrielle ↗</a> — consulté le 31 août 2026.</li>
+      <li>Le délai de publication (18 mois après dépôt, en général) est la
+        règle générale du droit des brevets, reprise dans le manifeste du
+        site.</li>
+      <li>Caractéristiques factuelles issues du manifeste
+        <span class="naf-mono">data/etudes/sources.csv</span> —
+        voir <a class="naf-link" href="../../methode/index.html">Méthode &amp; provenance →</a></li>
+    </ul>
+  </section>
+</div>
+```
+
+:::
