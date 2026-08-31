@@ -447,6 +447,7 @@ include-after-body: "../includes/comprendre-scripts.html"
     <p class="naf-hand-heading naf-comp-h2" id="les-sources-h" role="heading" aria-level="2">
       Quelle source pour quelle question ?
     </p>
+    <p class="naf-tb-suite">Pour apprendre chaque source en profondeur (producteur, grain, accès, limites, exercices)&nbsp;: <a class="naf-link" href="sources/index.html">Comprendre les sources →</a></p>
     <p class="naf-comp-lede">
       Aucune source ne répond à tout. Chacune observe un objet, à un rythme,
       avec des limites. Savoir les distinguer est aussi important que savoir

@@ -130,6 +130,14 @@ include-after-body: "../../includes/sources-hub-scripts.html"
       calculées sur des unités différentes ne se comparent pas.</dd>
     </dl>
     <p class="naf-hand naf-bx-hand" aria-hidden="true">« même entreprise ? même unité ? même période ? »</p>
+    <details class="naf-src-exo">
+      <summary>Une publication annonce «&nbsp;3 000 entreprises dans la filière&nbsp;», une autre «&nbsp;4 800&nbsp;». Faut-il choisir la «&nbsp;bonne&nbsp;»&nbsp;?</summary>
+      <p class="naf-src-exorep">D'abord vérifier l'<strong>unité</strong>&nbsp;:
+      si l'une compte des entreprises au sens économique (profilées) et
+      l'autre des unités légales, les deux peuvent être justes — elles ne
+      comptent pas la même chose. La question n'est pas «&nbsp;qui a
+      raison&nbsp;» mais «&nbsp;quelle unité sert ma question&nbsp;».</p>
+    </details>
   </section>
 
   <!-- ══════════════ 04 · APPROFONDIR ══════════════ -->

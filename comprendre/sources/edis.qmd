@@ -115,6 +115,15 @@ include-after-body: "../../includes/sources-hub-scripts.html"
       individuelle, ni aucun code NAF, comme «&nbsp;de défense&nbsp;».</dd>
     </dl>
     <p class="naf-hand naf-bx-hand" aria-hidden="true">« la preuve compte autant que le code »</p>
+    <details class="naf-src-exo">
+      <summary>Votre périmètre maison compte 6 200 entreprises «&nbsp;de défense&nbsp;», l'EDIS 4 485. Votre périmètre est-il faux&nbsp;?</summary>
+      <p class="naf-src-exorep">Pas forcément — mais il n'est pas
+      comparable tel quel&nbsp;: l'EDIS applique un champ (industrie et
+      services, entités commerciales) et un critère (plus de 1&nbsp;% du
+      CA défense) précis. Si votre périmètre inclut par exemple tout
+      titulaire d'un marché, il mesure autre chose. Publier les deux
+      chiffres exige d'expliciter les deux définitions.</p>
+    </details>
   </section>
 
   <!-- ══════════════ 04 · APPROFONDIR ══════════════ -->

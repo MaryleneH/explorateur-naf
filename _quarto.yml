@@ -62,6 +62,8 @@ website:
             text: Comprendre la NAF
           - href: bonus/atelier.qmd
             text: Atelier d'étude
+          - href: comprendre/sources/index.qmd
+            text: Comprendre les sources
       - text: Boîte à outils
         menu:
           - href: comprendre/boite-outils.qmd

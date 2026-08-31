@@ -117,6 +117,14 @@ include-after-body: "../../includes/sources-hub-scripts.html"
       la publication avant d'agréger.</dd>
     </dl>
     <p class="naf-hand naf-bx-hand" aria-hidden="true">« disponible ne veut pas dire adapté »</p>
+    <details class="naf-src-exo">
+      <summary>Les créations d'entreprises bondissent dans un secteur. Le tissu productif s'y développe-t-il&nbsp;?</summary>
+      <p class="naf-src-exorep">Pas nécessairement&nbsp;: un afflux de
+      créations (par exemple de micro-entrepreneurs) peut coexister avec
+      un stock d'unités employeuses stable ou déclinant. Croiser le flux
+      (créations) et le stock, et lire les régimes distingués par la
+      publication, avant de conclure.</p>
+    </details>
   </section>
 
   <!-- ══════════════ 04 · APPROFONDIR ══════════════ -->

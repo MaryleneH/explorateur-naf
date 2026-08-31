@@ -120,6 +120,15 @@ include-after-body: "../../includes/sources-hub-scripts.html"
       <dt>☐ Mes trous</dt><dd>confidentialisation et seuils&nbsp;: une absence n'est pas un zéro.</dd>
       <dt>☐ Ma passerelle NAF</dt><dd>il n'y en a pas de naturelle — tout croisement produits ↔ activités doit être construit et documenté.</dd>
     </dl>
+    <details class="naf-src-exo">
+      <summary>Les importations d'un code NC8 depuis un pays chutent de 80&nbsp;% en un an. Une dépendance a-t-elle disparu&nbsp;?</summary>
+      <p class="naf-src-exorep">Prudence&nbsp;: la chute peut venir d'un
+      changement de contour du code NC8 au millésime, d'un passage sous
+      seuil ou en confidentialisation, d'un réacheminement par un pays
+      tiers — ou d'une vraie substitution. Vérifier la nomenclature de
+      l'année, les codes voisins et les pays de contournement avant de
+      conclure.</p>
+    </details>
     <p class="naf-callout"><strong>Douanes ≠ NAF.</strong> La NC8/SH
     classe des <em>produits échangés</em>&nbsp;; la NAF classe des
     <em>activités d'unités</em>. Passer de l'un à l'autre est une
