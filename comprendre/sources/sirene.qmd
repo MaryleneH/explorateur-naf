@@ -1,0 +1,255 @@
+---
+pagetitle: "Comprendre Sirene — Explorateur NAF"
+title: ""
+include-after-body: "../../includes/sources-hub-scripts.html"
+---
+
+::: {.naf-page}
+
+```{=html}
+<div class="naf-prog naf-src" id="naf-src">
+
+  <header class="naf-viz-intro">
+    <p class="naf-comp-kicker">Comprendre · Comprendre les sources · Sirene</p>
+    <p class="naf-hand-heading naf-viz-title" role="heading" aria-level="1">Sirene</p>
+    <p class="naf-viz-lede">
+      Sirene est le répertoire des entreprises et de leurs établissements
+      géré par l'Insee. C'est la colonne vertébrale de presque toutes les
+      études sur les entreprises françaises — à condition de savoir ce
+      qu'il observe vraiment.
+    </p>
+    <p class="naf-tb-srcline"><strong>Source :</strong> Insee ·
+      <a class="naf-link" data-src-portal="sirene_stock" target="_blank" rel="noopener noreferrer">Fichiers stock ↗</a> ·
+      <a class="naf-link" data-src-doc="sirene_stock" target="_blank" rel="noopener noreferrer">Documentation ↗</a> ·
+      <a class="naf-link" href="../../bonus/sources.html#source-sirene_stock">État actuel de la source →</a></p>
+  </header>
+
+  <nav id="naf-src-nav" data-current="sirene" aria-label="Changer de source">
+    <p class="naf-bx-repli"><a class="naf-link" href="index.html">← Toutes les sources</a></p>
+  </nav>
+
+  <!-- ══════════════ 01 · DÉCOUVRIR ══════════════ -->
+  <section class="naf-comp-section" id="src-decouvrir">
+    <p class="naf-comp-kicker">01 · Découvrir <span aria-hidden="true">·</span> 10–15 min</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Ce qu'est Sirene</p>
+    <dl class="naf-src-fiche">
+      <div><dt>Producteur</dt><dd>Insee</dd></div>
+      <div><dt>Pourquoi elle existe</dt><dd>répertoire interadministratif&nbsp;: immatriculer chaque unité légale (SIREN) et chaque établissement (SIRET) exerçant en France</dd></div>
+      <div><dt>Population couverte</dt><dd>toutes les unités immatriculées, actives ou cessées — y compris associations et secteur public</dd></div>
+      <div><dt>Fréquence</dt><dd>fichiers stock mensuels&nbsp;; API quasi temps réel</dd></div>
+      <div><dt>Point fort</dt><dd>l'exhaustivité des identifiants&nbsp;: le pivot de tous les appariements</dd></div>
+      <div><dt>Limite majeure</dt><dd>existence <em>administrative</em>, pas activité économique constatée</dd></div>
+    </dl>
+    <div class="naf-src-grain">
+      <p class="naf-src-grainq">Que représente une ligne&nbsp;?</p>
+      <p class="naf-src-grainv">Une unité légale (fichier des unités légales) — ou un établissement (fichier des établissements).</p>
+      <p class="naf-src-grainnote">Sirene est diffusé en <strong>deux fichiers de
+      grains différents</strong>. Une unité légale (SIREN, 9 chiffres) peut
+      avoir plusieurs établissements (SIRET, 14 chiffres = SIREN + NIC).
+      Compter des lignes du fichier établissements, c'est compter des
+      lieux d'exercice, pas des entreprises.</p>
+    </div>
+    <p class="naf-bx-texte">
+      Attention au vocabulaire&nbsp;: une <em>unité légale</em> n'est pas
+      toujours une <em>entreprise</em> au sens économique (un groupe peut
+      compter des dizaines d'unités légales). Cette distinction est le
+      travail de <a class="naf-link" href="sirus.html">Sirus&nbsp;→</a> ;
+      les concepts SIREN / SIRET / unité légale sont détaillés dans
+      <a class="naf-link" href="../index.html#une-entreprise">Comprendre la NAF&nbsp;→</a>
+    </p>
+    <details class="naf-src-exo">
+      <summary>Je veux connaître les établissements d'une entreprise&nbsp;: je pars d'un SIREN ou d'un SIRET&nbsp;?</summary>
+      <p class="naf-src-exorep">D'un <strong>SIREN</strong>&nbsp;: c'est
+      l'identifiant de l'unité légale, dont on liste ensuite les
+      établissements (SIRET). Partir d'un SIRET ne donne qu'un seul
+      établissement — celui-là. Les 9 premiers chiffres d'un SIRET sont
+      d'ailleurs le SIREN de l'unité légale.</p>
+    </details>
+  </section>
+
+  <!-- ══════════════ 02 · PRENDRE EN MAIN ══════════════ -->
+  <section class="naf-comp-section" id="src-prendre">
+    <p class="naf-comp-kicker">02 · Prendre en main <span aria-hidden="true">·</span> 20–30 min</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Trois portes d'entrée</p>
+    <p class="naf-bx-texte">Sirene s'aborde de trois manières, qui ne
+    demandent pas le même niveau technique&nbsp;:</p>
+    <div class="naf-src-niveaux">
+      <div><p class="naf-src-nivtitre">Fichiers stock</p>
+        <p>L'intégralité du répertoire (unités légales + établissements),
+        rafraîchie chaque mois sur data.gouv.fr, en CSV et en Parquet.
+        Faciles à <em>obtenir</em>, volumineux à <em>traiter</em>&nbsp;:
+        plusieurs millions de lignes — lecture en colonnes projetées
+        recommandée.</p></div>
+      <div><p class="naf-src-nivtitre">API Sirene</p>
+        <p>Interrogation ciblée quasi temps réel (une unité, une liste de
+        SIREN, une recherche). Nécessite une clé (compte) et respecte des
+        quotas — adaptée aux périmètres, pas aux extractions massives.</p></div>
+      <div><p class="naf-src-nivtitre">Géolocalisation</p>
+        <p>Fichier mensuel des coordonnées des établissements, produit par
+        géocodage automatique — qualité variable selon l'adresse.</p></div>
+    </div>
+    <div class="naf-bx-chaine" role="img"
+         aria-label="Chemin d'accès : page du jeu de données sur data.gouv, puis choix de la ressource du mois, puis téléchargement CSV ou Parquet.">
+      <span>page du jeu de données (data.gouv.fr)</span><span aria-hidden="true">→</span>
+      <span>ressource du mois (jamais un lien mensuel figé)</span><span aria-hidden="true">→</span>
+      <span>CSV ou Parquet</span>
+    </div>
+    <div class="naf-src-niveaux">
+      <div><p class="naf-src-nivtitre">Facilité d'accès</p>
+        <p><strong>Accessible à un débutant</strong> pour les fichiers
+        stock (téléchargement libre)&nbsp;; <strong>quelques notions
+        utiles</strong> pour l'API (clé, quotas).</p></div>
+      <div><p class="naf-src-nivtitre">Facilité d'exploitation</p>
+        <p><strong>Accessible</strong> pour une interrogation ciblée&nbsp;;
+        <strong>traitement avancé</strong> pour le stock complet (volume,
+        colonnes nombreuses, historique des périodes).</p></div>
+      <div><p class="naf-src-nivtitre">R / Python, par tâche</p>
+        <p>Chercher une entreprise via l'API&nbsp;: notions de base.
+        Lister des établissements&nbsp;: notions de base. Filtrer le stock
+        complet par NAF&nbsp;: intermédiaire à avancé (DuckDB/Parquet).</p></div>
+    </div>
+    <p class="naf-tb-suite">Mettre en pratique dans la Boîte à outils&nbsp;:
+      <a class="naf-link" href="../boite-outils.html#trouver-entreprise">Trouver une entreprise →</a> ·
+      <a class="naf-link" href="../boite-outils.html#etablissements">Récupérer ses établissements →</a> ·
+      <a class="naf-link" href="../boite-outils.html#stock-sirene">Filtrer un gros stock →</a></p>
+    <details class="naf-src-exo">
+      <summary>Vous devez caractériser 40 000 établissements. API ou fichier stock&nbsp;?</summary>
+      <p class="naf-src-exorep">Le <strong>fichier stock</strong>&nbsp;:
+      40 000 appels d'API épuiseraient les quotas pour un résultat que le
+      stock donne en une seule lecture filtrée. L'API sert les
+      interrogations ciblées&nbsp;; le stock sert les périmètres.</p>
+    </details>
+  </section>
+
+  <!-- ══════════════ 03 · EXPLOITER ══════════════ -->
+  <section class="naf-comp-section" id="src-exploiter">
+    <p class="naf-comp-kicker">03 · Exploiter en statisticien <span aria-hidden="true">·</span> 45–60 min</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Le grain, les variables, les pièges</p>
+    <p class="naf-bx-texte">Les cinq variables à regarder en premier
+    (fichiers stock, noms réels du schéma Sirene)&nbsp;:</p>
+    <dl class="naf-deflist">
+      <dt><span class="naf-mono">siren</span> / <span class="naf-mono">siret</span></dt>
+      <dd>les identifiants — toujours des <strong>chaînes</strong> (un zéro
+      initial perdu détruit l'identifiant), jamais des nombres&nbsp;;</dd>
+      <dt><span class="naf-mono">etatAdministratifUniteLegale</span> · <span class="naf-mono">etatAdministratifEtablissement</span></dt>
+      <dd>actif ou cessé — <em>administrativement</em>&nbsp;: une unité
+      «&nbsp;active&nbsp;» peut n'avoir aucune activité économique réelle&nbsp;;</dd>
+      <dt><span class="naf-mono">activitePrincipale…</span></dt>
+      <dd>le code APE (NAF) de l'unité ou de l'établissement — déclaré,
+      avec la période de validité qui l'accompagne&nbsp;;</dd>
+      <dt><span class="naf-mono">denominationUniteLegale</span></dt>
+      <dd>la dénomination — utile pour vérifier un appariement, jamais
+      comme clé de jointure&nbsp;;</dd>
+      <dt>les périodes (<span class="naf-mono">periodesUniteLegale</span>…)</dt>
+      <dd>Sirene est <strong>historisé</strong>&nbsp;: une unité porte des
+      périodes successives de valeurs. Quelle date utilisez-vous&nbsp;?</dd>
+    </dl>
+    <p class="naf-bx-texte">Les cinq contrôles avant de compter&nbsp;:</p>
+    <dl class="naf-deflist">
+      <dt>☐ Mon grain</dt><dd>unités légales ou établissements&nbsp;? Le
+      fichier choisi répond à la place de l'étude si on ne choisit pas.</dd>
+      <dt>☐ Mes identifiants</dt><dd>SIREN à 9 chiffres, SIRET à 14, en
+      chaînes, sans doublons après mes filtres.</dd>
+      <dt>☐ Mon état administratif</dt><dd>ai-je filtré les unités cessées —
+      et est-ce pertinent pour ma question&nbsp;?</dd>
+      <dt>☐ Ma date de référence</dt><dd>un stock de tel mois décrit un
+      état à cette date, pas mon trimestre d'étude.</dd>
+      <dt>☐ Mon code APE</dt><dd>déclaré, principal, historisé — un code
+      APE n'est ni une certification d'activité, ni la totalité des
+      activités exercées.</dd>
+    </dl>
+    <p class="naf-callout"><strong>Transition NAF 2025.</strong> Depuis le
+    16 décembre 2025, les stocks diffusent par anticipation les variables
+    <span class="naf-mono">activitePrincipaleNAF25…</span> aux côtés du code
+    APE en NAF rév.2&nbsp;; elles seront retirées début janvier 2027 quand
+    l'APE basculera en NAF 2025. Les deux codes coexistent&nbsp;: dire
+    lequel vous utilisez fait partie de la méthode
+    (<a class="naf-link" href="../../comparer/index.html">ce qui change entre les deux →</a>).</p>
+    <details class="naf-src-exo">
+      <summary>Une unité légale est «&nbsp;active&nbsp;» dans Sirene. Peut-on en conclure qu'elle produit et emploie&nbsp;?</summary>
+      <p class="naf-src-exorep">Non. L'état administratif dit que l'unité
+      existe juridiquement et n'a pas déclaré de cessation. Des unités
+      actives sans activité économique réelle existent en nombre. Pour la
+      question «&nbsp;qui est réellement actif&nbsp;?&nbsp;», le système
+      statistique répond avec <a class="naf-link" href="side.html">SIDE&nbsp;→</a></p>
+    </details>
+  </section>
+
+  <!-- ══════════════ 04 · APPROFONDIR ══════════════ -->
+  <section class="naf-comp-section" id="src-approfondir">
+    <p class="naf-comp-kicker">04 · Approfondir <span aria-hidden="true">·</span> 1 h et +</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Sirene dans une vraie étude</p>
+    <div class="naf-comp-vs">
+      <div class="naf-comp-vs-panel">
+        <p class="naf-comp-vs-title">Économie des entreprises</p>
+        <ul>
+          <li>Où les établissements d'une activité sont-ils implantés
+              (avec la géolocalisation)&nbsp;?</li>
+          <li>Quel est le tissu d'unités d'un territoire, d'une filière,
+              d'un périmètre de codes NAF&nbsp;?</li>
+          <li>Servir de <strong>pivot d'appariement</strong>&nbsp;: toute
+              autre source portant un SIREN/SIRET peut être enrichie par
+              Sirene (activité, localisation, catégorie).</li>
+        </ul>
+      </div>
+      <div class="naf-comp-vs-panel naf-comp-vs-panel-neg">
+        <p class="naf-comp-vs-title">Économie de la Défense</p>
+        <ul>
+          <li><strong>Possible</strong>&nbsp;: caractériser un périmètre
+              Défense déjà défini (par le REFD, l'EDIS, une liste de
+              titulaires DECP…)&nbsp;: activité, implantations, taille.</li>
+          <li><strong>Impossible</strong>&nbsp;: identifier seul les
+              entreprises de la Défense — aucun champ Sirene ne dit
+              «&nbsp;fournisseur de la Défense&nbsp;», et un code NAF dual
+              n'est pas une appartenance
+              (<a class="naf-link" href="../../defense/index.html">NAF &amp; Défense →</a>).</li>
+        </ul>
+      </div>
+    </div>
+    <p class="naf-tb-suite">Construire l'étude&nbsp;:
+      <a class="naf-link" href="../../bonus/atelier.html?question=implantations">Atelier — étude d'implantations →</a> ·
+      <a class="naf-link" href="../boite-outils.html#appariement">Boîte à outils — apparier par SIREN →</a></p>
+  </section>
+
+  <!-- ══════════════ MÉMO ══════════════ -->
+  <section class="naf-comp-section" id="src-memo">
+    <p class="naf-comp-kicker">Ce qu'il faut retenir</p>
+    <dl class="naf-src-memo">
+      <div><dt>Producteur</dt><dd>Insee</dd></div>
+      <div><dt>Grain</dt><dd>unité légale <em>ou</em> établissement (deux fichiers)</dd></div>
+      <div><dt>Identifiants</dt><dd>SIREN (9) · SIRET (14), toujours en chaînes</dd></div>
+      <div><dt>Fraîcheur</dt><dd>stock mensuel · API quasi temps réel</dd></div>
+      <div><dt>Accès</dt><dd>open data (stock, géoloc) · API sur clé</dd></div>
+      <div><dt>Difficulté</dt><dd>accès facile · exploitation du stock complet avancée</dd></div>
+      <div><dt>Point fort</dt><dd>le pivot de tous les appariements</dd></div>
+      <div><dt>Limite majeure</dt><dd>existence administrative ≠ activité économique</dd></div>
+    </dl>
+    <div class="naf-src-avant">
+      <div><em>Avant ce parcours</em><p>Je sais que «&nbsp;le SIREN&nbsp;» existe.</p></div>
+      <div><em>Après ce parcours</em><p>Je distingue la source (Sirene) de
+      l'identifiant (SIREN), je choisis le bon fichier selon mon grain, je
+      sais quand utiliser l'API ou le stock, et je ne confonds plus
+      «&nbsp;administrativement actif&nbsp;» et «&nbsp;économiquement
+      actif&nbsp;».</p></div>
+    </div>
+  </section>
+
+  <!-- ══════════════ SOURCES ══════════════ -->
+  <section class="naf-comp-section naf-src-refs" id="src-sources">
+    <p class="naf-comp-kicker">Sources officielles</p>
+    <ul>
+      <li>Insee — <a class="naf-link" data-src-portal="sirene_stock" target="_blank" rel="noopener noreferrer">Base Sirene, fichiers stock (data.gouv.fr) ↗</a> et
+        <a class="naf-link" data-src-doc="sirene_stock" target="_blank" rel="noopener noreferrer">note sur la diffusion NAF 2025 dans Sirene ↗</a> — références portées par le manifeste du site, contrôlées chaque semaine.</li>
+      <li>Insee — <a class="naf-link" data-src-portal="sirene_api" target="_blank" rel="noopener noreferrer">API Sirene ↗</a> ·
+        <a class="naf-link" data-src-portal="sirene_geo" target="_blank" rel="noopener noreferrer">géolocalisation des établissements ↗</a>.</li>
+      <li>Les caractéristiques factuelles de cette page (producteur, grain,
+        fréquence, accès, limites) proviennent du manifeste
+        <span class="naf-mono">data/etudes/sources.csv</span>, constitué à
+        partir des documentations officielles et vérifié automatiquement —
+        voir <a class="naf-link" href="../../methode/index.html">Méthode &amp; provenance →</a></li>
+    </ul>
+  </section>
+</div>
+```
+
+:::

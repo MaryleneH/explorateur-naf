@@ -6477,3 +6477,314 @@ body {
 
   .naf-sheet-text { max-width: 46rem; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   COMPRENDRE LES SOURCES (comprendre/sources/)
+   Le « manuel de terrain » des sources. Réutilise naf-comp-*, naf-sheet-*,
+   naf-callout, naf-deflist… ; ci-dessous, uniquement le spécifique :
+   navigation locale, fiche d'identité, bloc grain, niveaux, mémo.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* — Navigation locale (rendue par naf-src-hub.js) — */
+
+.naf-src-navbox {
+  margin: 1.2rem 0 0;
+  border: 1px solid var(--naf-line-soft);
+  border-radius: var(--naf-radius);
+  background: var(--naf-surface);
+
+  > summary {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.8rem;
+    padding: 0.65rem 1rem;
+    cursor: pointer;
+    list-style: none;
+
+    &::-webkit-details-marker { display: none; }
+    &:focus-visible { outline: 2px solid var(--naf-bronze); outline-offset: 2px; }
+  }
+}
+
+.naf-src-navtitle {
+  font-size: 0.78rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--naf-steel);
+}
+
+.naf-src-navhint { font-size: 0.8rem; color: var(--naf-slate-mid); }
+
+.naf-src-navbody {
+  padding: 0.4rem 1rem 0.9rem;
+  border-top: 1px dashed var(--naf-line-soft);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem 1.8rem;
+}
+
+.naf-src-navhome {
+  flex-basis: 100%;
+  font-size: 0.85rem;
+  text-decoration: none;
+  border-bottom: 1px solid var(--naf-line);
+  align-self: start;
+  width: max-content;
+  &:hover { border-bottom-color: var(--naf-bronze); }
+}
+
+.naf-src-navgroup {
+  min-width: 130px;
+
+  ul { margin: 0.25rem 0 0; padding: 0; list-style: none; display: grid; gap: 0.2rem; }
+}
+
+.naf-src-navfam {
+  margin: 0;
+  font-size: 0.7rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--naf-steel);
+}
+
+.naf-src-navlink {
+  font-size: 0.9rem;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+
+  &:hover { border-bottom-color: var(--naf-bronze); }
+  &[aria-current="page"] {
+    font-weight: 650;
+    color: var(--naf-bronze);
+  }
+}
+
+/* — Fiche d'identité d'une source — */
+
+.naf-src-fiche {
+  margin: 1.2rem 0 0;
+  padding: 1rem 1.2rem;
+  border: 1px solid var(--naf-line-soft);
+  border-left: 3px solid var(--naf-bronze);
+  border-radius: var(--naf-radius);
+  background: var(--naf-surface);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 0.6rem 1.4rem;
+
+  div { display: flex; flex-direction: column; gap: 0.1rem; }
+
+  dt {
+    font-size: 0.7rem;
+    font-weight: 650;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--naf-steel);
+  }
+
+  dd { margin: 0; font-size: 0.88rem; line-height: 1.5; }
+}
+
+/* — Le bloc grain : central sur chaque page — */
+
+.naf-src-grain {
+  margin: 1.2rem 0 0;
+  padding: 0.9rem 1.2rem;
+  border: 1px solid var(--naf-line-soft);
+  border-left: 4px solid var(--naf-ink);
+  border-radius: 0 var(--naf-radius) var(--naf-radius) 0;
+  background: var(--naf-surface);
+  max-width: 46rem;
+
+  .naf-src-grainq {
+    margin: 0 0 0.3rem;
+    font-size: 0.78rem;
+    font-weight: 650;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--naf-steel);
+  }
+
+  .naf-src-grainv {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 650;
+  }
+
+  .naf-src-grainnote { margin: 0.35rem 0 0; font-size: 0.88rem; line-height: 1.55; color: var(--naf-slate-mid); }
+}
+
+/* — Difficulté : catégories textuelles, jamais de score — */
+
+.naf-src-niveaux {
+  margin: 1rem 0 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 0.7rem;
+
+  > div {
+    padding: 0.7rem 0.95rem;
+    border: 1px solid var(--naf-line-soft);
+    border-radius: var(--naf-radius);
+    background: var(--naf-surface);
+  }
+
+  p { margin: 0; font-size: 0.9rem; line-height: 1.55; }
+
+  .naf-src-nivtitre {
+    font-size: 0.72rem;
+    font-weight: 650;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--naf-steel);
+    margin-bottom: 0.25rem;
+  }
+}
+
+/* — Exercices « À vous de jouer » — */
+
+.naf-src-exo {
+  margin: 1rem 0 0;
+  border: 1px dashed var(--naf-line);
+  border-radius: var(--naf-radius);
+  background: var(--naf-surface);
+  max-width: 46rem;
+
+  > summary {
+    padding: 0.65rem 1rem;
+    cursor: pointer;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    list-style: none;
+    &::-webkit-details-marker { display: none; }
+    &::before { content: "À vous de jouer · "; font-weight: 650; color: var(--naf-bronze); }
+    &:focus-visible { outline: 2px solid var(--naf-bronze); outline-offset: 2px; }
+  }
+
+  .naf-src-exorep {
+    margin: 0;
+    padding: 0.7rem 1rem 0.9rem;
+    border-top: 1px dashed var(--naf-line-soft);
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+}
+
+/* — Mémo « Ce qu'il faut retenir » + avant/après — */
+
+.naf-src-memo {
+  margin: 1rem 0 0;
+  padding: 1rem 1.2rem;
+  border: 1px solid var(--naf-line-soft);
+  border-radius: var(--naf-radius);
+  background: var(--naf-surface);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 0.55rem 1.4rem;
+
+  div { display: flex; flex-direction: column; gap: 0.1rem; }
+
+  dt {
+    font-size: 0.7rem;
+    font-weight: 650;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--naf-steel);
+  }
+
+  dd { margin: 0; font-size: 0.88rem; line-height: 1.5; }
+}
+
+.naf-src-avant {
+  margin: 1rem 0 0;
+  display: grid;
+  gap: 0.7rem;
+  max-width: 46rem;
+
+  > div {
+    padding: 0.7rem 1rem;
+    border-left: 3px solid var(--naf-line);
+    background: var(--naf-surface);
+    border-radius: 0 var(--naf-radius) var(--naf-radius) 0;
+  }
+
+  > div:last-child { border-left-color: var(--naf-bronze); }
+
+  em {
+    display: block;
+    font-style: normal;
+    font-size: 0.72rem;
+    font-weight: 650;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--naf-steel);
+    margin-bottom: 0.2rem;
+  }
+
+  p { margin: 0; font-size: 0.92rem; line-height: 1.6; }
+}
+
+/* — Sources officielles datées — */
+
+.naf-src-refs {
+  ul { margin: 0.6rem 0 0; padding-left: 1.2rem; font-size: 0.88rem; line-height: 1.7; }
+}
+
+/* — Index éditorial de la landing — */
+
+.naf-src-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.3rem 1rem;
+  align-items: baseline;
+  padding: 0.75rem 0.4rem;
+  border-bottom: 1px solid var(--naf-line-soft);
+  text-decoration: none;
+  color: inherit;
+
+  &:hover .naf-src-item-nom { color: var(--naf-bronze); }
+  &:focus-visible { outline: 2px solid var(--naf-bronze); outline-offset: 2px; }
+}
+
+.naf-src-item-num {
+  font-family: var(--naf-mono);
+  font-size: 0.85rem;
+  color: var(--naf-steel);
+}
+
+.naf-src-item-nom { font-weight: 650; font-size: 1rem; }
+
+.naf-src-item-meta {
+  grid-column: 2;
+  font-size: 0.83rem;
+  color: var(--naf-slate-mid);
+}
+
+.naf-src-item-arrow { color: var(--naf-bronze); font-weight: 650; }
+
+/* Aiguillage « par où commencer ? » */
+.naf-src-aiguillage {
+  margin: 0.9rem 0 0;
+  display: grid;
+  gap: 0.45rem;
+  max-width: 46rem;
+
+  a {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.55rem 0.9rem;
+    border: 1px solid var(--naf-line-soft);
+    border-radius: var(--naf-radius);
+    background: var(--naf-surface);
+    text-decoration: none;
+    color: inherit;
+    font-size: 0.92rem;
+
+    &:hover { border-color: var(--naf-bronze); }
+    span:last-child { color: var(--naf-bronze); font-weight: 650; white-space: nowrap; }
+  }
+}
