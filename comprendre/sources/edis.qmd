@@ -1,0 +1,194 @@
+---
+pagetitle: "Comprendre l'enquête EDIS — Explorateur NAF"
+title: ""
+include-after-body: "../../includes/sources-hub-scripts.html"
+---
+
+::: {.naf-page}
+
+```{=html}
+<div class="naf-prog naf-src" id="naf-src">
+
+  <header class="naf-viz-intro">
+    <p class="naf-comp-kicker">Comprendre · Comprendre les sources · EDIS</p>
+    <p class="naf-hand-heading naf-viz-title" role="heading" aria-level="1">EDIS</p>
+    <p class="naf-viz-lede">
+      L'Enquête sur les entreprises de défense de l'industrie et des
+      services, conduite par le SSM Défense, est la source qui
+      <strong>délimite statistiquement</strong> les entreprises de défense
+      françaises et mesure leur poids économique. Ses résultats sont
+      diffusés agrégés.
+    </p>
+    <p class="naf-tb-srcline"><strong>Source :</strong> Ministère des Armées — SSM Défense / OED ·
+      <a class="naf-link" data-src-portal="edis" target="_blank" rel="noopener noreferrer">Bulletin EcoDef n°265 (EDIS) ↗</a> ·
+      <a class="naf-link" href="../../bonus/sources.html#source-edis">État actuel de la source →</a></p>
+  </header>
+
+  <nav id="naf-src-nav" data-current="edis" aria-label="Changer de source">
+    <p class="naf-bx-repli"><a class="naf-link" href="index.html">← Toutes les sources</a></p>
+  </nav>
+
+  <!-- ══════════════ 01 · DÉCOUVRIR ══════════════ -->
+  <section class="naf-comp-section" id="src-decouvrir">
+    <p class="naf-comp-kicker">01 · Découvrir <span aria-hidden="true">·</span> 10–15 min</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Ce qu'est l'enquête EDIS</p>
+    <dl class="naf-src-fiche">
+      <div><dt>Producteur</dt><dd>Service statistique ministériel de la Défense — Observatoire économique de la Défense (SSM/OED), ministère des Armées</dd></div>
+      <div><dt>Pourquoi elle existe</dt><dd>délimiter le champ des industries et services de défense et mesurer leur poids dans l'économie — ce que ni la NAF, ni un répertoire de fournisseurs ne savent faire</dd></div>
+      <div><dt>Comment elle procède</dt><dd>enquête statistique auprès des entreprises des activités où la participation aux marchés militaires est significative&nbsp;; succède à l'enquête EID de 2018</dd></div>
+      <div><dt>Le critère clé</dt><dd>est considérée dans le champ de la BITD statistique une entreprise réalisant <strong>plus de 1&nbsp;% de son chiffre d'affaires</strong> dans le domaine de la défense</dd></div>
+      <div><dt>Fréquence</dt><dd>campagnes d'enquête (2018, 2022-2023…), résultats publiés en bulletins</dd></div>
+      <div><dt>Limite majeure</dt><dd>résultats <strong>agrégés</strong>&nbsp;: pas de liste d'entreprises, et des définitions propres à l'enquête</dd></div>
+    </dl>
+    <div class="naf-src-grain">
+      <p class="naf-src-grainq">Que représente une observation&nbsp;?</p>
+      <p class="naf-src-grainv">Une entreprise enquêtée — mais ce qui est diffusé, ce sont des agrégats (effectifs, chiffre d'affaires militaire, secteurs).</p>
+      <p class="naf-src-grainnote">Le chiffre emblématique de l'édition
+      2023 (données 2021)&nbsp;: 4&nbsp;485 entreprises de défense, pour
+      40&nbsp;milliards d'euros de chiffre d'affaires militaire — environ
+      un quart de leur chiffre d'affaires total&nbsp;: les entreprises de
+      défense sont massivement <em>duales</em>.</p>
+    </div>
+    <details class="naf-src-exo">
+      <summary>EDIS et REFD comptent-ils la même chose&nbsp;?</summary>
+      <p class="naf-src-exorep">Non. Le <a class="naf-link" href="refd.html">REFD</a>
+      <em>observe</em> des paiements directs du ministère (répertoire
+      administratif-statistique)&nbsp;; l'EDIS <em>enquête</em> et
+      <em>délimite</em> un champ économique (critère du CA défense),
+      sous-traitance comprise quand elle est significative. Une entreprise
+      peut être dans l'un sans être dans l'autre.</p>
+    </details>
+  </section>
+
+  <!-- ══════════════ 02 · PRENDRE EN MAIN ══════════════ -->
+  <section class="naf-comp-section" id="src-prendre">
+    <p class="naf-comp-kicker">02 · Prendre en main <span aria-hidden="true">·</span> 20–30 min</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Où et comment y accéder</p>
+    <div class="naf-bx-chaine" role="img"
+         aria-label="Chemin d'accès : la page enquêtes du SSM Défense, puis les bulletins EcoDef publiant les résultats EDIS, en PDF.">
+      <span>defense.gouv.fr — SSM Défense, page enquêtes</span><span aria-hidden="true">→</span>
+      <span>bulletins EcoDef (résultats EDIS)</span><span aria-hidden="true">→</span>
+      <span>publications (PDF, tableaux agrégés)</span>
+    </div>
+    <div class="naf-src-niveaux">
+      <div><p class="naf-src-nivtitre">Facilité d'accès</p>
+        <p><strong>Accessible à un débutant</strong>&nbsp;: publications
+        librement consultables.</p></div>
+      <div><p class="naf-src-nivtitre">Facilité d'exploitation</p>
+        <p><strong>Interprétation exigeante</strong>&nbsp;: chaque chiffre
+        dépend des définitions de l'enquête (champ, critère du 1&nbsp;%,
+        millésime) — à reprendre <em>exactement</em>.</p></div>
+      <div><p class="naf-src-nivtitre">R / Python</p>
+        <p>Sans objet&nbsp;: pas de microdonnées diffusées. L'EDIS
+        s'utilise comme cadrage chiffré et comme définition de
+        référence.</p></div>
+    </div>
+    <details class="naf-src-exo">
+      <summary>Peut-on obtenir «&nbsp;la liste des 4&nbsp;485 entreprises de défense&nbsp;»&nbsp;?</summary>
+      <p class="naf-src-exorep">Non&nbsp;: le secret statistique protège
+      les répondants — l'enquête diffuse des agrégats. Toute liste
+      nominative «&nbsp;EDIS&nbsp;» qui circulerait n'est pas la source.
+      Pour un périmètre nominatif <em>d'un autre objet</em> (les
+      fournisseurs directs), voir le <a class="naf-link" href="refd.html">REFD</a>.</p>
+    </details>
+  </section>
+
+  <!-- ══════════════ 03 · EXPLOITER ══════════════ -->
+  <section class="naf-comp-section" id="src-exploiter">
+    <p class="naf-comp-kicker">03 · Exploiter en statisticien <span aria-hidden="true">·</span> 45–60 min</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Lire l'EDIS sans sur-interpréter</p>
+    <dl class="naf-deflist">
+      <dt>☐ Mes définitions</dt><dd>«&nbsp;entreprise de défense&nbsp;» a
+      ici un sens précis (critère du CA) — le reprendre tel quel, cité,
+      jamais reformulé approximativement.</dd>
+      <dt>☐ Mon millésime</dt><dd>les résultats décrivent l'année de
+      référence de la campagne (ex.&nbsp;: données 2021 publiées en
+      2023).</dd>
+      <dt>☐ Mon champ</dt><dd>industrie <em>et</em> services, entités
+      commerciales en France — pas «&nbsp;tout ce qui touche à la
+      défense&nbsp;».</dd>
+      <dt>☐ Mes croisements</dt><dd>comparer un agrégat EDIS à un comptage
+      maison suppose des champs identiques — c'est rarement le cas&nbsp;:
+      le dire.</dd>
+      <dt>☐ Mes conclusions</dt><dd>l'EDIS éclaire des ordres de grandeur
+      et des structures&nbsp;; il ne qualifie aucune entreprise
+      individuelle, ni aucun code NAF, comme «&nbsp;de défense&nbsp;».</dd>
+    </dl>
+    <p class="naf-hand naf-bx-hand" aria-hidden="true">« la preuve compte autant que le code »</p>
+  </section>
+
+  <!-- ══════════════ 04 · APPROFONDIR ══════════════ -->
+  <section class="naf-comp-section" id="src-approfondir">
+    <p class="naf-comp-kicker">04 · Approfondir <span aria-hidden="true">·</span> 1 h et +</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">L'EDIS dans une vraie étude</p>
+    <div class="naf-comp-vs">
+      <div class="naf-comp-vs-panel">
+        <p class="naf-comp-vs-title">Économie de la Défense</p>
+        <ul>
+          <li>Cadrer les <strong>ordres de grandeur</strong>&nbsp;: combien
+              d'entreprises, quel chiffre d'affaires militaire, quelle part
+              duale.</li>
+          <li>Fonder la définition «&nbsp;BITD statistique&nbsp;» d'une
+              étude (critère du CA défense) en citant l'enquête.</li>
+          <li>Situer un périmètre maison (REFD, titulaires DECP) par
+              rapport au champ délimité par l'enquête.</li>
+        </ul>
+      </div>
+      <div class="naf-comp-vs-panel naf-comp-vs-panel-neg">
+        <p class="naf-comp-vs-title">Ce qu'elle ne peut pas apporter</p>
+        <ul>
+          <li>Une liste d'entreprises, un suivi individuel, un
+              appariement&nbsp;: résultats agrégés, secret statistique.</li>
+          <li>Une qualification de sous-classes NAF&nbsp;: observer le
+              secteur électronique parmi les entreprises de défense ne
+              démontre pas qu'une sous-classe entière est duale —
+              voir <a class="naf-link" href="../../defense/index.html">NAF &amp; Défense →</a></li>
+          <li>De la conjoncture&nbsp;: une enquête par campagnes ne suit
+              pas l'actualité.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="naf-tb-suite">Construire l'étude&nbsp;:
+      <a class="naf-link" href="../../bonus/atelier.html?question=fournisseurs_defense">Atelier — étude fournisseurs Défense →</a> ·
+      <a class="naf-link" href="../../defense/index.html?view=pourquoi">NAF &amp; Défense — pourquoi ce code ? →</a></p>
+  </section>
+
+  <!-- ══════════════ MÉMO ══════════════ -->
+  <section class="naf-comp-section" id="src-memo">
+    <p class="naf-comp-kicker">Ce qu'il faut retenir</p>
+    <dl class="naf-src-memo">
+      <div><dt>Producteur</dt><dd>ministère des Armées — SSM Défense / OED</dd></div>
+      <div><dt>Grain</dt><dd>entreprise enquêtée — diffusion en agrégats</dd></div>
+      <div><dt>Critère clé</dt><dd>plus de 1 % du CA dans la défense = champ BITD statistique</dd></div>
+      <div><dt>Fraîcheur</dt><dd>campagnes (EID 2018, EDIS 2022-2023…)</dd></div>
+      <div><dt>Accès</dt><dd>publications ministérielles (EcoDef)</dd></div>
+      <div><dt>Difficulté</dt><dd>accès facile · interprétation exigeante (définitions propres)</dd></div>
+      <div><dt>Point fort</dt><dd>la seule délimitation statistique du champ défense</dd></div>
+      <div><dt>Limite majeure</dt><dd>agrégats seulement — ni liste, ni suivi individuel</dd></div>
+    </dl>
+    <div class="naf-src-avant">
+      <div><em>Avant ce parcours</em><p>«&nbsp;EDIS, c'est la base des entreprises de la BITD.&nbsp;»</p></div>
+      <div><em>Après ce parcours</em><p>Je sais que l'EDIS est une enquête
+      qui délimite un champ par un critère précis, ce que ses agrégats
+      permettent (cadrer, définir, situer) et ce qu'ils interdisent
+      (lister, apparier, qualifier des codes NAF).</p></div>
+    </div>
+  </section>
+
+  <!-- ══════════════ SOURCES ══════════════ -->
+  <section class="naf-comp-section naf-src-refs" id="src-sources">
+    <p class="naf-comp-kicker">Sources officielles</p>
+    <ul>
+      <li>Ministère des Armées — SSM/OED,
+        <a class="naf-link" data-src-portal="edis" target="_blank" rel="noopener noreferrer">EcoDef n°265 — résultats EDIS ↗</a> et
+        <a class="naf-link" href="https://www.defense.gouv.fr/ssm/enquetes" target="_blank" rel="noopener noreferrer">page des enquêtes du SSM ↗</a> — consultés le 31 août 2026.</li>
+      <li>Cnis — <a class="naf-link" href="https://www.cnis.fr/enquetes/entreprises-de-defense-de-lindustrie-et-des-services-en-2022-edis-2022/" target="_blank" rel="noopener noreferrer">fiche de l'enquête EDIS 2022 (opportunité, champ, objectifs) ↗</a> — consultée le 31 août 2026.</li>
+      <li>Caractéristiques factuelles issues du manifeste
+        <span class="naf-mono">data/etudes/sources.csv</span> —
+        voir <a class="naf-link" href="../../methode/index.html">Méthode &amp; provenance →</a></li>
+    </ul>
+  </section>
+</div>
+```
+
+:::

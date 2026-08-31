@@ -193,7 +193,7 @@ include-after-body: "../../includes/sources-hub-scripts.html"
       <div><dt>Grain</dt><dd>une annonce (pas un marché)</dd></div>
       <div><dt>Identifiant</dt><dd>identifiant d'annonce ; l'acheteur souvent en texte</dd></div>
       <div><dt>Fraîcheur</dt><dd>publication quotidienne</dd></div>
-      <div><dt>Accès</dt><dd>open data, API Opendatosoft sans compte</dd></div>
+      <div><dt>Accès</dt><dd>open data, API Opendatasoft sans compte</dd></div>
       <div><dt>Difficulté</dt><dd>accès facile · exploitation intermédiaire (texte, types, pagination)</dd></div>
       <div><dt>Point fort</dt><dd>la demande publique visible en amont</dd></div>
       <div><dt>Limite majeure</dt><dd>absence d'annonce ≠ absence de commande</dd></div>
