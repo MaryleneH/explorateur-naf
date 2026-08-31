@@ -50,6 +50,9 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Installer les dépendances Python
+        run: pip install -r requirements-data.txt
+
       - name: Tests unitaires (sans réseau)
         run: python -m unittest discover -s tests -v
 
