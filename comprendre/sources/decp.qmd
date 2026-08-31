@@ -1,0 +1,218 @@
+---
+pagetitle: "Comprendre les DECP — Explorateur NAF"
+title: ""
+include-after-body: "../../includes/sources-hub-scripts.html"
+---
+
+::: {.naf-page}
+
+```{=html}
+<div class="naf-prog naf-src" id="naf-src">
+
+  <header class="naf-viz-intro">
+    <p class="naf-comp-kicker">Comprendre · Comprendre les sources · DECP</p>
+    <p class="naf-hand-heading naf-viz-title" role="heading" aria-level="1">DECP</p>
+    <p class="naf-viz-lede">
+      Les Données essentielles de la commande publique décrivent les
+      <strong>marchés attribués</strong>&nbsp;: acheteur, objet, montant,
+      titulaires. C'est la source structurée de l'attribution — précieuse,
+      et d'une qualité qui exige des contrôles.
+    </p>
+    <p class="naf-tb-srcline"><strong>Source :</strong> acheteurs publics, consolidation DAJ / data.economie.gouv.fr ·
+      <a class="naf-link" data-src-portal="decp" target="_blank" rel="noopener noreferrer">Jeu de données consolidé ↗</a> ·
+      <a class="naf-link" href="../../bonus/sources.html#source-decp">État actuel de la source →</a></p>
+  </header>
+
+  <nav id="naf-src-nav" data-current="decp" aria-label="Changer de source">
+    <p class="naf-bx-repli"><a class="naf-link" href="index.html">← Toutes les sources</a></p>
+  </nav>
+
+  <!-- ══════════════ 01 · DÉCOUVRIR ══════════════ -->
+  <section class="naf-comp-section" id="src-decouvrir">
+    <p class="naf-comp-kicker">01 · Découvrir <span aria-hidden="true">·</span> 10–15 min</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Ce que sont les DECP</p>
+    <dl class="naf-src-fiche">
+      <div><dt>Producteur</dt><dd>chaque acheteur public (obligation légale)&nbsp;; consolidation diffusée via data.economie.gouv.fr / data.gouv.fr</dd></div>
+      <div><dt>Pourquoi elles existent</dt><dd>obligation de transparence de la commande publique (arrêté du 22 mars 2019, modifié — publication centralisée depuis 2024)</dd></div>
+      <div><dt>Ce qu'on y lit</dt><dd>marché par marché&nbsp;: acheteur, objet, code CPV, montant, date, durée, titulaires (SIRET)</dd></div>
+      <div><dt>Fréquence</dt><dd>alimentation continue par les acheteurs</dd></div>
+      <div><dt>Point fort</dt><dd>des identifiants SIRET côté titulaires&nbsp;: appariables à Sirene</dd></div>
+      <div><dt>Limite majeure</dt><dd>qualité hétérogène — doublons, montants et identifiants à contrôler</dd></div>
+    </dl>
+    <div class="naf-src-grain">
+      <p class="naf-src-grainq">Que représente une ligne&nbsp;?</p>
+      <p class="naf-src-grainv">Un marché attribué — dont les titulaires peuvent être multiples.</p>
+      <p class="naf-src-grainnote">Dans le jeu consolidé du site, les
+      titulaires sont éclatés en colonnes
+      (<span class="naf-mono">titulaire_id_1/2/3</span>)&nbsp;: déplier les
+      titulaires transforme le grain en «&nbsp;marché × titulaire&nbsp;» et
+      <strong>change le nombre de lignes</strong> — c'est voulu, à
+      condition de le savoir.</p>
+    </div>
+    <p class="naf-bx-texte">La différence avec le
+      <a class="naf-link" href="boamp.html">BOAMP&nbsp;→</a>&nbsp;: le BOAMP
+      publie des <em>annonces</em> (la publicité, en texte), les DECP des
+      <em>marchés attribués</em> (les données, structurées). Les deux se
+      complètent, aucun ne contient l'autre.</p>
+    <details class="naf-src-exo">
+      <summary>Un titulaire apparaît trois fois dans les DECP. Puis-je conclure qu'il a remporté trois marchés&nbsp;?</summary>
+      <p class="naf-src-exorep">Pas sans contrôle&nbsp;: ce peuvent être
+      trois marchés réels — ou un marché publié en double par deux
+      canaux, ou un marché et ses modifications. Dédoublonner sur
+      l'identifiant de marché (et vérifier les montants) vient
+      <em>avant</em> le comptage.</p>
+    </details>
+  </section>
+
+  <!-- ══════════════ 02 · PRENDRE EN MAIN ══════════════ -->
+  <section class="naf-comp-section" id="src-prendre">
+    <p class="naf-comp-kicker">02 · Prendre en main <span aria-hidden="true">·</span> 20–30 min</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Où et comment y accéder</p>
+    <div class="naf-bx-chaine" role="img"
+         aria-label="Chemin d'accès : publication par chaque acheteur, consolidation nationale, jeu de données sur data.economie.gouv.fr, API Explore ou export.">
+      <span>publication par chaque acheteur</span><span aria-hidden="true">→</span>
+      <span>consolidation nationale</span><span aria-hidden="true">→</span>
+      <span>data.economie.gouv.fr (jeu «&nbsp;marchés valides&nbsp;»)</span><span aria-hidden="true">→</span>
+      <span>API Explore ou export CSV/JSON</span>
+    </div>
+    <div class="naf-src-niveaux">
+      <div><p class="naf-src-nivtitre">Facilité d'accès</p>
+        <p><strong>Accessible à un débutant</strong>&nbsp;: open data sans
+        compte, API et exports directs.</p></div>
+      <div><p class="naf-src-nivtitre">Facilité d'exploitation</p>
+        <p><strong>Niveau intermédiaire recommandé</strong>&nbsp;: le
+        téléchargement est simple, mais les contrôles qualité (doublons,
+        montants, titulaires multiples) sont indispensables avant toute
+        analyse.</p></div>
+      <div><p class="naf-src-nivtitre">R / Python, par tâche</p>
+        <p>Lire les marchés d'un acheteur&nbsp;: notions de base +
+        API. Étude d'attribution propre (dédoublonnage, appariement
+        Sirene)&nbsp;: intermédiaire confirmé.</p></div>
+    </div>
+    <p class="naf-tb-suite">Mettre en pratique&nbsp;:
+      <a class="naf-link" href="../boite-outils.html#decp">Boîte à outils — interroger les DECP →</a></p>
+    <details class="naf-src-exo">
+      <summary>Le champ <span class="naf-mono">titulaire_id_1</span> contient «&nbsp;79412357800016&nbsp;». Qu'avez-vous exactement&nbsp;?</summary>
+      <p class="naf-src-exorep">Un <strong>SIRET</strong> (14 chiffres)&nbsp;:
+      l'établissement titulaire. Ses 9 premiers chiffres donnent le SIREN
+      de l'unité légale — la clé pour enrichir via
+      <a class="naf-link" href="sirene.html">Sirene</a> (activité,
+      localisation, taille). À manipuler en chaîne, jamais en nombre.</p>
+    </details>
+  </section>
+
+  <!-- ══════════════ 03 · EXPLOITER ══════════════ -->
+  <section class="naf-comp-section" id="src-exploiter">
+    <p class="naf-comp-kicker">03 · Exploiter en statisticien <span aria-hidden="true">·</span> 45–60 min</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Le grain, les variables, les pièges</p>
+    <p class="naf-bx-texte">Les cinq variables à regarder en premier&nbsp;:</p>
+    <dl class="naf-deflist">
+      <dt>l'identifiant du marché</dt><dd>la clé de dédoublonnage — un même
+      marché peut arriver par plusieurs canaux de publication&nbsp;;</dd>
+      <dt>les titulaires (<span class="naf-mono">titulaire_id_1/2/3</span>)</dt>
+      <dd>des SIRET&nbsp;; un marché à trois titulaires n'est pas trois
+      marchés&nbsp;;</dd>
+      <dt>le montant</dt><dd>déclaré par l'acheteur&nbsp;: unités, erreurs
+      de saisie et montants aberrants existent — examiner la distribution
+      avant de sommer&nbsp;;</dd>
+      <dt>la date (notification)</dt><dd>c'est la date du marché, pas celle
+      de son exécution ni de son paiement&nbsp;;</dd>
+      <dt>le code CPV</dt><dd>la nomenclature des achats — qui n'est
+      <em>pas</em> la NAF&nbsp;: un croisement CPV ↔ activité doit être
+      documenté.</dd>
+    </dl>
+    <p class="naf-bx-texte">Les cinq contrôles avant de compter&nbsp;:</p>
+    <dl class="naf-deflist">
+      <dt>☐ Mes doublons</dt><dd>même identifiant de marché publié plusieurs fois&nbsp;?</dd>
+      <dt>☐ Mon grain</dt><dd>marché, ou marché × titulaire après dépliage&nbsp;?</dd>
+      <dt>☐ Mes montants</dt><dd>distribution examinée, aberrants traités et documentés&nbsp;?</dd>
+      <dt>☐ Mes identifiants</dt><dd>SIRET valides à 14 chiffres, en chaînes&nbsp;?</dd>
+      <dt>☐ Ma couverture</dt><dd>les DECP décrivent ce qui est déclaré et
+      consolidé — pas nécessairement l'exhaustivité de la commande.</dd>
+    </dl>
+    <details class="naf-src-exo">
+      <summary>Après dépliage des titulaires, vos 100 marchés donnent 137 lignes. Que valent «&nbsp;les montants totaux&nbsp;» sommés sur ces 137 lignes&nbsp;?</summary>
+      <p class="naf-src-exorep">Ils sont faux&nbsp;: le montant du marché
+      se répète sur chaque ligne de titulaire — la somme compte plusieurs
+      fois les marchés multi-titulaires. Sommer au grain
+      <em>marché</em> (avant dépliage, ou après dédoublonnage) est la
+      seule option honnête&nbsp;; la répartition entre co-titulaires,
+      elle, n'est généralement pas connue.</p>
+    </details>
+  </section>
+
+  <!-- ══════════════ 04 · APPROFONDIR ══════════════ -->
+  <section class="naf-comp-section" id="src-approfondir">
+    <p class="naf-comp-kicker">04 · Approfondir <span aria-hidden="true">·</span> 1 h et +</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Les DECP dans une vraie étude</p>
+    <div class="naf-comp-vs">
+      <div class="naf-comp-vs-panel">
+        <p class="naf-comp-vs-title">Économie des entreprises</p>
+        <ul>
+          <li>Quelle concentration parmi les titulaires d'un segment
+              d'achat (CPV, acheteur, territoire)&nbsp;?</li>
+          <li>Quelles PME accèdent à la commande publique — en enrichissant
+              les titulaires via Sirene&nbsp;?</li>
+          <li>Comment un acheteur répartit-il ses marchés dans le temps&nbsp;?</li>
+        </ul>
+      </div>
+      <div class="naf-comp-vs-panel naf-comp-vs-panel-neg">
+        <p class="naf-comp-vs-title">Économie de la Défense</p>
+        <ul>
+          <li><strong>Possible</strong>&nbsp;: observer la part
+              <em>publiée</em> de la commande de la sphère Défense et ses
+              titulaires identifiés (SIRET).</li>
+          <li><strong>Impossible à conclure</strong>&nbsp;: la commande
+              publiquement observable n'est pas l'ensemble de la commande
+              de la Défense — marchés sensibles, secrets ou exemptés
+              peuvent être absents. Pour les paiements effectifs du
+              ministère, la source dédiée est le
+              <a class="naf-link" href="refd.html">REFD&nbsp;→</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="naf-tb-suite">Construire l'étude&nbsp;:
+      <a class="naf-link" href="../../bonus/atelier.html?question=marches_publics">Atelier — étude de marchés publics →</a> ·
+      <a class="naf-link" href="../boite-outils.html#appariement">Boîte à outils — apparier titulaires × Sirene →</a></p>
+  </section>
+
+  <!-- ══════════════ MÉMO ══════════════ -->
+  <section class="naf-comp-section" id="src-memo">
+    <p class="naf-comp-kicker">Ce qu'il faut retenir</p>
+    <dl class="naf-src-memo">
+      <div><dt>Producteur</dt><dd>acheteurs publics · consolidation DAJ / data.economie.gouv.fr</dd></div>
+      <div><dt>Grain</dt><dd>marché attribué (× titulaire après dépliage)</dd></div>
+      <div><dt>Identifiants</dt><dd>id de marché · SIRET des titulaires</dd></div>
+      <div><dt>Fraîcheur</dt><dd>alimentation continue</dd></div>
+      <div><dt>Accès</dt><dd>open data, API sans compte</dd></div>
+      <div><dt>Difficulté</dt><dd>accès facile · exploitation intermédiaire (qualité à contrôler)</dd></div>
+      <div><dt>Point fort</dt><dd>l'attribution structurée, appariable à Sirene</dd></div>
+      <div><dt>Limite majeure</dt><dd>qualité hétérogène ; couverture ≠ exhaustivité</dd></div>
+    </dl>
+    <div class="naf-src-avant">
+      <div><em>Avant ce parcours</em><p>Je somme des montants DECP et j'appelle cela «&nbsp;la commande publique&nbsp;».</p></div>
+      <div><em>Après ce parcours</em><p>Je dédoublonne avant de compter, je
+      choisis mon grain avant de déplier les titulaires, je contrôle les
+      montants, et je sais ce que la couverture des DECP m'interdit de
+      conclure — en particulier côté Défense.</p></div>
+    </div>
+  </section>
+
+  <!-- ══════════════ SOURCES ══════════════ -->
+  <section class="naf-comp-section naf-src-refs" id="src-sources">
+    <p class="naf-comp-kicker">Sources officielles</p>
+    <ul>
+      <li>Ministère de l'Économie — <a class="naf-link" data-src-portal="decp" target="_blank" rel="noopener noreferrer">DECP consolidées, jeu « marchés valides » (data.economie.gouv.fr) ↗</a> — consulté le 31 août 2026.</li>
+      <li>DAJ — cadre de publication des données essentielles (arrêté du
+        22 mars 2019 modifié&nbsp;; publication centralisée sur data.gouv.fr
+        depuis le 1ᵉʳ janvier 2024, arrêtés du 22 décembre 2022) —
+        <a class="naf-link" href="https://www.economie.gouv.fr/cedef/fiches-pratiques/donnees-essentielles-de-la-commande-publique-decp-de-quoi-sagit-il" target="_blank" rel="noopener noreferrer">fiche CEDEF ↗</a> — consultée le 31 août 2026.</li>
+      <li>Caractéristiques factuelles issues du manifeste
+        <span class="naf-mono">data/etudes/sources.csv</span> —
+        voir <a class="naf-link" href="../../methode/index.html">Méthode &amp; provenance →</a></li>
+    </ul>
+  </section>
+</div>
+```
+
+:::

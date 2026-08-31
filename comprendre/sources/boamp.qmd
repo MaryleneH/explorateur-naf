@@ -1,0 +1,224 @@
+---
+pagetitle: "Comprendre le BOAMP — Explorateur NAF"
+title: ""
+include-after-body: "../../includes/sources-hub-scripts.html"
+---
+
+::: {.naf-page}
+
+```{=html}
+<div class="naf-prog naf-src" id="naf-src">
+
+  <header class="naf-viz-intro">
+    <p class="naf-comp-kicker">Comprendre · Comprendre les sources · BOAMP</p>
+    <p class="naf-hand-heading naf-viz-title" role="heading" aria-level="1">BOAMP</p>
+    <p class="naf-viz-lede">
+      Le Bulletin officiel des annonces de marchés publics publie les
+      <strong>annonces</strong> de la commande publique&nbsp;: appels à la
+      concurrence, avis d'attribution, concessions. C'est la publicité des
+      marchés — pas leur contenu.
+    </p>
+    <p class="naf-tb-srcline"><strong>Source :</strong> DILA ·
+      <a class="naf-link" data-src-portal="boamp" target="_blank" rel="noopener noreferrer">Jeu de données Opendatasoft ↗</a> ·
+      <a class="naf-link" href="../../bonus/sources.html#source-boamp">État actuel de la source →</a></p>
+  </header>
+
+  <nav id="naf-src-nav" data-current="boamp" aria-label="Changer de source">
+    <p class="naf-bx-repli"><a class="naf-link" href="index.html">← Toutes les sources</a></p>
+  </nav>
+
+  <!-- ══════════════ 01 · DÉCOUVRIR ══════════════ -->
+  <section class="naf-comp-section" id="src-decouvrir">
+    <p class="naf-comp-kicker">01 · Découvrir <span aria-hidden="true">·</span> 10–15 min</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Ce qu'est le BOAMP</p>
+    <dl class="naf-src-fiche">
+      <div><dt>Producteur</dt><dd>Direction de l'information légale et administrative (DILA)</dd></div>
+      <div><dt>Pourquoi il existe</dt><dd>assurer la <strong>publicité</strong> des marchés publics (bulletin officiel créé en 1957)&nbsp;: transparence et mise en concurrence</dd></div>
+      <div><dt>Ce qu'on y lit</dt><dd>avis d'appel à la concurrence, avis d'attribution, avis de concession, rectificatifs&nbsp;; relais d'avis envoyés au JOUE</dd></div>
+      <div><dt>Fréquence</dt><dd>publication quotidienne</dd></div>
+      <div><dt>Point fort</dt><dd>voir la demande publique <em>avant</em> l'attribution — et en texte riche</dd></div>
+      <div><dt>Limite majeure</dt><dd>couverture = annonces <em>soumises à publication</em>&nbsp;: absence d'annonce ≠ absence de commande</dd></div>
+    </dl>
+    <div class="naf-src-grain">
+      <p class="naf-src-grainq">Que représente une ligne&nbsp;?</p>
+      <p class="naf-src-grainv">Une annonce.</p>
+      <p class="naf-src-grainnote">Pas un marché&nbsp;: un même marché peut
+      générer plusieurs annonces (appel, rectificatif, attribution), et
+      une annonce peut couvrir plusieurs lots. Compter des annonces, c'est
+      compter des publications.</p>
+    </div>
+    <div class="naf-comp-vs">
+      <div class="naf-comp-vs-panel">
+        <p class="naf-comp-vs-title">BOAMP — la publicité</p>
+        <ul>
+          <li>des <strong>annonces</strong>, en amont et en aval&nbsp;;</li>
+          <li>du texte (objet, acheteur, procédure)&nbsp;;</li>
+          <li>idéal pour la veille et la demande publique.</li>
+        </ul>
+      </div>
+      <div class="naf-comp-vs-panel">
+        <p class="naf-comp-vs-title">DECP — les marchés attribués</p>
+        <ul>
+          <li>des <strong>données structurées</strong> par marché&nbsp;;</li>
+          <li>titulaires (SIRET), montants, dates&nbsp;;</li>
+          <li>idéal pour l'analyse de l'attribution —
+              <a class="naf-link" href="decp.html">voir la page DECP&nbsp;→</a></li>
+        </ul>
+      </div>
+    </div>
+    <details class="naf-src-exo">
+      <summary>Une entreprise n'apparaît dans aucune annonce BOAMP. Peut-on en conclure qu'elle ne travaille pas pour le secteur public&nbsp;?</summary>
+      <p class="naf-src-exorep">Non. Le BOAMP couvre les annonces soumises
+      à publication&nbsp;: marchés sous les seuils, procédures
+      particulières ou marchés relevant d'exemptions peuvent n'y jamais
+      figurer — et le BOAMP publie des annonces, où le titulaire
+      n'apparaît qu'à l'attribution. <em>Absence de publication ≠ absence
+      de relation.</em></p>
+    </details>
+  </section>
+
+  <!-- ══════════════ 02 · PRENDRE EN MAIN ══════════════ -->
+  <section class="naf-comp-section" id="src-prendre">
+    <p class="naf-comp-kicker">02 · Prendre en main <span aria-hidden="true">·</span> 20–30 min</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Où et comment y accéder</p>
+    <div class="naf-bx-chaine" role="img"
+         aria-label="Chemin d'accès : le portail boamp.fr pour la consultation, la plateforme Opendatasoft de la DILA pour les données, l'API Explore pour les requêtes filtrées et paginées, réponse en JSON.">
+      <span>boamp.fr (consultation)</span><span aria-hidden="true">→</span>
+      <span>plateforme Opendatasoft DILA (open data)</span><span aria-hidden="true">→</span>
+      <span>API Explore v2.1&nbsp;: filtres, texte, pagination</span><span aria-hidden="true">→</span>
+      <span>JSON</span>
+    </div>
+    <div class="naf-src-niveaux">
+      <div><p class="naf-src-nivtitre">Facilité d'accès</p>
+        <p><strong>Accessible à un débutant</strong>&nbsp;: open data sans
+        compte, recherche plein texte immédiate sur le portail.</p></div>
+      <div><p class="naf-src-nivtitre">Facilité d'exploitation</p>
+        <p><strong>Quelques notions utiles</strong>&nbsp;: réponses JSON,
+        champs riches en texte libre, pagination pour dépasser les
+        premières dizaines de résultats.</p></div>
+      <div><p class="naf-src-nivtitre">R / Python, par tâche</p>
+        <p>Lire 20 annonces via l'API&nbsp;: intermédiaire léger.
+        Constituer un historique massif d'annonces&nbsp;: intermédiaire à
+        avancé (pagination contrôlée, volumes).</p></div>
+    </div>
+    <p class="naf-tb-suite">Mettre en pratique&nbsp;:
+      <a class="naf-link" href="../boite-outils.html#boamp">Boîte à outils — chercher des annonces BOAMP →</a></p>
+    <details class="naf-src-exo">
+      <summary>Votre requête API renvoie exactement 100 lignes. Avez-vous toutes les annonces&nbsp;?</summary>
+      <p class="naf-src-exorep">Probablement pas&nbsp;: 100 est une taille
+      de page typique. Sans pagination (paramètres
+      <span class="naf-mono">limit</span>/<span class="naf-mono">offset</span>
+      enchaînés), vous n'avez que la première page — le total annoncé par
+      l'API (<span class="naf-mono">total_count</span>) fait foi.</p>
+    </details>
+  </section>
+
+  <!-- ══════════════ 03 · EXPLOITER ══════════════ -->
+  <section class="naf-comp-section" id="src-exploiter">
+    <p class="naf-comp-kicker">03 · Exploiter en statisticien <span aria-hidden="true">·</span> 45–60 min</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Le grain, les variables, les pièges</p>
+    <p class="naf-bx-texte">Ce qu'il faut regarder en premier dans une
+    annonce&nbsp;:</p>
+    <dl class="naf-deflist">
+      <dt>l'identifiant de l'annonce</dt><dd>la clé de dédoublonnage — un
+      rectificatif est une <em>autre</em> annonce du même marché&nbsp;;</dd>
+      <dt>le type d'avis</dt><dd>appel à la concurrence, attribution,
+      rectificatif… mélanger les types fausse tout comptage&nbsp;;</dd>
+      <dt>la date de publication</dt><dd>c'est la date de <em>l'annonce</em>,
+      pas celle du marché ni de son exécution&nbsp;;</dd>
+      <dt>l'acheteur</dt><dd>souvent en texte (dénomination)&nbsp;: les
+      variantes d'écriture imposent une normalisation avant d'agréger&nbsp;;</dd>
+      <dt>l'objet</dt><dd>du texte libre — une recherche par mots-clés a des
+      faux positifs et des absents&nbsp;: dire comment vous cherchez fait
+      partie du résultat.</dd>
+    </dl>
+    <p class="naf-bx-texte">Les cinq contrôles avant de compter&nbsp;:</p>
+    <dl class="naf-deflist">
+      <dt>☐ Mon grain</dt><dd>je compte des annonces — pas des marchés, pas des entreprises.</dd>
+      <dt>☐ Mes types d'avis</dt><dd>ai-je séparé appels et attributions&nbsp;?</dd>
+      <dt>☐ Mes doublons</dt><dd>rectificatifs et republications sont-ils dédoublonnés&nbsp;?</dd>
+      <dt>☐ Ma période</dt><dd>filtrée sur la date de publication — en le disant.</dd>
+      <dt>☐ Ma requête texte</dt><dd>documentée (mots, champs) — une autre requête donnerait un autre corpus.</dd>
+    </dl>
+    <details class="naf-src-exo">
+      <summary>Vous comptez 340 annonces contenant «&nbsp;maintenance aéronautique&nbsp;». Est-ce «&nbsp;340 marchés de maintenance aéronautique&nbsp;»&nbsp;?</summary>
+      <p class="naf-src-exorep">Non, trois fois&nbsp;: ce sont des
+      <em>annonces</em> (un marché peut en avoir plusieurs)&nbsp;; le
+      corpus dépend de la requête texte (« MRO », « entretien d'aéronefs »
+      échappent au filtre)&nbsp;; et tous types d'avis confondus, appels et
+      attributions s'y mélangent. Au mieux&nbsp;: «&nbsp;340 annonces
+      correspondant à cette requête&nbsp;».</p>
+    </details>
+  </section>
+
+  <!-- ══════════════ 04 · APPROFONDIR ══════════════ -->
+  <section class="naf-comp-section" id="src-approfondir">
+    <p class="naf-comp-kicker">04 · Approfondir <span aria-hidden="true">·</span> 1 h et +</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Le BOAMP dans une vraie étude</p>
+    <div class="naf-comp-vs">
+      <div class="naf-comp-vs-panel">
+        <p class="naf-comp-vs-title">Économie des entreprises</p>
+        <ul>
+          <li>Observer la <strong>demande publique</strong> d'un domaine&nbsp;:
+              qui achète quoi, où, à quel rythme&nbsp;?</li>
+          <li>Faire de la veille sur un segment (objet, acheteur,
+              territoire).</li>
+          <li>Comparer publication et attribution en croisant avec les
+              <a class="naf-link" href="decp.html">DECP&nbsp;→</a></li>
+        </ul>
+      </div>
+      <div class="naf-comp-vs-panel naf-comp-vs-panel-neg">
+        <p class="naf-comp-vs-title">Économie de la Défense</p>
+        <ul>
+          <li><strong>Possible</strong>&nbsp;: observer la part
+              <em>publiée</em> de la commande de la sphère Défense
+              (annonces des acheteurs concernés).</li>
+          <li><strong>Impossible à conclure</strong>&nbsp;: l'absence de
+              marché publié = absence de relation avec la Défense. Des
+              marchés sensibles, secrets ou relevant d'exemptions peuvent
+              ne jamais être publiés — la partie visible ne borne pas la
+              partie réelle.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="naf-tb-suite">Construire l'étude&nbsp;:
+      <a class="naf-link" href="../../bonus/atelier.html?question=marches_publics">Atelier — étude de marchés publics →</a></p>
+  </section>
+
+  <!-- ══════════════ MÉMO ══════════════ -->
+  <section class="naf-comp-section" id="src-memo">
+    <p class="naf-comp-kicker">Ce qu'il faut retenir</p>
+    <dl class="naf-src-memo">
+      <div><dt>Producteur</dt><dd>DILA</dd></div>
+      <div><dt>Grain</dt><dd>une annonce (pas un marché)</dd></div>
+      <div><dt>Identifiant</dt><dd>identifiant d'annonce ; l'acheteur souvent en texte</dd></div>
+      <div><dt>Fraîcheur</dt><dd>publication quotidienne</dd></div>
+      <div><dt>Accès</dt><dd>open data, API Opendatosoft sans compte</dd></div>
+      <div><dt>Difficulté</dt><dd>accès facile · exploitation intermédiaire (texte, types, pagination)</dd></div>
+      <div><dt>Point fort</dt><dd>la demande publique visible en amont</dd></div>
+      <div><dt>Limite majeure</dt><dd>absence d'annonce ≠ absence de commande</dd></div>
+    </dl>
+    <div class="naf-src-avant">
+      <div><em>Avant ce parcours</em><p>BOAMP et DECP, «&nbsp;c'est pareil, ce sont les marchés publics&nbsp;».</p></div>
+      <div><em>Après ce parcours</em><p>Je sais que le BOAMP publie des
+      annonces, comment les requêter proprement (types d'avis, pagination,
+      texte documenté), et ce que la couverture de publication interdit de
+      conclure.</p></div>
+    </div>
+  </section>
+
+  <!-- ══════════════ SOURCES ══════════════ -->
+  <section class="naf-comp-section naf-src-refs" id="src-sources">
+    <p class="naf-comp-kicker">Sources officielles</p>
+    <ul>
+      <li>DILA — <a class="naf-link" data-src-portal="boamp" target="_blank" rel="noopener noreferrer">BOAMP en open data (plateforme Opendatasoft) ↗</a> ;
+        portail de consultation <a class="naf-link" href="https://www.boamp.fr" target="_blank" rel="noopener noreferrer">boamp.fr ↗</a> — consultés le 31 août 2026.</li>
+      <li>Caractéristiques factuelles issues du manifeste
+        <span class="naf-mono">data/etudes/sources.csv</span> —
+        voir <a class="naf-link" href="../../methode/index.html">Méthode &amp; provenance →</a></li>
+    </ul>
+  </section>
+</div>
+```
+
+:::

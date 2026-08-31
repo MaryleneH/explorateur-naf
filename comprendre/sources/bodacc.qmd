@@ -1,0 +1,233 @@
+---
+pagetitle: "Comprendre le BODACC — Explorateur NAF"
+title: ""
+include-after-body: "../../includes/sources-hub-scripts.html"
+---
+
+::: {.naf-page}
+
+```{=html}
+<div class="naf-prog naf-src" id="naf-src">
+
+  <header class="naf-viz-intro">
+    <p class="naf-comp-kicker">Comprendre · Comprendre les sources · BODACC</p>
+    <p class="naf-hand-heading naf-viz-title" role="heading" aria-level="1">BODACC</p>
+    <p class="naf-viz-lede">
+      Le Bulletin officiel des annonces civiles et commerciales publie les
+      annonces relatives à la vie juridique des entreprises&nbsp;:
+      créations, modifications, procédures collectives, radiations, dépôts
+      des comptes. Une source d'<strong>événements</strong> — au format
+      JSON semi-structuré.
+    </p>
+    <p class="naf-tb-srcline"><strong>Source :</strong> DILA ·
+      <a class="naf-link" data-src-portal="bodacc" target="_blank" rel="noopener noreferrer">Jeu de données Opendatasoft ↗</a> ·
+      <a class="naf-link" href="../../bonus/sources.html#source-bodacc">État actuel de la source →</a></p>
+  </header>
+
+  <nav id="naf-src-nav" data-current="bodacc" aria-label="Changer de source">
+    <p class="naf-bx-repli"><a class="naf-link" href="index.html">← Toutes les sources</a></p>
+  </nav>
+
+  <!-- ══════════════ 01 · DÉCOUVRIR ══════════════ -->
+  <section class="naf-comp-section" id="src-decouvrir">
+    <p class="naf-comp-kicker">01 · Découvrir <span aria-hidden="true">·</span> 10–15 min</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Ce qu'est le BODACC</p>
+    <dl class="naf-src-fiche">
+      <div><dt>Producteur</dt><dd>Direction de l'information légale et administrative (DILA)</dd></div>
+      <div><dt>Pourquoi il existe</dt><dd>publicité légale des événements de la vie des entreprises inscrits aux registres</dd></div>
+      <div><dt>Ce qu'on y lit</dt><dd>familles d'avis&nbsp;: créations, immatriculations, ventes et cessions, modifications, radiations, procédures collectives, dépôts des comptes</dd></div>
+      <div><dt>Fréquence</dt><dd>plusieurs parutions par semaine (bulletins A, B, C)</dd></div>
+      <div><dt>Point fort</dt><dd>des événements datés, par entreprise (SIREN via le champ registre)</dd></div>
+      <div><dt>Limite majeure</dt><dd>événements <em>juridiques publiés</em>&nbsp;: tout événement économique n'y figure pas</dd></div>
+    </dl>
+    <div class="naf-src-grain">
+      <p class="naf-src-grainq">Que représente une ligne&nbsp;?</p>
+      <p class="naf-src-grainv">Une annonce — c'est-à-dire un événement publié concernant une unité légale.</p>
+      <p class="naf-src-grainnote">Pas une entreprise&nbsp;: une même
+      société génère autant d'annonces que d'événements publiés. Et chaque
+      famille d'avis remplit des <strong>branches différentes</strong> du
+      JSON (personnes, établissements, jugement, radiation…)&nbsp;: c'est
+      l'exemple type de la donnée semi-structurée.</p>
+    </div>
+    <p class="naf-bx-texte">Ne pas confondre trois objets voisins&nbsp;:
+      le <strong>BODACC</strong> publie les <em>annonces</em> des
+      événements&nbsp;; le <a class="naf-link" href="rne.html">RNE&nbsp;→</a>
+      est le <em>registre</em> lui-même (tenu par l'INPI)&nbsp;;
+      <a class="naf-link" href="sirene.html">Sirene&nbsp;→</a> est le
+      <em>répertoire</em> d'identification (Insee). Trois finalités, trois
+      producteurs.</p>
+    <details class="naf-src-exo">
+      <summary>Une entreprise n'a aucune annonce BODACC en 2025. Est-elle restée sans événement&nbsp;?</summary>
+      <p class="naf-src-exorep">Sans événement <em>soumis à
+      publication</em>, oui — sans événement du tout, non&nbsp;: un
+      changement de dirigeant non publié au BODACC, une évolution
+      d'activité, un déménagement d'établissement peuvent passer par
+      d'autres canaux. Le BODACC observe la vie juridique publiée, pas la
+      vie économique.</p>
+    </details>
+  </section>
+
+  <!-- ══════════════ 02 · PRENDRE EN MAIN ══════════════ -->
+  <section class="naf-comp-section" id="src-prendre">
+    <p class="naf-comp-kicker">02 · Prendre en main <span aria-hidden="true">·</span> 20–30 min</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Où et comment y accéder</p>
+    <div class="naf-bx-chaine" role="img"
+         aria-label="Chemin d'accès : bodacc.fr pour la consultation, la plateforme Opendatasoft de la DILA pour l'open data, l'API Explore pour filtrer par SIREN, famille ou date, réponse en JSON.">
+      <span>bodacc.fr (consultation)</span><span aria-hidden="true">→</span>
+      <span>plateforme Opendatasoft DILA</span><span aria-hidden="true">→</span>
+      <span>API Explore v2.1&nbsp;: filtres SIREN / famille / date</span><span aria-hidden="true">→</span>
+      <span>JSON</span>
+    </div>
+    <p class="naf-callout"><strong>Le piège qui surprend tout le
+    monde&nbsp;: du JSON dans le JSON.</strong> Dans les enregistrements de
+    l'API, les branches imbriquées (<span class="naf-mono">listepersonnes</span>,
+    <span class="naf-mono">jugement</span>, <span class="naf-mono">acte</span>…)
+    sont des <em>chaînes de caractères</em> qui contiennent elles-mêmes du
+    JSON — il faut les re-parser. Et une branche absente n'est pas une
+    erreur&nbsp;: chaque famille d'avis remplit les siennes.</p>
+    <div class="naf-src-niveaux">
+      <div><p class="naf-src-nivtitre">Facilité d'accès</p>
+        <p><strong>Accessible à un débutant</strong>&nbsp;: open data sans
+        compte, API immédiate.</p></div>
+      <div><p class="naf-src-nivtitre">Facilité d'exploitation</p>
+        <p><strong>Niveau intermédiaire recommandé</strong>&nbsp;: le JSON
+        semi-structuré (branches variables, JSON imbriqué, listes) demande
+        de vraies décisions de grain avant toute table.</p></div>
+      <div><p class="naf-src-nivtitre">R / Python, par tâche</p>
+        <p>Suivre les événements d'une liste de SIREN via l'API&nbsp;:
+        intermédiaire léger. Normaliser des annonces JSON en tables
+        contrôlées&nbsp;: intermédiaire — le cas pratique complet du site
+        l'enseigne pas à pas.</p></div>
+    </div>
+    <p class="naf-bx-fort">Vous voulez maintenant travailler réellement
+    les JSON&nbsp;? Le site contient un cas pratique complet, exécuté sur
+    trois annonces réelles — du fichier brut aux tables contrôlées&nbsp;:
+    <a class="naf-link" href="../programmes/bodacc-json.html"><strong>Ouvrir le cas pratique JSON BODACC →</strong></a></p>
+    <p class="naf-tb-suite">La requête rapide est dans la
+      <a class="naf-link" href="../boite-outils.html#bodacc">Boîte à outils — lire les événements BODACC →</a></p>
+    <details class="naf-src-exo">
+      <summary><span class="naf-mono">annonce["jugement"]["nature"]</span> plante sur une annonce de création. Pourquoi&nbsp;?</summary>
+      <p class="naf-src-exorep">Deux raisons&nbsp;: sur une création, la
+      branche <span class="naf-mono">jugement</span> vaut
+      <span class="naf-mono">null</span> (elle ne concerne que les
+      procédures collectives)&nbsp;; et quand elle existe, c'est une
+      <em>chaîne</em> à re-parser avant d'y lire
+      <span class="naf-mono">nature</span>. Accès sûr d'abord, extraction
+      ensuite.</p>
+    </details>
+  </section>
+
+  <!-- ══════════════ 03 · EXPLOITER ══════════════ -->
+  <section class="naf-comp-section" id="src-exploiter">
+    <p class="naf-comp-kicker">03 · Exploiter en statisticien <span aria-hidden="true">·</span> 45–60 min</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Le grain, les variables, les pièges</p>
+    <p class="naf-bx-texte">Les cinq variables à regarder en premier
+    (noms réels du dataset <span class="naf-mono">annonces-commerciales</span>)&nbsp;:</p>
+    <dl class="naf-deflist">
+      <dt><span class="naf-mono">id</span></dt><dd>l'identifiant de
+      l'annonce — la clé d'unicité de la table&nbsp;;</dd>
+      <dt><span class="naf-mono">familleavis</span> / <span class="naf-mono">familleavis_lib</span></dt>
+      <dd>la famille d'événement (création, collective, radiation…) — elle
+      détermine quelles branches sont remplies&nbsp;;</dd>
+      <dt><span class="naf-mono">registre</span></dt><dd>porte le SIREN
+      (avec et sans espaces)&nbsp;: à normaliser en chaîne de 9 chiffres&nbsp;;</dd>
+      <dt><span class="naf-mono">dateparution</span></dt><dd>la date de
+      <em>publication</em> — l'événement lui-même (jugement, cessation)
+      porte sa propre date dans sa branche&nbsp;;</dd>
+      <dt>les branches (<span class="naf-mono">listepersonnes</span>, <span class="naf-mono">jugement</span>…)</dt>
+      <dd>du JSON encodé en chaîne, variable selon la famille — le cœur du
+      travail d'extraction.</dd>
+    </dl>
+    <p class="naf-bx-texte">Les cinq contrôles avant de compter&nbsp;:</p>
+    <dl class="naf-deflist">
+      <dt>☐ Mon grain</dt><dd>je compte des annonces (événements publiés), pas des entreprises.</dd>
+      <dt>☐ Ma date</dt><dd>parution ou événement&nbsp;? Un jugement d'avril peut paraître en août.</dd>
+      <dt>☐ Mes familles</dt><dd>ai-je séparé les familles d'avis avant d'agréger&nbsp;?</dd>
+      <dt>☐ Mes branches absentes</dt><dd>absence ≠ erreur — mon extraction survit-elle à une branche null&nbsp;?</dd>
+      <dt>☐ Mes SIREN</dt><dd>normalisés en chaînes de 9 chiffres, prêts pour l'appariement Sirene.</dd>
+    </dl>
+    <details class="naf-src-exo">
+      <summary>Vous comptez les annonces «&nbsp;procédures collectives&nbsp;» de septembre par <span class="naf-mono">dateparution</span>. Que mesurez-vous exactement&nbsp;?</summary>
+      <p class="naf-src-exorep">Les procédures <em>publiées</em> en
+      septembre — dont des jugements rendus des semaines plus tôt. Pour
+      une chronologie économique, la date du jugement (dans la branche
+      <span class="naf-mono">jugement</span>) est souvent la bonne&nbsp;;
+      la date de parution mesure le flux de publication.</p>
+    </details>
+  </section>
+
+  <!-- ══════════════ 04 · APPROFONDIR ══════════════ -->
+  <section class="naf-comp-section" id="src-approfondir">
+    <p class="naf-comp-kicker">04 · Approfondir <span aria-hidden="true">·</span> 1 h et +</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Le BODACC dans une vraie étude</p>
+    <div class="naf-comp-vs">
+      <div class="naf-comp-vs-panel">
+        <p class="naf-comp-vs-title">Économie des entreprises</p>
+        <ul>
+          <li>Suivre les événements d'une population&nbsp;: créations,
+              modifications, radiations, procédures collectives, dépôts.</li>
+          <li>Construire des indicateurs d'événements datés par activité ou
+              territoire (via appariement Sirene).</li>
+          <li>Détecter des signaux de fragilité — <em>un événement isolé n'a
+              aucune valeur prédictive</em>.</li>
+        </ul>
+      </div>
+      <div class="naf-comp-vs-panel naf-comp-vs-panel-neg">
+        <p class="naf-comp-vs-title">Économie de la Défense</p>
+        <ul>
+          <li><strong>Possible</strong>&nbsp;: suivre les événements
+              juridiques d'un périmètre de fournisseurs Défense
+              <em>déjà documenté</em> (REFD, titulaires DECP…).</li>
+          <li><strong>Impossible</strong>&nbsp;: identifier des
+              fournisseurs Défense — rien dans une annonce BODACC ne dit
+              «&nbsp;Défense&nbsp;». Le périmètre vient d'ailleurs&nbsp;;
+              le BODACC ne fait que le suivre dans le temps.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="naf-tb-suite">Aller plus loin&nbsp;:
+      <a class="naf-link" href="../programmes/bodacc-json.html">Programmes — le cas complet JSON BODACC →</a> ·
+      <a class="naf-link" href="../../bonus/atelier.html?question=resilience">Atelier — suivre la santé d'une population →</a></p>
+  </section>
+
+  <!-- ══════════════ MÉMO ══════════════ -->
+  <section class="naf-comp-section" id="src-memo">
+    <p class="naf-comp-kicker">Ce qu'il faut retenir</p>
+    <dl class="naf-src-memo">
+      <div><dt>Producteur</dt><dd>DILA</dd></div>
+      <div><dt>Grain</dt><dd>une annonce = un événement publié (unité légale)</dd></div>
+      <div><dt>Identifiants</dt><dd>id d'annonce · SIREN via le champ registre</dd></div>
+      <div><dt>Fraîcheur</dt><dd>plusieurs parutions par semaine</dd></div>
+      <div><dt>Accès</dt><dd>open data, API sans compte — JSON semi-structuré</dd></div>
+      <div><dt>Difficulté</dt><dd>accès facile · exploitation intermédiaire (JSON imbriqué, grain)</dd></div>
+      <div><dt>Point fort</dt><dd>des événements datés, appariables par SIREN</dd></div>
+      <div><dt>Limite majeure</dt><dd>vie juridique publiée ≠ vie économique</dd></div>
+    </dl>
+    <div class="naf-src-avant">
+      <div><em>Avant ce parcours</em><p>Je sais que BODACC existe.</p></div>
+      <div><em>Après ce parcours</em><p>Je sais ce qu'est une annonce,
+      comment l'obtenir, quel grain elle représente, comment survivre à
+      son JSON semi-structuré, quelle date utiliser — et ce qu'elle peut
+      (et ne peut pas) apporter à mon étude.</p></div>
+    </div>
+  </section>
+
+  <!-- ══════════════ SOURCES ══════════════ -->
+  <section class="naf-comp-section naf-src-refs" id="src-sources">
+    <p class="naf-comp-kicker">Sources officielles</p>
+    <ul>
+      <li>DILA — <a class="naf-link" data-src-portal="bodacc" target="_blank" rel="noopener noreferrer">BODACC, dataset « annonces-commerciales » (plateforme Opendatasoft) ↗</a> ;
+        portail <a class="naf-link" href="https://www.bodacc.fr" target="_blank" rel="noopener noreferrer">bodacc.fr ↗</a>.</li>
+      <li>Les structures JSON décrites ici sont celles de trois annonces
+        réelles collectées le 30 août 2026 et versionnées avec leur
+        traçabilité complète (<span class="naf-mono">data/exemples/bodacc/provenance.csv</span>) —
+        voir le <a class="naf-link" href="../programmes/bodacc-json.html">cas pratique →</a></li>
+      <li>Caractéristiques factuelles issues du manifeste
+        <span class="naf-mono">data/etudes/sources.csv</span> —
+        voir <a class="naf-link" href="../../methode/index.html">Méthode &amp; provenance →</a></li>
+    </ul>
+  </section>
+</div>
+```
+
+:::
