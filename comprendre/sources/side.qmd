@@ -1,0 +1,188 @@
+---
+pagetitle: "Comprendre SIDE — Explorateur NAF"
+title: ""
+include-after-body: "../../includes/sources-hub-scripts.html"
+---
+
+::: {.naf-page}
+
+```{=html}
+<div class="naf-prog naf-src" id="naf-src">
+
+  <header class="naf-viz-intro">
+    <p class="naf-comp-kicker">Comprendre · Comprendre les sources · SIDE</p>
+    <p class="naf-hand-heading naf-viz-title" role="heading" aria-level="1">SIDE</p>
+    <p class="naf-viz-lede">
+      SIDE — le Système d'information sur la démographie d'entreprises de
+      l'Insee — répond à la question que Sirene ne peut pas trancher
+      seul&nbsp;: parmi toutes les unités immatriculées, qui est
+      <strong>réellement actif économiquement</strong>&nbsp;?
+    </p>
+    <p class="naf-tb-srcline"><strong>Source :</strong> Insee ·
+      <a class="naf-link" data-src-portal="side" target="_blank" rel="noopener noreferrer">Fiche source Insee ↗</a> ·
+      <a class="naf-link" data-src-portal="side_stocks" target="_blank" rel="noopener noreferrer">Stocks annuels ↗</a> ·
+      <a class="naf-link" href="../../bonus/sources.html#source-side">État actuel de la source →</a></p>
+  </header>
+
+  <nav id="naf-src-nav" data-current="side" aria-label="Changer de source">
+    <p class="naf-bx-repli"><a class="naf-link" href="index.html">← Toutes les sources</a></p>
+  </nav>
+
+  <!-- ══════════════ 01 · DÉCOUVRIR ══════════════ -->
+  <section class="naf-comp-section" id="src-decouvrir">
+    <p class="naf-comp-kicker">01 · Découvrir <span aria-hidden="true">·</span> 10–15 min</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Ce qu'est SIDE</p>
+    <dl class="naf-src-fiche">
+      <div><dt>Producteur</dt><dd>Insee</dd></div>
+      <div><dt>Pourquoi il existe</dt><dd>produire la démographie officielle des entreprises (créations, stocks) sur un champ <em>économique</em>&nbsp;; remplace le REE depuis 2022</dd></div>
+      <div><dt>Comment il est construit</dt><dd>Sirene, enrichi de Sirus — le répertoire administratif passé au filtre statistique</dd></div>
+      <div><dt>Fréquence</dt><dd>créations&nbsp;: mensuel (conjoncturel)&nbsp;; stocks&nbsp;: annuel (structurel)</dd></div>
+      <div><dt>Point fort</dt><dd>le champ «&nbsp;économiquement actif&nbsp;», directement exploitable</dd></div>
+      <div><dt>Limite majeure</dt><dd>consolidation avec délai — plus lent que les sources administratives</dd></div>
+    </dl>
+    <div class="naf-src-grain">
+      <p class="naf-src-grainq">Que représente une ligne&nbsp;?</p>
+      <p class="naf-src-grainv">Une unité légale ou un établissement <strong>économiquement actif</strong> (résultats agrégés par croisements&nbsp;: activité, territoire, période).</p>
+      <p class="naf-src-grainnote">SIDE diffuse des <em>résultats
+      statistiques</em>, pas un répertoire à réidentifier&nbsp;: on y lit
+      des comptages (créations du mois, stock au 31 décembre), pas des
+      lignes par SIREN.</p>
+    </div>
+    <p class="naf-bx-texte">Le trio se lit ainsi&nbsp;:
+      <a class="naf-link" href="sirene.html">Sirene</a> immatricule
+      (administratif), <a class="naf-link" href="sirus.html">Sirus</a>
+      définit l'unité économique (référentiel), SIDE compte les actifs
+      (production statistique) — trois maillons, pas trois versions d'une
+      même base. Le comparatif complet est sur la
+      <a class="naf-link" href="sirus.html">page Sirus&nbsp;→</a>
+    </p>
+    <details class="naf-src-exo">
+      <summary>Le stock Sirene et le stock SIDE d'une même année ne donnent pas le même nombre d'unités. Qui se trompe&nbsp;?</summary>
+      <p class="naf-src-exorep">Personne&nbsp;: ils ne comptent pas la même
+      chose. Sirene compte les unités <em>immatriculées</em> (dont
+      beaucoup sans activité réelle)&nbsp;; SIDE compte les unités
+      <em>économiquement actives</em>, sur un champ statistique défini.
+      L'écart est une information, pas une erreur.</p>
+    </details>
+  </section>
+
+  <!-- ══════════════ 02 · PRENDRE EN MAIN ══════════════ -->
+  <section class="naf-comp-section" id="src-prendre">
+    <p class="naf-comp-kicker">02 · Prendre en main <span aria-hidden="true">·</span> 20–30 min</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Où et comment y accéder</p>
+    <div class="naf-bx-chaine" role="img"
+         aria-label="Chemin d'accès : pages Insee de la source SIDE, puis publications conjoncturelles mensuelles ou tableaux structurels annuels, puis téléchargement des tableaux.">
+      <span>insee.fr (fiche source s2120)</span><span aria-hidden="true">→</span>
+      <span>publications&nbsp;: créations mensuelles · stocks annuels</span><span aria-hidden="true">→</span>
+      <span>tableaux téléchargeables</span>
+    </div>
+    <div class="naf-src-niveaux">
+      <div><p class="naf-src-nivtitre">Facilité d'accès</p>
+        <p><strong>Accessible à un débutant</strong>&nbsp;: résultats
+        publics sur insee.fr, sans compte ni clé.</p></div>
+      <div><p class="naf-src-nivtitre">Facilité d'exploitation</p>
+        <p><strong>Accessible</strong>&nbsp;: des tableaux statistiques
+        déjà agrégés — l'enjeu est l'interprétation (champ, millésime),
+        pas la technique.</p></div>
+      <div><p class="naf-src-nivtitre">R / Python, par tâche</p>
+        <p>Lire un tableau de créations&nbsp;: débutant. Reconstituer une
+        série sur plusieurs millésimes en vérifiant les changements de
+        champ&nbsp;: intermédiaire.</p></div>
+    </div>
+    <details class="naf-src-exo">
+      <summary>Vous voulez le stock d'unités actives «&nbsp;du mois dernier&nbsp;». Que trouverez-vous&nbsp;?</summary>
+      <p class="naf-src-exorep">Rien d'aussi frais&nbsp;: les stocks SIDE
+      sont <strong>annuels</strong> et consolidés avec délai. Pour du
+      mensuel, SIDE publie les <em>créations</em>&nbsp;; pour un état
+      récent du répertoire (au sens administratif), c'est Sirene — en
+      assumant son champ différent.</p>
+    </details>
+  </section>
+
+  <!-- ══════════════ 03 · EXPLOITER ══════════════ -->
+  <section class="naf-comp-section" id="src-exploiter">
+    <p class="naf-comp-kicker">03 · Exploiter en statisticien <span aria-hidden="true">·</span> 45–60 min</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Les contrôles avant de compter</p>
+    <dl class="naf-deflist">
+      <dt>☐ Mon champ</dt><dd>SIDE compte des unités économiquement
+      actives — pas «&nbsp;toutes les entreprises de France&nbsp;».</dd>
+      <dt>☐ Mon indicateur</dt><dd>créations (flux) ou stock&nbsp;? Les
+      deux existent, à des fréquences différentes.</dd>
+      <dt>☐ Mon millésime</dt><dd>vérifier le dernier millésime réellement
+      publié — la consolidation prend du temps.</dd>
+      <dt>☐ Mes comparaisons</dt><dd>ne pas mélanger dans une même série
+      un comptage SIDE et un comptage Sirene&nbsp;: champs différents.</dd>
+      <dt>☐ Micro-entrepreneurs et cas particuliers</dt><dd>la démographie
+      des créations distingue des régimes&nbsp;: lire les définitions de
+      la publication avant d'agréger.</dd>
+    </dl>
+    <p class="naf-hand naf-bx-hand" aria-hidden="true">« disponible ne veut pas dire adapté »</p>
+  </section>
+
+  <!-- ══════════════ 04 · APPROFONDIR ══════════════ -->
+  <section class="naf-comp-section" id="src-approfondir">
+    <p class="naf-comp-kicker">04 · Approfondir <span aria-hidden="true">·</span> 1 h et +</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">SIDE dans une vraie étude</p>
+    <div class="naf-comp-vs">
+      <div class="naf-comp-vs-panel">
+        <p class="naf-comp-vs-title">Économie des entreprises</p>
+        <ul>
+          <li>Suivre la dynamique de créations d'un secteur ou d'un
+              territoire.</li>
+          <li>Rapporter un phénomène (défaillances, marchés, brevets) à un
+              <strong>dénominateur propre</strong>&nbsp;: le stock d'unités
+              réellement actives.</li>
+          <li>Mesurer l'écart immatriculé / actif — lui-même instructif.</li>
+        </ul>
+      </div>
+      <div class="naf-comp-vs-panel naf-comp-vs-panel-neg">
+        <p class="naf-comp-vs-title">Économie de la Défense</p>
+        <ul>
+          <li><strong>Possible</strong>&nbsp;: fournir le dénominateur
+              («&nbsp;combien d'unités actives dans ces activités&nbsp;?&nbsp;»)
+              pour relativiser un périmètre Défense.</li>
+          <li><strong>Impossible</strong>&nbsp;: repérer quoi que ce soit
+              de spécifiquement Défense — SIDE agrège par activité et
+              territoire, sans dimension «&nbsp;client&nbsp;».</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ MÉMO ══════════════ -->
+  <section class="naf-comp-section" id="src-memo">
+    <p class="naf-comp-kicker">Ce qu'il faut retenir</p>
+    <dl class="naf-src-memo">
+      <div><dt>Producteur</dt><dd>Insee</dd></div>
+      <div><dt>Grain</dt><dd>unités économiquement actives (résultats agrégés)</dd></div>
+      <div><dt>Construction</dt><dd>Sirene enrichi de Sirus (remplace le REE depuis 2022)</dd></div>
+      <div><dt>Fraîcheur</dt><dd>créations mensuelles · stocks annuels, consolidés avec délai</dd></div>
+      <div><dt>Accès</dt><dd>résultats publics, sans compte</dd></div>
+      <div><dt>Difficulté</dt><dd>technique facile · interprétation exigeante (champ, millésime)</dd></div>
+      <div><dt>Point fort</dt><dd>le bon dénominateur — qui est vraiment actif</dd></div>
+      <div><dt>Limite majeure</dt><dd>plus lent que l'administratif ; pas de détail individuel</dd></div>
+    </dl>
+    <div class="naf-src-avant">
+      <div><em>Avant ce parcours</em><p>Je compte les entreprises en comptant les lignes de Sirene.</p></div>
+      <div><em>Après ce parcours</em><p>Je sais quand un comptage exige le
+      champ «&nbsp;économiquement actif&nbsp;», où trouver les créations et
+      les stocks SIDE, et pourquoi deux stocks «&nbsp;officiels&nbsp;»
+      peuvent légitimement différer.</p></div>
+    </div>
+  </section>
+
+  <!-- ══════════════ SOURCES ══════════════ -->
+  <section class="naf-comp-section naf-src-refs" id="src-sources">
+    <p class="naf-comp-kicker">Sources officielles</p>
+    <ul>
+      <li>Insee — <a class="naf-link" data-src-portal="side" target="_blank" rel="noopener noreferrer">fiche source « Système d'information sur la démographie d'entreprises » (s2120) ↗</a>.</li>
+      <li>Insee — <a class="naf-link" data-src-portal="side_stocks" target="_blank" rel="noopener noreferrer">stocks annuels d'unités légales et d'établissements ↗</a>.</li>
+      <li>Caractéristiques factuelles issues du manifeste
+        <span class="naf-mono">data/etudes/sources.csv</span> —
+        voir <a class="naf-link" href="../../methode/index.html">Méthode &amp; provenance →</a></li>
+    </ul>
+  </section>
+</div>
+```
+
+:::

@@ -1,0 +1,202 @@
+---
+pagetitle: "Comprendre Sirus — Explorateur NAF"
+title: ""
+include-after-body: "../../includes/sources-hub-scripts.html"
+---
+
+::: {.naf-page}
+
+```{=html}
+<div class="naf-prog naf-src" id="naf-src">
+
+  <header class="naf-viz-intro">
+    <p class="naf-comp-kicker">Comprendre · Comprendre les sources · Sirus</p>
+    <p class="naf-hand-heading naf-viz-title" role="heading" aria-level="1">Sirus</p>
+    <p class="naf-viz-lede">
+      Sirus — Système d'immatriculation au répertoire des unités
+      statistiques — est le répertoire <strong>statistique</strong> de
+      l'Insee&nbsp;: là où Sirene immatricule des unités légales, Sirus
+      identifie des <em>entreprises au sens économique</em>.
+    </p>
+    <p class="naf-tb-srcline"><strong>Source :</strong> Insee ·
+      <a class="naf-link" data-src-portal="sirus" target="_blank" rel="noopener noreferrer">Fiche source Insee ↗</a> ·
+      <a class="naf-link" data-src-doc="sirus" target="_blank" rel="noopener noreferrer">Courrier des statistiques n°8 ↗</a> ·
+      <a class="naf-link" href="../../bonus/sources.html#source-sirus">État actuel de la source →</a></p>
+  </header>
+
+  <nav id="naf-src-nav" data-current="sirus" aria-label="Changer de source">
+    <p class="naf-bx-repli"><a class="naf-link" href="index.html">← Toutes les sources</a></p>
+  </nav>
+
+  <!-- ══════════════ 01 · DÉCOUVRIR ══════════════ -->
+  <section class="naf-comp-section" id="src-decouvrir">
+    <p class="naf-comp-kicker">01 · Découvrir <span aria-hidden="true">·</span> 10–15 min</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Ce qu'est Sirus</p>
+    <dl class="naf-src-fiche">
+      <div><dt>Producteur</dt><dd>Insee</dd></div>
+      <div><dt>Pourquoi il existe</dt><dd>donner à la statistique d'entreprises sa <strong>référence</strong>&nbsp;: des unités définies économiquement, pas seulement juridiquement</dd></div>
+      <div><dt>Population couverte</dt><dd>unités productives marchandes et unités employeuses (y compris publiques et associatives), groupes inclus</dd></div>
+      <div><dt>Fréquence</dt><dd>tenue en continu</dd></div>
+      <div><dt>Point fort</dt><dd>l'entreprise «&nbsp;profilée&nbsp;», qui évite de compter dix fois un même groupe</dd></div>
+      <div><dt>Limite majeure</dt><dd>les microdonnées ne sont pas en libre téléchargement</dd></div>
+    </dl>
+    <div class="naf-src-grain">
+      <p class="naf-src-grainq">Que représente une ligne&nbsp;?</p>
+      <p class="naf-src-grainv">Une unité statistique — en particulier l'entreprise au sens économique.</p>
+      <p class="naf-src-grainnote">L'entreprise, au sens statistique
+      européen, est «&nbsp;la plus petite combinaison d'unités légales
+      constituant une unité organisationnelle de production jouissant
+      d'une certaine autonomie de décision&nbsp;». Un grand groupe = des
+      dizaines d'unités légales Sirene, mais parfois une seule entreprise
+      Sirus.</p>
+    </div>
+    <div class="naf-comp-grainwrap">
+      <table class="naf-comp-grain">
+        <caption class="naf-bx-caption">Sirene, Sirus, SIDE : trois objets différents — le comparatif complet.</caption>
+        <thead>
+          <tr><th scope="col"></th><th scope="col">Sirene</th><th scope="col">Sirus</th><th scope="col">SIDE</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Nature</td><td>répertoire <strong>interadministratif</strong></td><td>répertoire <strong>statistique</strong></td><td>production statistique (démographie)</td></tr>
+          <tr><td>Unité</td><td>unité légale · établissement</td><td>entreprise au sens économique, groupe, unité légale</td><td>unités économiquement <em>actives</em></td></tr>
+          <tr><td>Question type</td><td>«&nbsp;qui est immatriculé&nbsp;?&nbsp;»</td><td>«&nbsp;quelle est la vraie unité économique&nbsp;?&nbsp;»</td><td>«&nbsp;qui est réellement actif&nbsp;?&nbsp;»</td></tr>
+          <tr><td>Accès</td><td>open data complet</td><td>documentation publique&nbsp;; microdonnées non téléchargeables librement</td><td>résultats agrégés publics</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <details class="naf-src-exo">
+      <summary>Un groupe industriel compte 24 unités légales. Combien d'«&nbsp;entreprises&nbsp;» pour la statistique&nbsp;?</summary>
+      <p class="naf-src-exorep">Cela dépend du <strong>profilage</strong>&nbsp;:
+      la statistique regroupe les unités légales en une ou plusieurs
+      entreprises économiquement autonomes — potentiellement une seule.
+      Compter 24 «&nbsp;entreprises&nbsp;» en comptant les SIREN serait
+      l'erreur classique que Sirus existe pour corriger.</p>
+    </details>
+  </section>
+
+  <!-- ══════════════ 02 · PRENDRE EN MAIN ══════════════ -->
+  <section class="naf-comp-section" id="src-prendre">
+    <p class="naf-comp-kicker">02 · Prendre en main <span aria-hidden="true">·</span> 20–30 min</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Un accès différent de Sirene</p>
+    <p class="naf-bx-texte">
+      C'est le point qui change tout&nbsp;: <strong>Sirus ne se télécharge
+      pas comme Sirene</strong>. Sa documentation est publique (fiche
+      source Insee, Courrier des statistiques), mais ses microdonnées
+      relèvent d'accès spécifiques, dans le cadre du système statistique —
+      pas d'un portail open data. Concrètement, un statisticien
+      «&nbsp;extérieur&nbsp;» mobilise Sirus le plus souvent
+      <em>indirectement</em>&nbsp;: à travers les productions qui s'en
+      nourrissent (comme <a class="naf-link" href="side.html">SIDE&nbsp;→</a>)
+      et les catégories d'entreprises diffusées par l'Insee.
+    </p>
+    <div class="naf-src-niveaux">
+      <div><p class="naf-src-nivtitre">Facilité d'accès</p>
+        <p>Documentation&nbsp;: accessible à tous. Microdonnées&nbsp;:
+        accès spécifique — ne pas prévoir un téléchargement.</p></div>
+      <div><p class="naf-src-nivtitre">Facilité d'exploitation</p>
+        <p>Les <em>concepts</em> de Sirus (entreprise, groupe, profilage)
+        s'utilisent sans aucune ligne de code — c'est d'abord une grille
+        de lecture.</p></div>
+      <div><p class="naf-src-nivtitre">R / Python</p>
+        <p>Sans objet pour les microdonnées en accès libre. Le réflexe
+        utile&nbsp;: exploiter la variable de catégorie d'entreprise
+        présente dans les diffusions Insee.</p></div>
+    </div>
+    <details class="naf-src-exo">
+      <summary>Où télécharger «&nbsp;le fichier Sirus&nbsp;» en open data&nbsp;?</summary>
+      <p class="naf-src-exorep">Nulle part — et c'est la bonne réponse.
+      Les microdonnées Sirus ne sont pas en libre téléchargement&nbsp;;
+      celui qui vous propose «&nbsp;le fichier Sirus&nbsp;» vous propose
+      probablement autre chose. La documentation, elle, est publique.</p>
+    </details>
+  </section>
+
+  <!-- ══════════════ 03 · EXPLOITER ══════════════ -->
+  <section class="naf-comp-section" id="src-exploiter">
+    <p class="naf-comp-kicker">03 · Exploiter en statisticien <span aria-hidden="true">·</span> 45–60 min</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Utiliser Sirus comme grille de lecture</p>
+    <p class="naf-bx-texte">Les contrôles que Sirus inspire, même sans ses
+    microdonnées&nbsp;:</p>
+    <dl class="naf-deflist">
+      <dt>☐ Mon unité d'analyse</dt><dd>ma question porte-t-elle sur des
+      unités légales, des établissements ou des entreprises au sens
+      économique&nbsp;? Le choix change les effectifs, les
+      concentrations, les parts de marché.</dd>
+      <dt>☐ Les groupes</dt><dd>mes «&nbsp;concurrents&nbsp;» sont-ils en
+      réalité des filiales d'un même groupe&nbsp;?</dd>
+      <dt>☐ Le champ</dt><dd>marchand&nbsp;? employeur&nbsp;? public
+      inclus&nbsp;? — le champ de Sirus est plus large qu'on ne l'imagine.</dd>
+      <dt>☐ La comparabilité</dt><dd>deux statistiques «&nbsp;d'entreprises&nbsp;»
+      calculées sur des unités différentes ne se comparent pas.</dd>
+    </dl>
+    <p class="naf-hand naf-bx-hand" aria-hidden="true">« même entreprise ? même unité ? même période ? »</p>
+  </section>
+
+  <!-- ══════════════ 04 · APPROFONDIR ══════════════ -->
+  <section class="naf-comp-section" id="src-approfondir">
+    <p class="naf-comp-kicker">04 · Approfondir <span aria-hidden="true">·</span> 1 h et +</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Sirus dans une vraie étude</p>
+    <div class="naf-comp-vs">
+      <div class="naf-comp-vs-panel">
+        <p class="naf-comp-vs-title">Économie des entreprises</p>
+        <ul>
+          <li>Mesurer une concentration au niveau des <em>entreprises</em>
+              et non des unités légales.</li>
+          <li>Analyser une filière sans compter dix fois le même groupe.</li>
+          <li>Comprendre pourquoi deux publications donnent des nombres
+              «&nbsp;d'entreprises&nbsp;» différents.</li>
+        </ul>
+      </div>
+      <div class="naf-comp-vs-panel naf-comp-vs-panel-neg">
+        <p class="naf-comp-vs-title">Économie de la Défense</p>
+        <ul>
+          <li><strong>Possible</strong>&nbsp;: raisonner en groupes — les
+              grands maîtres d'œuvre de la Défense sont des groupes aux
+              nombreuses unités légales&nbsp;; l'unité choisie change
+              radicalement les comptages.</li>
+          <li><strong>Impossible</strong>&nbsp;: identifier un périmètre
+              Défense — Sirus n'observe pas la relation à la Défense
+              (c'est le rôle du <a class="naf-link" href="refd.html">REFD&nbsp;→</a>
+              et de l'<a class="naf-link" href="edis.html">EDIS&nbsp;→</a>).</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ MÉMO ══════════════ -->
+  <section class="naf-comp-section" id="src-memo">
+    <p class="naf-comp-kicker">Ce qu'il faut retenir</p>
+    <dl class="naf-src-memo">
+      <div><dt>Producteur</dt><dd>Insee</dd></div>
+      <div><dt>Grain</dt><dd>unité statistique (entreprise économique, groupe, unité légale)</dd></div>
+      <div><dt>Identifiant</dt><dd>immatriculation statistique, articulée aux SIREN</dd></div>
+      <div><dt>Fraîcheur</dt><dd>tenue en continu</dd></div>
+      <div><dt>Accès</dt><dd>documentation publique · microdonnées en accès spécifique</dd></div>
+      <div><dt>Difficulté</dt><dd>concepts accessibles · données non téléchargeables librement</dd></div>
+      <div><dt>Point fort</dt><dd>l'entreprise économique, pas l'artefact juridique</dd></div>
+      <div><dt>Limite majeure</dt><dd>pas un open data — ne pas le confondre avec Sirene</dd></div>
+    </dl>
+    <div class="naf-src-avant">
+      <div><em>Avant ce parcours</em><p>Je crois que Sirus est «&nbsp;une autre version de Sirene&nbsp;».</p></div>
+      <div><em>Après ce parcours</em><p>Je sais que Sirus définit
+      l'entreprise au sens économique, pourquoi ses microdonnées ne se
+      téléchargent pas, et comment ses concepts corrigent mes comptages
+      même sans y accéder.</p></div>
+    </div>
+  </section>
+
+  <!-- ══════════════ SOURCES ══════════════ -->
+  <section class="naf-comp-section naf-src-refs" id="src-sources">
+    <p class="naf-comp-kicker">Sources officielles</p>
+    <ul>
+      <li>Insee — <a class="naf-link" data-src-portal="sirus" target="_blank" rel="noopener noreferrer">fiche source « Système d'immatriculation au répertoire des unités statistiques » (s1024) ↗</a> — consultée le 31 août 2026.</li>
+      <li>Insee — <a class="naf-link" data-src-doc="sirus" target="_blank" rel="noopener noreferrer">« Sirus, le répertoire d'entreprises au service du statisticien », Courrier des statistiques n°8, 2022 ↗</a> — consulté le 31 août 2026.</li>
+      <li>Caractéristiques factuelles issues du manifeste
+        <span class="naf-mono">data/etudes/sources.csv</span> —
+        voir <a class="naf-link" href="../../methode/index.html">Méthode &amp; provenance →</a></li>
+    </ul>
+  </section>
+</div>
+```
+
+:::

@@ -1,0 +1,232 @@
+---
+pagetitle: "Comprendre les sources — Explorateur NAF"
+title: ""
+include-after-body: "../../includes/sources-hub-scripts.html"
+---
+
+::: {.naf-page}
+
+```{=html}
+<div class="naf-prog naf-src" id="naf-src">
+
+  <header class="naf-viz-intro">
+    <p class="naf-comp-kicker">Comprendre · Comprendre les sources</p>
+    <p class="naf-hand-heading naf-viz-title" role="heading" aria-level="1">Comprendre les sources</p>
+    <p class="naf-viz-lede">
+      Qui les produit, ce qu'elles observent, ce qu'elles ne permettent pas
+      de conclure — et comment apprendre à les exploiter progressivement,
+      de la découverte jusqu'à l'étude complète.
+    </p>
+    <p class="naf-hand naf-viz-hand" aria-hidden="true">« connaître la source avant de compter »</p>
+  </header>
+
+  <!-- ══════════════ SOURCE ≠ IDENTIFIANT ≠ NOMENCLATURE ══════════════ -->
+  <section class="naf-comp-section" id="src-distinction">
+    <p class="naf-comp-kicker">Avant tout</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Source, identifiant, nomenclature&nbsp;: ce n'est pas la même chose</p>
+    <p class="naf-bx-texte">
+      La confusion la plus fréquente&nbsp;: dire «&nbsp;je vais chercher dans
+      le SIREN&nbsp;». Or SIREN n'est pas une base — c'est un numéro. Cinq
+      mots qui se ressemblent, cinq objets différents&nbsp;:
+    </p>
+    <div class="naf-bx-briques" role="list">
+      <div role="listitem"><span class="naf-mono">SIRENE</span><em>un répertoire — une <strong>source</strong> de données</em></div>
+      <div role="listitem"><span class="naf-mono">SIREN</span><em>l'<strong>identifiant</strong> à 9 chiffres d'une unité légale</em></div>
+      <div role="listitem"><span class="naf-mono">SIRET</span><em>l'<strong>identifiant</strong> à 14 chiffres d'un établissement</em></div>
+      <div role="listitem"><span class="naf-mono">NAF</span><em>une <strong>nomenclature</strong> d'activités</em></div>
+      <div role="listitem"><span class="naf-mono">APE</span><em>le <strong>code</strong> attribué à une unité à partir de la NAF</em></div>
+    </div>
+    <p class="naf-hand naf-bx-hand" aria-hidden="true">« SIREN n'est pas une base »</p>
+    <p class="naf-bx-texte">
+      Pour la NAF, l'APE, les unités statistiques et les concepts&nbsp;: le
+      cours complet est dans
+      <a class="naf-link" href="../index.html">Comprendre la NAF&nbsp;→</a>
+      — cette rubrique-ci apprend <strong>les sources</strong>, une par une.
+    </p>
+  </section>
+
+  <!-- ══════════════ LES QUATRE NIVEAUX ══════════════ -->
+  <section class="naf-comp-section" id="src-niveaux">
+    <p class="naf-comp-kicker">La méthode</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Chaque source, en quatre niveaux</p>
+    <p class="naf-bx-texte">
+      Toutes les pages de cette rubrique suivent la même progression, de
+      «&nbsp;je n'ai jamais entendu parler de cette source&nbsp;» à
+      «&nbsp;je sais construire une exploitation statistique
+      sérieuse&nbsp;»&nbsp;:
+    </p>
+    <div class="naf-src-niveaux">
+      <div><p class="naf-src-nivtitre">01 · Découvrir <span aria-hidden="true">·</span> 10–15 min</p>
+        <p>Qui la produit, pourquoi elle existe, ce qu'elle observe, ce
+        qu'une ligne représente.</p></div>
+      <div><p class="naf-src-nivtitre">02 · Prendre en main <span aria-hidden="true">·</span> 20–30 min</p>
+        <p>Où y accéder, sous quels formats, avec quelles contraintes
+        (clé, quotas, pagination, millésimes).</p></div>
+      <div><p class="naf-src-nivtitre">03 · Exploiter en statisticien <span aria-hidden="true">·</span> 45–60 min</p>
+        <p>Le grain, les variables à regarder en premier, les contrôles
+        avant de compter, les pièges.</p></div>
+      <div><p class="naf-src-nivtitre">04 · Approfondir <span aria-hidden="true">·</span> 1 h et +</p>
+        <p>Ce que la source peut — et ne peut pas — apporter à une étude
+        sur les entreprises ou sur l'économie de la Défense.</p></div>
+    </div>
+    <p class="naf-bx-note">Les durées sont des repères pédagogiques, pas
+    des chronomètres.</p>
+
+    <details class="naf-sheet-section">
+      <summary class="naf-sheet-summary"><span class="naf-sheet-summary-text">Ce que veulent dire « débutant », « intermédiaire », « avancé »</span></summary>
+      <div class="naf-sheet-body">
+        <dl class="naf-deflist">
+          <dt>Accessible à un débutant</dt>
+          <dd>lire un CSV, faire une requête simple, filtrer un tableau.</dd>
+          <dt>Quelques notions R / Python utiles</dt>
+          <dd>appeler une API, lire la réponse, joindre deux tables.</dd>
+          <dt>Niveau intermédiaire recommandé</dt>
+          <dd>pagination, JSON imbriqué, jointures multiples, gestion des
+          identifiants et des dates.</dd>
+          <dt>Traitement avancé pour les gros volumes</dt>
+          <dd>lecture en colonnes projetées (DuckDB, Parquet), traitement
+          par lots, automatisation, optimisation.</dd>
+        </dl>
+        <p class="naf-sheet-text">Une même source peut relever de
+        plusieurs niveaux selon le mode d'accès&nbsp;: interroger l'API
+        Sirene pour dix SIREN est accessible&nbsp;; traiter le stock
+        complet est un travail de gros volumes. Les pages le précisent
+        tâche par tâche.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ══════════════ NAVIGATION LOCALE ══════════════ -->
+  <nav id="naf-src-nav" data-current="" aria-label="Choisir une source">
+    <p class="naf-bx-repli">La navigation entre sources se charge avec la
+    page ; les sources sont aussi listées ci-dessous.</p>
+  </nav>
+
+  <!-- ══════════════ INDEX ÉDITORIAL ══════════════ -->
+  <section class="naf-comp-section" id="src-index">
+    <p class="naf-comp-kicker">Les sources</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Choisir une source</p>
+    <p class="naf-bx-texte">
+      Les regroupements ci-dessous sont des <strong>repères de
+      navigation</strong>, pas un ordre d'analyse&nbsp;: selon la question,
+      n'importe laquelle de ces sources peut être le point de départ.
+    </p>
+
+    <p class="naf-comp-kicker" style="margin-top:1.4rem;">Identifier &amp; caractériser</p>
+    <a class="naf-src-item" href="sirene.html">
+      <span class="naf-src-item-num">01</span>
+      <span class="naf-src-item-nom">Sirene</span>
+      <span class="naf-src-item-arrow" aria-hidden="true">→</span>
+      <span class="naf-src-item-meta">unités légales · établissements · open data (stock, API, géolocalisation)</span>
+    </a>
+    <a class="naf-src-item" href="sirus.html">
+      <span class="naf-src-item-num">02</span>
+      <span class="naf-src-item-nom">Sirus</span>
+      <span class="naf-src-item-arrow" aria-hidden="true">→</span>
+      <span class="naf-src-item-meta">répertoire statistique · entreprises au sens économique · accès spécifique</span>
+    </a>
+    <a class="naf-src-item" href="side.html">
+      <span class="naf-src-item-num">03</span>
+      <span class="naf-src-item-nom">SIDE</span>
+      <span class="naf-src-item-arrow" aria-hidden="true">→</span>
+      <span class="naf-src-item-meta">démographie d'entreprises · qui est réellement actif · résultats publics</span>
+    </a>
+
+    <p class="naf-comp-kicker" style="margin-top:1.4rem;">Commande publique</p>
+    <a class="naf-src-item" href="boamp.html">
+      <span class="naf-src-item-num">04</span>
+      <span class="naf-src-item-nom">BOAMP</span>
+      <span class="naf-src-item-arrow" aria-hidden="true">→</span>
+      <span class="naf-src-item-meta">annonces de marchés publics · la publicité, pas le contrat</span>
+    </a>
+    <a class="naf-src-item" href="decp.html">
+      <span class="naf-src-item-num">05</span>
+      <span class="naf-src-item-nom">DECP</span>
+      <span class="naf-src-item-arrow" aria-hidden="true">→</span>
+      <span class="naf-src-item-meta">données essentielles des marchés attribués · titulaires · montants</span>
+    </a>
+
+    <p class="naf-comp-kicker" style="margin-top:1.4rem;">Vie des entreprises</p>
+    <a class="naf-src-item" href="bodacc.html">
+      <span class="naf-src-item-num">06</span>
+      <span class="naf-src-item-nom">BODACC</span>
+      <span class="naf-src-item-arrow" aria-hidden="true">→</span>
+      <span class="naf-src-item-meta">annonces civiles et commerciales · créations, procédures, radiations · JSON</span>
+    </a>
+    <a class="naf-src-item" href="rne.html">
+      <span class="naf-src-item-num">07</span>
+      <span class="naf-src-item-nom">RNE</span>
+      <span class="naf-src-item-arrow" aria-hidden="true">→</span>
+      <span class="naf-src-item-meta">le registre national des entreprises lui-même · INPI</span>
+    </a>
+
+    <p class="naf-comp-kicker" style="margin-top:1.4rem;">Échanges extérieurs</p>
+    <a class="naf-src-item" href="douanes.html">
+      <span class="naf-src-item-num">08</span>
+      <span class="naf-src-item-nom">Douanes</span>
+      <span class="naf-src-item-arrow" aria-hidden="true">→</span>
+      <span class="naf-src-item-meta">commerce extérieur · produit × pays × période · ni entreprises, ni NAF</span>
+    </a>
+
+    <p class="naf-comp-kicker" style="margin-top:1.4rem;">Innovation</p>
+    <a class="naf-src-item" href="inpi-brevets.html">
+      <span class="naf-src-item-num">09</span>
+      <span class="naf-src-item-nom">INPI — brevets</span>
+      <span class="naf-src-item-arrow" aria-hidden="true">→</span>
+      <span class="naf-src-item-meta">propriété industrielle · signal technologique retardé</span>
+    </a>
+
+    <p class="naf-comp-kicker" style="margin-top:1.4rem;">Économie de la Défense</p>
+    <a class="naf-src-item" href="refd.html">
+      <span class="naf-src-item-num">10</span>
+      <span class="naf-src-item-nom">REFD</span>
+      <span class="naf-src-item-arrow" aria-hidden="true">→</span>
+      <span class="naf-src-item-meta">fournisseurs directs du ministère des Armées · paiements observés</span>
+    </a>
+    <a class="naf-src-item" href="edis.html">
+      <span class="naf-src-item-num">11</span>
+      <span class="naf-src-item-nom">EDIS</span>
+      <span class="naf-src-item-arrow" aria-hidden="true">→</span>
+      <span class="naf-src-item-meta">l'enquête qui délimite les entreprises de défense · résultats agrégés</span>
+    </a>
+  </section>
+
+  <!-- ══════════════ PAR OÙ COMMENCER ? ══════════════ -->
+  <section class="naf-comp-section" id="src-aiguillage">
+    <p class="naf-comp-kicker">Par où commencer&nbsp;?</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Selon ce que vous avez entre les mains</p>
+    <div class="naf-src-aiguillage">
+      <a href="sirene.html"><span>Je travaille avec des identifiants d'entreprise (SIREN, SIRET)</span><span>Sirene →</span></a>
+      <a href="boamp.html"><span>Je travaille sur des marchés publics</span><span>BOAMP / DECP →</span></a>
+      <a href="bodacc.html"><span>J'ai des JSON d'événements d'entreprises</span><span>BODACC →</span></a>
+      <a href="douanes.html"><span>Je travaille sur des importations / exportations</span><span>Douanes →</span></a>
+      <a href="inpi-brevets.html"><span>Je regarde l'innovation</span><span>INPI →</span></a>
+      <a href="refd.html"><span>Je travaille sur un périmètre Défense</span><span>REFD / EDIS →</span></a>
+    </div>
+    <p class="naf-bx-note">Marchés publics&nbsp;: deux sources
+    complémentaires — le BOAMP publie les <em>annonces</em>, les DECP
+    décrivent les <em>marchés attribués</em>. Chacune des deux pages
+    explique la différence.</p>
+  </section>
+
+  <!-- ══════════════ LE RESTE DU SITE ══════════════ -->
+  <section class="naf-comp-section" id="src-reseau">
+    <p class="naf-comp-kicker">Et ensuite</p>
+    <p class="naf-hand-heading naf-comp-h2" role="heading" aria-level="2">Comprendre, puis agir</p>
+    <div class="naf-bx-chaine" role="img"
+         aria-label="Comprendre les sources pour apprendre, l'Atelier pour la méthode, la Boîte à outils pour les gestes, les Programmes pour les traitements complets, l'État des sources pour la disponibilité.">
+      <span>Comprendre les sources — apprendre</span><span aria-hidden="true">→</span>
+      <span>Atelier — méthode</span><span aria-hidden="true">→</span>
+      <span>Boîte à outils — gestes</span><span aria-hidden="true">→</span>
+      <span>Programmes — traitements complets</span>
+    </div>
+    <p class="naf-chg-fluxlink">
+      <a class="naf-chg-cta" href="../../bonus/atelier.html">Construire un protocole — Atelier d'étude →</a>
+      <a class="naf-chg-cta" href="../boite-outils.html">Passer au geste — Boîte à outils →</a>
+      <a class="naf-chg-cta" href="../../bonus/sources.html">Vérifier la disponibilité — État des sources →</a>
+    </p>
+  </section>
+</div>
+```
+
+:::
