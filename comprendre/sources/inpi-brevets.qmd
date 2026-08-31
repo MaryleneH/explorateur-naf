@@ -124,6 +124,14 @@ include-after-body: "../../includes/sources-hub-scripts.html"
       <dt>☐ Mon champ</dt><dd>dépôts INPI = voie nationale française&nbsp;: les voies européenne (OEB) et internationale (PCT) existent aussi.</dd>
       <dt>☐ Mes doublons</dt><dd>demande + délivrance du même titre comptées une seule fois.</dd>
     </dl>
+    <details class="naf-src-exo">
+      <summary>Les dépôts publiés d'un domaine CPC chutent sur les 12 derniers mois. Le domaine ralentit-il&nbsp;?</summary>
+      <p class="naf-src-exorep">On ne peut rien en conclure&nbsp;: avec un
+      délai de publication d'environ 18 mois, les dépôts récents ne sont
+      simplement <em>pas encore visibles</em>. La chute apparente de la
+      période récente est un artefact de délai — tronquer la série avant
+      la zone incomplète est le premier réflexe.</p>
+    </details>
   </section>
 
   <!-- ══════════════ 04 · APPROFONDIR ══════════════ -->

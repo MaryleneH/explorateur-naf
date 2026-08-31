@@ -115,6 +115,14 @@ include-after-body: "../../includes/sources-hub-scripts.html"
       et l'absence n'implique pas l'absence de lien.</dd>
     </dl>
     <p class="naf-hand naf-bx-hand" aria-hidden="true">« fournisseur n'est pas dual »</p>
+    <details class="naf-src-exo">
+      <summary>Une entreprise apparaît dans le millésime 2023 du REFD mais pas dans celui de 2024. A-t-elle quitté la sphère Défense&nbsp;?</summary>
+      <p class="naf-src-exorep">Pas nécessairement&nbsp;: le répertoire
+      observe les paiements <em>directs</em> d'une année. Elle peut être
+      passée en sous-traitance (invisible), avoir un contrat pluriannuel
+      sans paiement cette année-là, ou avoir réellement cessé. Le
+      millésime observe un flux annuel, pas une appartenance durable.</p>
+    </details>
   </section>
 
   <!-- ══════════════ 04 · APPROFONDIR ══════════════ -->

@@ -92,8 +92,11 @@ include-after-body: "../includes/sources-scripts.html"
   <p>
     Vous voulez récupérer ces données ? Chaque fiche renvoie vers
     <a href="../comprendre/boite-outils.html">Démarrage &amp; recettes</a>
-    (Boîte à outils) ; pour les notions de grain et d'unité statistique,
-    voir <a href="../comprendre/index.html#les-sources">Comprendre</a>.
+    (Boîte à outils) ; pour apprendre une source en profondeur (producteur,
+    grain, limites, parcours progressifs), voir
+    <a href="../comprendre/sources/index.html">Comprendre les sources</a> ;
+    pour les notions de grain et d'unité statistique, voir
+    <a href="../comprendre/index.html#les-sources">Comprendre</a>.
   </p>
 
 </div>
